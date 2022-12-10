@@ -52,10 +52,7 @@
         let TEXT_JSON = JSON.stringify(TEXT);
         console.log(TEXT);
         console.log(JSON.stringify(TEXT));
-        fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'},body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));
-        // return a.blog;
-        //   return a;
-        // });
+        fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'},body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));        
         function data(result){
           console.log(result);
           let B = JSON.stringify(result);
@@ -118,8 +115,8 @@
     <div class="container mainbox_center">
 
       <div class="result_contents">
-        <iframe class="result_view" name="result_view" id="result_view" style="display: block" scrolling="no" scrdoc="<h1> origin </h1>">          
-        </iframe>
+        <iframe class="result_view" name="result_view" id="result_view" src="/html/cambrg.html" style="display: block">
+        </iframe>                  
       </div>        
     
       <div class="searchbar">
@@ -136,7 +133,7 @@
       </div>
       
       <div class="searchResult">        
-        <iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" scrolling="no"></iframe>
+        <iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" ></iframe>
         <ul>
           <li class="Sres_ENG" >
             <p id="Sres_ENG" class="ft8"> </p>
@@ -260,13 +257,13 @@
               function data(result){
                 // console.log('word ; ' + words + '/ meaning : ' + result[0].meanings[0].definitions[0].definition);                
                 // document.getElementById('Sres_WORD').innerHTML += `<span class="ft4">${result[0].meanings[0].definitions[0].definition} ${result[0].phonetics[0].text}</span> \n`;                            
-                engs_res += `<a href="https://dictionary.cambridge.org/dictionary/english/${words}" target="result_view" onclick="iframe1_vis();" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="
-                  [${result[0].phonetics[0].text}] <br> ${result[0].meanings[0].definitions[0].definition}">${words}</a> `;
+                engs_res += `<a href="#" onclick="Cambrg_search('${words}');" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="
+                  [${result[0].phonetics[0].text}] ${result[0].meanings[0].definitions[0].definition}">${words}</a> `;
               }
               function data2(){
                 console.log('err');
                 document.getElementById('Sres_WORD').innerHTML += `<span class="ft4"> error </span> \n`;                            
-                engs_res += `<a href="https://dictionary.cambridge.org/dictionary/english/${words}" target="result_view" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="none of search results">${words}</a> `;
+                engs_res += `<a href="#" onclick="Cambrg_search('${words}');" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="none of search results">${words}</a> `;
               }
             }
             Set_TEXT.innerHTML += engs_res;
@@ -334,38 +331,74 @@
       }      
     </script>
 
-  <!-- 하단 iframe 쓰기 -->
+  <!-- 상단 iframe 쓰기 -->
     <script>
       function result_view_html(data){     
-        iframe1_vis();
-        console.log('a');
+        iframe1_vis();        
         console.log(data);
-        console.log(data.meanings.length);
+        console.log(data.meanings.length);                
         var meanings = '';
-        var i=0;
-        for (let meaning of data.meanings) {
-          i += 1;
-          meanings += `${meaning.meaning_eng} <br> ${meaning.meaning_kor} <br>`;
-          // console.log(i + ': ' + meaning.example.length);
-          for (let example of meaning.example) {
-            meanings += `${example} <br>`;
+        
+        var doc = document.getElementById('result_view').contentWindow.document;
+        doc.getElementById('word').innerText = data.word;
+        doc.getElementById('pronounce').innerText = '[' + data.pronounce + ']';
+        doc.getElementById('part').innerText = data.part;
+        doc.getElementById('sound').setAttribute('onclick', 'audio_pron.load(); audio_pron.play();');
+        doc.getElementById('audio_link').setAttribute('src', 'https://dictionary.cambridge.org'+ data.pronounce_link);      
+
+        for (let meaning of data.meanings) {          
+          meanings += `<div class="line"></div>
+          <div class="meaning">
+                <span class="meaning_eng"></span>${meaning.meaning_eng}<br>
+                <span class="meaning_kor">${meaning.meaning_kor}</span>`;
+                
+          meaning.example = meaning.example.filter(Boolean);
+          console.log(meaning, meaning.example.length);
+        
+          if ( meaning.example.length > 0 ) {
+            meanings += `<div class="examples">
+                    <ul>`;
+            for (let example of meaning.example) {            
+              console.log(example);
+              meanings += `<li>${example}</li`;
+            };
+            meanings += `</ul> </div> </div>`;
+          } else {
+            meanings += `</div>`;
           }
         }
         console.log(meanings);
+        doc.getElementById('meaning_list').innerHTML = meanings;  
+      }
+
+
+        //     meanings += `<div class="examples">
+        //             <ul>`;
+        //     for (let example of meaning.example) {            
+        //       console.log(example);
+        //       meanings += `<li>${example}</li`;
+        //     };
+        //     meanings += `</ul> </div> </div>`;
+        //   } else {
+        //     meanings += `</div>`;
+        //   };          
+        // };
+        // console.log(meanings);
+        // doc.getElementById('meaning_list').innerHTML = meanings;  
+      
+
         // console.log(JSON.stringify(data));
 
-        document.getElementById('result_view').setAttribute('srcdoc', `<span class="ft1 ftbb"> word : ${data.word} 
-          <br>
-          pronounce : [${data.pronounce}]
-          <br>
-          <button onclick ="audio_pron.load(); audio_pron.play();"> link </button>
-          <audio preload="none" id="audio_pron" controlslist="nodownload">
-          <source type="audio/mpeg" src="https://dictionary.cambridge.org${data.pronounce_link}">            
-          </audio> 
-          <br>${meanings}`) ;
+        // document.getElementById('result_view').setAttribute('srcdoc', `<span class="ft1 ftbb"> word : ${data.word} 
+        //   <br>
+        //   pronounce : [${data.pronounce}]
+        //   <br>
+        //   <button onclick ="audio_pron.load(); audio_pron.play();"> link </button>
+        //   <audio preload="none" id="audio_pron" controlslist="nodownload">
+        //   <source type="audio/mpeg" src="https://dictionary.cambridge.org${data.pronounce_link}">            
+        //   </audio> 
+        //   <br>${meanings}`) ;
 
-        // var doc = document.getElementById('result_view');
-        // doc.innerHTML = `<span class="ft1 ftbb"> word : ${data.word} 
         //   <br>
         //   pronounce : [${data.pronounce}]
         //   <br>
@@ -374,7 +407,7 @@
         //   <source type="audio/mpeg" src="https://dictionary.cambridge.org${data.pronounce_link}">            
         //   </audio> 
         //   <br>` + meanings ;
-        }        
+        
     </script>
     
     
@@ -401,6 +434,7 @@
         return new bootstrap.Popover(popoverTriggerEl)
         })
       }
+
     </script>  
     
     

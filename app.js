@@ -146,7 +146,7 @@ app.post('/websearch_cambrg', function (req, res) {
               // image_alt: $(this).find('div.list_thumb a img').attr('alt'),
       };
       });
-      
+
       whList.meanings = ulList;
       const data = whList;
 
