@@ -1,0 +1,336 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap'); 
+
+* {
+    margin : 0;
+    padding : 0;
+    /*box-sizing : border-box;*/
+    }
+html {
+    font-size : 62.5%;
+}
+body {
+    display : flex;
+    /* align-items : center; */
+    /*justify-content : center;*/    
+    font-family : 'poppins', sans-serif;    
+    margin: 0;
+    padding : 0;
+    }
+
+/* font */
+
+.ft1 {
+    font-size : 2.8rem;
+}
+
+.ft2 {
+    font-size : 2.6rem;
+}
+
+.ft3 {
+    font-size : 2.4rem;
+}
+
+.ft4 {
+    font-size : 2.2rem;
+}
+
+.ft5 {
+    font-size : 2rem;
+}
+
+.ft6 {
+    font-size : 1.8rem;
+}
+
+.ft7 {
+    font-size : 1.6rem;
+}
+
+.ft8 {
+    font-size : 1.4rem;
+}
+
+.ft9 {
+    font-size : 1.2rem;
+}
+
+.ft10 {
+    font-size : 1rem;
+}
+
+.ftb {
+    font-weight: bold;
+}
+
+.ftbb {
+    font-weight:bolder;
+}
+
+a {
+    text-decoration : none;
+    color : firebrick;
+}
+
+ul {
+    list-style:none;
+    }
+
+.text_red {
+    color : firebrick;
+}
+.text_green {
+    color : darkgreen;
+}
+
+/* 1. navbar */
+
+.navbar {
+    display: block;
+    position : fixed;
+    width : 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: cornsilk;
+    vertical-align: middle;
+    padding : 0.5rem 0.5rem 0.5rem 1rem;
+    z-index: 100;
+    font-family : 'Rubik Gemstones', sans-serif;
+    /*padding : 10px 0px 10px 0px;*/
+}
+.navbar_logo {
+
+}
+
+.navbar a {
+    text-decoration: none;
+    color: firebrick;
+}
+
+.navbar i {
+    margin-right : 0.5rem;
+}
+.navbar span {
+    letter-spacing : 0.2rem;
+}
+
+/* 2. mainbox */    
+
+.mainbox_center {
+    display : block;
+    align-content:center;
+    align-items: center;
+    text-align: center;
+    margin-top : 70px;
+    margin-bottom : 70px;    
+    margin-left : 0px;
+    margin-right : 0px;
+    padding : 0;
+}    
+
+    /* 2. 1-2. primary box */
+
+.result_contents {
+    display : block;
+    height : 33rem;
+    align-content:center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    border-radius : 7px;    
+    margin-bottom : 2rem;    
+}
+
+.searchbar {
+    display : block;    
+    align-content:center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    border-radius : 7px;    
+    margin-bottom : 0.5rem;
+}
+
+    /* 2. 2. detail box */
+
+        /* 2. 2. 1. result_contents view */
+.result_view {
+    display : flex;
+    height : 33rem;
+    width : 85%;    
+    margin : auto;
+    /* margin-bottom : 10px; */
+    align-content: space-between;
+    vertical-align: middle;
+}
+
+        /* 2. 2. 2. searchbar view */
+            /* 2. 2. 2. 1. searchbar_main */
+
+.searchbar_main {
+    display : flex;
+    width : 85%;
+    margin : auto;
+    align-content: space-between;
+    vertical-align: middle;
+}
+
+.searchbar textarea {
+    height : 3rem;
+    /* ((scrollHeight/10)+0.4)rem; */
+    width: 88%;
+    border-radius: 5px ;
+    border : 1px solid #999;
+    outline : none; 
+    margin-left : 0px;
+    margin-right : 5px;    
+    padding : 0.5rem;
+}
+
+.searchbar textarea:focus {
+    border: 2px solid firebrick;
+}
+
+.searchbar i {
+    font-size : 25px;
+    padding : 0.5rem;
+}
+
+            /* 2. 2. 2. 1. searchbar_items */
+
+.searchbar_items {
+    display : flex;
+    width : 85%;
+    margin : auto;
+    align-content: space-between;
+    vertical-align: middle;    
+}
+
+.searchbar_items a {
+    padding : 0.5rem;
+    margin : auto;
+    align-content:center;
+    vertical-align: middle;
+}
+
+.searchbar_item img {
+    margin : auto;
+    padding : 0.5rem;
+}
+
+
+        /* 2. 2. 3. searchresult view */
+
+.searchResult {
+    display : block;        
+    text-align: left;
+    vertical-align: middle;    
+    margin-bottom : 5px;        
+}
+
+.searchResult ul {    
+    width : 75%;
+    margin-left : 8%;
+    margin-right : 15%;
+    align-content: left;
+    vertical-align: middle;
+    padding : 0;
+}
+
+.searchResult ul li {
+    color : gray;            
+}
+
+.Sres_ENG {    
+    border-left : 3px solid black;
+    border-radius : 3px;
+    border-color: coral;
+    padding-left : 5px;
+}
+
+.Sres_KOR {    
+    border-left : 3px solid black;
+    border-radius : 3px;
+    border-color: coral;
+    padding-left : 5px;
+}
+
+/* 3. footbar */
+
+.footbar {
+    display: flex;
+    left : 0;
+    bottom : 0;
+    margin : 0;
+    padding : 0;
+
+    font-size : 15px;
+
+    position : fixed;
+    width : 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: cornsilk;
+    color : dimgrey;
+    vertical-align: middle;
+    z-index: 100;
+}
+
+.footbar a {
+    text-decoration: none;
+    color : dimgrey;   
+}
+
+.footbar_menu {
+    display : block;
+}
+
+.footbar_menu ul {
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;    
+    padding : 1rem 2rem 0rem 2rem;
+    line-height: 100%;
+}
+
+/*  */
+
+.exam1 {
+    display : block;
+    font-family : 'poppins', sans-serif;
+    background-color : Cornsilk;
+    color : black;
+    border-radius : 7px;
+    /* margin : 10px; */
+    /* padding : 10px; */
+    }
+.eng {
+    font-family : 'poppins', sans-serif;			
+    }
+.exam2 {
+    display : block;
+    font-family : 'Noto Sans KR', sans-serif;
+    background-color : Cornsilk;
+    color : FireBrick;
+    border-radius : 7px;
+    margin : 10px;
+    padding : 10px;
+    }
+    
+.exam2 ul li {
+    margin : 0 0 10px 10px;
+    padding : 5px 5px 5px 20px;
+    border-left : 3px solid black;
+    border-radius : 10px;
+    
+    }
+    
+.word_link:hover {
+    background-color : Cyan;
+    }
+
+.border-round {
+  border-radius : 7px;
+}

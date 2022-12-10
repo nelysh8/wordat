@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-Frame-Options" content="deny" />    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/stylesheets/style.css">        
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>        
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/ac68d7a452.js" crossorigin="anonymous"></script>    
+
+    <!-- my script -->
+
+    <script>
+
+    // main
+      let i = 0;
+      function test(){        
+        fetch("/", {method : 'post'}).then((response)=>{
+          console.log(response.json());
+        });
+        fetch("/", {method : 'post'}).then((response)=>response.json()).then((result)=>data(result));
+            // return a.blog;
+          //   return a;
+          // });                
+        function data(result){                    
+          console.log(result[0]);
+          const tmp = document.getElementById("test_place");          
+          function addtext(){
+            tmp.innerText += `\n제목${i}`;
+            var engs = result[i].ENG.split(' ');
+            tmp.innerText += `\n${result[i].ENG}`;
+            tmp.innerText += `\n${engs}`;
+            tmp.innerText += `\n${engs.length}`;
+            for (let words of engs) {
+              tmp.innerText += `\n${words}`;
+            }
+            tmp.innerText += `\n${result[i++].KOR}`; 
+          }          
+          addtext();
+        }
+      }
+
+      function test2(SENTC){
+        let TEXT = {word : SENTC};
+        let TEXT_JSON = JSON.stringify(TEXT);
+        console.log(TEXT);
+        console.log(JSON.stringify(TEXT));
+        fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'},body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));
+        // return a.blog;
+        //   return a;
+        // });
+        function data(result){
+          console.log(result);
+          let B = JSON.stringify(result);
+          console.log(B);
+          const tmp = document.getElementById("Sres_KOR");
+          function addtext(){
+            tmp.innerText = result.message.result.translatedText;
+          }
+          addtext();
+        }
+      }
+
+      
+
+  //  html 내부 정리함수
+
+      function clear_input(){        
+        document.getElementById("main_input").value="";
+        iframe1_dis();
+        Set_TEXT.innerHTML = '';
+        document.getElementById("Sres_KOR").innerText = '';
+      }
+
+      function resize(obj) {        
+        obj.style.height = "1px";
+        obj.style.height = ((obj.scrollHeight/10)+0.4)+"rem";
+      }
+
+      function iframe1_vis() {        
+        document.getElementById('result_view').setAttribute('style', 'display : block');
+      }
+
+      function iframe1_dis() {        
+        document.getElementById('result_view').setAttribute('style', 'display : none');
+      }
+
+      
+
+
+    </script>
+  </head>
+
+  <body>
+    <!-- nav bar -->
+
+    <div class="navbar">
+
+      <div class="navbar_logo">
+        <i class="fa-solid fa-tree text_green ft5 ftbb"></i>
+        <a href="/"> <span class="ft5 ftb"> WordAT </span> </a>
+      </div>
+      <div class="navbar_menu">
+      </div>
+      <div class="navbar_icon">
+      </div>
+    </div>    
+   
+    <!-- mainbox 1 -->
+
+    <div class="container mainbox_center">
+
+      <div class="result_contents">
+        <iframe class="result_view" name="result_view" id="result_view" style="display: block" scrolling="no" scrdoc="<h1> origin </h1>">          
+        </iframe>
+      </div>        
+    
+      <div class="searchbar">
+        <div class="searchbar_main">
+          <textarea class="autosize" id="main_input" placeholder="Search a Sentence" required onclick="resize(this)" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+          <a href="javascript:clear_input();"><i class="fa-solid fa-xmark text_red"></i></a>          
+        </div>
+        <div class="searchbar_items">
+          <i class="fa-solid fa-play text_red"></i>
+          <a id="link_yarn" href="https://getyarn.io/" target="_blank"><img src="/images/icon_yarn.webp" width="30" height="30" class="border-round" /></a>
+          <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img src="/images/icon_youglish.jpg" width="60" height="30" class="border-round" /></a>
+          <a id="link_google" href="https://www.google.com/" target="_blank"><img src="/images/icon_google.png" width="30" height="30" class="border-round" /></a>
+        </div>        
+      </div>
+      
+      <div class="searchResult">        
+        <iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" scrolling="no"></iframe>
+        <ul>
+          <li class="Sres_ENG" >
+            <p id="Sres_ENG" class="ft8"> </p>
+          </li>
+          <li class="Sres_KOR">
+            <p> <span class="ft8" id="Sres_KOR"></span></p>
+          </li>
+          <li class="Sres_WORD">
+            <p id="Sres_WORD" class="ft8"> </p>
+          </li>
+          <li class="Sres_option">            
+          </li>          
+        </ul>
+      
+      </div>
+      
+    <!-- mainbox2 -->
+
+
+<!-- post test -->
+        
+        <div id="test_place">
+          <button onclick="Cambrg_search('line');"> cambrg </button>
+          <button onclick="test();"> test </button>
+        </div>
+      </div>
+    </div>
+
+<!-- foot bar -->
+
+    <div class="footbar">
+      <div class="footbar_menu border">
+        <a href="/">
+          <ul>
+            <li><i class="fa-solid fa-house ft7 ftbb"></i></li>
+            <li><span class="ft10"> Home  </span></li>
+          </ul>
+        </a>
+      </div>
+      <div class="footbar_menu border">
+        <a href="/wordlist">
+          <ul>
+            <li><i class="fa-solid fa-book ft7 ftbb"></i></li>
+            <li><span class="ft10"> Wordbook  </span></li>
+          </ul>
+        </a>
+      </div>
+      <div class="footbar_menu">
+      </div>
+      <div class="footbar_menu border">
+        <ul>
+          <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb"></i></li>
+          <li><span class="ft10"> back </span></li>
+        </ul>
+      </div>
+    </div>
+
+    
+
+    
+    <script>      
+      
+      const Search_DOC = document.querySelector(".searchbar");
+      Search_Input = Search_DOC.querySelector("textarea");
+
+      // const Set_TEXT = document.getElementById("Sres_ENG");
+      const Set_TEXT = document.getElementById("Sres_ENG");
+
+      // const function
+      
+
+
+      // global varible
+      let Word_title = '';
+      let Word_meaning = '';
+      let Word_phonetics = '';
+      var engs_res = '';
+
+      function dictionaryapi(words){
+        var url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + words;        
+        fetch(url).then((response)=>response.json()).then((result)=>data(result));        
+        function data(result){
+          console.log(result);          
+          // console.log(result[0].meanings[0].definitions[0].definition);          
+          // console.log(result[0].phonetics[0].text);
+          document.getElementById('Sres_WORD').innerHTML += `<span class="ft4">${result[0].meanings[0].definitions[0].definition} ${result[0].phonetics[0].text}</span> \n`;                            
+          engs_res = `<a href="https://dictionary.cambridge.org/dictionary/english/${words}" target="result_view" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="${result[0].meanings[0].definitions[0].definition}">${words}</a> `;                                                              
+          Set_TEXT.innerHTML += engs_res;
+          re_popup();                              
+          } 
+        }        
+        
+      Search_Input.addEventListener("keyup", e => {
+        if(e.key === "Enter" && e.target.value) {                    
+          var engs_org = e.target.value;
+          var engs_spl = e.target.value.replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');          
+          engs_res = '';          
+          Set_TEXT.innerHTML = '';          
+
+          // var url = Array.from({length : engs_spl.length}, (_) => ('https://api.dictionaryapi.dev/api/v2/entries/en/'));
+          // for (let word of engs_spl){
+          //   url.push('https://api.dictionaryapi.dev/api/v2/entries/en/' + word.replace(/\s/g, '').replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,''));
+          // }
+          // console.log(url);
+
+          /* async-await 함수 순차적 실행 */
+          async function TEST_add(engs_spl){
+            for (let words of engs_spl){            
+              var url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + words.replace(/\s/g, '').replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,'');        
+              console.log(url);
+              await fetch(url).then((response)=>{
+                console.log(response);
+                if (response.status === 404) {
+                  throw new Error('Not Found');
+                } else {
+                  return response.json();
+                }
+              })
+              .then((result)=>data(result))
+              .catch((error)=>data2());
+              function data(result){
+                // console.log('word ; ' + words + '/ meaning : ' + result[0].meanings[0].definitions[0].definition);                
+                // document.getElementById('Sres_WORD').innerHTML += `<span class="ft4">${result[0].meanings[0].definitions[0].definition} ${result[0].phonetics[0].text}</span> \n`;                            
+                engs_res += `<a href="https://dictionary.cambridge.org/dictionary/english/${words}" target="result_view" onclick="iframe1_vis();" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="
+                  [${result[0].phonetics[0].text}] <br> ${result[0].meanings[0].definitions[0].definition}">${words}</a> `;
+              }
+              function data2(){
+                console.log('err');
+                document.getElementById('Sres_WORD').innerHTML += `<span class="ft4"> error </span> \n`;                            
+                engs_res += `<a href="https://dictionary.cambridge.org/dictionary/english/${words}" target="result_view" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="none of search results">${words}</a> `;
+              }
+            }
+            Set_TEXT.innerHTML += engs_res;
+            re_popup();             
+          }
+          /* */
+
+
+          // const promises = url.map(async data => await fetch(data).then((response)=>{
+          //   console.log(response);
+          //   if (response.status === 404) {
+          //     throw new Error('Not Found');
+          //   } else {
+          //     return response.json();
+          //   }
+          // })
+          // .then((result)=>html_res.push(result))
+          // .catch((error)=>html_res.push('none of data')));
+
+          // await Promise.all(promises);
+          // console.log(html_res);
+      
+                 
+          
+          TEST_add(engs_spl);
+          test2(engs_org);
+          document.getElementById('link_yarn').setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + engs_org));
+          document.getElementById('link_youglish').setAttribute('href', encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?'));
+          document.getElementById('link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));          
+        }       
+      });
+      // map 사용해야 할 듯
+
+    </script>
+
+
+
+<!-- Cambridge Search -->
+    <script>    
+      async function Cambrg_search(word){
+        console.log('cambrg 1');
+        // fetch("/websearch_cambrg", {method : 'post'}).then((response)=>{
+        //   console.log(response.json());
+        // });
+        var word = {word : word};
+        await fetch("/websearch_cambrg", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>{
+          console.log(response);
+          if (response.status === 404) {
+            throw new Error('Not Found');
+          } else {
+            return response.json();
+          }
+        })
+        .then((result)=>data(result))
+        .catch((error)=>data2());
+        
+        function data(result){          
+          console.log('cambrg 2');
+          console.log(result);
+          result_view_html(result);
+        }
+        function data2(){
+          console.log('Cambridge err');          
+        }
+      }      
+    </script>
+
+  <!-- 하단 iframe 쓰기 -->
+    <script>
+      function result_view_html(data){     
+        iframe1_vis();
+        console.log('a');
+        console.log(data);
+        console.log(data.meanings.length);
+        var meanings = '';
+        var i=0;
+        for (let meaning of data.meanings) {
+          i += 1;
+          meanings += `${meaning.meaning_eng} <br> ${meaning.meaning_kor} <br>`;
+          // console.log(i + ': ' + meaning.example.length);
+          for (let example of meaning.example) {
+            meanings += `${example} <br>`;
+          }
+        }
+        console.log(meanings);
+        // console.log(JSON.stringify(data));
+
+        document.getElementById('result_view').setAttribute('srcdoc', `<span class="ft1 ftbb"> word : ${data.word} 
+          <br>
+          pronounce : [${data.pronounce}]
+          <br>
+          <button onclick ="audio_pron.load(); audio_pron.play();"> link </button>
+          <audio preload="none" id="audio_pron" controlslist="nodownload">
+          <source type="audio/mpeg" src="https://dictionary.cambridge.org${data.pronounce_link}">            
+          </audio> 
+          <br>${meanings}`) ;
+
+        // var doc = document.getElementById('result_view');
+        // doc.innerHTML = `<span class="ft1 ftbb"> word : ${data.word} 
+        //   <br>
+        //   pronounce : [${data.pronounce}]
+        //   <br>
+        //   <button onclick ="audio_pron.load(); audio_pron.play();"> link </button>
+        //   <audio preload="none" id="audio_pron" controlslist="nodownload">
+        //   <source type="audio/mpeg" src="https://dictionary.cambridge.org${data.pronounce_link}">            
+        //   </audio> 
+        //   <br>` + meanings ;
+        }        
+    </script>
+    
+    
+
+<!-- popover -->
+    <script>      
+
+      var popover = new bootstrap.Popover(element, {
+        popperConfig: function (defaultBsPopperConfig) {
+          var newPopperConfig = {html	: true}
+          // use defaultBsPopperConfig if needed...
+          // return newPopperConfig
+        }
+      })
+
+      var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+      var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+      })
+
+      function re_popup(){
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+        })
+      }
+    </script>  
+    
+    
+
+
+  </body>
+
+</html>

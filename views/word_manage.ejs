@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/ac68d7a452.js" crossorigin="anonymous"></script>
+
+
+
+
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="navbar_logo">
+      <a href="/"> <i class="fa-solid fa-tree text_green fs-2 fw-bold"></i> </a>
+      <span class="fs-2 fw-bold text_red"> <%=title%> </span>
+    </div>
+    <div class="navbar_menu">
+    </div>
+    <div class="navbar_icon">
+    </div>
+  </div>
+
+
+  <div class="container mainbox text-center">
+    <div class="container text-center"> <p class="text-start fw-bold text-danger">TOTAL NUMBER : <%= results.length%></p></div>
+    <div class="container text-center">
+      <%
+      var data1;
+      var data2;
+      for (var i =0; i<results.length; i++){
+        var data = results[i];
+        data1 = data1 + results[i].ENG;
+        data2 = data2 + results[i].KOR;
+
+        var URL_yarn = encodeURI('https://getyarn.io/yarn-find?text=' + data.ENG);
+        var URL_youglish = encodeURI('https://youglish.com/pronounce/' + data.ENG + '/english?');
+        var URL_google = encodeURI('https://www.google.com/search?q="' + data.ENG +'"' );
+        var URL_skell = encodeURI('https://skell.sketchengine.eu/#result?f=wordsketch&lang=en&query=' + data.ENG);
+        var URL_ludiwig = encodeURI('https://ludwig.guru/s/' + data.ENG);
+      %>
+      <div class="row border mt-2 exam1">
+        <p class="bg-info bg-gradient fs-4">Featured <%=data.ID%> </p>
+        <div class="row row-col-2 border-0 mt-2">
+          <div class="col-10">
+  <!--        <div class="d-flex justify-content-between ">-->
+            <a href="/word_manage/<%= title %>/<%=data.ID%>"><p class="text-left"><strong><span class="fs-2"><%=data.ENG%></span><br/><span class="fs-3"><%=data.KOR%></strong></span></p></a>
+          </div>
+          <div class="col-2">
+            <button class="btn-modal btn btn-info bg-gradient ms-2" data-toggle="modal" data-target="#myModal_example" data-id=<%=data.ID%>> + </button>
+            <!--영어예문추가-->
+            <div id="myModal_example" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h3>예문을 추가해주세요</h3>
+                    <button class="close" data-dismiss="modal">x</button>
+                  </div>
+                  <form action="/word_manage/example/<%=title%>" method="post">
+                    <div class="modal-body">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Number</span>
+                        <input type="number" name="example_num" class="form-control body-contents" id="contents" />
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">영어</span>
+                        <input type="text" name="example_eng" class="form-control" placeholder="영어" id="edit_eng" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">한글</span>
+                        <input type="text" name="example_kor" class="form-control" placeholder="한글" id="edit_kor" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-default">추가</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row border-0 mt-2">
+          <div class="d-flex justify-content-between ms-3 ">
+            <a href="<%=URL_yarn%>" target="_blank"> <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple71/v4/9e/e5/f6/9ee5f643-26c5-8810-0bd1-1f0081d367b4/pr_source.png/512x512bb.jpg" width="30" height="30" class="me-2 border-round" /></a>
+            <a href="<%=URL_youglish%>" target="_blank"> <img src="https://q8v3g6g4.rocketcdn.me/wp-content/uploads/2020/11/YOuglish.jpg" width="60" height="30" class="me-2 border-round" /></a>
+            <a href="<%=URL_google%>" target="_blank"> <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" width="30" height="30" class="me-2 border-round" /></a>
+          </div>
+        </div>
+        <div class="row border-0 mt-2">
+          <div class="d-flex justify-content-between ms-3">
+            <a href="<%=URL_skell%>" target="_blank"> <img src="https://www.sketchengine.eu/wp-content/uploads/SE_logo_330x150-bleed-transp-bg.png" width="70" height="24" class="me-2 border-round" /></a>
+            <a href="<%=URL_ludiwig%>" target="_blank"> <img src="https://play-lh.googleusercontent.com/LWyClIaFQbs88YpLRUAh-YoI2nPeCh3NoyXyD8h-IoDEQVOnrqLrzi51QdsJccsbx-M" width="30" height="30" class="me-2 border-round" /></a>
+          </div>
+        </div>
+        <div class="row border-0 mt-2">
+          <div class="d-flex justify-content-center">
+            <button class="btn-modal btn btn-warning bg-gradient ms-2" data-toggle="modal" data-target="#myModal_edit" data-id=<%=data.ID%> data-eng=<%=data.ENG%> data-kor=<%=data.KOR%>> EDIT </button>
+            <form action="/word_manage/remove/<%=title%>" method="post"><button class="btn btn-danger bg-gradient ms-2" name="word_id" value="<%=data.ID%>"> DEL </button> </form>
+            <!--영어문장수정 // 아이디값 외에는 전달되지 않음(여러개 값 전달방법 확인해야함)-->
+            <div id="myModal_edit" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h3>문장을 수정해주세요</h3>
+                    <button class="close" data-dismiss="modal">x</button>
+                  </div>
+                  <form action="/modify/<%=title%>" method="post">
+                    <div class="modal-body">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Number</span>
+                        <input type="number" name="example_num" class="form-control body-contents" id="contents" />
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">영어</span>
+                        <input type="text" name="example_eng" class="form-control" placeholder="영어" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">한글</span>
+                        <input type="text" name="example_kor" class="form-control" placeholder="한글" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-default">추가</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }; %>
+    </div>
+    <div class="container text-center">
+      <div class="row row-col-2 border-0 mb-5">
+        <div class="col-11 border-0"></div>
+        <!-- Trigger the modal with a button -->
+        <div class="col-1 border-0"><button type="button" class="btn btn-success bg-gradient" data-toggle="modal" data-target="#myModal_add"> + </button></div>
+        <!-- 문장추가하기 -->
+        <div id="myModal_add" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">문장을 추가해주세요</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <form action="/word_manage/add/<%=title%>" method="post">
+                <div class="modal-body">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">영어</span>
+                    <input type="text" name="word_english" class="form-control" placeholder="영어" aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">한글</span>
+                    <input type="text" name="word_korean" class="form-control" placeholder="한글" aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-default">추가</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footbar">
+    <div class="footbar_menu border">
+      <a href="/">
+        <ul>
+          <li><i class="fa-solid fa-house fs-1 fw-bold"></i></li>
+          <li><span class="fs-5"> Home  </span></li>
+        </ul>
+      </a>
+    </div>
+    <div class="footbar_menu border">
+      <a href="/wordlist">
+        <ul>
+          <li><i class="fa-solid fa-book fs-1 fw-bold"></i></li>
+          <li><span class="fs-5"> Wordbook list  </span></li>
+        </ul>
+      </a>
+    </div>
+    <div class="footbar_menu">
+    </div>
+    <div class="footbar_menu border">
+      <ul>
+        <li><i class="fa-solid fa-arrow-rotate-left fs-1 fw-bold"></i></li>
+        <li><span class="fs-5"> back </span></li>
+      </ul>
+    </div>
+  </div>
+
+
+<script>
+
+  $(".btn-modal").click(function(){
+    var data_id = $(this).data('id');
+    var data_eng = $(this).data('eng');
+    var data_kor = $(this).data('kor');
+    $("#contents.body-contents").val(data_id);
+    $("#edit_eng.body-contents").val(data_eng);
+    $("#edit_kor.body-contents").val(data_kor);
+    $("#text-contents.body-contents").html(data_id);
+    $("#text-edit_eng.body-contents").html(data_eng);
+    $("#text-edit_kor.body-contents").html(data_kor);
+  });
+
+  var DATA_table;
+
+  var data_num;
+  var mode = document.getElementById("mod_ENG");
+  function start(data){
+    data_num = data;
+    end(data);
+    console.log(mode);
+    console.log(DATA_table);
+    mode.placeholder = data1[data].KOR;
+  };
+  function end(data){
+    console.log(data_num);
+  };
+
+</script>
+
+
+
+
+
+</body>
+</html>
