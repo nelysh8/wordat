@@ -17,7 +17,7 @@
 
     <!-- my script -->
 
-    <script>
+    <script>    
 
     // main
       let i = 0;
@@ -92,13 +92,14 @@
 
       function footbar_vis() {        
         document.getElementById('footbar').setAttribute('style', 'display : flex');
-      }
-      function footbar_vis2() {        
-        document.getElementById('Sres_view').contentWindow.body.onclick = function(){
-        // .contentWindow.document.body.
-          
-        }
-      }
+      }      
+
+      window.onload = function() {
+        var oFrame = document.getElementById("Sres_view");
+        oFrame.contentWindow.document.onclick = function() {
+          document.getElementById('footbar').setAttribute('style', 'display : flex');
+        };
+      };
 
       function footbar_dis() {        
         document.getElementById('footbar').setAttribute('style', 'display : none');
@@ -148,7 +149,7 @@
       </div>
       
       <div class="searchResult" onclick="footbar_vis();">        
-        <a href="#" onclick="footbar_vis2();"><iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" ></iframe></a>
+        <iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" ></iframe>
         <ul>
           <li class="Sres_ENG" >
             <p id="Sres_ENG" class="ft8"> </p>
