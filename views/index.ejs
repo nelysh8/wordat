@@ -93,6 +93,12 @@
       function footbar_vis() {        
         document.getElementById('footbar').setAttribute('style', 'display : flex');
       }
+      function footbar_vis2() {        
+        document.getElementById('Sres_view').contentWindow.body.onclick = function(){
+        // .contentWindow.document.body.
+          
+        }
+      }
 
       function footbar_dis() {        
         document.getElementById('footbar').setAttribute('style', 'display : none');
@@ -142,7 +148,7 @@
       </div>
       
       <div class="searchResult" onclick="footbar_vis();">        
-        <a href="#" onclick="footbar_vis();"><iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" ></iframe></a>
+        <a href="#" onclick="footbar_vis2();"><iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" ></iframe></a>
         <ul>
           <li class="Sres_ENG" >
             <p id="Sres_ENG" class="ft8"> </p>
