@@ -90,6 +90,14 @@
         document.getElementById('result_view').setAttribute('style', 'display : none');
       }
 
+      function footbar_vis() {        
+        document.getElementById('footbar').setAttribute('style', 'display : flex');
+      }
+
+      function footbar_dis() {        
+        document.getElementById('footbar').setAttribute('style', 'display : none');
+      }
+
       
 
 
@@ -115,17 +123,17 @@
 
     <div class="container mainbox_center">
 
-      <div class="result_contents">
+      <div class="result_contents" onclick="footbar_vis();">
         <iframe class="result_view" name="result_view" id="result_view" src="/html/cambrg.html" style="display: none">
         </iframe>                  
       </div>        
     
       <div class="searchbar">
         <div class="searchbar_main">
-          <textarea class="autosize" id="main_input" placeholder="Search a Sentence" required onclick="resize(this)" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+          <textarea class="autosize" id="main_input" placeholder="Search a Sentence" required onclick="resize(this); footbar_dis();" onkeydown="resize(this)" onkeyup="resize(this);"></textarea>
           <a href="javascript:clear_input();"><i class="fa-solid fa-xmark text_red"></i></a>          
         </div>
-        <div class="searchbar_items">
+        <div class="searchbar_items" onclick="footbar_vis();">
           <i class="fa-solid fa-play text_red"></i>
           <a id="link_yarn" href="https://getyarn.io/" target="_blank"><img src="/images/icon_yarn.webp" width="30" height="30" class="border-round" /></a>
           <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img src="/images/icon_youglish.jpg" width="60" height="30" class="border-round" /></a>
@@ -133,8 +141,8 @@
         </div>        
       </div>
       
-      <div class="searchResult">        
-        <iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" ></iframe>
+      <div class="searchResult" onclick="footbar_vis();">        
+        <a href="#" onclick="footbar_vis();"><iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" ></iframe></a>
         <ul>
           <li class="Sres_ENG" >
             <p id="Sres_ENG" class="ft8"> </p>
@@ -165,7 +173,7 @@
 
 <!-- foot bar -->
 
-    <div class="footbar">
+    <div class="footbar" id="footbar">
       <div class="footbar_menu border">
         <a href="/">
           <ul>

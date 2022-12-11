@@ -84,6 +84,8 @@ ul {
 .text_green {
     color : darkgreen;
 }
+
+
 /* 0. iframe html */
 
 .iframe_body {
@@ -360,6 +362,10 @@ ul {
 
 .searchResult ul li {
     color : gray;            
+}
+
+.Sres_view {
+    z-index : 0;
 }
 
 .Sres_ENG {    
