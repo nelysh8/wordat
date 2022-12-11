@@ -52,8 +52,8 @@ router.post('/example/:list_name', function (req, res, next) {
     var data = [example_num, example_eng, example_kor];
     var sql = "INSERT INTO " + list_name + " (P_ID, ENG, KOR, SAVEDATE, LOADDATE) VALUE (?,?,?,now(), now())";
     conn.query(sql, data, function(err, results){
-        if (err) console.err("err:" + err);
-        res.redirect('/word_manage/' + list_name);
+        if (err) console.err("err:" + err);        
+        // res.redirect('/word_manage/' + list_name);
     });
 });
 

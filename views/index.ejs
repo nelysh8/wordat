@@ -113,7 +113,15 @@
         document.getElementById('footbar').setAttribute('style', 'display : none');
       }
 
-      
+      function add_click() {
+        var engs = document.getElementById('main_input').value.replace(/\n$/,'');
+        var Sres_view_html = document.getElementById('Sres_view').contentWindow.document;          
+        document.getElementById("edit_eng").value = engs;
+        if (Sres_view_html.getElementById('Sres_KOR').innerText === "") {          
+        } else {
+          document.getElementById("edit_kor").value=Sres_view_html.getElementById('Sres_KOR').innerText;
+        }
+      }
 
 
     </script>
@@ -152,13 +160,55 @@
           <a id="link_yarn" href="https://getyarn.io/" target="_blank"><img src="/images/icon_yarn.webp" width="30" height="30" class="border-round" /></a>
           <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img src="/images/icon_youglish.jpg" width="60" height="30" class="border-round" /></a>
           <a id="link_google" href="https://www.google.com/" target="_blank"><img src="/images/icon_google.png" width="30" height="30" class="border-round" /></a>
-          <i class="fa-solid fa-play text_red" onclick="tts();"></i>
-        </div>        
-      </div>
+          <i class="fa-solid fa-play text_red" onclick="tts();"></i>          
+          <button class="btn-modal btn btn-danger bg-gradient" data-bs-toggle="modal" data-bs-target="#myModal_example" onclick="add_click();"> + </button>                         
+            <div id="myModal_example" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h3>예문을 추가해주세요</h3>
+                    <button class="close" data-dismiss="modal">x</button>
+                  </div>
+                  <form action="/word_manage/example/내단어장" method="post">
+                    <div class="modal-body">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Number</span>
+                        <input type="number" name="example_num" class="form-control body-contents" id="contents" />
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">영어</span>
+                        <input type="text" name="example_eng" class="form-control" placeholder="영어" id="edit_eng" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">한글</span>
+                        <input type="text" name="example_kor" class="form-control" placeholder="한글" id="edit_kor" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-default" data-dismiss="modal">추가</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+              
+              
+            
+
+
+
+        </div>
+      </div>        
+    
+          
+          
+
       
       <div class="searchResult" onclick="footbar_vis();">        
         <iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" src="/html/Sres_view.html"></iframe>              
       </div>
+    
       
     <!-- mainbox2 -->
 
@@ -170,7 +220,7 @@
           <!-- <button onclick="test();"> test </button> -->
         </div>
       </div>
-    </div>
+    
 
 <!-- foot bar -->
 
@@ -293,7 +343,7 @@
       });
       // map 사용해야 할 듯
 
-    </script>
+    </script>    
 
 <!-- Google tts -->
 
