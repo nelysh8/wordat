@@ -21,6 +21,7 @@ var word_manageRouter = require('./routes/word_manage');
 
 var http = require('http');
 var fs = require('fs');
+const { traceDeprecation } = require('process');
 // const { last } = require('cheerio/lib/api/traversing');
 
 
@@ -174,8 +175,56 @@ app.post('/websearch_cambrg', function (req, res) {
   // console.log(result);          
   res.json(result);
 });
-
 });
+
+// google tts
+
+app.post('/google_tts', function (req, res) {
+  // Imports the Google Cloud client library
+  const textToSpeech = require('@google-cloud/text-to-speech');
+  
+
+  // Import other required libraries
+  const fs = require('fs');
+  const util = require('util');
+  // Creates a client
+  const client = new textToSpeech.TextToSpeechClient();
+  async function quickStart() {    
+    // The text to synthesize
+    const sentence = req.body.sentence;
+    console.log(sentence);
+
+    // Construct the request
+    const request = {
+      input: {text: sentence},
+      // Select the language and SSML voice gender (optional)
+      voice: {languageCode: 'en-US', ssmlGender: 'NEUTRAL'},
+      // select the type of audio encoding
+      audioConfig: {audioEncoding: 'MP3'},
+    };
+
+    // Performs the text-to-speech request
+    const [response] = await client.synthesizeSpeech(request);
+    console.log(response.audioContent);
+    // res.end(response);
+    // res.end();
+    let data = response.audioContent;
+    let buff = new Buffer(data);
+    let ttss = buff.toString('base64');
+    console.log(ttss);
+    res.json(ttss);
+    // Write the binary audio content to a local file
+
+  
+
+    const writeFile = util.promisify(fs.writeFile);
+    await writeFile('output.mp3', response.audioContent, 'binary');
+    console.log('Audio content written to file: output.mp3');
+  }
+  quickStart();
+});
+
+
 
         // $bodyList.each(function(i, elem) {          
         //   ulList[i] = {

@@ -141,7 +141,7 @@
           <a href="javascript:clear_input();"><i class="fa-solid fa-xmark text_red"></i></a>          
         </div>
         <div class="searchbar_items" onclick="footbar_vis();">
-          <i class="fa-solid fa-play text_red"></i>
+          <i class="fa-solid fa-play text_red" onclick="tts();"></i>
           <a id="link_yarn" href="https://getyarn.io/" target="_blank"><img src="/images/icon_yarn.webp" width="30" height="30" class="border-round" /></a>
           <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img src="/images/icon_youglish.jpg" width="60" height="30" class="border-round" /></a>
           <a id="link_google" href="https://www.google.com/" target="_blank"><img src="/images/icon_google.png" width="30" height="30" class="border-round" /></a>
@@ -315,6 +315,27 @@
 
     </script>
 
+<!-- Google tts -->
+
+<script>
+  function tts(){
+    var sentence = {sentence : document.getElementById('main_input').value};    
+    console.log(sentence);
+    fetch("/google_tts", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sentence)}).then((response)=>response.json()).then((result)=>data(result));  
+    function data(result){      
+      // console.log(result);
+      
+      // console.log(JSON.stringify(result.audioContent.data));
+      new Audio(`data:audio/mp3;base64,${result}`).play().then(()=>{        
+        console.log('sound ok');
+      })
+      .catch(error => {
+        console.log('sound err');
+      });      
+    }
+  }
+
+</script>
 
 
 <!-- Cambridge Search -->
