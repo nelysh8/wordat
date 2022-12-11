@@ -356,7 +356,7 @@
         var wordhead = '';
         var meanings = '';
         
-        // let i = 0;
+        let i = 0;
         var doc = document.getElementById('result_view').contentWindow.document;
 
         for (let head of data) {
@@ -369,8 +369,8 @@
                 <span id="part" class="part">${head.part}</span>
             </div>
             <div class="pronounce_sound"> 
-                <span class="sound"><a href="#" id="sound" onclick="audio_pron.load(); audio_pron.play();"><i class="fa-solid fa-volume-high ft5"></i></a></span>        
-                <audio preload="none" id="audio_pron" controlslist="nodownload">
+                <span class="sound"><a href="#" id="sound" onclick="audio_pron${i}.load(); audio_pron${i}.play();"><i class="fa-solid fa-volume-high ft5"></i></a></span>        
+                <audio preload="none" id="audio_pron${i}" controlslist="nodownload">
                     <source id="audio_link" type="audio/mpeg" src="https://dictionary.cambridge.org${head.pronounce_link}">            
                 </audio>
             </div>
@@ -398,7 +398,8 @@
                 wordhead += `</div>`;
               }
               wordhead += `</div>`;
-            }               
+            }
+          i += 1;               
         }
         console.log(wordhead);
         doc.getElementById('contents').innerHTML = wordhead;
