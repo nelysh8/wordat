@@ -318,15 +318,35 @@
 <!-- Google tts -->
 
 <script>
+// 외부용
+// api key : AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM
+//https://texttospeech.googleapis.com/v1/text:synthesize
+
   function tts(){
-    var sentence = {sentence : document.getElementById('main_input').value};    
-    console.log(sentence);
-    fetch("/google_tts", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sentence)}).then((response)=>response.json()).then((result)=>data(result));  
+    
+    var sentence = document.getElementById('main_input').value;     
+    
+    console.log(sentence);  
+    
+    
+    fetch('https://texttospeech.googleapis.com/v1/text:synthesize', {        
+        method: 'POST',
+        headers: {
+            'X-Goog-Api-Key': 'AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'input' : {'text' : sentence},
+          'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'NEUTRAL'},
+          'audioConfig': {'audioEncoding': 'MP3' },        
+        }),
+      })
+    .then((response)=>response.json())
+    .then((result)=>data(result));  
     function data(result){      
-      // console.log(result);
-      
+      console.log(result);      
       // console.log(JSON.stringify(result.audioContent.data));
-      new Audio(`data:audio/mp3;base64,${result}`).play().then(()=>{        
+      new Audio(`data:audio/mp3;base64,${result.audioContent}`).play().then(()=>{        
         console.log('sound ok');
       })
       .catch(error => {
@@ -334,6 +354,29 @@
       });      
     }
   }
+
+
+
+
+// 내부용
+
+  // function tts(){
+  //   // api key : AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM
+  //   var sentence = {sentence : document.getElementById('main_input').value};    
+  //   console.log(sentence);
+    // fetch("/google_tts", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sentence)}).then((response)=>response.json()).then((result)=>data(result));  
+  //   function data(result){      
+  //     // console.log(result);
+      
+  //     // console.log(JSON.stringify(result.audioContent.data));
+  //     new Audio(`data:audio/mp3;base64,${result}`).play().then(()=>{        
+  //       console.log('sound ok');
+  //     })
+  //     .catch(error => {
+  //       console.log('sound err');
+  //     });      
+  //   }
+  // }
 
 </script>
 

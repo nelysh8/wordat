@@ -8,7 +8,7 @@ const util = require('util');
 const client = new textToSpeech.TextToSpeechClient();
 async function quickStart() {
   // The text to synthesize
-  const text = 'hello, Ramg!';
+  const text = 'How was there?';
 
   // Construct the request
   const request = {

@@ -177,8 +177,8 @@ app.post('/websearch_cambrg', function (req, res) {
 });
 });
 
-// google tts
-
+// google tts 내부용
+/*
 app.post('/google_tts', function (req, res) {
   // Imports the Google Cloud client library
   const textToSpeech = require('@google-cloud/text-to-speech');
@@ -224,7 +224,7 @@ app.post('/google_tts', function (req, res) {
   quickStart();
 });
 
-
+*/
 
         // $bodyList.each(function(i, elem) {          
         //   ulList[i] = {
