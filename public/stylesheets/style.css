@@ -85,11 +85,14 @@ ul {
     color : darkgreen;
 }
 /* 0. iframe html */
+
 .iframe_body {
     width : 100%;
     margin : 0;    
     padding : 0;
+    border-radius: 5px ;
 }
+
 .navline {
     display: block;
     position : fixed;
@@ -102,8 +105,10 @@ ul {
     padding : 0.5rem 1.5rem 0.5rem 1.5rem;
     z-index: 100;
     font-family : 'poppins', sans-serif;
+    border-radius: 5px ;
     /*padding : 10px 0px 10px 0px;*/
 }
+
 .navline img {    
     height : 2rem;
     width : 8rem;    
@@ -123,24 +128,35 @@ ul {
     padding : 0.5rem;
 }
 
-.wordhead {
-    display : flex;    
+.contents {
+    display : block;
     align-items: center;
     margin-top : 5rem;      
     width : 100%; 
 }
 
+.wordhead {
+    display : flex;    
+    align-items: center;    
+    width : 100%; 
+    background-color: #ddfaff;
+    margin-top : 2rem;      
+}
+
 .wordhead .word{
     column-width:auto;
     margin : 0 1rem 0 1rem;
-    padding : 1rem 0 0 0;
+    padding : 1rem 0 1rem 0;
     line-height: 1rem;    
+    font-size : 2.2rem;
+    font-weight: bolder;
 }
 
 .wordhead .etc{
     line-height: 1rem;  
     margin : 0 1rem 0 0rem;
     padding : 0.6rem 0 0 0;
+    font-size : 1rem;    
 }
 
 .wordhead .pronounce_sound{    
@@ -159,8 +175,8 @@ ul {
 }
 .meaning_list .line {
     display : block;
-    font-size : 0.3rem;
-    height : 0.3rem;        
+    font-size : 0.2rem;
+    height : 0.2rem;        
     background-color: #fec400; 
     width : 100%;
 

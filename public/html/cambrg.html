@@ -23,45 +23,50 @@
             <a href="https://dictionary.cambridge.org/dictionary/english-korean/" target="_blank"><img src="/images/cambrg_logo.png"></a>
             <input type="text" class="nav_input" placeholder="Search a word" required></input>
         </div>
-        <div class="wordhead">      
-            <div class="word">
-                <span id="word" class="ft5 ftbb"> list </span>
-            </div>  
-            <div class="etc">
-                <span id="pronounce" class="pronounce ft10"> [list] </span> <br>
-                <span id="part" class="part ft10">noun</span>
-            </div>
-            <div class="pronounce_sound"> 
-                <span class="sound"><a href="#" id="sound"><i class="fa-solid fa-volume-high ft5"></i></a></span>        
-                <audio preload="none" id="audio_pron" controlslist="nodownload">
-                    <source id="audio_link" type="audio/mpeg" src="https://dictionary.cambridge.org${data.pronounce_link}">            
-                </audio>
-            </div>
-        </div>              
-        <div id="meaning_list" class="meaning_list">
-            <div class="line"></div>
-            <div class="meaning">
-                <span class="meaning_eng">a lot of words that are written one under the other</span> <br>
-                <span class="meaning_kor">목록</span>
-                <div class="examples">
-                    <ul>
-                        <li>a shopping list</li>
-                        <li>Is your name on the list?</li>
-                    </ul>
-                </div>
-            </div>
+        <div id="contents" class="contents">
+          <div id="wordhead" class="wordhead">      
+              <div class="word">
+                  <span id="word"> list </span>
+              </div>  
+              <div class="etc">
+                  <span id="pronounce" class="pronounce"> [list] </span> <br>
+                  <span id="part" class="part">noun</span>
+              </div>
+              <div class="pronounce_sound"> 
+                  <span class="sound"><a href="#" id="sound"><i class="fa-solid fa-volume-high ft5"></i></a></span>        
+                  <audio preload="none" id="audio_pron" controlslist="nodownload">
+                      <source id="audio_link" type="audio/mpeg" src="https://dictionary.cambridge.org${data.pronounce_link}">            
+                  </audio>
+              </div>
+          </div>              
+          <div id="meaning_list" class="meaning_list">
+              <div class="line"></div>
+              <div class="meaning">
+                  <span class="meaning_eng">a lot of words that are written one under the other</span> <br>
+                  <span class="meaning_kor">목록</span>
+                  <div class="examples">
+                      <ul>
+                          <li>a shopping list</li>
+                          <li>Is your name on the list?</li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
         </div>
     </div>
     <script>
       const Search_cambrg = document.querySelector(".navline");
       Search_Input_cambrg = Search_cambrg.querySelector(".nav_input");
       Search_Input_cambrg.addEventListener("keyup", e => {
-        if(e.key === "Enter" && e.target.value) {                    
+        if (e.key === "Enter" && e.target.value){        
+          var url = "https://dictionary.cambridge.org/dictionary/english-korean/" + e.target.value.trim();
+          window.open(url, '_blank');
+        }
+        if (e.key === "Tab" && e.target.value){        
           var url = "https://dictionary.cambridge.org/dictionary/english-korean/" + e.target.value.trim();
           window.open(url, '_blank');
         }
       });
-
     </script>
 
 

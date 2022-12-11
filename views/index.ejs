@@ -52,11 +52,12 @@
         let TEXT_JSON = JSON.stringify(TEXT);
         console.log(TEXT);
         console.log(JSON.stringify(TEXT));
-        fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'},body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));        
+        fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));                
+
         function data(result){
           console.log(result);
           let B = JSON.stringify(result);
-          console.log(B);
+          console.log('anyone there?' + B);
           const tmp = document.getElementById("Sres_KOR");
           function addtext(){
             tmp.innerText = result.message.result.translatedText;
@@ -115,7 +116,7 @@
     <div class="container mainbox_center">
 
       <div class="result_contents">
-        <iframe class="result_view" name="result_view" id="result_view" src="/html/cambrg.html" style="display: block">
+        <iframe class="result_view" name="result_view" id="result_view" src="/html/cambrg.html" style="display: none">
         </iframe>                  
       </div>        
     
@@ -228,7 +229,7 @@
         
       Search_Input.addEventListener("keyup", e => {
         if(e.key === "Enter" && e.target.value) {                    
-          var engs_org = e.target.value;
+          var engs_org = e.target.value.replace(/\n$/,'');
           var engs_spl = e.target.value.replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');          
           engs_res = '';          
           Set_TEXT.innerHTML = '';          
@@ -334,43 +335,63 @@
   <!-- 상단 iframe 쓰기 -->
     <script>
       function result_view_html(data){     
-        iframe1_vis();        
-        console.log(data);
-        console.log(data.meanings.length);                
+        console.log('rvh start');
+        iframe1_vis();                
+        console.log('-----hi' + data.length);                
+        var wordhead = '';
         var meanings = '';
         
+        // let i = 0;
         var doc = document.getElementById('result_view').contentWindow.document;
-        doc.getElementById('word').innerText = data.word;
-        doc.getElementById('pronounce').innerText = '[' + data.pronounce + ']';
-        doc.getElementById('part').innerText = data.part;
-        doc.getElementById('sound').setAttribute('onclick', 'audio_pron.load(); audio_pron.play();');
-        doc.getElementById('audio_link').setAttribute('src', 'https://dictionary.cambridge.org'+ data.pronounce_link);      
 
-        for (let meaning of data.meanings) {          
-          meanings += `<div class="line"></div>
-          <div class="meaning">
-                <span class="meaning_eng"></span>${meaning.meaning_eng}<br>
-                <span class="meaning_kor">${meaning.meaning_kor}</span>`;
-                
-          meaning.example = meaning.example.filter(Boolean);
-          console.log(meaning, meaning.example.length);
-        
-          if ( meaning.example.length > 0 ) {
-            meanings += `<div class="examples">
-                    <ul>`;
-            for (let example of meaning.example) {            
-              console.log(example);
-              meanings += `<li>${example}</li`;
-            };
-            meanings += `</ul> </div> </div>`;
-          } else {
-            meanings += `</div>`;
-          }
+        for (let head of data) {
+          wordhead += `<div id="wordhead" class="wordhead"> 
+            <div class="word">
+                <span id="word"> ${head.word} </span>
+            </div>  
+            <div class="etc">
+                <span id="pronounce" class="pronounce"> [${head.pronounce}] </span> <br>
+                <span id="part" class="part">${head.part}</span>
+            </div>
+            <div class="pronounce_sound"> 
+                <span class="sound"><a href="#" id="sound" onclick="audio_pron.load(); audio_pron.play();"><i class="fa-solid fa-volume-high ft5"></i></a></span>        
+                <audio preload="none" id="audio_pron" controlslist="nodownload">
+                    <source id="audio_link" type="audio/mpeg" src="https://dictionary.cambridge.org${head.pronounce_link}">            
+                </audio>
+            </div>
+          </div>`;
+            
+            for (let meaning of head.meanings) {          
+              wordhead += `<div id="meaning_list" class="meaning_list">
+                <div class="line"> </div>
+                  <div class="meaning">
+                    <span class="meaning_eng">${meaning.meaning_eng}</span><br>
+                    <span class="meaning_kor">${meaning.meaning_kor}</span>`;
+                    
+              meaning.example = meaning.example.filter(Boolean);
+              console.log(meaning, meaning.example.length);
+            
+              if ( meaning.example.length > 0 ) {
+                wordhead += `<div class="examples">
+                        <ul>`;
+                for (let example of meaning.example) {            
+                  console.log(example);
+                  wordhead += `<li>${example}</li>`;
+                };
+                wordhead += `</ul> </div> </div>`;
+              } else {
+                wordhead += `</div>`;
+              }
+              wordhead += `</div>`;
+            }               
         }
-        console.log(meanings);
-        doc.getElementById('meaning_list').innerHTML = meanings;  
-      }
+        console.log(wordhead);
+        doc.getElementById('contents').innerHTML = wordhead;
 
+
+        // }
+      // }
+        }
 
         //     meanings += `<div class="examples">
         //             <ul>`;
@@ -384,7 +405,7 @@
         //   };          
         // };
         // console.log(meanings);
-        // doc.getElementById('meaning_list').innerHTML = meanings;  
+        // 
       
 
         // console.log(JSON.stringify(data));
