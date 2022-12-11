@@ -271,8 +271,18 @@ ul {
     text-align: center;
     vertical-align: middle;
     border-radius : 7px;    
-    margin-bottom : 0.5rem;
+    margin-bottom : 2rem;
 }
+
+.searchResult {
+    display : block;        
+    align-content:center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;    
+    margin-bottom : 5rem;        
+}
+
 
     /* 2. 2. detail box */
 
@@ -305,8 +315,9 @@ ul {
     border-radius: 5px ;
     border : 1px solid #999;
     outline : none; 
-    margin-left : 0px;
-    margin-right : 5px;    
+    margin-left: auto;        
+    margin-right: auto;        
+    margin-bottom : 1rem;
     padding : 0.5rem;
 }
 
@@ -316,6 +327,9 @@ ul {
 
 .searchbar i {
     font-size : 25px;
+    margin-left: auto;        
+    margin-right: auto;        
+    margin-bottom : 1rem;
     padding : 0.5rem;
 }
 
@@ -325,31 +339,32 @@ ul {
     display : flex;
     width : 85%;
     margin : auto;
+    text-align :center
+    /* text-align-last: justify; */
     align-content: space-between;
     vertical-align: middle;    
 }
 
-.searchbar_items a {
+/* .searchbar_items a {
     padding : 0.5rem;
     margin : auto;
     align-content:center;
     vertical-align: middle;
-}
+} */
 
-.searchbar_item img {
-    margin : auto;
-    padding : 0.5rem;
+.searchbar_items a {
+    margin : 0 2.5rem 0 2.5rem;    
+    align-content:center;
+    vertical-align: middle;
+}
+.searchbar_items i {
+    margin : 0 2.5rem 0 2.5rem;    
+    align-content:center;
+    vertical-align: middle;
 }
 
 
         /* 2. 2. 3. searchresult view */
-
-.searchResult {
-    display : block;        
-    text-align: left;
-    vertical-align: middle;    
-    margin-bottom : 5px;        
-}
 
 .searchResult ul {    
     width : 75%;
@@ -364,8 +379,15 @@ ul {
     color : gray;            
 }
 
-.Sres_view {
-    z-index : 0;
+.Sres_view {    
+    display : flex;
+    height : 33rem;
+    width : 85%;    
+    margin : auto;
+    
+    /* margin-bottom : 10px; */
+    align-content: space-between;
+    vertical-align: middle;
 }
 
 .Sres_ENG {    

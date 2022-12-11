@@ -48,17 +48,16 @@
       }
 
       function test2(SENTC){
-        let TEXT = {word : SENTC};
+        let TEXT = {word : SENTC};        
         let TEXT_JSON = JSON.stringify(TEXT);
         console.log(TEXT);
         console.log(JSON.stringify(TEXT));
         fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));                
 
-        function data(result){
-          console.log(result);
+        function data(result){          
           let B = JSON.stringify(result);
-          console.log('anyone there?' + B);
-          const tmp = document.getElementById("Sres_KOR");
+          var Sres_view_html = document.getElementById('Sres_view').contentWindow.document;          
+          var tmp = Sres_view_html.getElementById("Sres_KOR");
           function addtext(){
             tmp.innerText = result.message.result.translatedText;
           }
@@ -73,8 +72,8 @@
       function clear_input(){        
         document.getElementById("main_input").value="";
         iframe1_dis();
-        Set_TEXT.innerHTML = '';
-        document.getElementById("Sres_KOR").innerText = '';
+        iframe2_dis();
+        resize(document.getElementById("main_input"));                
       }
 
       function resize(obj) {        
@@ -89,6 +88,15 @@
       function iframe1_dis() {        
         document.getElementById('result_view').setAttribute('style', 'display : none');
       }
+
+      function iframe2_vis() {        
+        document.getElementById('Sres_view').setAttribute('style', 'display : block');
+      }
+
+      function iframe2_dis() {        
+        document.getElementById('Sres_view').setAttribute('style', 'display : none');
+      }
+
 
       function footbar_vis() {        
         document.getElementById('footbar').setAttribute('style', 'display : flex');
@@ -140,30 +148,16 @@
           <textarea class="autosize" id="main_input" placeholder="Search a Sentence" required onclick="resize(this); footbar_dis();" onkeydown="resize(this)" onkeyup="resize(this);"></textarea>
           <a href="javascript:clear_input();"><i class="fa-solid fa-xmark text_red"></i></a>          
         </div>
-        <div class="searchbar_items" onclick="footbar_vis();">
-          <i class="fa-solid fa-play text_red" onclick="tts();"></i>
+        <div class="searchbar_items" onclick="footbar_vis();">          
           <a id="link_yarn" href="https://getyarn.io/" target="_blank"><img src="/images/icon_yarn.webp" width="30" height="30" class="border-round" /></a>
           <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img src="/images/icon_youglish.jpg" width="60" height="30" class="border-round" /></a>
           <a id="link_google" href="https://www.google.com/" target="_blank"><img src="/images/icon_google.png" width="30" height="30" class="border-round" /></a>
+          <i class="fa-solid fa-play text_red" onclick="tts();"></i>
         </div>        
       </div>
       
       <div class="searchResult" onclick="footbar_vis();">        
-        <iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" ></iframe>
-        <ul>
-          <li class="Sres_ENG" >
-            <p id="Sres_ENG" class="ft8"> </p>
-          </li>
-          <li class="Sres_KOR">
-            <p> <span class="ft8" id="Sres_KOR"></span></p>
-          </li>
-          <li class="Sres_WORD">
-            <p id="Sres_WORD" class="ft8"> </p>
-          </li>
-          <li class="Sres_option">            
-          </li>          
-        </ul>
-      
+        <iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" src="/html/Sres_view.html"></iframe>              
       </div>
       
     <!-- mainbox2 -->
@@ -172,8 +166,8 @@
 <!-- post test -->
         
         <div id="test_place">
-          <button onclick="Cambrg_search('line');"> cambrg </button>
-          <button onclick="test();"> test </button>
+          <!-- <button onclick="Cambrg_search('line');"> cambrg </button> -->
+          <!-- <button onclick="test();"> test </button> -->
         </div>
       </div>
     </div>
@@ -216,8 +210,8 @@
       Search_Input = Search_DOC.querySelector("textarea");
 
       // const Set_TEXT = document.getElementById("Sres_ENG");
-      const Set_TEXT = document.getElementById("Sres_ENG");
-
+      // const Set_TEXT = document.getElementById("Sres_ENG");
+      
       // const function
       
 
@@ -243,11 +237,13 @@
         }        
         
       Search_Input.addEventListener("keyup", e => {
-        if(e.key === "Enter" && e.target.value) {                    
+        if(e.key === "Enter" && e.target.value.replace(/ /gi,'').replace(/\n/gi,'')) {                    
           var engs_org = e.target.value.replace(/\n$/,'');
-          var engs_spl = e.target.value.replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');          
+          var engs_spl = e.target.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');          
+          console.log(engs_spl);
           engs_res = '';          
-          Set_TEXT.innerHTML = '';          
+          var Sres_view_html = document.getElementById('Sres_view').contentWindow.document;          
+          Sres_view_html.getElementById('Sres_ENG').innerHTML = '';
 
           // var url = Array.from({length : engs_spl.length}, (_) => ('https://api.dictionaryapi.dev/api/v2/entries/en/'));
           // for (let word of engs_spl){
@@ -258,51 +254,35 @@
           /* async-await 함수 순차적 실행 */
           async function TEST_add(engs_spl){
             for (let words of engs_spl){            
-              var url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + words.replace(/\s/g, '').replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,'');        
-              console.log(url);
-              await fetch(url).then((response)=>{
-                console.log(response);
-                if (response.status === 404) {
-                  throw new Error('Not Found');
-                } else {
-                  return response.json();
+              if (words === '___') {
+                engs_res += `<br>`;
+              } else {
+                var url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + words.replace(/\s/g, '').replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,'');                      
+                console.log(url);
+                await fetch(url).then((response)=>{
+                  console.log(response);
+                  if (response.status === 404) {
+                    throw new Error('Not Found');
+                  } else {
+                    return response.json();
+                  }
+                })
+                .then((result)=>data(result))
+                .catch((error)=>data2());
+                function data(result){                
+                  engs_res += `<a href="#" onclick="parent.Cambrg_search('${words}');" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="
+                    [${result[0].phonetics[0].text}] ${result[0].meanings[0].definitions[0].definition}">${words}</a> `;
                 }
-              })
-              .then((result)=>data(result))
-              .catch((error)=>data2());
-              function data(result){
-                // console.log('word ; ' + words + '/ meaning : ' + result[0].meanings[0].definitions[0].definition);                
-                // document.getElementById('Sres_WORD').innerHTML += `<span class="ft4">${result[0].meanings[0].definitions[0].definition} ${result[0].phonetics[0].text}</span> \n`;                            
-                engs_res += `<a href="#" onclick="Cambrg_search('${words}');" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="
-                  [${result[0].phonetics[0].text}] ${result[0].meanings[0].definitions[0].definition}">${words}</a> `;
-              }
-              function data2(){
-                console.log('err');
-                document.getElementById('Sres_WORD').innerHTML += `<span class="ft4"> error </span> \n`;                            
-                engs_res += `<a href="#" onclick="Cambrg_search('${words}');" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="none of search results">${words}</a> `;
-              }
-            }
-            Set_TEXT.innerHTML += engs_res;
+                function data2(){
+                  console.log('err');                
+                  engs_res += `<a href="#" onclick="parent.Cambrg_search('${words}');" title="${words}" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="none of search results">${words}</a> `;
+                }
+              }              
+            }                     
+            Sres_view_html.getElementById('Sres_ENG').innerHTML += engs_res;
             re_popup();             
-          }
-          /* */
-
-
-          // const promises = url.map(async data => await fetch(data).then((response)=>{
-          //   console.log(response);
-          //   if (response.status === 404) {
-          //     throw new Error('Not Found');
-          //   } else {
-          //     return response.json();
-          //   }
-          // })
-          // .then((result)=>html_res.push(result))
-          // .catch((error)=>html_res.push('none of data')));
-
-          // await Promise.all(promises);
-          // console.log(html_res);
-      
-                 
+            iframe2_vis();
+          }      
           
           TEST_add(engs_spl);
           test2(engs_org);
@@ -413,10 +393,8 @@
 
   <!-- 상단 iframe 쓰기 -->
     <script>
-      function result_view_html(data){     
-        console.log('rvh start');
-        iframe1_vis();                
-        console.log('-----hi' + data.length);                
+      function result_view_html(data){             
+        iframe1_vis();                                   
         var wordhead = '';
         var meanings = '';
         
