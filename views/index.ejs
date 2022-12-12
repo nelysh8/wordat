@@ -395,8 +395,7 @@
         //   console.log(response.json());
         // });
         document.getElementById('result_view').src= '/html/cambrg.html';
-        iframe1_vis();
-        click_fadein(document.getElementById('result_contents'));
+        
 
         var word = {word : word};
         await fetch("/websearch_cambrg", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>{
@@ -424,7 +423,9 @@
     <script>
       function result_view_html(data){                     
         var doc = document.getElementById('result_view').contentWindow.document;
-        
+        iframe1_vis();
+        click_fadein(document.getElementById('result_contents'));
+
         var wordhead = '';
         var meanings = '';
         
