@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
     <link rel="stylesheet" href="/stylesheets/style.css">        
 
@@ -47,33 +49,24 @@
         }
       }
 
-      function trans_papago(SENTC){
-        let TEXT = {word : SENTC};        
-        let TEXT_JSON = JSON.stringify(TEXT);
-        console.log(TEXT);
-        console.log(JSON.stringify(TEXT));
-        fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));                
-
-        function data(result){          
-          let B = JSON.stringify(result);
-          var Sres_view_html = document.getElementById('Sres_view').contentWindow.document;          
-          var tmp = Sres_view_html.getElementById("Sres_KOR");
-          function addtext(){
-            tmp.innerText = result.message.result.translatedText;
-          }
-          addtext();
-        }
-      }
+      
 
       
 
   //  html 내부 정리함수
 
-      function clear_input(){        
+      function sleep(sec) {
+        return new Promise(resolve => setTimeout(resolve, sec * 1000));
+      } 
+
+      async function clear_input(){        
         document.getElementById("main_input").value="";
-        iframe1_dis();
-        iframe2_dis();
+        click_fadeout(document.getElementById('result_contents'));
+        click_fadeout(document.getElementById('Sres_view'));
         resize(document.getElementById("main_input"));                
+        await sleep(1);
+        iframe1_dis();
+        iframe2_dis();        
       }
 
       function resize(obj) {        
@@ -81,19 +74,32 @@
         obj.style.height = ((obj.scrollHeight/10)+0.5)+"rem";
       }
 
-      function iframe1_vis() {        
+      async function click_fadein(obj) {        
+        console.log('fadein detected : '+ obj.id);
+        obj.classList.toggle('animate__fadeIn');      
+        await sleep(1); 
+        obj.classList.toggle('animate__fadeIn');
+      }        
+
+      async function click_fadeout(obj) {        
+        obj.classList.toggle('animate__fadeOut');      
+        await sleep(1); 
+        obj.classList.toggle('animate__fadeOut');
+      }        
+
+      function iframe1_vis() {                        
         document.getElementById('result_view').setAttribute('style', 'display : block');
       }
 
-      function iframe1_dis() {        
+      function iframe1_dis() {                
         document.getElementById('result_view').setAttribute('style', 'display : none');
       }
 
-      function iframe2_vis() {        
+      function iframe2_vis() {                        
         document.getElementById('Sres_view').setAttribute('style', 'display : block');
       }
 
-      function iframe2_dis() {        
+      function iframe2_dis() {                
         document.getElementById('Sres_view').setAttribute('style', 'display : none');
       }
 
@@ -146,22 +152,22 @@
 
     <div class="container mainbox_center">
 
-      <div class="result_contents" onclick="footbar_vis();">
-        <iframe class="result_view" name="result_view" id="result_view" src="/html/cambrg.html" style="display: none">
+      <div class="result_contents animate__animated" id="result_contents" onclick="footbar_vis();">
+        <iframe class="result_view " name="result_view" id="result_view" src="/html/result_view.html" style="display: block">
         </iframe>                  
       </div>        
     
       <div class="searchbar">
         <div class="searchbar_main">
-          <textarea class="autosize ft8" id="main_input" placeholder="Search a Sentence" required onclick="resize(this); footbar_dis();" onkeydown="resize(this)" onkeyup="resize(this);"></textarea>
-          <a href="javascript:clear_input();"><i class="fa-solid fa-xmark text_red"></i></a>          
+          <textarea class="autosize ft8" id="main_input" placeholder="Search a Sentence" required onclick="resize(this); footbar_dis();" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+          <a href="javascript:clear_input();"><i class="fa-solid fa-xmark text_red animate__animated" onclick="click_fadein(this);"></i></a>          
         </div>
         <div class="searchbar_items" onclick="footbar_vis();">          
-          <a id="link_yarn" href="https://getyarn.io/" target="_blank"><img src="/images/icon_yarn.webp" width="30" height="30" class="border-round" /></a>
-          <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img src="/images/icon_youglish.jpg" width="60" height="30" class="border-round" /></a>
-          <a id="link_google" href="https://www.google.com/" target="_blank"><img src="/images/icon_google.png" width="30" height="30" class="border-round" /></a>
-          <i class="fa-solid fa-play text_red" onclick="tts();"></i>          
-          <i class="fa-solid fa-square-plus text_red" data-bs-toggle="modal" data-bs-target="#myModal_example" onclick="add_click();"></i>
+          <a id="link_yarn" href="https://getyarn.io/" target="_blank"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
+          <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
+          <a id="link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>
+          <i class="fa-solid fa-play text_red animate__animated" onclick="click_fadein(this); tts();"></i>          
+          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#myModal_example" onclick="click_fadein(this); add_click();"></i>
           <!-- <button class="btn-modal btn btn-danger bg-gradient" data-bs-toggle="modal" data-bs-target="#myModal_example" onclick="add_click();"> + </button>                          -->
             <div id="myModal_example" class="modal fade" role="dialog">
               <div class="modal-dialog modal-dialog-centered">
@@ -189,12 +195,6 @@
                 </div>
               </div>
             </div>
-              
-              
-            
-
-
-
         </div>
       </div>        
     
@@ -203,9 +203,12 @@
 
       
       <div class="searchResult" onclick="footbar_vis();">        
-        <iframe class="Sres_view" name="Sres_view" id="Sres_view" style="display: block" src="/html/Sres_view.html"></iframe>              
+        <iframe class="Sres_view animate__animated" name="Sres_view" id="Sres_view" style="display: none" src="/html/Sres_view.html"></iframe>              
       </div>
-    
+      <div >
+        <div class="animate__animated animate__tada animate__delay-2s"> </div>     
+        <!-- animate__heartBeat -->
+      </div>
       
     <!-- mainbox2 -->
 
@@ -297,12 +300,13 @@
               if (words === '___') {
                 engs_res += `<br>`;
               } else {                                
-                engs_res += `<a href="#" onclick="parent.Cambrg_search('${words}');">${words}</a> `;
+                engs_res += `<a href="#" onclick="parent.Cambrg_search('${words}'); ">${words}</a> `;
               }              
             }
 
             Sres_view_html.getElementById('Sres_ENG').innerHTML += engs_res;
             re_popup();             
+            click_fadein(document.getElementById('Sres_view'));        
             iframe2_vis();
           }      
           
@@ -390,6 +394,10 @@
         // fetch("/websearch_cambrg", {method : 'post'}).then((response)=>{
         //   console.log(response.json());
         // });
+        document.getElementById('result_view').src= '/html/cambrg.html';
+        iframe1_vis();
+        click_fadein(document.getElementById('result_contents'));
+
         var word = {word : word};
         await fetch("/websearch_cambrg", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>{
           console.log(response);
@@ -403,8 +411,7 @@
         .catch((error)=>data2());
         
         function data(result){          
-          console.log('cambrg 2');
-          console.log(result);
+          console.log('cambrg 2');           
           result_view_html(result);
         }
         function data2(){
@@ -415,14 +422,14 @@
 
   <!-- 상단 iframe 쓰기 -->
     <script>
-      function result_view_html(data){             
-        iframe1_vis();                                   
+      function result_view_html(data){                     
+        var doc = document.getElementById('result_view').contentWindow.document;
+        
         var wordhead = '';
         var meanings = '';
         
         let i = 0;
-        var doc = document.getElementById('result_view').contentWindow.document;
-
+        
         for (let head of data) {
           wordhead += `<div id="wordhead" class="wordhead"> 
             <div class="word">
@@ -464,14 +471,16 @@
               wordhead += `</div>`;
             }
           i += 1;               
-        }
-        console.log(wordhead);
-        doc.getElementById('contents').innerHTML = wordhead;
+        }       
 
+        
+        doc.getElementById('contents').innerHTML = wordhead;                                
 
-        // }
-      // }
-        }
+        
+        
+        
+        
+      }
 
         //     meanings += `<div class="examples">
         //             <ul>`;
@@ -509,6 +518,28 @@
         //   </audio> 
         //   <br>` + meanings ;
         
+    </script>
+
+<!-- papago translation -->
+    <script>
+      function trans_papago(SENTC){
+        let TEXT = {word : SENTC};        
+        let TEXT_JSON = JSON.stringify(TEXT);
+        console.log(TEXT);
+        console.log(JSON.stringify(TEXT));
+        fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));                
+
+        function data(result){          
+          let B = JSON.stringify(result);
+          var Sres_view_html = document.getElementById('Sres_view').contentWindow.document;          
+          var tmp = Sres_view_html.getElementById("Sres_KOR");
+          function addtext(){
+            tmp.innerText = result.message.result.translatedText;
+          }
+          addtext();
+        }                                       
+        iframe2_vis();
+      }
     </script>
     
     

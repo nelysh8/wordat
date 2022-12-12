@@ -496,3 +496,13 @@ ul {
 .border-round {
   border-radius : 7px;
 }
+
+/* blank sheet */
+.blank_sheet {
+    height : 100%;
+    padding : auto;
+    padding-top : 40%;
+    padding-bottom : 40%;
+    margin : auto;
+    vertical-align: middle;
+}
