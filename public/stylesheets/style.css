@@ -393,6 +393,12 @@ ul {
     vertical-align: middle;
 }
 
+.searchbar_items .tts {
+    margin : 0 0.8rem 0 0.8rem;    
+    align-content:center;
+    vertical-align: middle;
+}
+
 
         /* 2. 2. 3. searchresult view */
 .Sres_view {    
@@ -415,9 +421,9 @@ ul {
 
 
 .searchResult ul {    
-    width : 75%;    
-    margin : auto;
+    width : 90%;        
     margin-left : 1rem;
+    margin-right : 1rem;
     text-align : left;
     vertical-align: middle;
     padding : 0;

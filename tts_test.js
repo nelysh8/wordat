@@ -14,7 +14,8 @@ async function quickStart() {
   const request = {
     input: {text: text},
     // Select the language and SSML voice gender (optional)
-    voice: {languageCode: 'en-US', ssmlGender: 'NEUTRAL'},
+    voice: {languageCode: 'en-GB',name:'en-GB-Standard-A',ssmlGender: 'FEMALE'},
+    // voice: {languageCode: 'en-US', ssmlGender: 'FEMALE'},
     // select the type of audio encoding
     audioConfig: {audioEncoding: 'MP3'},
   };

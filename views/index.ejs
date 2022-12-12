@@ -172,7 +172,8 @@
           <a id="link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
           <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
           <a id="link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>
-          <i class="fa-solid fa-play text_red animate__animated" onclick="click_fadein(this); tts();"></i>          
+          <i class="tts fa-solid fa-forward text_red animate__animated" onclick="click_fadein(this); tts(1);"></i>          
+          <i class="tts fa-solid fa-play text_green animate__animated" onclick="click_fadein(this); tts(0.5);"></i>          
           <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#myModal_example" onclick="click_fadein(this); add_click();"></i>
           <!-- <button class="btn-modal btn btn-danger bg-gradient" data-bs-toggle="modal" data-bs-target="#myModal_example" onclick="add_click();"> + </button>                          -->
             <div id="myModal_example" class="modal fade" role="dialog">
@@ -332,15 +333,17 @@
 // 외부용
 // api key : AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM
 //https://texttospeech.googleapis.com/v1/text:synthesize
+// 음성 config https://cloud.google.com/text-to-speech/docs/reference/rest/v1/text/synthesize#audioconfig
+// 합성 음성 https://cloud.google.com/text-to-speech/docs/create-audio
 
-  function tts(){
+  function tts(speed){
     
     var sentence = document.getElementById('main_input').value;     
     
     console.log(sentence);  
     
     
-    fetch('https://texttospeech.googleapis.com/v1/text:synthesize', {        
+    fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
         method: 'POST',
         headers: {
             'X-Goog-Api-Key': 'AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM',
@@ -348,7 +351,8 @@
         },
         body: JSON.stringify({
           'input' : {'text' : sentence},
-          'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'NEUTRAL'},
+          'voice' : {'languageCode' : 'en-US' , 'name' : 'en-US-Neural2-C', 'ssmlGender' : 'FEMALE'},
+          // 'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'FEMALE'},
           'audioConfig': {'audioEncoding': 'MP3' },        
         }),
       })
@@ -357,7 +361,10 @@
     function data(result){      
       console.log(result);      
       // console.log(JSON.stringify(result.audioContent.data));
-      new Audio(`data:audio/mp3;base64,${result.audioContent}`).play().then(()=>{        
+      var Sound = new Audio(`data:audio/mp3;base64,${result.audioContent}`);
+      Sound.playbackRate = speed;
+      Sound.play().then(()=>{        
+      // new Audio(`data:audio/mp3;base64,${result.audioContent}`).play().then(()=>{        
         console.log('sound ok');
       })
       .catch(error => {
