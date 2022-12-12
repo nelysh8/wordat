@@ -30,14 +30,17 @@ router.get('/:list_name/:word_ID', function (req, res, next) {
 
 
 router.post('/add/:list_name', function (req, res, next) {
+    console.log('add_word detecte');
     var list_name = req.params.list_name;
     var word_english = req.body.word_english;
     var word_korean = req.body.word_korean;
     var data = [word_english, word_korean];
+    console.log(list_name + ' ---- ' + data);
+    
     var sql = "INSERT INTO " + list_name + " (ENG, KOR, SAVEDATE, LOADDATE) VALUE (?,?,now(), now())";
     conn.query(sql, data, function(err, results){
         if (err) console.err("err:" + err);
-        res.redirect('/word_manage/' + list_name);
+        // res.redirect('/word_manage/' + list_name);
     });
 });
 

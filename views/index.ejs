@@ -66,7 +66,13 @@
         resize(document.getElementById("main_input"));                
         await sleep(1);
         iframe1_dis();
-        iframe2_dis();        
+        iframe2_dis();    
+        var doc = document.getElementById('result_view').contentWindow.document;
+        doc.getElementById('body_contents').innerHTML = `<div class="blank_sheet">
+        <div class="animate__animated animate__slideInDown text_center"><span class="ft3 ftbb"> What's difference? </span> </div>
+      </div>`;
+        click_fadein(document.getElementById('result_contents'));
+        iframe1_vis();    
       }
 
       function resize(obj) {        
@@ -163,7 +169,7 @@
           <a href="javascript:clear_input();"><i class="fa-solid fa-xmark text_red animate__animated" onclick="click_fadein(this);"></i></a>          
         </div>
         <div class="searchbar_items" onclick="footbar_vis();">          
-          <a id="link_yarn" href="https://getyarn.io/" target="_blank"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
+          <a id="link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
           <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
           <a id="link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>
           <i class="fa-solid fa-play text_red animate__animated" onclick="click_fadein(this); tts();"></i>          
@@ -176,31 +182,30 @@
                     <span class="ft5 ftbb"> Add words to the wordbook </span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>                  
-                  <form action="/word_manage/example/내단어장" method="post"></form>
+                  <form action="/word_manage/add/내단어장" method="post">
                     <div class="modal-body">                                          
                       <div class="input-group mb-3">
                         <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
-                        <input type="text" name="example_eng" class="form-control ft8" placeholder="Input a English Sentence" id="edit_eng" aria-label="Username" aria-describedby="basic-addon1" > 
+                        <input type="text" name="word_english" class="form-control ft8" placeholder="Input a English Sentence" id="edit_eng" aria-label="Username" aria-describedby="basic-addon1" > 
                       </div>
                       <div class="input-group mb-3">
                         <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
-                        <input type="text" name="example_kor" class="form-control ft8" placeholder="Input it's meaning" id="edit_kor" aria-label="Username" aria-describedby="basic-addon1">
-                      </div>
-                    </div>                    
-                    <div class="modal-footer">                        
-                      <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal"> ADD </button>
-                      <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
-                    </div>                    
-                  </form>                  
-                </div>
+                        <input type="text" name="word_korean" class="form-control ft8" placeholder="Input it's meaning" id="edit_kor" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>                                      
+                      <div class="modal-footer">                        
+                        <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal"> ADD </button>
+                        <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+                      </div>                    
+                    </div>
+                  </form> 
               </div>
             </div>
         </div>
+      
+      
       </div>        
     
-          
-          
-
+      
       
       <div class="searchResult" onclick="footbar_vis();">        
         <iframe class="Sres_view animate__animated" name="Sres_view" id="Sres_view" style="display: none" src="/html/Sres_view.html"></iframe>              
@@ -482,7 +487,9 @@
         }       
         
         doc.getElementById('body_contents').innerHTML = topbody + wordhead + `</div>`;
-
+        let script = doc.createElement('script');
+        script.src='/javascripts/cambrg.js';
+        doc.body.appendChild(script);
         
       }
 
