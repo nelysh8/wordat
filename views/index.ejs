@@ -426,6 +426,13 @@
         iframe1_vis();
         click_fadein(document.getElementById('result_contents'));
 
+        var topbody = `
+        <div class="navline">
+            <a href="https://dictionary.cambridge.org/dictionary/english-korean/" target="_blank"><img src="/images/cambrg_logo.png"></a>
+            <input type="text" class="nav_input" placeholder="Search a word" required inputmode="search"></input>
+        </div>
+        <div id="contents" class="contents">`;
+
         var wordhead = '';
         var meanings = '';
         
@@ -473,13 +480,9 @@
             }
           i += 1;               
         }       
+        
+        doc.getElementById('body_contents').innerHTML = topbody + wordhead + `</div>`;
 
-        
-        doc.getElementById('contents').innerHTML = wordhead;                                
-
-        
-        
-        
         
       }
 

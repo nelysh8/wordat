@@ -9,23 +9,50 @@
 
     <link rel="stylesheet" href="/stylesheets/style.css">        
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>        
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/ac68d7a452.js" crossorigin="anonymous"></script>
     
     <script src="/javascripts/cambrg.js"></script>
+
+    
+
   </head>
 
-  <body>
-    <div class="iframe_body">
+  <body>   
+    <div class="iframe_body" id="body_contents">
+      <div class="blank_sheet">
+        <div class="animate__animated animate__slideInDown"><span class="ft3 ftbb"> What's difference? </span> </div>
+      </div>
+    </div>
+    
+    <script>
+      const Search_cambrg = document.querySelector(".navline");
+      Search_Input_cambrg = Search_cambrg.querySelector(".nav_input");
+      Search_Input_cambrg.addEventListener("keyup", e => {
+        if (e.key === "Enter" && e.target.value){        
+          var url = "https://dictionary.cambridge.org/dictionary/english-korean/" + e.target.value.trim();
+          window.open(url, '_blank');
+        }
+        if (e.keyCode === 61 && e.target.value){        
+          var url = "https://dictionary.cambridge.org/dictionary/english-korean/" + e.target.value.trim();
+          window.open(url, '_blank');
+        }
+      });
+    </script>
+  </body>
+
+</html>
+
+
+<!-- <div class="iframe_body">
         <div class="navline">
             <a href="https://dictionary.cambridge.org/dictionary/english-korean/" target="_blank"><img src="/images/cambrg_logo.png"></a>
             <input type="text" class="nav_input" placeholder="Search a word" required inputmode="search"></input>
         </div>
-        <div id="contents" class="contents">
-          <h1> Loading </h1>
-
-
+        <div id="contents" class="contents"> -->
           <!-- <div id="wordhead" class="wordhead">      
               <div class="word">
                   <span id="word">  </span>
@@ -54,24 +81,5 @@
                   </div>
               </div>
           </div> -->
-        </div>
-    </div>
-    <script>
-      const Search_cambrg = document.querySelector(".navline");
-      Search_Input_cambrg = Search_cambrg.querySelector(".nav_input");
-      Search_Input_cambrg.addEventListener("keyup", e => {
-        if (e.key === "Enter" && e.target.value){        
-          var url = "https://dictionary.cambridge.org/dictionary/english-korean/" + e.target.value.trim();
-          window.open(url, '_blank');
-        }
-        if (e.keyCode === 61 && e.target.value){        
-          var url = "https://dictionary.cambridge.org/dictionary/english-korean/" + e.target.value.trim();
-          window.open(url, '_blank');
-        }
-      });
-    </script>
-
-
-  </body>
-
-</html>
+        <!-- </div>
+      </div>     -->
