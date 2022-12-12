@@ -81,9 +81,24 @@ ul {
 .text_red {
     color : firebrick;
 }
+
+.text_cornsilk {
+    color: cornsilk;
+}
+
 .text_green {
     color : darkgreen;
 }
+
+/* background color */
+.bg_firebrick {
+    background-color: firebrick;
+}
+
+.bg_cornsilk {
+    background-color: cornsilk;
+}
+
 
 
 /* 0. iframe html */
@@ -309,7 +324,7 @@ ul {
 }
 
 .searchbar textarea {
-    height : 3rem;
+    height : 3.6rem;
     /* ((scrollHeight/10)+0.4)rem; */
     width: 88%;
     border-radius: 5px ;
