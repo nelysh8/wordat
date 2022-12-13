@@ -38,16 +38,16 @@
 
     <div class="container mainbox_center">
       <div id="Upper_search_container">
-        <div id="Upper_carousel" class="carousel slide bg-info" data-bs-ride="true">          
+        <div id="Upper_carousel" class="carousel slide bg-info" data-bs-touch="false">          
           <div class="carousel-inner">
             <!-- First slide -->
             <div class="carousel-item active"> 
               <div class="blank_sheet">
-                <span class="ft3 ftbb"> What's difference? </span>
+                <div class="text_middle"><span class="ft3 ftbb"> What's difference? </span></div>
               </div>
             </div>
             <!-- Second slide -->            
-            <div class="carousel-item">
+            <div class="carousel-item" id="body_contents">
               
             </div>
             <!-- Third Slide -->
@@ -343,9 +343,10 @@
   <!-- 상단 iframe 쓰기 -->
     <script>
       function result_view_html(data){                     
-        var doc = document.getElementById('result_view').contentWindow.document;
-        iframe1_vis();
-        click_fadein(document.getElementById('result_contents'));
+        var doc = document.getElementById('body_contents');
+        console.log(doc.innerHTML);
+        // iframe1_vis();
+        // click_fadein(document.getElementById('result_contents'));
 
         var topbody = `
         <div class="navline">
@@ -402,7 +403,7 @@
           i += 1;               
         }       
         
-        doc.getElementById('body_contents').innerHTML = topbody + wordhead + `</div>`;
+        doc.innerHTML = topbody + wordhead + `</div>`;
         let script = doc.createElement('script');
         script.src='/javascripts/cambrg.js';
         doc.body.appendChild(script);
