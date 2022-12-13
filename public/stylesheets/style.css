@@ -280,6 +280,33 @@ ul {
     padding : 0;
 }    
 
+    #Upper_search_container{
+        display : block;
+        height : 33rem;
+        align-content:center;
+        align-items: center;
+        text-align: center;
+        vertical-align: middle;
+        border-radius : 7px;    
+        margin-bottom : 2rem;    
+    }
+      #Upper_carousel{
+          width : 100%;
+          height: 90%;
+      }
+        #Upper_carousel .carousel-inner {
+            width : 100%;
+            height : 100%;
+        }
+          #Upper_carousel .carousel-inner .carousel-item{
+              width : 100%;
+              height : 100%;
+          }
+            #Upper_carousel .carousel-inner .carousel-item .blank_sheet {
+              height : 100%;    
+              margin : auto;    
+              text-align: center;
+            }
     /* 2. 1-2. primary box */
 
 .result_contents {
@@ -302,6 +329,16 @@ ul {
     border-radius : 7px;    
     margin-bottom : 2rem;
 }
+
+    .searchbar i {        
+        font-size : 25px;
+        margin-left: auto;        
+        margin-right: auto;        
+        margin-bottom : 1rem;
+        padding : 0.5rem;    
+        z-index : 0;
+    }
+
 
 .searchResult {
     display : block;        
@@ -337,30 +374,33 @@ ul {
     vertical-align: middle;
 }
 
-.searchbar textarea {
+
+#main_input {    
+    position : relative;
     height : 3.6rem;
     /* ((scrollHeight/10)+0.4)rem; */
-    width: 88%;
+    width: 100%;
     border-radius: 5px ;
     border : 1px solid #999;
-    outline : none; 
-    margin-left: auto;        
-    margin-right: auto;        
-    margin-bottom : 1rem;
-    padding : 0.5rem;
+    outline : none;     
+    padding : 0.5rem;    
 }
 
-.searchbar textarea:focus {
+#main_input:focus {
     border: 2px solid firebrick;
 }
 
-.searchbar i {
+#main_input_icon_x {
+    position : absolute;
+    left : 3rem;
     font-size : 25px;
     margin-left: auto;        
     margin-right: auto;        
     margin-bottom : 1rem;
-    padding : 0.5rem;
+    padding : 0.5rem;    
+    z-index : 0;
 }
+
 
             /* 2. 2. 2. 1. searchbar_items */
 
@@ -527,12 +567,4 @@ ul {
   border-radius : 7px;
 }
 
-/* blank sheet */
-.blank_sheet {
-    height : 100%;
-    padding : auto;
-    padding-top : 40%;
-    padding-bottom : 40%;
-    margin : auto;
-    vertical-align: middle;
-}
+

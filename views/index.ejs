@@ -7,136 +7,16 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap" rel="stylesheet">    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-
-    <link rel="stylesheet" href="/stylesheets/style.css">        
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>        
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/ac68d7a452.js" crossorigin="anonymous"></script>    
 
-    <!-- my script -->
-
-    <script>    
-
-    // main
-      let i = 0;
-      function test(){        
-        fetch("/", {method : 'post'}).then((response)=>{
-          console.log(response.json());
-        });
-        fetch("/", {method : 'post'}).then((response)=>response.json()).then((result)=>data(result));
-            // return a.blog;
-          //   return a;
-          // });                
-        function data(result){                    
-          console.log(result[0]);
-          const tmp = document.getElementById("test_place");          
-          function addtext(){
-            tmp.innerText += `\n제목${i}`;
-            var engs = result[i].ENG.split(' ');
-            tmp.innerText += `\n${result[i].ENG}`;
-            tmp.innerText += `\n${engs}`;
-            tmp.innerText += `\n${engs.length}`;
-            for (let words of engs) {
-              tmp.innerText += `\n${words}`;
-            }
-            tmp.innerText += `\n${result[i++].KOR}`; 
-          }          
-          addtext();
-        }
-      }
-
-      
-
-      
-
-  //  html 내부 정리함수
-
-      function sleep(sec) {
-        return new Promise(resolve => setTimeout(resolve, sec * 1000));
-      } 
-
-      async function clear_input(){        
-        document.getElementById("main_input").value="";
-        click_fadeout(document.getElementById('result_contents'));
-        click_fadeout(document.getElementById('Sres_view'));
-        resize(document.getElementById("main_input"));                
-        await sleep(1);
-        iframe1_dis();
-        iframe2_dis();    
-        var doc = document.getElementById('result_view').contentWindow.document;
-        doc.getElementById('body_contents').innerHTML = `<div class="blank_sheet">
-        <div class="animate__animated animate__slideInDown text_center"><span class="ft3 ftbb"> What's difference? </span> </div>
-      </div>`;
-        click_fadein(document.getElementById('result_contents'));
-        iframe1_vis();    
-      }
-
-      function resize(obj) {        
-        obj.style.height = "1px";
-        obj.style.height = ((obj.scrollHeight/10)+0.5)+"rem";
-      }
-
-      async function click_fadein(obj) {        
-        console.log('fadein detected : '+ obj.id);
-        obj.classList.toggle('animate__fadeIn');      
-        await sleep(1); 
-        obj.classList.toggle('animate__fadeIn');
-      }        
-
-      async function click_fadeout(obj) {        
-        obj.classList.toggle('animate__fadeOut');      
-        await sleep(1); 
-        obj.classList.toggle('animate__fadeOut');
-      }        
-
-      function iframe1_vis() {                        
-        document.getElementById('result_view').setAttribute('style', 'display : block');
-      }
-
-      function iframe1_dis() {                
-        document.getElementById('result_view').setAttribute('style', 'display : none');
-      }
-
-      function iframe2_vis() {                        
-        document.getElementById('Sres_view').setAttribute('style', 'display : block');
-      }
-
-      function iframe2_dis() {                
-        document.getElementById('Sres_view').setAttribute('style', 'display : none');
-      }
-
-
-      function footbar_vis() {        
-        document.getElementById('footbar').setAttribute('style', 'display : flex');
-      }      
-
-      window.onload = function() {
-        var oFrame = document.getElementById("Sres_view");
-        oFrame.contentWindow.document.onclick = function() {
-          document.getElementById('footbar').setAttribute('style', 'display : flex');
-        };
-      };
-
-      function footbar_dis() {        
-        document.getElementById('footbar').setAttribute('style', 'display : none');
-      }
-
-      function add_click() {
-        var engs = document.getElementById('main_input').value.replace(/\n$/,'');
-        var Sres_view_html = document.getElementById('Sres_view').contentWindow.document;          
-        document.getElementById("edit_eng").value = engs;
-        if (Sres_view_html.getElementById('Sres_KOR').innerText === "") {          
-        } else {
-          document.getElementById("edit_kor").value=Sres_view_html.getElementById('Sres_KOR').innerText;
-        }
-      }
-
-
-    </script>
+    <link rel="stylesheet" href="/stylesheets/style.css">        
+    <script src="/javascripts/index_basic.js"></script>
+    
   </head>
 
   <body>
@@ -157,16 +37,45 @@
     <!-- mainbox 1 -->
 
     <div class="container mainbox_center">
+      <div id="Upper_search_container">
+        <div id="Upper_carousel" class="carousel slide bg-info" data-bs-ride="true">          
+          <div class="carousel-inner">
+            <!-- First slide -->
+            <div class="carousel-item active"> 
+              <div class="blank_sheet">
+                <span class="ft3 ftbb"> What's difference? </span>
+              </div>
+            </div>
+            <!-- Second slide -->            
+            <div class="carousel-item">
+              
+            </div>
+            <!-- Third Slide -->
+            <div class="carousel-item">
+              
+            </div>
+          </div>
+          <!-- <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div> -->
+          <button class="carousel-control-prev bg-danger" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next bg-danger" type="button" data-bs-target="#Upper_carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
 
-      <div class="result_contents animate__animated" id="result_contents" onclick="footbar_vis();">
-        <iframe class="result_view " name="result_view" id="result_view" src="/html/cambrg.html" style="display: block">
-        </iframe>                  
-      </div>        
     
       <div class="searchbar">
         <div class="searchbar_main">
           <textarea class="autosize ft8" id="main_input" placeholder="Search a Sentence" required onclick="resize(this); footbar_dis();" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
-          <a href="javascript:clear_input();"><i class="fa-solid fa-xmark text_red animate__animated" onclick="click_fadein(this);"></i></a>          
+          <a href="javascript:clear_input();" id="main_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated" onclick="click_fadein(this);"></i></a>
         </div>
         <div class="searchbar_items" onclick="footbar_vis();">          
           <a id="link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
