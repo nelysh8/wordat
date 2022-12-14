@@ -22,7 +22,7 @@
   <body>
     <!-- nav bar -->
 
-    <div class="navbar shadow">
+    <div class="navbar shadow-sm">
 
       <div class="navbar_logo">
         <i class="fa-solid fa-tree text_green ft5 ftbb"></i>
@@ -37,17 +37,17 @@
     <!-- mainbox 1 -->
 
     <div class="container-fluid mainbox_center">
-      <div id="Upper_search_container" class="shadow">
-        <div id="Upper_carousel" class="carousel slide bg_cornsilk" data-bs-touch="false">          
+      <div id="Upper_search_container" class="shadow-sm">
+        <div id="Upper_carousel" class="carousel slide bg_cornsilk" data-bs-touch="true">          
           <div class="carousel-inner">
             <!-- First slide -->
-            <div class="carousel-item "> 
+            <div class="carousel-item active"> 
               <div class="blank_sheet">
                 <div class="text_middle"><span class="ft3 ftbb"> What's difference? </span></div>
               </div>
             </div>
             <!-- Second slide -->            
-            <div class="carousel-item active" id="body_contents">
+            <div class="carousel-item" id="body_contents">
               
             </div>
             <!-- Third Slide -->
@@ -73,11 +73,11 @@
 
     
       <div class="searchbar">
-        <div class="searchbar_main  shadow">
+        <div class="searchbar_main  shadow-sm">
           <textarea class="autosize ft8" id="main_input" placeholder="Search a Sentence" required onclick="resize(this); footbar_dis();" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
           <a href="javascript:clear_input();" id="main_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated" onclick="click_fadein(this);"></i></a>
         </div>
-        <div class="searchbar_items shadow" onclick="footbar_vis();">          
+        <div class="searchbar_items shadow-sm" onclick="footbar_vis();">          
           <a id="link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
           <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
           <a id="link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>
@@ -117,7 +117,7 @@
     
       
       
-      <div class="searchResult " onclick="footbar_vis();">        
+      <div class="searchResult shadow-sm" onclick="footbar_vis();">        
         <div class="Sres_view animate__animated" name="Sres_view" id="Sres_view" style="display: none" >
           <ul>
             <li class="Sres_ENG" >
