@@ -1,3 +1,7 @@
+// DOM basic
+const mainbox_center = document.getElementById('mainbox_center');
+const second_mainbox_center = document.getElementById('second_mainbox_center');
+
 // input detection
 const Search_DOC = document.querySelector(".searchbar");
 Search_Input = Search_DOC.querySelector("textarea");
@@ -289,30 +293,41 @@ function trans_papago(SENTC){
 
 // wordbook list 받아오기
 
+function wordbook_open(){  
+  
+  wordbook_list_post();
+  hidden(mainbox_center);
+  visible(second_mainbox_center);  
+  click_slideup(second_mainbox_center);
+  
+}
+
+function wordbook_close(){  
+  click_slideoutdown(second_mainbox_center);  
+  hidden(second_mainbox_center);  
+  click_slideup(mainbox_center);  
+  visible(mainbox_center);    
+}
+
 function wordbook_list_post(){        
-  fetch("/wordlist", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results))
+  fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results))
 }
 
 function add_result(datas){
-  let add_html = `<div class="wordbook_headline">
-      <i class="fa-solid fa-snowflake ft7 ftb text_white"></i><span class="ft6 ftb text_white"> Wordlist </span><i class="fa-solid fa-snowflake ft7 ftb text_white"></i>                                
-      </div>
-      <div class="contents">
-  <div id="wordbook_list" class="wordbook_list ">`;
+  let add_html = '';
   for (let data of datas){
     console.log(data.Tables_in_oq4p2dxa5zpnk9gu);
     add_html += `<div class="wordbook_wrap shadow-sm">
                     <div class="wordbook_text">                    
-                      <div id="wordbook_name" class="wordbook_name ft8 ftb text_purple"> <span>${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>
+                      <div id="wordbook_name" class="wordbook_name ft8 ftb"> <span>${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>
                       <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                        
                     </div>
                     <div class="wordbook_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordbook_list_post();"></i></div>
                     <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
                   </div>                  
                 </div>`;
-  }
-  add_html += '</div';
-  var doc = document.getElementById("contents_wordbook");
+  }  
+  var doc = document.getElementById("wordbook_list");
   doc.innerHTML = add_html;
 }
     
@@ -340,18 +355,33 @@ function add_result(datas){
   
     // addtext();
 
+// word add modal control
 
+    function add_click() {
+      var engs = document.getElementById('main_input').value.replace(/\n$/,'');        
+      document.getElementById("edit_eng").value = engs;
+      if (document.getElementById('Sres_KOR').innerText === "") {          
+      } else {
+        console.log(document.getElementById('Sres_KOR').innerText);
+        document.getElementById("edit_kor").value=document.getElementById('Sres_KOR').innerText;
+      }
+      var dropdown_list = '';
+      var dropdown_menu = document.getElementById("addword_dropdown_wordbook");
+      fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{        
+        for (let result of results){
+          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="click_dropdown_menu(this)">${result.Tables_in_oq4p2dxa5zpnk9gu}</a></li>`;
+        };
+        dropdown_menu.innerHTML = dropdown_list;
+      });
+    }
 
-
-function wordlist_open(){
-  wordbook_list_post();
-}
-
-  
-
-  
-
-  // 
+    function click_dropdown_menu(obj){
+      console.log(obj.innerText);
+      var dropdown_buttton = document.getElementById("dropdown_button");
+      var form_addword = document.getElementById("form_addword");
+      dropdown_buttton.innerText = obj.innerText;
+      form_addword.setAttribute('action', `/word_manage/add/${dropdown_buttton.innerText}`);
+    }
 
 
 
@@ -378,4 +408,5 @@ function wordlist_open(){
         })
       }
 
+  
       

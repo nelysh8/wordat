@@ -41,31 +41,19 @@
    
     <!-- mainbox 1 -->
 
-    <div class="container-fluid mainbox_center">
+    <div class="container-fluid mainbox_center animate__animated" id="mainbox_center" style="display:block">
 
       <div id="Upper_search_container" class="shadow-sm">
         <div id="Upper_carousel" class="carousel slide" data-bs-touch="true">
           <div class="carousel-indicators">
-            <button type="button" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
           </div>
           <div class="carousel-inner">
             <div class="carousel-item active" id="contents_wordbook">
-              <div class="wordbook_headline">
-                <i class="fa-solid fa-snowflake ft7 ftb text_white"></i><span class="ft6 ftb text_white"> Wordlist </span><i class="fa-solid fa-snowflake ft7 ftb text_white"></i>                                
-              </div>
-              <div class="contents">
-                <div id="wordbook_list" class="wordbook_list ">
-                  <div class="wordbook_wrap shadow-sm">
-                    <div class="wordbook_text">                    
-                      <div id="wordbook_name" class="wordbook_name ft8 ftb text_purple"> <span>내단어장 </span></div>
-                      <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                        
-                    </div>
-                    <div class="wordbook_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordbook_list_post();"></i></div>
-                    <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
-                  </div>                  
-                </div>
+              <div class="blank_sheet">
+                <div class="text_middle"><span class="ft3 ftbb"> What's difference? </span></div>
               </div>
             </div>
             <div class="carousel-item" id="contents_cambrg">            
@@ -75,7 +63,7 @@
             </div>
             <div class="carousel-item" id="contents_wordlist">              
               <div class="blank_sheet">
-                <div class="text_middle"><span class="ft3 ftbb"> What's difference? </span></div>
+                <div class="text_middle"><span class="ft3 ftbb"> Wordbook </span></div>
               </div>
             </div> 
           </div>
@@ -110,10 +98,24 @@
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <span class="ft5 ftbb"> Add words to the wordbook </span>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="row">
+                      <span class="ft5 ftbb">Add words to the wordbook</span>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="row">
+                      <div class="dropdown">                      
+                        <button id="dropdown_button" class="btn dropdown-toggle bg_firebrick text_white ft8" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Wordbook
+                        </button>
+                        <ul class="dropdown-menu" id="addword_dropdown_wordbook">
+                          <li><a class="dropdown-item" href="#">Action</a></li>
+                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                      </div>
+                    </div>                    
                   </div>                  
-                  <form action="/word_manage/add/내단어장" method="post">
+                  <form id="form_addword" action="/word_manage/add/내단어장" method="post">
                     <div class="modal-body">                                          
                       <div class="input-group mb-3">
                         <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
@@ -155,22 +157,37 @@
           </ul>
         </div>              
       </div>
-      <div >
-        <div class="animate__animated animate__tada animate__delay-2s"> </div>     
-        <!-- animate__heartBeat -->
-      </div>
-      
-    <!-- mainbox2 -->
-
-
-<!-- post test -->
         
         <div id="test_place">
-          <!-- <button onclick="Cambrg_search('line');"> cambrg </button> -->
+          <button onclick="wordbook_open();"> Wordbook </button> 
           <!-- <button onclick="test();"> test </button> -->
         </div>
       </div>
+    </div>
     
+<!-- second_mainbox_center -->
+    <div class="container-fluid second_mainbox_center animate__animated" id="second_mainbox_center" style="display:none;">
+      <div class="wordbook_headline">
+        <div class="title"><span class="ft6 ftb text_pink"> My wordbook </span></div>
+        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red" onclick="wordbook_close();"></i></div>
+      </div>
+      <div class="contents">
+        <div id="wordbook_list" class="wordbook_list">
+<!--           example
+          <div class="wordbook_wrap shadow-sm">
+            <div class="wordbook_text">                    
+              <div id="wordbook_name" class="wordbook_name ft8 ftb text_purple"> <span>내단어장 </span></div>
+              <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                        
+            </div>
+            <div class="wordbook_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordbook_list_post();"></i></div>
+            <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
+          </div>                  
+           -->
+        </div>
+      </div>
+
+    </div>
+
 
 <!-- foot bar -->
 
@@ -184,7 +201,7 @@
         </a>
       </div>
       <div class="footbar_menu border">
-        <a href="/wordlist">
+        <a href="/wordbook">
           <ul>
             <li><i class="fa-solid fa-book ft7 ftbb"></i></li>
             <li><span class="ft10"> Wordbook  </span></li>

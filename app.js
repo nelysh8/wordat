@@ -13,7 +13,7 @@ var boardRouter = require('./routes/board');
 
 // my Router
 
-var wordlistRouter = require('./routes/wordlist');
+var wordbookRouter = require('./routes/wordbook');
 var list_manageRouter = require('./routes/list_manage');
 var word_manageRouter = require('./routes/word_manage');
 
@@ -47,7 +47,7 @@ app.use('/board', boardRouter);
 
 // my app setting
 
-app.use('/wordlist', wordlistRouter);
+app.use('/wordbook', wordbookRouter);
 app.use('/list_manage', list_manageRouter);
 app.use('/word_manage', word_manageRouter);
 app.use(express.static('public'));

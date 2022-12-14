@@ -13,6 +13,8 @@ html {
 }
 body {
     display : flex;
+    width : 100vw;
+    height : 100vh;
     /* align-items : center; */
     /*justify-content : center;*/    
     font-family : 'poppins', sans-serif;    
@@ -103,6 +105,11 @@ ul {
 	color :#999;
 }
 
+.text_pink {
+  color : #ff4687;
+}
+
+
 /* background color */
 .bg_firebrick {
     background-color: firebrick;
@@ -114,6 +121,10 @@ ul {
 
 .bg_silver {
     background-color: #999;
+}
+
+.bg_pink {
+  background-color: #ff4687;
 }
 
 /* text-align */
@@ -349,29 +360,36 @@ ul {
 
 						/* 1. wordbook */
 
-						#contents_wordbook .wordbook_headline {
-              display: block;              
+						#second_mainbox_center .wordbook_headline {
+              display: flex;              
               width : 100%;
               margin : 0;
               padding : 0.5rem 1.5rem 0.5rem 1.5rem;              
-							background: linear-gradient(45deg, #3123b4, #3123b4, #170e40, #0a042a);                            
-              font-family: 'Permanent Marker', cursive;
-              border-radius: 5px ;              
+							/* background: linear-gradient(45deg, #3123b4, #3123b4, #170e40, #0a042a);                             */
+              font-family: 'Permanent Marker', cursive;              
+              border-radius: 5px ;                            
+              align-items:stretch;
             }
 
-						#contents_wordbook .wordbook_headline span {
-							margin-left : 1rem;
-							margin-right : 1rem;
+						#second_mainbox_center .wordbook_headline .title {
+              display : flex;							              
+              margin : auto;
+              border-bottom : 0.3rem solid #1d2a57;              
 						}
 
-						#contents_wordbook .contents {
+            #second_mainbox_center .wordbook_headline .back_icon {							
+              display : flex;							
+							margin : auto;
+						}
+
+						#second_mainbox_center .contents {
 							display : block;
               align-items: center;              
               width : 100%; 
 							margin-top : 5rem;
 						}
 
-						#contents_wordbook .wordbook_list {
+						#second_mainbox_center .wordbook_list {
               display : block;
               width : 100%;              
               margin-top : 0.5rem;
@@ -379,7 +397,7 @@ ul {
 							border-radius: 5px;
             }
 
-						#contents_wordbook .wordbook_wrap {
+						#second_mainbox_center .wordbook_wrap {
 							display : flex;
               width : 90%;              
               margin : auto;							
@@ -410,7 +428,7 @@ ul {
 						}
 
 						.wordbook_text .wordbook_name {
-							display : block;														
+							display : block;
 						}
 
 						.wordbook_text .wordbook_hashtag {
@@ -624,6 +642,26 @@ ul {
     padding-left : 5px;
 }
 
+/* 2-2. second_mainbox_center */
+
+.second_mainbox_center {
+  display : none;
+  width : 100%;  
+  height : 100%;
+  justify-content: space-between;  
+  padding : 0.5rem 0.5rem 0.5rem 1rem;
+  /* align-content:center;
+  align-items: center;
+  text-align: center; */
+  margin-top : 6rem;
+  margin-bottom : 7rem;    
+  margin-left : auto;
+  margin-right : auto;
+  padding : 0;
+  z-index: 50;
+}
+
+
 /* 3. footbar */
 
 .footbar {
@@ -700,6 +738,31 @@ ul {
 
 .border-round {
   border-radius : 7px;
+  
 }
 
 
+/* modal */
+.modal-header {
+  display : block;  
+}
+
+.modal-header .row {
+  display : block;
+  text-align: left;
+}
+
+/* .modal-header .span {
+  display : flex; 
+  margin:auto; 
+}
+
+.modal-header .button {
+  display : flex;
+  margin-left:0;
+} */
+
+.input-group input {
+  text-align: left;
+  text-align-last: auto;
+}

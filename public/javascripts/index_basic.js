@@ -1,4 +1,7 @@
-    // main
+
+
+
+// main
       let i = 0;
       function test(){        
         fetch("/", {method : 'post'}).then((response)=>{
@@ -76,6 +79,46 @@
         obj.classList.toggle('animate__fadeOut');
       }              
 
+      async function click_slideup(obj) {        
+        console.log('slideup detected : '+ obj.id);
+        obj.classList.toggle('animate__slideInUp');      
+        await sleep(1); 
+        obj.classList.toggle('animate__slideInUp');
+      }
+
+      async function click_slidedown(obj) {        
+        console.log('slideup detected : '+ obj.id);
+        obj.classList.toggle('animate__slideInDown');      
+        await sleep(1); 
+        obj.classList.toggle('animate__slideInDown');
+      }
+
+      async function click_slideoutdown(obj) {        
+        console.log('slideup detected : '+ obj.id);
+        obj.classList.toggle('animate__slideOutDown');      
+        await sleep(1); 
+        obj.classList.toggle('animate__slideOutDown');
+      }
+
+
+      function visible(obj){        
+        console.log(obj.style);
+        console.log(obj.style.display);
+        if (obj.style.display === 'none') {
+          console.log('visible start')
+          obj.setAttribute('style', 'display : block');
+        }        
+      }
+
+      function hidden(obj) {           
+        console.log(obj.style);
+        console.log(obj.style.display);     
+        if (obj.style.display === 'block') {
+          console.log('hidden start')              
+          obj.setAttribute('style', 'display : none');
+        }
+      }
+
       function iframe2_vis() {                        
         console.log(document.getElementById('Sres_view').style.display);
         if (document.getElementById('Sres_view').style.display === 'none') {
@@ -106,13 +149,5 @@
         document.getElementById('footbar').setAttribute('style', 'display : none');
       }
 
-      function add_click() {
-        var engs = document.getElementById('main_input').value.replace(/\n$/,'');
-        var Sres_view_html = document.getElementById('Sres_view').contentWindow.document;          
-        document.getElementById("edit_eng").value = engs;
-        if (Sres_view_html.getElementById('Sres_KOR').innerText === "") {          
-        } else {
-          document.getElementById("edit_kor").value=Sres_view_html.getElementById('Sres_KOR').innerText;
-        }
-      }
+      
     
