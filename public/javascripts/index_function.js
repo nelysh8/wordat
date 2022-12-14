@@ -287,12 +287,72 @@ function trans_papago(SENTC){
 
 // 단어장 부분
 
-function wordlist_open(){
-  var doc = document.getElementById("contents_wordlist");
-  var add_html = `<h1> This is the wordlist </h1>`;
-  doc.innerHTML = add_html ;
+// wordbook list 받아오기
 
+function wordbook_list_post(){        
+  fetch("/wordlist", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results))
 }
+
+function add_result(datas){
+  let add_html = `<div class="wordbook_headline">
+      <i class="fa-solid fa-snowflake ft7 ftb text_white"></i><span class="ft6 ftb text_white"> Wordlist </span><i class="fa-solid fa-snowflake ft7 ftb text_white"></i>                                
+      </div>
+      <div class="contents">
+  <div id="wordbook_list" class="wordbook_list ">`;
+  for (let data of datas){
+    console.log(data.Tables_in_oq4p2dxa5zpnk9gu);
+    add_html += `<div class="wordbook_wrap shadow-sm">
+                    <div class="wordbook_text">                    
+                      <div id="wordbook_name" class="wordbook_name ft8 ftb text_purple"> <span>${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>
+                      <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                        
+                    </div>
+                    <div class="wordbook_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordbook_list_post();"></i></div>
+                    <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
+                  </div>                  
+                </div>`;
+  }
+  add_html += '</div';
+  var doc = document.getElementById("contents_wordbook");
+  doc.innerHTML = add_html;
+}
+    
+    
+
+    
+
+  
+
+  
+  // then((response)=>response.json()).then((result)=>data(result));
+  
+    
+    // const tmp = document.getElementById("test_place");          
+    // function addtext(){
+    //   tmp.innerText += `\n제목${i}`;
+    //   var engs = result[i].ENG.split(' ');
+    //   tmp.innerText += `\n${result[i].ENG}`;
+    //   tmp.innerText += `\n${engs}`;
+    //   tmp.innerText += `\n${engs.length}`;
+    //   for (let words of engs) {
+    //     tmp.innerText += `\n${words}`;
+    //   }
+    //   tmp.innerText += `\n${result[i++].KOR}`; 
+  
+    // addtext();
+
+
+
+
+function wordlist_open(){
+  wordbook_list_post();
+}
+
+  
+
+  
+
+  // 
+
 
 
 // <!-- popover -->

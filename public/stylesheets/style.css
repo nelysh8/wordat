@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Poppins&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 
 * {
     margin : 0;
@@ -78,6 +79,10 @@ ul {
     list-style:none;
     }
 
+.text_white {
+	color :azure;
+}
+
 .text_red {
     color : firebrick;
 }
@@ -88,6 +93,14 @@ ul {
 
 .text_green {
     color : darkgreen;
+}
+
+.text_purple {
+	color : #5f0080;
+}
+
+.text_gray {
+	color :#999;
 }
 
 /* background color */
@@ -197,15 +210,16 @@ ul {
             width : 100%;
             height : 100%;
             margin : 0;
-            padding : 0;
+            padding : 0;						
         }
-          #Upper_carousel .carousel-inner .carousel-item{
+          #Upper_carousel .carousel-inner .carousel-item{ 
               width : 100%;
               height : 100%;
-              margin : 0;
-              padding : 0;
-              overflow-y : scroll;              
+              /* margin : 0;
+              padding : 0; */
+              overflow-y : scroll;    
           }
+					
 
           #Upper_carousel .carousel-inner .carousel-item::-webkit-scrollbar {
             display: none;
@@ -220,7 +234,7 @@ ul {
 
             /* 0. Cambrg */
 
-            #Upper_carousel .carousel-inner .carousel-item .navline {
+            #contents_cambrg .navline {
               display: block;
               /* position : fixed;               */
               /* top : 59px; */
@@ -237,12 +251,12 @@ ul {
               /*padding : 10px 0px 10px 0px;*/
             }
 
-            .navline img {    
+            #contents_cambrg .navline img {    
               height : 2rem;
               width : 8rem;    
             }
 
-            .navline input {    
+            #contents_cambrg .navline input {    
               font-size : 1rem;
               text-align : left;
               text-align-last: auto;
@@ -256,14 +270,14 @@ ul {
               padding : 0.5rem;
             }
 
-            .contents {
+            #contents_cambrg .contents {
               display : block;
               align-items: center;
               /* margin-top : 5rem;       */
               width : 100%; 
             }
 
-            .wordhead {
+            #contents_cambrg .wordhead {
               display : flex;    
               align-items: center;    
               width : 100%; 
@@ -271,7 +285,7 @@ ul {
               margin-top : 0.5rem;      
             }
 
-            .wordhead .word{
+            #contents_cambrg .wordhead .word{
               column-width:auto;
               margin : 0 1rem 0 1rem;
               padding : 1rem 0 1rem 0;
@@ -280,29 +294,29 @@ ul {
               font-weight: bolder;
             }
 
-            .wordhead .etc{
+            #contents_cambrg .wordhead .etc{
               line-height: 1rem;  
               margin : 0 1rem 0 0rem;
               padding : 0.6rem 0 0 0;
               font-size : 1rem;    
             }
 
-            .wordhead .pronounce_sound{    
+            #contents_cambrg .wordhead .pronounce_sound{    
               padding-top : 0.5rem;
               padding-bottom : 0rem;    
             }
 
-            .wordhead .pronounce span{     
+            #contents_cambrg .wordhead .pronounce span{     
               
             }
 
-            .meaning_list {
+            #contents_cambrg .meaning_list {
               display : block;
               width : 100%;              
               margin-top : 0.5rem;
               text-align : left;
             }
-            .meaning_list .line {
+            #contents_cambrg .meaning_list .line {
               display : block;
               font-size : 0.2rem;
               height : 0.2rem;        
@@ -311,27 +325,113 @@ ul {
 
             }
 
-            .meaning {
+            #contents_cambrg .meaning {
               margin : 0.5rem 1rem 0 1rem;
             }
 
-            .meaning .meaning_eng {    
+            #contents_cambrg .meaning .meaning_eng {    
               color : #1d2a57;
               font-size : 1.4rem;
               font-weight: bold;
             }
 
-            .meaning .meaning_kor {
+            #contents_cambrg .meaning .meaning_kor {
               color : #0580e8;
               font-size : 1.4rem;
               font-weight: bold;
             }
 
-            .meaning .examples ul li {
+            #contents_cambrg .meaning .examples ul li {
               list-style : disc outside none;
               font-size : 1.2rem;
               
             }
+
+						/* 1. wordbook */
+
+						#contents_wordbook .wordbook_headline {
+              display: block;              
+              width : 100%;
+              margin : 0;
+              padding : 0.5rem 1.5rem 0.5rem 1.5rem;              
+							background: linear-gradient(45deg, #3123b4, #3123b4, #170e40, #0a042a);                            
+              font-family: 'Permanent Marker', cursive;
+              border-radius: 5px ;              
+            }
+
+						#contents_wordbook .wordbook_headline span {
+							margin-left : 1rem;
+							margin-right : 1rem;
+						}
+
+						#contents_wordbook .contents {
+							display : block;
+              align-items: center;              
+              width : 100%; 
+							margin-top : 5rem;
+						}
+
+						#contents_wordbook .wordbook_list {
+              display : block;
+              width : 100%;              
+              margin-top : 0.5rem;
+              text-align : left;
+							border-radius: 5px;
+            }
+
+						#contents_wordbook .wordbook_wrap {
+							display : flex;
+              width : 90%;              
+              margin : auto;							
+							margin-top : 0.5rem;
+							padding : 0.5rem 1rem 0.5rem 1rem;							
+              text-align : left;
+							border-radius: 5px;
+						}
+
+						.wordbook_wrap .wordbook_text {
+							display : block;
+							width : 80%;
+							
+							margin-left : 0rem;							
+							margin-right : 0rem;
+						}					
+						
+						.wordbook_wrap .wordbook_option {
+							display : block;								
+							margin : auto;
+							text-align: center;
+							vertical-align: middle;
+							
+						}
+
+						.wordbook_option i {
+							display : block;							
+						}
+
+						.wordbook_text .wordbook_name {
+							display : block;														
+						}
+
+						.wordbook_text .wordbook_hashtag {
+							display : block;														
+						}
+
+						/* .searchbar_items {
+							display : flex;
+							width : 85%;
+							padding : 0.5rem;
+							border-radius: 5px ;
+							margin : auto;
+							margin-bottom : 1.5rem;
+							text-align :justify;
+							text-align-last: justify;
+							align-content: space-between;
+							vertical-align: middle;    
+					} */
+
+						
+
 
     /* 2. 1-2. primary box */
 

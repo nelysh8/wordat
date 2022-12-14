@@ -16,6 +16,16 @@ router.get('/', function (req, res, next) {
     */
 });
 
+router.post('/', function (req, res, next) {
+    var sql = "SHOW tables";
+    console.log(sql);
+    conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);        
+        res.json(results);
+    });
+});
+
+
 /*
 router.get('/list/:page', function (req,res,next){
     var page = req.params.page;
