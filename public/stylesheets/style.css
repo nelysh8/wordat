@@ -113,6 +113,9 @@ ul {
 	text-align : center;  
 }
 
+.vertical_middle {
+	vertical-align: middle;
+}
 /* 0.1 Sres_view html */
 
 #Sres_view_body {
@@ -360,17 +363,20 @@ ul {
         margin-bottom : 0.8rem;
         align-content: space-between;
         vertical-align: middle;
+				border-radius: 5px ;
+				
     }
 
 			#main_input {    
 					position : relative;
 					height : 3.6rem;
 					/* ((scrollHeight/10)+0.4)rem; */
-					width: 100%;
+					width: 90%;
 					border-radius: 5px ;
 					border : 0.1rem solid #999;
 					outline : none;     
-					padding : 0.5rem 0.5rem 0.5rem 1rem;    
+					text-align : justify;
+					padding : 0.5rem 2.8rem 0.5rem 1rem;    
 			}
 
 			#main_input:focus {
@@ -379,20 +385,29 @@ ul {
 
 			#main_input_icon_x {
 					position : absolute;
-					left : 85%;
+					left : 75%;
 					/* top : 61%; */
-					/* transform: translateY(-50%); */    
-					font-size : 25px;
-					margin-left: auto;        
-					margin-right: auto;        
+					/* transform: translateY(-50%);     */
+					height : 3.6rem;
+					font-size : 2.5rem;					
 					/* margin-bottom : 1rem; */ 
 					z-index : 0;
 			}
+			
+			#main_input_icon_trans {
+				display : flex;			
+				align-items: center;	
+				margin-left : 0.3rem;
+				font-size : 3.3rem;				
+				padding : 0;
+				height : 3.6rem;				
+			}			
 
 		.searchbar_items {
 				display : flex;
 				width : 85%;
 				padding : 0.5rem;
+				border-radius: 5px ;
 				margin : auto;
 				margin-bottom : 1.5rem;
 				text-align :justify;

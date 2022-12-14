@@ -1,14 +1,47 @@
-      
-      const Search_DOC = document.querySelector(".searchbar");
-      Search_Input = Search_DOC.querySelector("textarea");
+// input detection
+const Search_DOC = document.querySelector(".searchbar");
+Search_Input = Search_DOC.querySelector("textarea");
+console.log(document.getElementById("contents_wordlist").classlist);
+Search_Input.addEventListener("keyup", e => {    
+    if (e.keyCode === 13 && e.shiftKey && e.target.value){        
+      tranbtn_click();
+    }
+});
 
-      // const Set_TEXT = document.getElementById("Sres_ENG");
-      // const Set_TEXT = document.getElementById("Sres_ENG");
-      
-      // const function
-      
+// carousel detection
+
+var carousel_wordlist = document.getElementById("contents_wordlist");
+
+var observer = new MutationObserver(mutations => {    
+  if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
+    console.log('wordlist open');
+    wordlist_open();
+  } else if ((mutations[0].oldValue.includes('active') === true) && (mutations[0].target.className.includes('active') === false)) {
+    console.log('wordlist close');
+  } else {
+    console.log('nothing');
+  };
+});
+
+var observer_config = {
+  childList: false,	// 하위요소 감지
+  attributes: true,	// 속성변경 감지
+  characterData: false,	// 데이터변경 감지
+  subtree: false,	// 하위요소이하 전부 감지
+  attributeOldValue: true,	// 속성변경 전 속성 감지
+  characterDataOldValue: false	// 데이터변경 전 데이터 감지
+};
+
+// 감지 시작
+observer.observe(carousel_wordlist, observer_config);
+
+// 감지 종료
+// observer.disconnect();
 
 
+
+
+  
       // global varible
       let Word_title = '';
       let Word_meaning = '';
@@ -27,46 +60,72 @@
           Set_TEXT.innerHTML += engs_res;
           re_popup();                              
           } 
-        }        
-        
-      Search_Input.addEventListener("keyup", e => {
-        if(e.key === "Enter" && e.target.value.replace(/ /gi,'').replace(/\n/gi,'')) {                    
-          var engs_org = e.target.value.replace(/\n$/,'');
-          var engs_spl = e.target.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');          
-          console.log(engs_spl);
-          engs_res = '';          
-          
-          var doc = document.getElementById('Sres_ENG');
-          doc.innerHTML = '';          
-          
-          function TEST_add(engs_spl){
-            for (let words of engs_spl){            
-              if (words === '___') {
-                engs_res += `<br>`;
-              } else {                                
-                // engs_res += `<a href="#" onclick="parent.Cambrg_search('${words}'); ">${words}</a> `;
-                engs_res += `<span onclick="Cambrg_search('${words}'); ">${words}</span> `;
-              }              
-            }
-
-            doc.innerHTML += engs_res;
-            re_popup();             
-            // click_fadein(doc);        
-            // iframe2_vis();
-          }      
-          
-          TEST_add(engs_spl);
-          trans_papago(engs_org);
-          document.getElementById('link_yarn').setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + engs_org));
-          document.getElementById('link_youglish').setAttribute('href', encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?'));
-          document.getElementById('link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));          
-        }       
-      });
+        }                
+      
       // map 사용해야 할 듯
 
+// Translate Search Btn Click
+
+function tranbtn_click(){
+  if(Search_Input.value.replace(/ /gi,'').replace(/\n/gi,'')) {                        
+    var engs_org = Search_Input.value.replace(/\n$/,'');
+    var engs_spl = Search_Input.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');          
+    console.log(engs_spl);
+    engs_res = '';          
+    
+    var doc = document.getElementById('Sres_ENG');
+    doc.innerHTML = '';          
+    
+    function TEST_add(engs_spl){
+      for (let words of engs_spl){            
+        if (words === '___') {
+          engs_res += `<br>`;
+        } else {                                
+          // engs_res += `<a href="#" onclick="parent.Cambrg_search('${words}'); ">${words}</a> `;
+          engs_res += `<span onclick="Cambrg_search('${words}');">${words}</span> `;
+        }              
+      }
+
+      doc.innerHTML += engs_res;
+      re_popup();             
+      // click_fadein(doc);        
+      // iframe2_vis();
+    }      
+    
+    TEST_add(engs_spl);
+    trans_papago(engs_org);
+    document.getElementById('link_yarn').setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + engs_org));
+    document.getElementById('link_youglish').setAttribute('href', encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?'));
+    document.getElementById('link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));
+    
+    click_fadein(document.getElementById('Sres_view'));          
+    iframe2_vis();
+  }       
+};
+
+
+
+// <!-- papago translation -->
+    
+function trans_papago(SENTC){
+  let TEXT = {word : SENTC};        
+  let TEXT_JSON = JSON.stringify(TEXT);
+  console.log(TEXT);
+  console.log(JSON.stringify(TEXT));
+  fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));                
+
+  function data(result){          
+    let B = JSON.stringify(result);          
+    var tmp = document.getElementById("Sres_KOR");
+    function addtext(){
+      tmp.innerText = result.message.result.translatedText;
+    }
+    addtext();
+  }
+}
     
 
-<!-- Google tts -->
+//  Google tts 
 
 
 // 외부용
@@ -135,19 +194,9 @@
   //   }
   // }
 
-
-
-
-<!-- Cambridge Search -->
+//  Cambridge Search 
       
-      async function Cambrg_search(word){
-        console.log('cambrg 1');
-        // fetch("/websearch_cambrg", {method : 'post'}).then((response)=>{
-        //   console.log(response.json());
-        // });
-        // document.getElementById('result_view').src= '/html/cambrg.html';
-        
-
+      async function Cambrg_search(word){        
         var word = {word : word};
         await fetch("/websearch_cambrg", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>{
           console.log(response);
@@ -160,9 +209,8 @@
         .then((result)=>data(result))
         .catch((error)=>data2());
         
-        function data(result){          
-          console.log('cambrg 2');           
-          result_view_html(result);
+        function data(result){                    
+          result_view_cambrg(result);
         }
         function data2(){
           console.log('Cambridge err');          
@@ -170,14 +218,10 @@
       }      
 
 
-  <!-- 상단 iframe 쓰기 -->
+  // 상단 프레임 내용변경
 
-      function result_view_html(data){                     
-        var doc = document.getElementById('body_contents');
-        console.log(doc.innerHTML);
-        // iframe1_vis();
-        // click_fadein(document.getElementById('result_contents'));
-
+      function result_view_cambrg(data){                     
+        var doc = document.getElementById('contents_cambrg');                
         var topbody = `
         <div class="navline">
             <a href="https://dictionary.cambridge.org/dictionary/english-korean/" target="_blank"><img src="/images/cambrg_logo.png"></a>
@@ -237,71 +281,21 @@
         let script = document.createElement('script');
         script.src='/javascripts/cambrg.js';
         document.body.appendChild(script);
+        document.getElementById("carousel_btn2").click();
         
-      }
+      }    
 
-        //     meanings += `<div class="examples">
-        //             <ul>`;
-        //     for (let example of meaning.example) {            
-        //       console.log(example);
-        //       meanings += `<li>${example}</li`;
-        //     };
-        //     meanings += `</ul> </div> </div>`;
-        //   } else {
-        //     meanings += `</div>`;
-        //   };          
-        // };
-        // console.log(meanings);
-        // 
-      
+// 단어장 부분
 
-        // console.log(JSON.stringify(data));
+function wordlist_open(){
+  var doc = document.getElementById("contents_wordlist");
+  var add_html = `<h1> This is the wordlist </h1>`;
+  doc.innerHTML = add_html ;
 
-        // document.getElementById('result_view').setAttribute('srcdoc', `<span class="ft1 ftbb"> word : ${data.word} 
-        //   <br>
-        //   pronounce : [${data.pronounce}]
-        //   <br>
-        //   <button onclick ="audio_pron.load(); audio_pron.play();"> link </button>
-        //   <audio preload="none" id="audio_pron" controlslist="nodownload">
-        //   <source type="audio/mpeg" src="https://dictionary.cambridge.org${data.pronounce_link}">            
-        //   </audio> 
-        //   <br>${meanings}`) ;
+}
 
-        //   <br>
-        //   pronounce : [${data.pronounce}]
-        //   <br>
-        //   <button onclick ="audio_pron.load(); audio_pron.play();"> link </button>
-        //   <audio preload="none" id="audio_pron" controlslist="nodownload">
-        //   <source type="audio/mpeg" src="https://dictionary.cambridge.org${data.pronounce_link}">            
-        //   </audio> 
-        //   <br>` + meanings ;
-        
-    
 
-<!-- papago translation -->
-    
-      function trans_papago(SENTC){
-        let TEXT = {word : SENTC};        
-        let TEXT_JSON = JSON.stringify(TEXT);
-        console.log(TEXT);
-        console.log(JSON.stringify(TEXT));
-        fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));                
-
-        function data(result){          
-          let B = JSON.stringify(result);          
-          var tmp = document.getElementById("Sres_KOR");
-          function addtext(){
-            tmp.innerText = result.message.result.translatedText;
-          }
-          addtext();
-        }                                       
-        iframe2_vis();
-      }
-    
-    
-    
-
-<!-- popover -->
+// <!-- popover -->
     
 
       var popover = new bootstrap.Popover(element, {

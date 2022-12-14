@@ -26,7 +26,15 @@
         }
       }
 
-      
+  // textarea detecting
+  // const Search_DOC = document.querySelector(".searchbar");
+  // Search_Input = Search_DOC.querySelector("textarea");
+
+
+
+    // if (evt.keyCode == 13 && !evt.shiftKey) {
+    //     form.submit();
+    // }
 
       
 
@@ -41,15 +49,13 @@
         click_fadeout(document.getElementById('result_contents'));
         click_fadeout(document.getElementById('Sres_view'));
         resize(document.getElementById("main_input"));                
-        await sleep(1);
-        iframe1_dis();
+        await sleep(1);        
         iframe2_dis();    
         var doc = document.getElementById('result_view').contentWindow.document;
-        doc.getElementById('body_contents').innerHTML = `<div class="blank_sheet">
+        doc.getElementById('contents_cambrg').innerHTML = `<div class="blank_sheet">
         <div class="animate__animated animate__slideInDown text_center"><span class="ft3 ftbb"> What's difference? </span> </div>
       </div>`;
-        click_fadein(document.getElementById('result_contents'));
-        iframe1_vis();    
+        click_fadein(document.getElementById('result_contents'));           
       }
 
       function resize(obj) {        
@@ -68,22 +74,20 @@
         obj.classList.toggle('animate__fadeOut');      
         await sleep(1); 
         obj.classList.toggle('animate__fadeOut');
-      }        
-
-      function iframe1_vis() {                        
-        document.getElementById('result_view').setAttribute('style', 'display : block');
-      }
-
-      function iframe1_dis() {                
-        document.getElementById('result_view').setAttribute('style', 'display : none');
-      }
+      }              
 
       function iframe2_vis() {                        
-        document.getElementById('Sres_view').setAttribute('style', 'display : block');
+        console.log(document.getElementById('Sres_view').style.display);
+        if (document.getElementById('Sres_view').style.display === 'none') {
+          document.getElementById('Sres_view').setAttribute('style', 'display : block');
+        }        
       }
 
-      function iframe2_dis() {                
-        document.getElementById('Sres_view').setAttribute('style', 'display : none');
+      function iframe2_dis() {              
+        console.log(document.getElementById('Sres_view').style.display);
+        if (document.getElementById('Sres_view').style.display === 'block') {
+          document.getElementById('Sres_view').setAttribute('style', 'display : none');
+        }
       }
 
 

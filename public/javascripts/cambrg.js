@@ -1,4 +1,8 @@
-const Search_cambrg = document.querySelector(".navline");
+if (typeof Search_cambrg == 'undefined') {
+    let Search_cambrg = '';    
+}
+
+Search_cambrg = document.querySelector(".navline");
 Search_Input_cambrg = Search_cambrg.querySelector(".nav_input");
 Search_Input_cambrg.addEventListener("keyup", e => {
     console.log('key detected');

@@ -47,20 +47,18 @@
               </div>
             </div>
             <!-- Second slide -->            
-            <div class="carousel-item" id="body_contents">
-              
+            <div class="carousel-item" id="contents_cambrg">              
             </div>
             <!-- Third Slide -->
-            <div class="carousel-item">
-              
+            <div class="carousel-item" id="contents_wordlist">              
             </div>
           </div>
-          <!-- <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          </div> -->
-          <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev">
+          <div class="carousel-indicators">
+            <button type="button" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <button class="carousel-control-prev" id="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
           </button>
@@ -75,7 +73,8 @@
       <div class="searchbar">
         <div class="searchbar_main  shadow-sm">
           <textarea class="autosize ft8" id="main_input" placeholder="Search a Sentence" required onclick="resize(this); footbar_dis();" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
-          <a href="javascript:clear_input();" id="main_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated" onclick="click_fadein(this);"></i></a>
+          <div id="main_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input();click_fadein(this);"></i></div>
+          <div id="main_input_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); tranbtn_click();"></i></div>
         </div>
         <div class="searchbar_items shadow-sm" onclick="footbar_vis();">          
           <a id="link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
@@ -117,8 +116,8 @@
     
       
       
-      <div class="searchResult shadow-sm" onclick="footbar_vis();">        
-        <div class="Sres_view animate__animated" name="Sres_view" id="Sres_view" style="display: none" >
+      <div class="searchResult shadow-sm animate__animated" style="display: none" id="Sres_view" onclick="footbar_vis();">        
+        <div class="Sres_view" name="Sres_view">
           <ul>
             <li class="Sres_ENG" >
                 <p id="Sres_ENG" class="ft8 ftbb text_red"> </p>
