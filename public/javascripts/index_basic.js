@@ -79,11 +79,13 @@
         obj.classList.toggle('animate__fadeOut');
       }              
 
-      async function click_slideup(obj) {        
-        console.log('slideup detected : '+ obj.id);
-        obj.classList.toggle('animate__slideInUp');      
-        await sleep(1); 
+      async function click_slideup(obj) {                
+        console.log('slideup detected : '+ obj.id);        
+        visible(obj);   
+        obj.classList.toggle('animate__slideInUp');              
+        await sleep(1);                      
         obj.classList.toggle('animate__slideInUp');
+        
       }
 
       async function click_slidedown(obj) {        
@@ -98,6 +100,7 @@
         obj.classList.toggle('animate__slideOutDown');      
         await sleep(1); 
         obj.classList.toggle('animate__slideOutDown');
+        hidden(obj);
       }
 
 
@@ -114,40 +117,40 @@
       function hidden(obj) {           
         console.log(obj.style);
         console.log(obj.style.display);     
-        if (obj.style.display === 'block') {
+        if ((obj.style.display === 'block') || (obj.style.display==='')) {
           console.log('hidden start')              
-          obj.setAttribute('style', 'display : none');
+          obj.style.display = 'none';
         }
       }
 
       function iframe2_vis() {                        
         console.log(document.getElementById('Sres_view').style.display);
-        if (document.getElementById('Sres_view').style.display === 'none') {
-          document.getElementById('Sres_view').setAttribute('style', 'display : block');
+        if ((document.getElementById('Sres_view').style.display === 'none') || (document.getElementById('Sres_view').style.display === '')){
+          document.getElementById('Sres_view').style.display= 'block';
         }        
       }
 
       function iframe2_dis() {              
         console.log(document.getElementById('Sres_view').style.display);
-        if (document.getElementById('Sres_view').style.display === 'block') {
-          document.getElementById('Sres_view').setAttribute('style', 'display : none');
+        if ((document.getElementById('Sres_view').style.display === 'block') || (document.getElementById('Sres_view').style.display === '')){
+          document.getElementById('Sres_view').style.display ='none';
         }
       }
 
 
       function footbar_vis() {        
-        document.getElementById('footbar').setAttribute('style', 'display : flex');
+        document.getElementById('footbar').style.display = 'flex';
       }      
 
       window.onload = function() {
         var oFrame = document.getElementById("Sres_view");
         oFrame.contentWindow.document.onclick = function() {
-          document.getElementById('footbar').setAttribute('style', 'display : flex');
+          document.getElementById('footbar').style.display = 'flex'
         };
       };
 
       function footbar_dis() {        
-        document.getElementById('footbar').setAttribute('style', 'display : none');
+        document.getElementById('footbar').style.display = 'none';
       }
 
       

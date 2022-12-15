@@ -92,53 +92,48 @@
           <a id="link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>
           <i class="tts fa-solid fa-forward text_red animate__animated" onclick="click_fadein(this); tts(1);"></i>          
           <i class="tts fa-solid fa-play text_green animate__animated" onclick="click_fadein(this); tts(0.5);"></i>          
-          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#myModal_example" onclick="click_fadein(this); add_click();"></i>
-          <!-- <button class="btn-modal btn btn-danger bg-gradient" data-bs-toggle="modal" data-bs-target="#myModal_example" onclick="add_click();"> + </button>                          -->
-            <div id="myModal_example" class="modal fade" role="dialog">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <div class="row">
-                      <span class="ft5 ftbb">Add words to the wordbook</span>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#home_add_modal" onclick="click_fadein(this); addword_click();"></i>          
+          <div id="home_add_modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div class="row">
+                    <span class="ft5 ftbb">Add words to the wordbook</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="row">
+                    <div class="dropdown">                      
+                      <button id="dropdown_button" class="btn dropdown-toggle bg_firebrick text_white ft8" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Wordbook
+                      </button>
+                      <ul class="dropdown-menu" id="addword_dropdown_wordbook">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      </ul>
                     </div>
-                    <div class="row">
-                      <div class="dropdown">                      
-                        <button id="dropdown_button" class="btn dropdown-toggle bg_firebrick text_white ft8" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Wordbook
-                        </button>
-                        <ul class="dropdown-menu" id="addword_dropdown_wordbook">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                      </div>
+                  </div>                    
+                </div>                  
+                <form id="form_add_word" action="/word_manage/add/내단어장" method="post">
+                  <div class="modal-body">                                          
+                    <div class="input-group mb-3">
+                      <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
+                      <input type="text" name="word_english" class="form-control ft8" placeholder="Input a English Sentence" id="edit_eng" aria-label="Username" aria-describedby="basic-addon1" > 
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
+                      <input type="text" name="word_korean" class="form-control ft8" placeholder="Input it's meaning" id="edit_kor" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>                                      
+                    <div class="modal-footer">                        
+                      <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal"> ADD </button>
+                      <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
                     </div>                    
-                  </div>                  
-                  <form id="form_addword" action="/word_manage/add/내단어장" method="post">
-                    <div class="modal-body">                                          
-                      <div class="input-group mb-3">
-                        <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
-                        <input type="text" name="word_english" class="form-control ft8" placeholder="Input a English Sentence" id="edit_eng" aria-label="Username" aria-describedby="basic-addon1" > 
-                      </div>
-                      <div class="input-group mb-3">
-                        <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
-                        <input type="text" name="word_korean" class="form-control ft8" placeholder="Input it's meaning" id="edit_kor" aria-label="Username" aria-describedby="basic-addon1">
-                      </div>                                      
-                      <div class="modal-footer">                        
-                        <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal"> ADD </button>
-                        <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
-                      </div>                    
-                    </div>
-                  </form> 
+                  </div>
+                </form> 
               </div>
             </div>
-        </div>
-      
-      
-      </div>        
-    
-      
+          </div> 
+        </div>  
       
       <div class="searchResult shadow-sm animate__animated" style="display: none" id="Sres_view" onclick="footbar_vis();">        
         <div class="Sres_view" name="Sres_view">
@@ -168,8 +163,31 @@
 <!-- second_mainbox_center -->
     <div class="container-fluid second_mainbox_center animate__animated" id="second_mainbox_center" style="display:none;">
       <div class="wordbook_headline">
-        <div class="title"><span class="ft6 ftb text_pink"> My wordbook </span></div>
-        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red" onclick="wordbook_close();"></i></div>
+        <div class="title"><span class="ft5 ftb"> My wordbook </span></div>
+        <div class="plus_icon">
+          <i class="fa-solid fa-file-circle-plus ft5 ftbb text_green" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick=""></i>                    
+          <div id="wordbook_add_modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">                
+                  <span class="ft5 ftbb">Add wordbook</span>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>                                                                               
+                <div class="modal-body">                                          
+                  <div class="input-group mb-3">
+                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > TITLE </span>
+                    <input type="text" name="add_wordbook_title" id="add_wordbook_title" class="form-control ft8" placeholder="Input a Wordbook Title"> 
+                  </div>                                      
+                  <div class="modal-footer">                        
+                    <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="add_wordbook_click();"> ADD </button>
+                    <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+                  </div>                    
+                </div>                
+              </div>
+            </div> 
+          </div>
+        </div>         
+        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red" onclick="wordbook_close();"></i></div>                
       </div>
       <div class="contents">
         <div id="wordbook_list" class="wordbook_list">
@@ -190,6 +208,7 @@
       <div class="container-fluid second_additionbox_center animate__animated" id="second_additionbox_center" style="display:none;">
         <div class="wordlist_headline">
           <div class="title"><span class="ft6 ftb text_pink"> Wordlist_Name </span></div>
+          <div class="plus_icon"><i class="fa-solid fa-file-circle-plus ft5 ftbb text_green" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick=""></i></div>
           <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red" onclick="wordlist_close();"></i></div>
         </div>
         <div class="contents">
@@ -214,9 +233,8 @@
                     <li>They are obsessed with their own plans. <br> 그들은 자신의 계획에 집착합니다.</li>
                   </ul>
                 </div>
-                </div>                
-              </div>
-            </div>
+              </div>                
+            </div>          
             <div class="wordlist_wrap shadow-sm">
               <div class="wordlist_main">
                 <div class="wordlist_text">                    

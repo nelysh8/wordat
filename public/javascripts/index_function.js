@@ -294,82 +294,112 @@ function trans_papago(SENTC){
 
 // wordbook list 받아오기
 
-function wordbook_open(){  
-  
+async function wordbook_open(){    
   wordbook_list_post();
-  hidden(mainbox_center);
-  visible(second_mainbox_center);  
-  click_slideup(second_mainbox_center);
-  
+  await click_slideoutdown(mainbox_center);  
+  click_slideup(second_mainbox_center);  
 }
 
-function wordbook_close(){  
-  click_slideoutdown(second_mainbox_center);  
-  hidden(second_mainbox_center);  
-  click_slideup(mainbox_center);  
-  visible(mainbox_center);    
+async function wordbook_close(){  
+  await click_slideoutdown(second_mainbox_center);        
+  click_slideup(mainbox_center);
 }
+
+async function add_wordbook_click(){
+  var wordbook_title = {title : document.getElementById('add_wordbook_title').value};
+  console.log(wordbook_title);
+  await fetch("/wordbook/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
+    console.log(results);        
+  })
+  wordbook_list_post();  
+}
+
+async function remove_wordbook_click(number){
+  let wordbook_title = {title : document.getElementById(`wordbook_title_${number}`).innerText};
+  await fetch("/wordbook/remove", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
+    console.log(results);
+  })
+  wordbook_list_post();
+}
+
+
+function wordlist_open(){
+  click_slideup(second_additionbox_center);
+}
+
+function wordlist_close(){
+  click_slideoutdown(second_additionbox_center);  
+}
+
 
 function wordbook_list_post(){        
-  fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results))
+  fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results));
+  function add_result(datas){
+    let add_html = '';
+    let i = 0;
+    for (let data of datas){
+      console.log(data.Tables_in_oq4p2dxa5zpnk9gu);
+      add_html += `<div class="wordbook_wrap shadow-sm">
+                      <div class="wordbook_text" onclick="open_wordlist(${i});">                                          
+                        <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb"><span name="wordbook_title">${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>
+                        <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                                              
+                      </div>
+                      <div class="wordbook_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordbook_list_post();"></i></div>
+                      <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red" onclick="remove_wordbook_click((${i}));"></i></div>                      
+                    </div>                  
+                  </div>`;
+      i += 1;
+    }  
+    var doc = document.getElementById("wordbook_list");
+    doc.innerHTML = add_html;
+  }
 }
 
-function add_result(datas){
-  let add_html = '';
-  let i = 0;
-  for (let data of datas){
-    console.log(data.Tables_in_oq4p2dxa5zpnk9gu);
-    add_html += `<div class="wordbook_wrap shadow-sm">
-                    <div class="wordbook_text" onclick="open_wordlist(${i});">                                          
-                      <div id="wordbook_name_${i}" class="wordbook_name ft8 ftb"><span name="wordbook_name">${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>
-                      <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                                              
-                    </div>
-                    <div class="wordbook_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordbook_list_post();"></i></div>
-                    <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
-                  </div>                  
-                </div>`;
-    i += 1;
-  }  
-  var doc = document.getElementById("wordbook_list");
-  doc.innerHTML = add_html;
-}
+
     
 function open_wordlist(number){    
   second_mainbox_center.style.position = 'relative';
   second_additionbox_center.style.position ='absolute';  
-  let wordbook_name = {name : document.getElementById(`wordbook_name_${number}`).innerText}
-  fetch("/wordbook/wordlist", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_name)}).then((response)=>response.json()).then((results)=>{
+  let wordbook_title = {title : document.getElementById(`wordbook_title_${number}`).innerText};
+  fetch("/wordbook/wordlist", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
     let add_html = '';
     let i = 0;
+    add_html = `<div class="wordlist_headline">
+        <div class="title"><span class="ft6 ftb text_pink"> ${wordbook_title.title} </span></div>
+        <div class="plus_icon"><i class="fa-solid fa-file-circle-plus ft5 ftbb text_green" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick=""></i></div>
+        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red" onclick="wordlist_close();"></i></div>
+      </div>
+      <div class="contents">
+        <div id="wordlist_list" class="wordlist_list">`;
+
     for (let result of results) {
       add_html += `<div class="wordlist_wrap shadow-sm">
       <div class="wordlist_main">
         <div class="wordlist_text">                    
           <div id="wordlist_eng_${i}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
           <div id="wordlist_kor_${i}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
-        </div>
-        <div class="wordlist_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordlist_list_post();"></i></div>
-        <div class="wordlist_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
+        </div>        
         <div class="wordlist_option">
           <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${i}" aria-expanded="false" aria-controls="wordlist_example_${i}"></i>
         </div>
       </div>
+
+      
       <div class="wordlist_second">
         <div class="collapse wordlist_example ft10" id="wordlist_example_${i}">                  
           <ul>
             <li>People are absolutely obsessed with their rights. <br> 사람들은 자신의 권리에 절대적으로 집착합니다. </li>
             <li>They are obsessed with their own plans. <br> 그들은 자신의 계획에 집착합니다.</li>
           </ul>
-        </div>
-        </div>                
+        </div>        
       </div>
     </div>`;
       i += 1;
-    }
-    var doc = document.getElementById("wordlist_list");
-    doc.innerHTML = add_html;
-    visible(second_additionbox_center);  
-    click_slideup(second_additionbox_center);
+    }    
+    add_html += `</div>
+      </div>`;
+    second_additionbox_center.innerHTML = add_html;
+    wordlist_open();
   });
 }
   
@@ -399,7 +429,7 @@ function open_wordlist(number){
 
 // word add modal control
 
-    function add_click() {
+    function addword_click() {
       var engs = document.getElementById('main_input').value.replace(/\n$/,'');        
       document.getElementById("edit_eng").value = engs;
       if (document.getElementById('Sres_KOR').innerText === "") {          
@@ -424,6 +454,7 @@ function open_wordlist(number){
       dropdown_buttton.innerText = obj.innerText;
       form_addword.setAttribute('action', `/word_manage/add/${dropdown_buttton.innerText}`);
     }
+
 
 
 

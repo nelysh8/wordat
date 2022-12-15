@@ -27,11 +27,36 @@ router.post('/', function (req, res, next) {
     });
 });
 
+// WORDBOOK ADD
+
+router.post('/add', function (req, res, next) {    
+    var newlist_name = req.body.title;
+    var sql = "CREATE TABLE " + newlist_name + " (ID INT(11) NOT NULL AUTO_INCREMENT, P_ID INT(11) NOT NULL DEFAULT '0', ENG TEXT, KOR TEXT, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', PRIMARY KEY(ID))";
+    console.log(sql);
+    conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);        
+        res.json(results);
+    });
+});
+
+// WORDBOOK DELETE
+
+router.post('/remove', function (req, res, next) {    
+    var wordbook_title = req.body.title;
+    var sql = "DROP TABLE " + wordbook_title;
+    console.log(sql);
+    conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);        
+        res.json(results);
+    });
+});
+
+
 // WORDLIST
 
 router.post('/wordlist', function (req, res, next) {    
-    var wordbook_name = req.body.name;    
-    var sql = "SELECT * FROM " + wordbook_name + " WHERE P_ID=0";
+    var wordbook_title = req.body.title;    
+    var sql = "SELECT * FROM " + wordbook_title + " WHERE P_ID=0";
     console.log(sql);
     conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);
