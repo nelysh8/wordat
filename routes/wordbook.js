@@ -51,8 +51,21 @@ router.post('/remove', function (req, res, next) {
     });
 });
 
+// WORDBOOK EDIT
 
-// WORDLIST
+router.post('/edit', function (req, res, next) {    
+    var wordbook_oldtitle = req.body.oldtitle;
+    var wordbook_newtitle = req.body.newtitle;
+    var sql = "ALTER TABLE " + wordbook_oldtitle + " RENAME " + wordbook_newtitle;
+    console.log(sql);
+    conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);        
+        res.json(results);
+    });
+});
+
+
+// WORD LIST
 
 router.post('/wordlist', function (req, res, next) {    
     var wordbook_title = req.body.title;    
@@ -63,6 +76,26 @@ router.post('/wordlist', function (req, res, next) {
         res.json(results);        
     });
 });
+
+// WORD ADD
+
+router.post('/wordlist/add/', function (req, res, next) {        
+    var wordbook_title = req.body.title;
+    console.log(wordbook_title);
+    var word_english = req.body.eng;
+    console.log(word_english);
+    var word_korean = req.body.kor;
+    console.log(word_korean);
+    var data = [word_english, word_korean];
+    console.log(wordbook_title + ' ---- ' + data);
+    
+    var sql = "INSERT INTO " + wordbook_title + " (ENG, KOR, SAVEDATE, LOADDATE) VALUE (?,?,now(), now())";
+    conn.query(sql, data, function(err, results){
+        if (err) console.err("err:" + err);
+        res.json(results);   
+    });
+});
+
     
     // conn.query(wordbook_name, function(err, results){
     //     if (err) console.err("err:" + err);        

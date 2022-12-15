@@ -153,8 +153,8 @@
         </div>              
       </div>
         
-        <div id="test_place">
-          <button onclick="wordbook_open();"> Wordbook </button> 
+        <!-- <div id="test_place">
+          <button onclick="wordbook_open();"> Wordbook </button>  -->
           <!-- <button onclick="test();"> test </button> -->
         </div>
       </div>
@@ -208,8 +208,36 @@
       <div class="container-fluid second_additionbox_center animate__animated" id="second_additionbox_center" style="display:none;">
         <div class="wordlist_headline">
           <div class="title"><span class="ft6 ftb text_pink"> Wordlist_Name </span></div>
-          <div class="plus_icon"><i class="fa-solid fa-file-circle-plus ft5 ftbb text_green" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick=""></i></div>
-          <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red" onclick="wordlist_close();"></i></div>
+          <div class="plus_icon">
+            <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_add_modal" onclick=""></i>
+            <div id="word_add_modal" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <span class="ft5 ftbb">Add words to the wordbook</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>   
+                  <form id="form_add_word" action="/word_manage/add/내단어장" method="post">
+                    <div class="modal-body">                                          
+                      <div class="input-group mb-3">
+                        <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
+                        <input type="text" name="word_english" class="form-control ft8" placeholder="Input a English Sentence" id="edit_eng" aria-label="Username" aria-describedby="basic-addon1" > 
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
+                        <input type="text" name="word_korean" class="form-control ft8" placeholder="Input it's meaning" id="edit_kor" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>                                      
+                      <div class="modal-footer">                        
+                        <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal"> ADD </button>
+                        <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+                      </div>                    
+                    </div>
+                  </form> 
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft6 ftbb text_red" onclick="wordlist_close();"></i></div>
         </div>
         <div class="contents">
           <div id="wordlist_list" class="wordlist_list">
@@ -274,14 +302,12 @@
             <li><span class="ft10"> Home  </span></li>
           </ul>
         </a>
-      </div>
-      <div class="footbar_menu border">
-        <a href="/wordbook">
-          <ul>
-            <li><i class="fa-solid fa-book ft7 ftbb"></i></li>
-            <li><span class="ft10"> Wordbook  </span></li>
-          </ul>
-        </a>
+      </div>        
+      <div class="footbar_menu border" onclick="wordbook_open();">        
+        <ul>
+          <li><i class="fa-solid fa-book ft7 ftbb"></i></li>
+          <li><span class="ft10"> Wordbook  </span></li>
+        </ul>
       </div>
       <div class="footbar_menu">
       </div>

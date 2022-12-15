@@ -322,6 +322,14 @@ async function remove_wordbook_click(number){
   wordbook_list_post();
 }
 
+async function edit_wordbook_click(number){
+  let wordbook_title = {oldtitle : document.getElementById(`wordbook_title_${number}`).innerText, newtitle : document.getElementById(`edit_wordbook_title_${number}`).value};
+  await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
+    console.log(results);
+  })
+  wordbook_list_post();
+}
+
 
 function wordlist_open(){
   click_slideup(second_additionbox_center);
@@ -340,14 +348,36 @@ function wordbook_list_post(){
     for (let data of datas){
       console.log(data.Tables_in_oq4p2dxa5zpnk9gu);
       add_html += `<div class="wordbook_wrap shadow-sm">
-                      <div class="wordbook_text" onclick="open_wordlist(${i});">                                          
+                      <div class="wordbook_text" onclick="open_wordlist(${i},)">                                          
                         <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb"><span name="wordbook_title">${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>
                         <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                                              
                       </div>
-                      <div class="wordbook_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordbook_list_post();"></i></div>
-                      <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red" onclick="remove_wordbook_click((${i}));"></i></div>                      
+                      <div class="wordbook_option">
+                        <i class="fa-solid fa-pen ft7 ftb text_green" data-bs-toggle="modal" data-bs-target="#wordbook_edit_modal"></i>
+                        <div id="wordbook_edit_modal" class="modal fade" role="dialog">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">                
+                                <span class="ft5 ftbb">Edit wordbook</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="modal-body">                                          
+                                  <div class="input-group mb-3">
+                                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > TITLE </span>
+                                    <input type="text" name="edit_wordbook_title" id="edit_wordbook_title_${i}" class="form-control ft8" placeholder="Input a Wordbook Title" value="${data.Tables_in_oq4p2dxa5zpnk9gu}">                                
+                                  </div>                                      
+                                  <div class="modal-footer">                        
+                                    <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="edit_wordbook_click(${i});"> CONFIRM </button>
+                                    <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+                                  </div>                    
+                                </div>                
+                              </div>
+                            </div> 
+                          </div>
+                        </div>                                                                                                          
+                      </div>
+                      <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red" onclick="remove_wordbook_click(${i});"></i></div>                      
                     </div>                  
-                  </div>`;
+                  </div>`;                  
       i += 1;
     }  
     var doc = document.getElementById("wordbook_list");
@@ -357,17 +387,48 @@ function wordbook_list_post(){
 
 
     
-function open_wordlist(number){    
+function open_wordlist(number, title){    
   second_mainbox_center.style.position = 'relative';
   second_additionbox_center.style.position ='absolute';  
-  let wordbook_title = {title : document.getElementById(`wordbook_title_${number}`).innerText};
+  let wordbook_title = '';
+  if (number === '') {
+    wordbook_title = {title : title};
+  } else {
+    wordbook_title = {title : document.getElementById(`wordbook_title_${number}`).innerText};
+  }  
   fetch("/wordbook/wordlist", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
     let add_html = '';
     let i = 0;
-    add_html = `<div class="wordlist_headline">
-        <div class="title"><span class="ft6 ftb text_pink"> ${wordbook_title.title} </span></div>
-        <div class="plus_icon"><i class="fa-solid fa-file-circle-plus ft5 ftbb text_green" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick=""></i></div>
-        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red" onclick="wordlist_close();"></i></div>
+    add_html = `<div class="wordlist_headline">      
+        <div class="title" name="add_word_title" id="add_word_title"><span class="ft5 ftb"> ${wordbook_title.title} </span></div>
+        <div class="plus_icon">
+          <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_add_modal" onclick=""></i>
+          <div id="word_add_modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <span class="ft5 ftbb">Add words to the wordbook</span>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>                                   
+                <div class="modal-body">                                          
+                  <div class="input-group mb-3">
+                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
+                    <input type="text" name="add_word_eng" class="form-control ft8" placeholder="Input a English Sentence" id="add_word_eng" aria-label="Username" aria-describedby="basic-addon1" > 
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
+                    <input type="text" name="add_word_kor" class="form-control ft8" placeholder="Input it's meaning" id="add_word_kor" aria-label="Username" aria-describedby="basic-addon1">
+                  </div>                                      
+                  <div class="modal-footer">                        
+                    <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="add_word();"> ADD </button>
+                    <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+                  </div>                    
+                </div>
+              </div>
+            </div>
+          </div> 
+        </div>
+        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft6 ftbb text_red" onclick="wordlist_close();"></i></div>      
       </div>
       <div class="contents">
         <div id="wordlist_list" class="wordlist_list">`;
@@ -403,7 +464,14 @@ function open_wordlist(number){
   });
 }
   
-
+function add_word(){
+  var word = {title : document.getElementById('add_word_title').innerText, eng : document.getElementById('add_word_eng').value, kor : document.getElementById('add_word_kor').value};
+  console.log(word);
+  fetch("/wordbook/wordlist/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
+    console.log(results); 
+    open_wordlist('',word.title);       
+  });  
+}
 
     
 
