@@ -2,6 +2,7 @@
 const mainbox_center = document.getElementById('mainbox_center');
 const second_mainbox_center = document.getElementById('second_mainbox_center');
 const second_additionbox_center = document.getElementById('second_additionbox_center');
+const second_wordbox = document.getElementById('second_wordbox');
 
 // input detection
 const Search_DOC = document.querySelector(".searchbar");
@@ -339,6 +340,10 @@ function wordlist_close(){
   click_slideoutdown(second_additionbox_center);  
 }
 
+function word_open(){
+  click_fadein(second_wordbox);
+}
+
 
 function wordbook_list_post(){        
   fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results));
@@ -436,7 +441,7 @@ function open_wordlist(number, title){
     for (let result of results) {
       add_html += `<div class="wordlist_wrap shadow-sm">
       <div class="wordlist_main">
-        <div class="wordlist_text">                    
+        <div class="wordlist_text" onclick="open_word(${i});">                    
           <div id="wordlist_eng_${i}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
           <div id="wordlist_kor_${i}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
         </div>        
@@ -462,6 +467,11 @@ function open_wordlist(number, title){
     second_additionbox_center.innerHTML = add_html;
     wordlist_open();
   });
+}
+
+function open_word(number, word){  
+  var word_modal = new bootstrap.Modal('#word_modal');
+  word_modal.show();
 }
   
 function add_word(){

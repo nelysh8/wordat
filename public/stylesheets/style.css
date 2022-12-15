@@ -109,6 +109,10 @@ ul {
   color : #ff4687;
 }
 
+.modal-content {
+  font-family: 'poppins', sans-serif;
+}
+
 
 /* background color */
 .bg_firebrick {
@@ -686,7 +690,7 @@ ul {
   /* margin-left : auto;
   margin-right : auto; */
   padding : 0;  
-  background-color: cornsilk;
+  background-color: cornsilk;  
 }
 
             #second_additionbox_center .wordlist_headline {
@@ -791,6 +795,7 @@ ul {
             #second_additionbox_center .wordlist_text .wordlist_hashtag {
               display : block;														
             }
+
 
 
 /* 3. footbar */

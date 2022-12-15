@@ -68,7 +68,8 @@
 
       async function click_fadein(obj) {        
         console.log('fadein detected : '+ obj.id);
-        obj.classList.toggle('animate__fadeIn');      
+        visible(obj);
+        obj.classList.toggle('animate__fadeIn');              
         await sleep(1); 
         obj.classList.toggle('animate__fadeIn');
       }        
