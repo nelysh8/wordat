@@ -102,11 +102,12 @@
 
 
       function visible(obj){        
+        console.log(obj);
         console.log(obj.style);
         console.log(obj.style.display);
-        if (obj.style.display === 'none') {
+        if ((obj.style.display === 'none') || (obj.style.display==='')){
           console.log('visible start')
-          obj.setAttribute('style', 'display : block');
+          obj.style.display = 'block';
         }        
       }
 

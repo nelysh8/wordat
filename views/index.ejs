@@ -185,8 +185,65 @@
            -->
         </div>
       </div>
-
+      
+      <!-- second_additionbox_center -->
+      <div class="container-fluid second_additionbox_center animate__animated" id="second_additionbox_center" style="display:none;">
+        <div class="wordlist_headline">
+          <div class="title"><span class="ft6 ftb text_pink"> Wordlist_Name </span></div>
+          <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red" onclick="wordlist_close();"></i></div>
+        </div>
+        <div class="contents">
+          <div id="wordlist_list" class="wordlist_list">
+            <!-- example start -->
+            <div class="wordlist_wrap shadow-sm">
+              <div class="wordlist_main">
+                <div class="wordlist_text">                    
+                  <div id="wordlist_eng" class="wordlist_eng ft8 ftb"> <span> I'm obsessed with </span></div>
+                  <div id="wordlist_kor" class="wordlist_kor ft8 ftb"> <span> 난 ~에 빠졌어 </span></div>
+                </div>
+                <div class="wordlist_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordlist_list_post();"></i></div>
+                <div class="wordlist_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
+                <div class="wordlist_option">
+                  <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_1" aria-expanded="false" aria-controls="wordlist_example_1"></i>
+                </div>
+              </div>
+              <div class="wordlist_second">
+                <div class="collapse wordlist_example ft10" id="wordlist_example_1">                  
+                  <ul>
+                    <li>People are absolutely obsessed with their rights. <br> 사람들은 자신의 권리에 절대적으로 집착합니다. </li>
+                    <li>They are obsessed with their own plans. <br> 그들은 자신의 계획에 집착합니다.</li>
+                  </ul>
+                </div>
+                </div>                
+              </div>
+            </div>
+            <div class="wordlist_wrap shadow-sm">
+              <div class="wordlist_main">
+                <div class="wordlist_text">                    
+                  <div id="wordlist_eng" class="wordlist_eng ft8 ftb"> <span> High maintenance </span></div>
+                  <div id="wordlist_kor" class="wordlist_kor ft8 ftb"> <span> 손이 많이 가는 </span></div>
+                </div>
+                <div class="wordlist_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordlist_list_post();"></i></div>
+                <div class="wordlist_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
+                <div class="wordlist_option">
+                  <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_2" aria-expanded="false" aria-controls="wordlist_example_2"></i>
+                </div>
+              </div>
+              <div class="wordlist_second">
+                <div class="collapse wordlist_example ft10" id="wordlist_example_2">                  
+                  <ul>
+                    <li>low maintenance <br> 소탈한, 까다롭지 않은 </li>
+                    <li>You're high maintenance. <br> 너 손이 많이 가네. </li>
+                  </ul>
+                </div>                
+              </div>                
+            </div>                              
+          </div>
+        </div>  
+      </div>
     </div>
+
+    
 
 
 <!-- foot bar -->
@@ -220,7 +277,8 @@
 
   <!-- script -->
 
-  <script src="/javascripts/index_function.js"></script>   
+  <script src="/javascripts/index_function.js"></script> 
+  
     
     
     

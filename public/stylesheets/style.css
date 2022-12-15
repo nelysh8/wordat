@@ -358,82 +358,6 @@ ul {
               
             }
 
-						/* 1. wordbook */
-
-						#second_mainbox_center .wordbook_headline {
-              display: flex;              
-              width : 100%;
-              margin : 0;
-              padding : 0.5rem 1.5rem 0.5rem 1.5rem;              
-							/* background: linear-gradient(45deg, #3123b4, #3123b4, #170e40, #0a042a);                             */
-              font-family: 'Permanent Marker', cursive;              
-              border-radius: 5px ;                            
-              align-items:stretch;
-            }
-
-						#second_mainbox_center .wordbook_headline .title {
-              display : flex;							              
-              margin : auto;
-              border-bottom : 0.3rem solid #1d2a57;              
-						}
-
-            #second_mainbox_center .wordbook_headline .back_icon {							
-              display : flex;							
-							margin : auto;
-						}
-
-						#second_mainbox_center .contents {
-							display : block;
-              align-items: center;              
-              width : 100%; 
-							margin-top : 5rem;
-						}
-
-						#second_mainbox_center .wordbook_list {
-              display : block;
-              width : 100%;              
-              margin-top : 0.5rem;
-              text-align : left;
-							border-radius: 5px;
-            }
-
-						#second_mainbox_center .wordbook_wrap {
-							display : flex;
-              width : 90%;              
-              margin : auto;							
-							margin-top : 0.5rem;
-							padding : 0.5rem 1rem 0.5rem 1rem;							
-              text-align : left;
-							border-radius: 5px;
-						}
-
-						.wordbook_wrap .wordbook_text {
-							display : block;
-							width : 80%;
-							
-							margin-left : 0rem;							
-							margin-right : 0rem;
-						}					
-						
-						.wordbook_wrap .wordbook_option {
-							display : block;								
-							margin : auto;
-							text-align: center;
-							vertical-align: middle;
-							
-						}
-
-						.wordbook_option i {
-							display : block;							
-						}
-
-						.wordbook_text .wordbook_name {
-							display : block;
-						}
-
-						.wordbook_text .wordbook_hashtag {
-							display : block;														
-						}
 
 						/* .searchbar_items {
 							display : flex;
@@ -658,8 +582,195 @@ ul {
   margin-left : auto;
   margin-right : auto;
   padding : 0;
-  z-index: 50;
+  z-index: 50;  
+}						
+
+						#second_mainbox_center .wordbook_headline {
+              display: flex;              
+              width : 100%;
+              margin : 0;
+              padding : 0.5rem 1.5rem 0.5rem 1.5rem;              
+							/* background: linear-gradient(45deg, #3123b4, #3123b4, #170e40, #0a042a);                             */
+              font-family: 'Permanent Marker', cursive;              
+              border-radius: 5px ;                            
+              align-items:stretch;
+            }
+
+						#second_mainbox_center .wordbook_headline .title {
+              display : flex;							              
+              margin : auto;
+              border-bottom : 0.3rem solid #1d2a57;              
+						}
+
+            #second_mainbox_center .wordbook_headline .back_icon {							
+              display : flex;							
+							margin : auto;
+						}
+
+						#second_mainbox_center .contents {
+							display : block;
+              align-items: center;              
+              width : 100%; 
+							margin-top : 5rem;
+						}
+
+						#second_mainbox_center .wordbook_list {
+              display : block;
+              width : 100%;              
+              margin-top : 0.5rem;
+              text-align : left;
+							border-radius: 5px;
+            }
+
+						#second_mainbox_center .wordbook_wrap {
+							display : flex;
+              width : 90%;              
+              margin : auto;							
+							margin-top : 0.5rem;
+							padding : 0.5rem 1rem 0.5rem 1rem;							
+              text-align : left;
+							border-radius: 5px;
+						}
+
+						#second_mainbox_center .wordbook_wrap .wordbook_text {
+							display : block;
+							width : 80%;
+							
+							margin-left : 0rem;							
+							margin-right : 0rem;
+						}					
+						
+						#second_mainbox_center .wordbook_wrap .wordbook_option {
+							display : block;								
+							margin : auto;
+							text-align: center;
+							vertical-align: middle;							
+						}
+
+						#second_mainbox_center .wordbook_option i {
+							display : block;							
+						}
+
+						#second_mainbox_center .wordbook_text .wordbook_name {
+							display : block;
+						}
+
+						#second_mainbox_center .wordbook_text .wordbook_hashtag {
+							display : block;														
+						}
+
+
+#second_additionbox_center {
+  display : none;
+  width : 90%;  
+  top : 5rem;
+  left : 2rem;
+  justify-content: space-between;  
+  padding : 0.5rem 0.5rem 0.5rem 1rem;
+  /* align-content:center;
+  align-items: center;
+  text-align: center; */
+  /* margin-top : 10rem;
+  margin-bottom : 7rem;     */
+  /* margin-left : auto;
+  margin-right : auto; */
+  padding : 0;
+  z-index: 60;
+  background-color: cornsilk;
 }
+
+            #second_additionbox_center .wordlist_headline {
+              display: flex;              
+              width : 100%;
+              margin : 0;
+              padding : 0.5rem 1.5rem 0.5rem 1.5rem;              
+              /* background: linear-gradient(45deg, #3123b4, #3123b4, #170e40, #0a042a);                             */
+              font-family: 'Permanent Marker', cursive;              
+              border-radius: 5px ;                            
+              align-items:stretch;
+            }
+
+            #second_additionbox_center .wordlist_headline .title {
+              display : flex;							              
+              margin : auto;
+              border-bottom : 0.3rem solid #1d2a57;              
+            }
+
+            #second_additionbox_center .wordlist_headline .back_icon {							
+              display : flex;							
+              margin : auto;
+            }
+
+            #second_additionbox_center .contents {
+              display : block;
+              align-items: center;              
+              width : 100%; 
+              margin-top : 5rem;
+            }
+
+            #second_additionbox_center .wordlist_list {
+              display : block;
+              width : 100%;              
+              margin-top : 0.5rem;
+              text-align : left;
+              border-radius: 5px;
+            }
+
+            #second_additionbox_center .wordlist_wrap {
+              display : block;
+              width : 90%;              
+              margin : auto;							
+              margin-top : 0.5rem;
+              padding : 0.5rem 1rem 0.5rem 1rem;							
+              text-align : left;
+              border-radius: 5px;
+            }
+
+            #second_additionbox_center .wordlist_wrap .wordlist_main {
+              display : flex;
+              width : 100%
+              
+              margin-left : 0rem;							
+              margin-right : 0rem;
+            }
+
+            #second_additionbox_center .wordlist_wrap .wordlist_text {
+              display : block;
+              width : 80%;
+              
+              margin-left : 0rem;							
+              margin-right : 0rem;
+            }					
+
+            #second_additionbox_center .wordlist_wrap .wordlist_option {
+              display : block;								
+              margin : auto;
+              text-align: center;
+              vertical-align: middle;
+              
+            }
+
+            #second_additionbox_center .wordlist_wrap .wordlist_example {
+              /* display :none; */
+              /* display : block; */
+            }
+
+            #second_additionbox_center .wordlist_wrap .wordlist_example ul {
+              list-style-type :circle;
+              content: ">";
+            }
+
+            #second_additionbox_center .wordlist_option i {
+              display : block;							
+            }
+
+            #second_additionbox_center .wordlist_text .wordlist_name {
+              display : block;
+            }
+
+            #second_additionbox_center .wordlist_text .wordlist_hashtag {
+              display : block;														
+            }
 
 
 /* 3. footbar */
