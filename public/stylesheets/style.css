@@ -570,9 +570,9 @@ ul {
     padding-left : 5px;
 }
 
-/* 2-2. second_mainbox_center */
+/* 2-2. second_1box_center */
 
-.second_mainbox_center {
+.second_1box_center {
   display : none;
   width : 100%;  
   /* height : 100%; */
@@ -585,10 +585,10 @@ ul {
   margin-bottom : 5rem;    
   margin-left : auto;
   margin-right : auto;
-  padding : 0;  
+  padding : 0;    
 }						
 
-						#second_mainbox_center .wordbook_headline {
+						#second_1box_center .wordbook_headline {
               display: flex;              
               width : 100%;
               margin : 0;
@@ -600,32 +600,32 @@ ul {
               
             }
 
-						#second_mainbox_center .wordbook_headline .title {
+						#second_1box_center .wordbook_headline .title {
               display : flex;							              
               margin : auto auto auto 1rem;
-
+              width : 70%;
               border-bottom : 0.3rem solid #ff4687;             
               text-align : left;						
             }            
 
-            #second_mainbox_center .wordbook_headline .plus_icon {							
+            #second_1box_center .wordbook_headline .plus_icon {							
               display : flex;							
 							margin : auto 1rem auto auto;
 						}
 
-            #second_mainbox_center .wordbook_headline .back_icon {							
+            #second_1box_center .wordbook_headline .back_icon {							
               display : flex;							
 							margin : auto 1rem auto 1rem;
 						}
 
-						#second_mainbox_center .contents {
+						#second_1box_center .contents {
 							display : block;
               align-items: center;              
               width : 100%; 
 							margin-top : 5rem;
 						}
 
-						#second_mainbox_center .wordbook_list {
+						#second_1box_center .wordbook_list {
               display : block;
               width : 100%;              
               margin-top : 0.5rem;
@@ -633,7 +633,7 @@ ul {
 							border-radius: 5px;
             }
 
-						#second_mainbox_center .wordbook_wrap {
+						#second_1box_center .wordbook_wrap {
 							display : flex;
               width : 90%;              
               margin : auto;							
@@ -643,7 +643,7 @@ ul {
 							border-radius: 5px;
 						}
 
-						#second_mainbox_center .wordbook_wrap .wordbook_text {
+						#second_1box_center .wordbook_wrap .wordbook_text {
 							display : block;
 							width : 80%;
 							
@@ -651,7 +651,7 @@ ul {
 							margin-right : 0rem;
 						}					
 						
-						#second_mainbox_center .wordbook_wrap .wordbook_option {
+						#second_1box_center .wordbook_wrap .wordbook_option {
 							display : block;								
               width : 20%;
 							margin : 0;
@@ -660,28 +660,26 @@ ul {
 							vertical-align: middle;							
 						}
 
-						#second_mainbox_center .wordbook_option i {
+						#second_1box_center .wordbook_option i {
 							display : block;
               padding : 1rem;							
 						}
 
-						#second_mainbox_center .wordbook_text .wordbook_name {
+						#second_1box_center .wordbook_text .wordbook_name {
 							display : block;
 						}
 
-						#second_mainbox_center .wordbook_text .wordbook_hashtag {
+						#second_1box_center .wordbook_text .wordbook_hashtag {
 							display : block;														
 						}
 
 
-#second_additionbox_center {
+#second_2box_center {
   display : none;
-  width : 95%;  
-  min-height: 100%;
-  top : 5rem;
-  left : 5%;
-  justify-content: space-between;  
-  padding : 0.5rem 0.5rem 0.5rem 1rem;
+  width : 100%;  
+  height : 100%;
+  margin-left : 0; 
+  justify-content: space-between;    
   /* align-content:center;
   align-items: center;
   text-align: center; */
@@ -690,10 +688,11 @@ ul {
   /* margin-left : auto;
   margin-right : auto; */
   padding : 0;  
-  background-color: cornsilk;  
+  background-color: cornsilk;   
 }
 
-            #second_additionbox_center .wordlist_headline {
+
+            #second_2box_center .wordlist_headline {
               display: flex;              
               width : 100%;
               margin : 0;
@@ -704,20 +703,21 @@ ul {
               align-items:stretch;
             }
 
-            #second_additionbox_center .wordlist_headline .title {
+            #second_2box_center .wordlist_headline .title {
               display : flex;							              
               margin : auto auto auto 1rem;
+              width : 70%;
 
               border-bottom : 0.3rem solid #ff4687;             
               text-align : left;            
             }
 
-            #second_additionbox_center .wordlist_headline .plus_icon {							
+            #second_2box_center .wordlist_headline .plus_icon {							
               display : flex;							
 							margin : auto 1rem auto auto;
 						}
 
-            #second_additionbox_center .wordlist_headline .back_icon {							
+            #second_2box_center .wordlist_headline .back_icon {							
               display : flex;							
 							margin : auto 1rem auto 1rem;
             }
@@ -725,14 +725,14 @@ ul {
 
 
 
-            #second_additionbox_center .contents {
+            #second_2box_center .contents {
               display : block;
               align-items: center;              
               width : 100%; 
               margin-top : 5rem;
             }
 
-            #second_additionbox_center .wordlist_list {
+            #second_2box_center .wordlist_list {
               display : block;
               width : 100%;              
               margin-top : 0.5rem;
@@ -740,7 +740,7 @@ ul {
               border-radius: 5px;
             }
 
-            #second_additionbox_center .wordlist_wrap {
+            #second_2box_center .wordlist_wrap {
               display : block;
               width : 90%;              
               margin : auto;							
@@ -750,7 +750,7 @@ ul {
               border-radius: 5px;
             }
 
-            #second_additionbox_center .wordlist_wrap .wordlist_main {
+            #second_2box_center .wordlist_wrap .wordlist_main {
               display : flex;
               width : 100%
               
@@ -758,7 +758,7 @@ ul {
               margin-right : 0rem;
             }
 
-            #second_additionbox_center .wordlist_wrap .wordlist_text {
+            #second_2box_center .wordlist_wrap .wordlist_text {
               display : block;
               width : 80%;
               
@@ -766,7 +766,7 @@ ul {
               margin-right : 0rem;
             }					
 
-            #second_additionbox_center .wordlist_wrap .wordlist_option {
+            #second_2box_center .wordlist_wrap .wordlist_option {
               display : block;								
               margin : auto;
               text-align: center;
@@ -774,29 +774,249 @@ ul {
               
             }
 
-            #second_additionbox_center .wordlist_wrap .wordlist_example {
+            #second_2box_center .wordlist_wrap .wordlist_example {
               /* display :none; */
               /* display : block; */
             }
 
-            #second_additionbox_center .wordlist_wrap .wordlist_example ul {
+            #second_2box_center .wordlist_wrap .wordlist_example ul {
               list-style-type :circle;
               content: ">";
             }
 
-            #second_additionbox_center .wordlist_option i {
+            #second_2box_center .wordlist_option i {
               display : block;							
             }
 
-            #second_additionbox_center .wordlist_text .wordlist_name {
+            #second_2box_center .wordlist_text .wordlist_name {
               display : block;
             }
 
-            #second_additionbox_center .wordlist_text .wordlist_hashtag {
+            #second_2box_center .wordlist_text .wordlist_hashtag {
               display : block;														
             }
 
+#second_3box_center {
+  display : none;
+  width : 100%;  
+  height : 100%;  
 
+  margin-left : 0;
+  justify-content: space-between;  
+  padding : 0;
+  /* align-content:center;
+  align-items: center;
+  text-align: center; */
+  /* margin-top : 10rem;
+  margin-bottom : 7rem;     */
+  /* margin-left : auto;
+  margin-right : auto; */  
+  background-color: white;
+}
+
+            #second_3box_center .word_headline {
+              display: flex;              
+              width : 100%;
+              margin : 0;
+              padding : 0.5rem 1.5rem 0.5rem 1.5rem;              
+              /* background: linear-gradient(45deg, #3123b4, #3123b4, #170e40, #0a042a);                             */              
+              border-radius: 5px ;                            
+              align-items:stretch;
+            }
+
+            #second_3box_center .word_headline .title {
+              display : flex;							              
+              border-bottom : 0.3rem solid #ff4687; 
+              margin : auto auto auto 1rem;
+              align-items: left;              
+              width : 70% ;                              
+              font-family: 'Permanent Marker', 'poppins',sans-serif;  
+            }
+
+            #second_3box_center .word_headline .plus_icon {							
+              display : flex;							
+              margin : auto 1rem auto auto;
+            }
+
+            #second_3box_center .word_headline .back_icon {							
+              display : flex;							
+              margin : auto 1rem auto 1rem;
+            }
+
+            #second_3box_center .contents .word_view {
+
+            }
+
+            #second_3box_center .contents .word_view .word_view_1 {                            
+              width : 90%;
+              margin : auto;
+              border-radius: 0.5rem;
+              border :0.1rem solid #768689;
+              background-color: #ddfaff;
+            }
+
+            #second_3box_center .contents .word_view_1 ul {
+              margin : auto;
+              padding : 0.5rem;          
+            }
+
+            #second_3box_center .contents .word_view_1 ul li{
+              text-align : left;      
+
+            }
+
+            #second_3box_center .contents .word_view .word_view_2 {                            
+              width : 90%;
+              margin : auto;
+              border-radius: 0.5rem;
+            }
+
+            #second_3box_center .contents .word_view_2 ul {
+              margin : auto;
+              padding : 0.5rem 0.5rem 0.5rem 2rem;                                      
+            }
+
+            #second_3box_center .contents .word_view_2 ul li {
+              list-style : disc outside none;
+              text-align : left;
+            }
+
+
+            .word_toolbar {
+              display : block;    
+              align-content:center;
+              align-items: center;
+              text-align: center;
+              vertical-align: middle;
+              border-radius : 7px;    
+              margin-bottom : 2rem;
+            }
+          
+              .word_toolbar_main {
+                  display : flex;
+                  width : 90%;
+                  margin : auto;
+                  margin-top : 0.8rem;
+                  margin-bottom : 0.8rem;
+                  align-content: space-between;
+                  vertical-align: middle;
+                  border-radius: 5px ;
+                  
+              }
+          
+                #word_toolbar_input {    
+                    position : relative;
+                    height : 3.6rem;
+                    /* ((scrollHeight/10)+0.4)rem; */
+                    width: 90%;
+                    border-radius: 5px ;
+                    border : 0.1rem solid #999;
+                    outline : none;     
+                    text-align : justify;
+                    padding : 0.5rem 2.8rem 0.5rem 1rem;    
+                }
+          
+                #word_toolbar_input:focus {
+                    border: 2px solid firebrick;
+                }
+          
+                #word_toolbar_input_icon_x {
+                    position : absolute;
+                    left : 75%;
+                    /* top : 61%; */
+                    /* transform: translateY(-50%);     */
+                    height : 3.6rem;
+                    font-size : 2.5rem;					
+                    /* margin-bottom : 1rem; */ 
+                    z-index : 0;
+                }
+                
+                #word_toolbar_icon_trans {
+                  display : flex;			
+                  align-items: center;	
+                  margin-left : 0.3rem;
+                  font-size : 3.3rem;				
+                  padding : 0;
+                  height : 3.6rem;				
+                }			
+          
+              .word_toolbar_items {
+                  display : flex;
+                  width : 90%;
+                  padding : 0.5rem;
+                  border-radius: 5px ;
+                  margin : auto;
+                  margin-bottom : 1.5rem;
+                  text-align :justify;
+                  text-align-last: justify;
+                  align-content: space-between;
+                  vertical-align: middle;    
+              }
+          
+                .word_toolbar_items a {				
+                  margin : auto;
+                  /* align-content:center;
+                  vertical-align: middle; */
+                }
+              
+                .word_toolbar_items .tts {				
+                    margin : auto;
+                    /* align-content:center;
+                    vertical-align: middle; */
+                }
+          
+                .word_toolbar_items i {        				
+                  font-size : 25px;
+                  margin : auto;				
+                  /* margin-bottom : 1rem; */
+                  /* padding : 0.5rem;     */
+                  /* z-index : 0; */
+                }
+              
+              .word_toolbar_result {
+                display : block;        
+                align-content:center;
+                align-items: center;
+                text-align: center;
+                vertical-align: middle;    
+                background-color: cornsilk;
+                border-radius : 7px;   
+                margin-bottom : 5rem;        
+              }
+
+              .word_toolbar_result {
+                width : 90%;
+                margin : auto;        
+                text-align : left;
+              }
+            
+              .word_toolbar_result ul {    
+                  width : 95%;        
+                  margin-left : 1rem;    
+                  text-align : left;
+                  vertical-align: middle;
+                  padding : 0;
+              }
+              
+              .word_toolbar_result ul li {
+                  color : gray;            
+              }
+              
+              .wtrv_ENG {    
+                  border-left : 3px solid black;
+                  border-radius : 3px;
+                  border-color: coral;
+                  padding-left : 5px;
+              }
+              
+              .wtrv_KOR {    
+                  border-left : 3px solid black;
+                  border-radius : 3px;
+                  border-color: coral;
+                  padding-left : 5px;
+              }
+            
+               
 
 /* 3. footbar */
 

@@ -49,16 +49,29 @@
 
       async function clear_input(){        
         document.getElementById("main_input").value="";
-        click_fadeout(document.getElementById('result_contents'));
+        // click_fadeout(document.getElementById('result_contents'));
         click_fadeout(document.getElementById('Sres_view'));
         resize(document.getElementById("main_input"));                
         await sleep(1);        
         iframe2_dis();    
-        var doc = document.getElementById('result_view').contentWindow.document;
-        doc.getElementById('contents_cambrg').innerHTML = `<div class="blank_sheet">
-        <div class="animate__animated animate__slideInDown text_center"><span class="ft3 ftbb"> What's difference? </span> </div>
-      </div>`;
-        click_fadein(document.getElementById('result_contents'));           
+      //   var doc = document.getElementById('result_view').contentWindow.document;
+      //   doc.getElementById('contents_cambrg').innerHTML = `<div class="blank_sheet">
+      //   <div class="animate__animated animate__slideInDown text_center"><span class="ft3 ftbb"> What's difference? </span> </div>
+      // </div>`;
+        // click_fadein(document.getElementById('result_contents'));           
+      }
+
+      async function clear_word_toolbar_input(){        
+        document.getElementById("word_toolbar_input").value="";
+        // click_fadeout(document.getElementById('result_contents'));
+        click_fadeout(document.getElementById('word_toolbar_result'));
+        resize(document.getElementById("word_toolbar_input"));                
+        await sleep(1);                
+      //   var doc = document.getElementById('result_view').contentWindow.document;
+      //   doc.getElementById('contents_cambrg').innerHTML = `<div class="blank_sheet">
+      //   <div class="animate__animated animate__slideInDown text_center"><span class="ft3 ftbb"> What's difference? </span> </div>
+      // </div>`;
+        // click_fadein(document.getElementById('result_contents'));           
       }
 
       function resize(obj) {        
@@ -77,6 +90,7 @@
       async function click_fadeout(obj) {        
         obj.classList.toggle('animate__fadeOut');      
         await sleep(1); 
+        hidden(obj);
         obj.classList.toggle('animate__fadeOut');
       }              
 
@@ -141,18 +155,17 @@
 
       function footbar_vis() {        
         document.getElementById('footbar').style.display = 'flex';
-      }      
-
-      window.onload = function() {
-        var oFrame = document.getElementById("Sres_view");
-        oFrame.contentWindow.document.onclick = function() {
-          document.getElementById('footbar').style.display = 'flex'
-        };
-      };
+      }           
 
       function footbar_dis() {        
         document.getElementById('footbar').style.display = 'none';
       }
 
+      // window.onload = function() {
+      //   var oFrame = document.getElementById("Sres_view");
+      //   oFrame.contentWindow.document.onclick = function() {
+      //     document.getElementById('footbar').style.display = 'flex'
+      //   };
+      // };
       
     

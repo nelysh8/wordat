@@ -29,9 +29,11 @@ router.post('/', function (req, res, next) {
 
 // WORDBOOK ADD
 
+ // 식별번호, 영어문장, 한글문장, [{예문1 영어, 예문1 한글, 저장시각, 로드시각, 로드횟수}, 저장시각, 로드시각, 로드횟수]
+
 router.post('/add', function (req, res, next) {    
-    var newlist_name = req.body.title;
-    var sql = "CREATE TABLE " + newlist_name + " (ID INT(11) NOT NULL AUTO_INCREMENT, P_ID INT(11) NOT NULL DEFAULT '0', ENG TEXT, KOR TEXT, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', PRIMARY KEY(ID))";
+    var newlist_name = (req.body.title).replace(/ /gi, '_');        
+    var sql = "CREATE TABLE " + newlist_name + " (ID INT(11) NOT NULL AUTO_INCREMENT, ENG TEXT, KOR TEXT, EXAMPLE TEXT, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', PRIMARY KEY(ID))";
     console.log(sql);
     conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
@@ -65,11 +67,29 @@ router.post('/edit', function (req, res, next) {
 });
 
 
-// WORD LIST
+// WORDLIST
 
 router.post('/wordlist', function (req, res, next) {    
-    var wordbook_title = req.body.title;    
-    var sql = "SELECT * FROM " + wordbook_title + " WHERE P_ID=0";
+    var wordbook_title = req.body.title;        
+    console.log(wordbook_title);
+    var sql = `SELECT * FROM ${wordbook_title}`;
+    // var sql = "SELECT * FROM " + wordbook_title + " WHERE P_ID=0";
+    console.log(sql);
+    conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);
+        res.json(results);        
+    });
+});
+
+// WORD
+
+router.post('/word', function (req, res, next) {    
+    console.log(req.body);
+    var wordbook_title = req.body.wordbook_title;    
+    var word_id = req.body.word_id;
+    console.log(wordbook_title, word_id);
+    var sql = `SELECT * FROM ${wordbook_title} WHERE ID = ${word_id}`;
+    // var sql = "SELECT * FROM " + wordbook_title + " WHERE P_ID=0";
     console.log(sql);
     conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);
@@ -79,7 +99,7 @@ router.post('/wordlist', function (req, res, next) {
 
 // WORD ADD
 
-router.post('/wordlist/add/', function (req, res, next) {        
+router.post('/word/add/', function (req, res, next) {        
     var wordbook_title = req.body.title;
     console.log(wordbook_title);
     var word_english = req.body.eng;
@@ -88,14 +108,59 @@ router.post('/wordlist/add/', function (req, res, next) {
     console.log(word_korean);
     var data = [word_english, word_korean];
     console.log(wordbook_title + ' ---- ' + data);
-    
-    var sql = "INSERT INTO " + wordbook_title + " (ENG, KOR, SAVEDATE, LOADDATE) VALUE (?,?,now(), now())";
+    let now = new Date();
+    let time = `${now.getFullYear()}${now.getMonth()+1}${now.getDate()}`;
+    console.log(time);
+    var sql = `INSERT INTO ${wordbook_title} (ENG, KOR, SAVEDATE, LOADDATE) VALUE (?,?, ${time}, ${time})`;
     conn.query(sql, data, function(err, results){
         if (err) console.err("err:" + err);
         res.json(results);   
     });
 });
 
+// EXAMPLE ADD
+
+router.post('/exam/add/', function (req, res, next) {        
+    console.log('exam add start');
+    var wordbook_title = req.body.wordbook_title;
+        console.log(wordbook_title);
+    var word_id = req.body.word_id;
+        console.log(word_id);
+    var exam_eng = req.body.ENG;
+        console.log(exam_eng);
+    var exam_kor = req.body.KOR;
+        console.log(exam_kor);
+    var data = [{'ENG' : exam_eng, 'KOR' :exam_kor}];
+    var example = JSON.stringify(data);
+    console.log(example);    
+
+
+    var sql = `UPDATE ${wordbook_title} SET EXAMPLE = '${example}' WHERE ID = ${word_id}`;
+    console.log(sql);
+    conn.query(sql, data, function(err, results){
+        if (err) console.err("err:" + err);
+        res.json(results);   
+    });
+});
+// 
+// router.post('/exam/add/', function (req, res, next) {        
+//     var word_title = req.body.title;
+//     console.log(wordbook_title);
+//     var exam_english = req.body.eng;
+//     console.log(word_english);
+//     var exam_korean = req.body.kor;
+//     console.log(word_korean);
+//     var data = [exam_english, exam_korean];
+//     console.log(word_title + ' ---- ' + data);
+    
+//     var sql = `UPDATE  ${table_name} SET EXAM = '${example.data}' WHERE id = ${target.id};`;
+//     conn.query(sql, data, function(err, results){
+//         if (err) console.err("err:" + err);
+//         res.json(results);   
+//     });
+// });
+
+// UPDATE table_name SET name = '김현우', country = '대한민국' WHERE id = 1004;
     
     // conn.query(wordbook_name, function(err, results){
     //     if (err) console.err("err:" + err);        
