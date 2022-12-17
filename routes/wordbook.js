@@ -44,6 +44,7 @@ router.post('/add', function (req, res, next) {
 // WORDBOOK DELETE
 
 router.post('/remove', function (req, res, next) {    
+    console.log('remove wordbook_title');
     var wordbook_title = req.body.title;
     var sql = "DROP TABLE " + wordbook_title;
     console.log(sql);
@@ -55,7 +56,8 @@ router.post('/remove', function (req, res, next) {
 
 // WORDBOOK EDIT
 
-router.post('/edit', function (req, res, next) {    
+router.post('/edit', function (req, res, next) {
+    console.log('edit wordbook_title');    
     var wordbook_oldtitle = req.body.oldtitle;
     var wordbook_newtitle = req.body.newtitle;
     var sql = "ALTER TABLE " + wordbook_oldtitle + " RENAME " + wordbook_newtitle;
@@ -92,8 +94,7 @@ router.post('/word', function (req, res, next) {
     // var sql = "SELECT * FROM " + wordbook_title + " WHERE P_ID=0";
     console.log(sql);
     conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);
-        console.log(results);
+        if (err) console.err("err:" + err);        
         res.json(results);        
     });
 });
@@ -129,11 +130,11 @@ router.post('/exam/add/', function (req, res, next) {
     var exam_eng = req.body.exam_eng;        
     var exam_kor = req.body.exam_kor;        
     console.log('elements : ' + wordbook_title, word_id, exam_eng, exam_kor);
-    var data = {'ENG' : exam_eng, 'KOR' :exam_kor};
+    var data = {'ENG' : exam_eng, 'KOR' : exam_kor};
     var example = JSON.stringify(data);
     console.log(example);    
     // value change //
-        // var sql = `UPDATE ${wordbook_title} SET EXAMPLE = '${example}' WHERE ID = ${word_id}`;
+        // var sql = `UPDATE ${wordbook_title} SET EXAMPLE = 'aaa' WHERE ID = ${word_id}`;
     // value add //            
         var sql = `UPDATE ${wordbook_title} SET EXAMPLE = JSON_ARRAY_APPEND(EXAMPLE, '$', CAST('${example}' AS JSON)) WHERE ID = ${word_id}`;
     console.log(sql);

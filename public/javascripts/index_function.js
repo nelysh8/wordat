@@ -457,19 +457,24 @@ function wim_submit_btn_click(position){
     };
     fetch("/wordbook/word/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
       console.log(results);        
-    });  
+    });
+    wordlist_reading('',word.wordbook_title);
   } else if (req_pos === 'second_3box_center'){
     console.log(req_pos + 'wim_submit_btn_click start');
+    let exam_eng = document.getElementById('wim_input_eng').value.replace(/'/gi, "''"); //mysql에서 문자 안의 '는 ''로 찍어줘야 함
+    console.log(exam_eng);
+
     var word = {
       'wordbook_title' : document.getElementById('s2_wordbook_title').innerText,
       'word_id' : document.getElementById('s3_word_id').innerText,
-      'exam_eng' : document.getElementById('wim_input_eng').value, 
+      'exam_eng' : exam_eng, 
       'exam_kor' : document.getElementById('wim_input_kor').value
     };
+    console.log(word);
     fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
       console.log(results);        
     });
-    word_reading(document.getElementById('s3_word_id').innerText);  
+    // word_reading(document.getElementById('s3_word_id').innerText);  
   }
 }
 
@@ -529,11 +534,27 @@ function wordbook_reading(){
                           </div>
                         </div>                                                                                                         
                       </div>
-                      <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red" onclick="remove_wordbook_click(${i});"></i></div>                      
+                      <div class="wordbook_option">
+                        <i class="fa-solid fa-trash-can ft7 ftb text_red" data-bs-toggle="modal" data-bs-target="#wb_remove_confirm"> </i>
+                        <div class="modal fade" id="wb_remove_confirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">                              
+                              <div class="modal-body">
+                                정말 삭제하시겠습니까?
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="remove_wordbook_click(${i});">CONFIRM</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                                
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>                      
                     </div>                  
                   </div>`;                  
       i += 1;
-    }
+    };
     
     var doc = document.getElementById("wordbook_list");
     doc.innerHTML = add_html;
@@ -552,6 +573,7 @@ async function add_wordbook_click(){
 }
 
 async function remove_wordbook_click(number){
+  console.log('remove wordbook detected');
   let wordbook_title = {title : document.getElementById(`wordbook_title_${number}`).innerText};
   await fetch("/wordbook/remove", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
     console.log(results);
@@ -560,6 +582,7 @@ async function remove_wordbook_click(number){
 }
 
 async function edit_wordbook_click(number){
+  console.log('edit wordbook detected');
   let wordbook_title = {oldtitle : document.getElementById(`wordbook_title_${number}`).innerText, newtitle : document.getElementById(`edit_wordbook_title_${number}`).value};
   console.log(wordbook_title);
   await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
@@ -605,31 +628,7 @@ function wordlist_reading(number, title){
           <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_2box_center')";></i>          
         </div>
         <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft6 ftbb text_red" onclick="wordlist_close();"></i></div>`;
-      document.getElementById('wordlist_headline').innerHTML = add_head_html;     
-              // <div id="word_add_modal" class="modal fade" role="dialog">
-          //   <div class="modal-dialog modal-dialog-centered">
-          //     <div class="modal-content">
-          //       <div class="modal-header">
-          //         <span class="ft5 ftbb">Add words to the wordbook</span>
-          //         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          //       </div>                                   
-          //       <div class="modal-body">                                          
-          //         <div class="input-group mb-3">
-          //           <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
-          //           <input type="text" name="add_word_eng" class="form-control ft8" placeholder="Input a English Sentence" id="add_word_eng" aria-label="Username" aria-describedby="basic-addon1" > 
-          //         </div>
-          //         <div class="input-group mb-3">
-          //           <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
-          //           <input type="text" name="add_word_kor" class="form-control ft8" placeholder="Input it's meaning" id="add_word_kor" aria-label="Username" aria-describedby="basic-addon1">
-          //         </div>                                      
-          //         <div class="modal-footer">                        
-          //           <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="add_word();"> ADD </button>
-          //           <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
-          //         </div>                    
-          //       </div>
-          //     </div>
-          //   </div>
-          // </div> 
+      document.getElementById('wordlist_headline').innerHTML = add_head_html;                  
 
     for (let result of results) {
       examples = JSON.parse(result.EXAMPLE);
@@ -671,14 +670,14 @@ function wordlist_reading(number, title){
 
     // functions
 
-function add_word(){
-  var word = {title : document.getElementById('add_word_title').innerText, eng : document.getElementById('add_word_eng').value, kor : document.getElementById('add_word_kor').value};
-  console.log(word);
-  fetch("/wordbook/word/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
-    console.log(results); 
-    wordlist_reading('',word.title);       
-  });  
-}
+// function add_word(){
+//   var word = {title : document.getElementById('s2_wordbook_title').innerText, eng : document.getElementById('add_word_eng').value, kor : document.getElementById('add_word_kor').value};
+//   console.log(word);
+//   fetch("/wordbook/word/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
+//     console.log(results); 
+//     wordlist_reading('',word.title);       
+//   });  
+// }
 
   // word - 3box
 
@@ -703,13 +702,9 @@ function word_reading(ID_number){
   let wordbook_title = document.getElementById('s2_wordbook_title').innerText;
   let word_id = ID_number;
   console.log('elements : ' + wordbook_title, word_id);
-  // if (number === '') {
-  //   wordbook_title = {title : title};
-  // } else {
-  //   wordbook_title = {title : document.getElementById(`wordbook_title_${number}`).innerText};
-  // }  
+  
   let word = {'wordbook_title' : wordbook_title, 'word_id' : word_id};
-  console.log(word);
+  
   fetch("/wordbook/word", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
     console.log('result :: ////');
     console.log(results);
@@ -745,20 +740,20 @@ function word_reading(ID_number){
 
       // exam add
 
-function example_add(){
-  let now = new Date();
-  let time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}`;  
-  let wordbook_title = document.getElementById('add_word_title').innerText;
-  let word_id = document.getElementById('s3_word_id').innerText;
-  let example = {'wordbook_title' : wordbook_title, 'word_id' : word_id, 'ENG' : document.getElementById('exam_eng').value, 'KOR' : document.getElementById('exam_kor').value, 'SAVEDATE' : time, 'LOADDATE' : time , 'LOAD_NUM' : 0};    
-  console.log('example');
-  console.log(example);
-  fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(example)}).then((response)=>response.json()).then((results)=>{
-    console.log(results);
-  });
-  word_reading(word_id);
+// function example_add(){
+//   let now = new Date();
+//   let time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}`;  
+//   let wordbook_title = document.getElementById('s2_wordbook_title').innerText;
+//   let word_id = document.getElementById('s3_word_id').innerText;
+//   let example = {'wordbook_title' : wordbook_title, 'word_id' : word_id, 'ENG' : document.getElementById('exam_eng').value, 'KOR' : document.getElementById('exam_kor').value, 'SAVEDATE' : time, 'LOADDATE' : time , 'LOAD_NUM' : 0};    
+//   console.log('example');
+//   console.log(example);
+//   fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(example)}).then((response)=>response.json()).then((results)=>{
+//     console.log(results);
+//   });
+//   word_reading(word_id);
   // word_reading(word_id);
-}
+// }
 
 
 function word_toolbar_tranbtn_click(){    
