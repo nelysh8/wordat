@@ -281,7 +281,7 @@ function main_trans_papago(SENTC){
               meaning.example = meaning.example.filter(Boolean);
               console.log(meaning, meaning.example.length);
             
-              if ( meaning.example.length > 0 ) {
+              if ( meaning.example !== null ) {
                 wordhead += `<div class="examples">
                         <ul>`;
                 for (let example of meaning.example) {            
@@ -502,36 +502,39 @@ function wordlist_reading(number, title){
 
     for (let result of results) {
       examples = JSON.parse(result.EXAMPLE);
-      console.log(examples);
-      add_contents_html += `<div class="wordlist_wrap shadow-sm">
-      <div class="wordlist_main">
-        <div class="wordlist_text" onclick="word_reading(${result.ID});">                    
-          <div id="wordlist_eng_${result.ID}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
-          <div id="wordlist_kor_${result.ID}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
-        </div>        
-        <div class="wordlist_option">
-          <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}"></i>
-        </div>
-      </div>
-      <div class="wordlist_second">
-            <div class="collapse wordlist_example ft10" id="wordlist_example_${result.ID}">                  
-              <ul>`;
-      
-      j = 0;
-      for (example of examples) {
-        add_contents_html += `<li id="wordlist_${result.ID}_example_${j}">${example.ENG}<br>${example.KOR}</li>`;
-        j +=1 ;
-      }
-      add_contents_html += `</ul>
-            </div>        
+      console.log('1111');
+      console.log(examples);      
+      add_contents_html += `
+      <div class="wordlist_wrap shadow-sm">
+        <div class="wordlist_main">
+          <div class="wordlist_text" onclick="word_reading(${result.ID});">                    
+            <div id="wordlist_eng_${result.ID}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
+            <div id="wordlist_kor_${result.ID}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
+          </div>        
+          <div class="wordlist_option">
+            <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}"></i>
           </div>
         </div>`;
-
-    }
+      if (examples !== null) {
+        j = 0;
+        add_contents_html += `
+          <div class="wordlist_second">
+            <div class="collapse wordlist_example ft10" id="wordlist_example_${result.ID}">                  
+              <ul>`;
+        for (example of examples) {          
+          add_contents_html += `<li id="wordlist_${result.ID}_example_${j}">${example.ENG}<br>${example.KOR}</li>`;
+          j +=1 ;
+        }
+        add_contents_html += `</ul>
+              </div>        
+            </div>
+          </div>`;
+      };      
     add_contents_html += `</div>
-      </div>`;
-    document.getElementById('wordlist_list').innerHTML = add_contents_html;
-    wordlist_open();
+        </div>`;
+    };
+  document.getElementById('wordlist_list').innerHTML = add_contents_html;
+  wordlist_open();
   });
 }    
 
@@ -592,7 +595,7 @@ function word_reading(ID_number){
     // 예문부분 #example_list    
     let example_html = ``;
     let j = 0;
-    if (examples.length > 0) {
+    if (examples !== null) {
       for (example of examples){       
         example_html += `<li id="wordbtn_example_${j}" onclick="tts('${example.ENG}', 1);">${example.ENG}<br>${example.KOR}</li>`;        
       }
