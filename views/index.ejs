@@ -111,23 +111,21 @@
                       </ul>
                     </div>
                   </div>                    
-                </div>                  
-                <form id="form_add_word" action="/word_manage/add/" method="post">
-                  <div class="modal-body">                                          
-                    <div class="input-group mb-3">
-                      <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
-                      <input type="text" name="word_english" class="form-control ft8" placeholder="Input a English Sentence" id="edit_eng" aria-label="Username" aria-describedby="basic-addon1" > 
-                    </div>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
-                      <input type="text" name="word_korean" class="form-control ft8" placeholder="Input it's meaning" id="edit_kor" aria-label="Username" aria-describedby="basic-addon1">
-                    </div>                                      
-                    <div class="modal-footer">                        
-                      <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal"> ADD </button>
-                      <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
-                    </div>                    
+                </div>                                  
+                <div class="modal-body">                                          
+                  <div class="input-group mb-3">
+                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
+                    <input type="text" name="word_english" class="form-control ft8" placeholder="Input a English Sentence" id="mainmodal_add_word_eng" aria-label="Username" aria-describedby="basic-addon1" > 
                   </div>
-                </form> 
+                  <div class="input-group mb-3">
+                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
+                    <input type="text" name="word_korean" class="form-control ft8" placeholder="Input it's meaning" id="mainmodal_add_word_kor" aria-label="Username" aria-describedby="basic-addon1">
+                  </div>                                      
+                  <div class="modal-footer">                        
+                    <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="mainmodal_add_word();"> ADD </button>
+                    <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+                  </div>                    
+                </div>                
               </div>
             </div>
           </div> 

@@ -314,11 +314,11 @@ function addword_click() {
   var form_add_word = document.getElementById("form_add_word");
   
   var engs = document.getElementById('main_input').value.replace(/\n$/,'');        
-  document.getElementById("edit_eng").value = engs;
+  document.getElementById("mainmodal_add_word_eng").value = engs;
   if (document.getElementById('Sres_KOR').innerText === "") {          
   } else {
     console.log(document.getElementById('Sres_KOR').innerText);
-    document.getElementById("edit_kor").value=document.getElementById('Sres_KOR').innerText;
+    document.getElementById("mainmodal_add_word_kor").value=document.getElementById('Sres_KOR').innerText;
   }      
   fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{        
     console.log(results);
@@ -329,11 +329,9 @@ function addword_click() {
     console.log(selected_wordbook);
     console.log(results.includes(selected_wordbook));
     if ((selected_wordbook !== '') && (results.includes(selected_wordbook))) {
-      dropdown_buttton.innerText = selected_wordbook;
-      form_add_word.setAttribute('action', `/word_manage/add/${dropdown_buttton.innerText}`);    
+      dropdown_buttton.innerText = selected_wordbook;          
     } else if (results.length > 0) {
-      dropdown_buttton.innerText = results[0].Tables_in_oq4p2dxa5zpnk9gu;
-      form_add_word.setAttribute('action', `/word_manage/add/${dropdown_buttton.innerText}`);    
+      dropdown_buttton.innerText = results[0].Tables_in_oq4p2dxa5zpnk9gu;      
     };
   });      
 }
@@ -345,6 +343,14 @@ function click_dropdown_menu(obj){
   dropdown_buttton.innerText = obj.innerText;
   selected_wordbook = obj.innerText;
   form_add_word.setAttribute('action', `/word_manage/add/${dropdown_buttton.innerText}`);    
+}
+
+function mainmodal_add_word(){
+  var word = {title : document.getElementById('dropdown_button').innerText, eng : document.getElementById('mainmodal_add_word_eng').value, kor : document.getElementById('mainmodal_add_word_kor').value};
+  console.log(word);
+  fetch("/wordbook/word/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
+    console.log(results);        
+  });  
 }
 
 // second box 
@@ -375,12 +381,12 @@ function wordbook_reading(){
       console.log(data.Tables_in_oq4p2dxa5zpnk9gu);
       add_html += `<div class="wordbook_wrap shadow-sm">
                       <div class="wordbook_text" onclick="wordlist_reading(${i},)">                                          
-                        <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb"><span name="wordbook_title">${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>
+                        <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb"><span name="wordbook_title">${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>                        
                         <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                                              
-                      </div>
+                      </div>                      
                       <div class="wordbook_option">
-                        <i class="fa-solid fa-pen ft7 ftb text_green" data-bs-toggle="modal" data-bs-target="#wordbook_edit_modal"></i>
-                        <div id="wordbook_edit_modal" class="modal fade" role="dialog">
+                        <i class="fa-solid fa-pen ft7 ftb text_green" data-bs-toggle="modal" data-bs-target="#wordbook_${i}_edit_modal"></i>                         
+                        <div id="wordbook_${i}_edit_modal" class="modal fade" role="dialog">
                           <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                               <div class="modal-header">                
@@ -399,13 +405,14 @@ function wordbook_reading(){
                               </div>
                             </div> 
                           </div>
-                        </div>                                                                                                          
+                        </div>                                                                                                         
                       </div>
                       <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red" onclick="remove_wordbook_click(${i});"></i></div>                      
                     </div>                  
                   </div>`;                  
       i += 1;
-    }  
+    }
+    
     var doc = document.getElementById("wordbook_list");
     doc.innerHTML = add_html;
   }
@@ -432,6 +439,7 @@ async function remove_wordbook_click(number){
 
 async function edit_wordbook_click(number){
   let wordbook_title = {oldtitle : document.getElementById(`wordbook_title_${number}`).innerText, newtitle : document.getElementById(`edit_wordbook_title_${number}`).value};
+  console.log(wordbook_title);
   await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
     console.log(results);
   })
@@ -582,9 +590,8 @@ function word_reading(ID_number){
   fetch("/wordbook/word", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
     console.log('result :: ////');
     console.log(results);
-    console.log(results[0].EXAMPLE);        
-    let examples = JSON.parse(results[0].EXAMPLE);
-    console.log(examples + ' : ' + examples.length);    
+    console.log(results[0].EXAMPLE);            
+       
     
     // 문장타이틀부분 #word_view1
     let word_title_html = `
@@ -618,11 +625,12 @@ function example_add(){
   let wordbook_title = document.getElementById('add_word_title').innerText;
   let word_id = document.getElementById('word_id').innerText;
   let example = {'wordbook_title' : wordbook_title, 'word_id' : word_id, 'ENG' : document.getElementById('exam_eng').value, 'KOR' : document.getElementById('exam_kor').value, 'SAVEDATE' : time, 'LOADDATE' : time , 'LOAD_NUM' : 0};    
+  console.log('example');
   console.log(example);
   fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(example)}).then((response)=>response.json()).then((results)=>{
     console.log(results);
   });
-  word_reading(word_id);
+  // word_reading(word_id);
 }
 
 
