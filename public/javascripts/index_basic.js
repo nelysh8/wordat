@@ -48,11 +48,11 @@
       } 
 
       async function clear_input(){        
-        document.getElementById("main_input").value="";
+        document.getElementById("main_search_input").value="";
         // click_fadeout(document.getElementById('result_contents'));
         click_fadeout(document.getElementById('Sres_view'));
-        resize(document.getElementById("main_input"));                
-        await sleep(1);        
+        resize(document.getElementById("main_search_input"));                
+        await sleep(0.9);        
         iframe2_dis();    
       //   var doc = document.getElementById('result_view').contentWindow.document;
       //   doc.getElementById('contents_cambrg').innerHTML = `<div class="blank_sheet">
@@ -66,7 +66,7 @@
         // click_fadeout(document.getElementById('result_contents'));
         click_fadeout(document.getElementById('word_toolbar_result'));
         resize(document.getElementById("word_toolbar_input"));                
-        await sleep(1);                
+        await sleep(0.9);                
       //   var doc = document.getElementById('result_view').contentWindow.document;
       //   doc.getElementById('contents_cambrg').innerHTML = `<div class="blank_sheet">
       //   <div class="animate__animated animate__slideInDown text_center"><span class="ft3 ftbb"> What's difference? </span> </div>
@@ -83,13 +83,13 @@
         console.log('fadein detected : '+ obj.id);
         visible(obj);
         obj.classList.toggle('animate__fadeIn');              
-        await sleep(1); 
+        await sleep(0.9); 
         obj.classList.toggle('animate__fadeIn');
       }        
 
       async function click_fadeout(obj) {        
         obj.classList.toggle('animate__fadeOut');      
-        await sleep(1); 
+        await sleep(0.9); 
         hidden(obj);
         obj.classList.toggle('animate__fadeOut');
       }              
@@ -98,25 +98,33 @@
         console.log('slideup detected : '+ obj.id);        
         visible(obj);   
         obj.classList.toggle('animate__slideInUp');              
-        await sleep(1);                      
-        obj.classList.toggle('animate__slideInUp');
-        
+        await sleep(0.9);                      
+        obj.classList.toggle('animate__slideInUp');        
       }
 
       async function click_slidedown(obj) {        
         console.log('slideup detected : '+ obj.id);
         obj.classList.toggle('animate__slideInDown');      
-        await sleep(1); 
+        await sleep(0.9); 
         obj.classList.toggle('animate__slideInDown');
       }
 
       async function click_slideoutdown(obj) {        
         console.log('slideup detected : '+ obj.id);
         obj.classList.toggle('animate__slideOutDown');      
-        await sleep(1); 
+        await sleep(0.9); 
         obj.classList.toggle('animate__slideOutDown');
         hidden(obj);
       }
+
+      async function click_fadeoutdown(obj) {        
+        console.log('slideup detected : '+ obj.id);
+        obj.classList.toggle('animate__fadeOutDown');      
+        await sleep(0.9); 
+        obj.classList.toggle('animate__fadeOutDown');
+        hidden(obj);
+      }
+      
 
 
       function visible(obj){        
@@ -132,7 +140,7 @@
       function hidden(obj) {           
         console.log(obj.style);
         console.log(obj.style.display);     
-        if ((obj.style.display === 'block') || (obj.style.display==='')) {
+        if (obj.style.display !== 'none') {
           console.log('hidden start')              
           obj.style.display = 'none';
         }
@@ -154,13 +162,50 @@
 
 
       function footbar_vis() {        
+        click_slideup(document.getElementById('footbar'));
         document.getElementById('footbar').style.display = 'flex';
+        document.getElementById('mainbox_center').style.minHeight = '82%';
       }           
 
       function footbar_dis() {        
-        document.getElementById('footbar').style.display = 'none';
+        click_slideoutdown(document.getElementById('footbar'));        
+        document.getElementById('mainbox_center').style.minHeight = '85%';
       }
 
+      // long touch 함수
+
+      let onlongtouch = false;
+      let timer = false;
+      let duration = 800;
+
+      function touchStart(){
+        if (!timer) {
+          timer = setTimeout(onlongtouch, duration);
+        }
+      }
+
+      function touchEnd(){
+        if (timer) {
+          clearTimeout(timer)
+          timer = false;
+        }
+      }
+
+      onlongtouch = function(){
+        document.querySelector("#msi_play_btn").onclick = tts(document.getElementById('main_search_input').value, 0.5);
+      }
+
+      document.addEventListener("DOMContentLoaded", function(){
+        document.querySelector("#msi_play_btn").addEventListener("touchstart", touchStart);
+        document.querySelector("#msi_play_btn").addEventListener("touchend", touchEnd);
+      })
+
+      // dblclick 활성화
+
+      
+
+
+      
       // window.onload = function() {
       //   var oFrame = document.getElementById("Sres_view");
       //   oFrame.contentWindow.document.onclick = function() {

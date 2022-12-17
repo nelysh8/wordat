@@ -101,7 +101,7 @@ router.post('/word', function (req, res, next) {
 // WORD ADD
 
 router.post('/word/add/', function (req, res, next) {        
-    var wordbook_title = req.body.title;
+    var wordbook_title = req.body.wordbook_title;
     console.log(wordbook_title);
     var word_english = req.body.eng;
     console.log(word_english);
@@ -124,19 +124,14 @@ router.post('/word/add/', function (req, res, next) {
 
 router.post('/exam/add/', function (req, res, next) {        
     console.log('exam add start');
-    var wordbook_title = req.body.wordbook_title;
-        console.log(wordbook_title);
-    var word_id = req.body.word_id;
-        console.log(word_id);
-    var exam_eng = req.body.ENG;
-        console.log(exam_eng);
-    var exam_kor = req.body.KOR;
-        console.log(exam_kor);
+    var wordbook_title = req.body.wordbook_title;        
+    var word_id = req.body.word_id;        
+    var exam_eng = req.body.exam_eng;        
+    var exam_kor = req.body.exam_kor;        
+    console.log('elements : ' + wordbook_title, word_id, exam_eng, exam_kor);
     var data = {'ENG' : exam_eng, 'KOR' :exam_kor};
     var example = JSON.stringify(data);
     console.log(example);    
-    
-    
     // value change //
         // var sql = `UPDATE ${wordbook_title} SET EXAMPLE = '${example}' WHERE ID = ${word_id}`;
     // value add //            

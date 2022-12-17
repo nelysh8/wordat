@@ -25,10 +25,25 @@
   </head>
 
   <body>
-    <!-- nav bar -->
+<!-- 
+  1. nav bar
+  2. main body
+   2-1. mainbox_center
+    - #Upper_search_container
+    - .searchbar
+     f. addword_click() => modal1_openbtn_click()
+    - .searchResult
+
+   2-2-1. second_1box_center
+   2-2-2. second_2box_center
+   2-2-3. second_3box_center
+  3. foot bar
+
+ -->
+
+    <!-- 1. nav bar -->
 
     <div class="navbar shadow-sm">
-
       <div class="navbar_logo">
         <i class="fa-solid fa-tree text_green ft5 ftbb"></i>
         <a href="/"> <span class="ft5 ftb"> WordAT </span> </a>
@@ -39,9 +54,11 @@
       </div>
     </div>       
     
+    <!-- 2. main body -->
+
     <div class="container-fluid mainbox_center animate__animated" id="mainbox_center" style="display:block">
 
-      <div id="Upper_search_container" class="shadow-sm">
+      <div id="Upper_search_container" class="shadow-lg">
         <div id="Upper_carousel" class="carousel slide" data-bs-touch="true">
           <div class="carousel-indicators">
             <button type="button" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -73,62 +90,21 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </button>
-        </div>
-      
+        </div>      
       </div>
-
     
-      <div class="searchbar">
-        <div class="searchbar_main  shadow-sm">
-          <textarea class="autosize ft8" id="main_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
-          <div id="main_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input();click_fadein(this);"></i></div>
-          <div id="main_input_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); main_tranbtn_click();"></i></div>
+      <div class="searchbar shadow-lg">
+        <div class="searchbar_main">
+          <textarea class="autosize ft8" id="main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+          <div id="msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input();click_fadein(this);"></i></div>
+          <div id="msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); main_tranbtn_click();"></i></div>
         </div>
-        <div class="searchbar_items shadow-sm">          
-          <a id="link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
-          <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
-          <a id="link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>
-          <i class="tts fa-solid fa-forward text_red animate__animated" onclick="click_fadein(this); tts(document.getElementById('main_input').value, 1);"></i>          
-          <i class="tts fa-solid fa-play text_green animate__animated" onclick="click_fadein(this); tts(document.getElementById('main_input').value, 0.5);"></i>          
-          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#home_add_modal" onclick="click_fadein(this); addword_click();"></i>          
-          <div id="home_add_modal" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <div class="row">
-                    <span class="ft5 ftbb">Add words to the wordbook</span>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="row">
-                    <div class="dropdown">                      
-                      <button id="dropdown_button" class="btn dropdown-toggle bg_firebrick text_white ft8" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Wordbook
-                      </button>
-                      <ul class="dropdown-menu" id="addword_dropdown_wordbook">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      </ul>
-                    </div>
-                  </div>                    
-                </div>                                  
-                <div class="modal-body">                                          
-                  <div class="input-group mb-3">
-                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
-                    <input type="text" name="word_english" class="form-control ft8" placeholder="Input a English Sentence" id="mainmodal_add_word_eng" aria-label="Username" aria-describedby="basic-addon1" > 
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
-                    <input type="text" name="word_korean" class="form-control ft8" placeholder="Input it's meaning" id="mainmodal_add_word_kor" aria-label="Username" aria-describedby="basic-addon1">
-                  </div>                                      
-                  <div class="modal-footer">                        
-                    <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="mainmodal_add_word();"> ADD </button>
-                    <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
-                  </div>                    
-                </div>                
-              </div>
-            </div>
-          </div> 
+        <div class="searchbar_items">          
+          <a id="msi_link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
+          <a id="msi_link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
+          <a id="msi_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>          
+          <i id="msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" ondblclick="tts(document.getElementById('main_search_input').value, 1.5);" onclick="click_fadein(this); tts(document.getElementById('main_search_input').value, 1);" ></i>          
+          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('mainbox_center');"></i>                    
         </div>  
       
       <div class="searchResult shadow-sm animate__animated" style="display: none" id="Sres_view" >        
@@ -149,9 +125,18 @@
         </div>              
       </div>
         
-        <!-- <div id="test_place">
-          <button onclick="wordbook_open();"> Wordbook </button>  -->
-          <!-- <button onclick="test();"> test </button> -->
+        <div id="test_place">
+          <!-- <button onclick="wordbook_open();"> Wordbook </button> 
+          <button id="testButton" ondblclick="dbclick();" onmousedown="mousedown();", onmouseup="mouseup();"> test </button>
+          <div id="abc" style="display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 150px;
+          height: 150px;
+          background: #ffcc00;
+          border-radius: 8px;
+          font-weight: 500;
+          font-family: Arial;">Touchable Area</div> -->
         </div>
       </div>
     </div>
@@ -188,47 +173,19 @@
 <!-- second_2box_center -->
       <div class="container-fluid second_2box_center animate__animated" id="second_2box_center" style="display:none;">
         <div class="wordlist_headline" id="wordlist_headline">
-          <div class="title"><span class="ft6 ftb text_pink"> Wordlist_Name </span></div>
+          <div class="title" id="s2_wordbook_title"><span class="ft6 ftb text_pink"> Wordlist_Name </span></div>
           <div class="plus_icon">
-            <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_add_modal" onclick=""></i>
-            <div id="word_add_modal" class="modal fade" role="dialog">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <span class="ft5 ftbb">Add words to the wordbook</span>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>   
-                  <form id="form_add_word" action="/word_manage/add/내단어장" method="post">
-                    <div class="modal-body">                                          
-                      <div class="input-group mb-3">
-                        <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
-                        <input type="text" name="word_english" class="form-control ft8" placeholder="Input a English Sentence" id="edit_eng" aria-label="Username" aria-describedby="basic-addon1" > 
-                      </div>
-                      <div class="input-group mb-3">
-                        <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
-                        <input type="text" name="word_korean" class="form-control ft8" placeholder="Input it's meaning" id="edit_kor" aria-label="Username" aria-describedby="basic-addon1">
-                      </div>                                      
-                      <div class="modal-footer">                        
-                        <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal"> ADD </button>
-                        <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
-                      </div>                    
-                    </div>
-                  </form> 
-                </div>
-              </div>
-            </div> 
+            <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_2box_center')";></i>
           </div>
           <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft6 ftbb text_red" onclick="wordlist_close();"></i></div>
         </div>
 <!-- Second_3box_center starts -->
         <div class="container-fluid second_3box_center animate__animated" id="second_3box_center" style="display:none;">
           <div class="word_headline" id="word_headline">
-            <div class="title">              
-              <span class="ft6 ftb "> Phrase study </span>
-            </div>
+            <div class="title"><span class="ft6 ftb "> Phrase study </span></div>
             <div class="plus_icon">
-              <i class="fa-solid fa-file-circle-plus ft7 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_exam_modal" onclick=""></i>
-              <div id="word_exam_modal" class="modal fade" role="dialog">
+              <i class="fa-solid fa-file-circle-plus ft7 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_3box_center');"></i>
+              <!-- <div id="word_exam_modal" class="modal fade" role="dialog">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -253,12 +210,12 @@
                     </form> 
                   </div>
                 </div>
-              </div> 
+              </div>  -->
             </div>
             <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_red" onclick="word_close();"></i></div>
           </div>          
           <div class="contents" id="second_3box_contents">
-            <div class="word_view" >
+            <div class="word_view">
               <div class="word_view_1" id="word_view1" data-bs-toggle="collapse" data-bs-target="#word_view_collapse" aria-expanded="false" aria-controls="word_view_collapse" onclick="tts(document.getElementById('word_title_eng').innerText, 1)";>                
                 <ul>
                   <li><span class="ft7 ftb"> I think we should stop seeing each other.</span></li>
@@ -289,8 +246,8 @@
               <a id="word_toolbar_link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
               <a id="word_toolbar_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>                
               <i class="tts fa-solid fa-play text_red animate__animated" onclick="click_fadein(this); tts(document.getElementById('word_toolbar_input').value, 1);"></i>
-              <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#wordexam_add_modal" onclick="click_fadein(this); addword_click();"></i>          
-              <div id="wordexam_add_modal" class="modal fade" role="dialog">
+              <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_3box_center');"></i>          
+              <!-- <div id="wordexam_add_modal" class="modal fade" role="dialog">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">                      
@@ -313,7 +270,7 @@
                     </div>
                   </div>
                 </div>
-              </div>                           
+              </div>                            -->
             </div>
             <div class="word_toolbar_result shadow-sm animate__animated" style="display: none" id="word_toolbar_result" >        
               <div class="word_toolbar_result_view" name="word_toolbar_result_view">
@@ -423,7 +380,7 @@
 
 <!-- foot bar -->
 
-    <div class="footbar" id="footbar">
+    <div class="footbar animate__animated" id="footbar">
       <div class="footbar_menu border">
         <a href="/">
           <ul>
@@ -447,6 +404,66 @@
         </ul>
       </div>
     </div>
+
+<!-- 
+*******modal***********
+
+1. input modal
+  1-1. word input modal
+
+  entire modal
+    #home_add_modal => #word_input_modal
+  dropdown btn
+    #dropdown_button => #wim_dropdown_btn
+  dropdown list
+    #addword_dropdown_wordbook => #wim_dropdown_wordbook
+  inputs
+    #word_english, #mainmodal_add_word_eng => #wim_input_eng
+    #word_korean, #mainmodal_add_word_kor => #wim_input_kor
+  function
+    mainmodal_add_word() => wim_submit_btn_click();
+-->
+
+
+<!-- 1-1. word input modal -->
+<div id="word_input_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="row">
+          <span class="ft5 ftbb" id="wim_title">Add words to the wordbook</span>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="row" id="toggle_row">
+          <div class="dropdown">                      
+            <button id="wim_dropdown_btn" class="btn dropdown-toggle bg_firebrick text_white ft8" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button> 
+            <span id="pre_selected_wordbook" style="display:none;"></span>
+            <ul class="dropdown-menu" id="wim_dropdown_wordbook">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
+        </div>                    
+      </div>                                  
+      <div class="modal-body">                                          
+        <div class="input-group mb-3">
+          <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
+          <input type="text" id="wim_input_eng" class="form-control ft8" placeholder="Input a English Sentence" aria-label="Username" aria-describedby="basic-addon1" > 
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
+          <input type="text" id="wim_input_kor" class="form-control ft8" placeholder="Input it's meaning" aria-label="Username" aria-describedby="basic-addon1">
+        </div>                                      
+        <div class="modal-footer">                        
+          <button id="wim_sumbit_btn" type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="wim_submit_btn_click();"> ADD </button>
+          <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+        </div>                    
+      </div>                
+    </div>
+  </div>
+</div> 
+
 
   <!-- script -->
 

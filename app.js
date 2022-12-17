@@ -78,6 +78,8 @@ app.post('/translate', function (req, res) {
   var client_secret = 'k3g0N0ERA6';  // YOUR_CLIENT_SECRET';
 
   var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
+  var source = req.body.source;
+  var target = req.body.target;
   var query = req.body.word;  
 
   console.log(query);
@@ -85,7 +87,7 @@ app.post('/translate', function (req, res) {
   var request = require('request');
   var options = {
     url: api_url,
-    form: {'source':'en', 'target':'ko', 'text':query},
+    form: {'source':source, 'target':target, 'text':query},
     headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
   };
   

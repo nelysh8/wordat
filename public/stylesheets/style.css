@@ -160,58 +160,65 @@ ul {
     display: block;
     position : fixed;
     width : 100%;
+    height : 5rem;
     justify-content: space-between;
     align-items: center;
     background-color: cornsilk;
     vertical-align: middle;
-    padding : 0.5rem 0.5rem 0.5rem 1rem;
+    padding : 1rem;
     z-index: 100;
     font-family : 'Rubik Gemstones', sans-serif;
     /*padding : 10px 0px 10px 0px;*/
 }
-.navbar_logo {
-
+.navbar_logo {  
+  padding : auto;
+  margin : auto;
+  width : 100%;
+  height : 90%;
 }
 
 .navbar a {
-    text-decoration: none;
-    color: firebrick;
+    color: firebrick;    
 }
 
 .navbar i {
-    margin-right : 0.5rem;
+    
 }
 .navbar span {
-    letter-spacing : 0.2rem;
+  
+  letter-spacing : 0.2rem;
 }
 
 /* 2. mainbox */    
 
 .mainbox_center {
     display : block;
-    width : 100%;  
+    width : 100%;
+    max-height : 87%;
+    min-height : 82%;
     justify-content: space-between;  
-    padding : 0.5rem 0.5rem 0.5rem 1rem;
+    /* padding : 0.5rem 0.5rem 0.5rem 1rem; */
     /* align-content:center;
     align-items: center;
-    text-align: center; */
+    text-align: center; */    
     margin-top : 6rem;
-    margin-bottom : 7rem;    
+    margin-bottom : 6rem;    
     margin-left : auto;
     margin-right : auto;
-    padding : 0;
+    
+    overflow-y: scroll;
     
 }    
 
     #Upper_search_container{
         display : flex;
         height : 33rem;
-        width : 85%;
+        width : 95%;
         margin-left:auto; margin-right: auto;
         /* align-content:center; */
         /* align-items: center; */
         /* text-align: center;         */
-         
+        border-radius : 7px;            
         margin-bottom : 2rem;    
     }
       #Upper_carousel{
@@ -398,49 +405,53 @@ ul {
     align-items: center;
     text-align: center;
     vertical-align: middle;
+    width : 95%;
     border-radius : 7px;    
-    margin-bottom : 2rem;
+    margin : 0 auto 0rem auto;
+    padding : 1rem 0 1rem 0;
 }
 
     .searchbar_main {
         display : flex;
-        width : 85%;
+        position : relative;
+        width : 90%;
         margin : auto;
         margin-bottom : 0.8rem;
         align-content: space-between;
         vertical-align: middle;
-				border-radius: 5px ;
+				border-radius: 7px ;
 				
     }
 
-			#main_input {    
-					position : relative;
+			#main_search_input {    
+					/* position : relative; */
 					height : 3.6rem;
-					/* ((scrollHeight/10)+0.4)rem; */
-					width: 90%;
-					border-radius: 5px ;
+          max-height: 14rem;
+					/* ((scrollHeight/10)+0.4)rem; */					
+          width: 90%;
+					border-radius: 7px ;
 					border : 0.1rem solid #999;
 					outline : none;     
 					text-align : justify;
-					padding : 0.5rem 2.8rem 0.5rem 1rem;    
+					padding : 0.5rem 2.8rem 0.5rem 1rem; 
+          overflow-y:scroll;   
 			}
 
-			#main_input:focus {
+			#main_search_input:focus {
 					border: 2px solid firebrick;
 			}
 
-			#main_input_icon_x {
+			#msi_icon_x {
 					position : absolute;
-					left : 75%;
+					left : 77%;
 					/* top : 61%; */
 					/* transform: translateY(-50%);     */
 					height : 3.6rem;
 					font-size : 2.5rem;					
-					/* margin-bottom : 1rem; */ 
-					z-index : 0;
+					/* margin-bottom : 1rem; */ 					
 			}
 			
-			#main_input_icon_trans {
+			#msi_icon_trans {
 				display : flex;			
 				align-items: center;	
 				margin-left : 0.3rem;
@@ -451,11 +462,10 @@ ul {
 
 		.searchbar_items {
 				display : flex;
-				width : 85%;
+				width : 95%;
 				padding : 0.5rem;
-				border-radius: 5px ;
-				margin : auto;
-				margin-bottom : 1.5rem;
+				border-radius: 7px ;
+				margin : auto auto 0.8rem auto;				
 				text-align :justify;
 				text-align-last: justify;
 				align-content: space-between;
@@ -485,15 +495,15 @@ ul {
 		.searchResult {
 			display : block;        
 			align-content:center;
-			align-items: center;
-			text-align: center;
+			align-items: center;			
 			vertical-align: middle;    
+      width : 90%;
+      margin : auto auto auto auto;
+      padding : 1rem 0.5rem 1rem 0.5rem;
 			background-color: cornsilk;
-			border-radius : 7px;   
-			margin-bottom : 5rem;        
+			border-radius : 7px;   			       
 		}
 			
-		
 
 
     
@@ -536,11 +546,6 @@ ul {
     vertical-align: middle;
 } */
 
-.searchResult {
-    width : 85%;
-    margin : auto;        
-    text-align : left;
-}
 
 .searchResult ul {    
     width : 95%;        
@@ -575,17 +580,27 @@ ul {
 .second_1box_center {
   display : none;
   width : 100%;  
+  height : 83%;
+  
+  
+
+  /* 660~ i-phone se // 740~ galaxys8+ //  83% */
+  /* 840~ i-phone12pro  85% */ 
+  /* 890~ i-phonexr  86% */
+
+  
+  
   /* height : 100%; */
-  /* justify-content: space-between;   */
-  padding : 10rem auto auto auto;
+  /* justify-content: space-between;   */  
   /* align-content:center;
   align-items: center;
   text-align: center; */
-  margin-top : 5rem;
-  margin-bottom : 5rem;    
+  margin-top : 6rem;
+  margin-bottom : 6rem;    
   margin-left : auto;
   margin-right : auto;
-  padding : 0;    
+  padding : 0;      
+  overflow-y: scroll;
 }						
 
 						#second_1box_center .wordbook_headline {
@@ -622,17 +637,20 @@ ul {
 							display : block;
               align-items: center;              
               width : 100%; 
-							margin-top : 5rem;
+							margin-top : 3rem;
+              
 						}
 
 						#second_1box_center .wordbook_list {
               display : block;
-              width : 100%;              
+              width : 100%;
+              height : 85%;
               margin-top : 0.5rem;
               text-align : left;
-							border-radius: 5px;
+							border-radius: 5px;              
             }
 
+  
 						#second_1box_center .wordbook_wrap {
 							display : flex;
               width : 90%;              
@@ -677,17 +695,19 @@ ul {
 #second_2box_center {
   display : none;
   width : 100%;  
-  height : 100%;
-  margin-left : 0; 
-  justify-content: space-between;    
+  height : 92%;
+  padding : 0;
+  margin-left : 0;   
+  margin-top: 0;
+  margin-bottom : 0;   
+  justify-content: space-between; 
   /* align-content:center;
   align-items: center;
   text-align: center; */
   /* margin-top : 10rem;
   margin-bottom : 7rem;     */
   /* margin-left : auto;
-  margin-right : auto; */
-  padding : 0;  
+  margin-right : auto; */  
   background-color: cornsilk;   
 }
 
@@ -728,13 +748,14 @@ ul {
             #second_2box_center .contents {
               display : block;
               align-items: center;              
-              width : 100%; 
-              margin-top : 5rem;
+              width : 100%;               
+              margin-top : 5rem;              
             }
 
             #second_2box_center .wordlist_list {
               display : block;
               width : 100%;              
+              height : 85%;
               margin-top : 0.5rem;
               text-align : left;
               border-radius: 5px;
@@ -752,7 +773,7 @@ ul {
 
             #second_2box_center .wordlist_wrap .wordlist_main {
               display : flex;
-              width : 100%
+              width : 100%;
               
               margin-left : 0rem;							
               margin-right : 0rem;
@@ -799,9 +820,11 @@ ul {
 #second_3box_center {
   display : none;
   width : 100%;  
-  height : 100%;  
+  min-height : 45rem;  
+  max-height : 100%;  
 
-  margin-left : 0;
+  margin-left : 0;  
+  margin-bottom : 0;
   justify-content: space-between;  
   padding : 0;
   /* align-content:center;
@@ -856,7 +879,7 @@ ul {
             }
 
             #second_3box_center .contents .word_view_1 ul {
-              margin : auto;
+              margin : auto;              
               padding : 0.5rem;          
             }
 
@@ -873,6 +896,8 @@ ul {
 
             #second_3box_center .contents .word_view_2 ul {
               margin : auto;
+              height : 15rem;
+              overflow : scroll;
               padding : 0.5rem 0.5rem 0.5rem 2rem;                                      
             }
 
@@ -908,7 +933,7 @@ ul {
                     position : relative;
                     height : 3.6rem;
                     /* ((scrollHeight/10)+0.4)rem; */
-                    width: 90%;
+                    width: 85%;
                     border-radius: 5px ;
                     border : 0.1rem solid #999;
                     outline : none;     
@@ -922,7 +947,7 @@ ul {
           
                 #word_toolbar_input_icon_x {
                     position : absolute;
-                    left : 75%;
+                    left : 76%;
                     /* top : 61%; */
                     /* transform: translateY(-50%);     */
                     height : 3.6rem;
@@ -991,7 +1016,7 @@ ul {
               }
             
               .word_toolbar_result ul {    
-                  width : 95%;        
+                  width : 95%;                          
                   margin-left : 1rem;    
                   text-align : left;
                   vertical-align: middle;
@@ -1028,11 +1053,11 @@ ul {
     padding : 0;    
     position : fixed;
     width : 100%;
-    height : 8%;
+    height : 5rem;
     /* justify-content: space-between; */
     align-items: center;
     background-color: cornsilk;
-    color : dimgrey;    
+    color : black;
     z-index: 100;
 }
 
@@ -1057,7 +1082,7 @@ ul {
 
 .footbar a {
   text-decoration: none;
-  color : dimgrey;   
+  color : black;
 }
 /*  */
 
@@ -1125,3 +1150,7 @@ ul {
   text-align: left;
   text-align-last: auto;
 }
+
+
+
+

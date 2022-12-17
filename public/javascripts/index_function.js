@@ -89,15 +89,20 @@ observer.observe(carousel_wordlist, observer_config);
 // Translate Search Btn Click
 
 function main_tranbtn_click(){    
+  var doc = document.getElementById('Sres_ENG');
+  doc.innerHTML = '';
+  let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
   
-  if(Search_Input.value.replace(/ /gi,'').replace(/\n/gi,'')) {                        
+  if (kor_check.test(Search_Input.value)) {
+    doc.innerHTML = `<span> ${Search_Input.value} </span>`;
+    main_trans_papago(Search_Input.value);
+    click_fadein(document.getElementById('Sres_view'));
+  } else if(Search_Input.value.replace(/ /gi,'').replace(/\n/gi,'')) {                        
     var engs_org = Search_Input.value.replace(/\n$/,'');
     var engs_spl = Search_Input.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');          
     console.log(engs_spl);
     engs_res = '';          
-    
-    var doc = document.getElementById('Sres_ENG');
-    doc.innerHTML = '';          
+              
     
     function TEST_add(engs_spl){
       for (let words of engs_spl){            
@@ -117,9 +122,9 @@ function main_tranbtn_click(){
     
     TEST_add(engs_spl);
     main_trans_papago(engs_org);
-    document.getElementById('link_yarn').setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + engs_org));
-    document.getElementById('link_youglish').setAttribute('href', encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?'));
-    document.getElementById('link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));
+    document.getElementById('msi_link_yarn').setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + engs_org));
+    document.getElementById('msi_link_youglish').setAttribute('href', encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?'));
+    document.getElementById('msi_link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));
     
     click_fadein(document.getElementById('Sres_view'));          
     iframe2_vis();
@@ -130,8 +135,14 @@ function main_tranbtn_click(){
 
 // <!-- papago translation -->
     
-function main_trans_papago(SENTC){
-  let TEXT = {word : SENTC};        
+function main_trans_papago(SENTC){  
+  let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+  let TEXT = '';
+  if (kor_check.test(SENTC)) {
+    TEXT = {'source' : 'ko', 'target' : 'en', 'word' : SENTC};            
+  } else {
+    TEXT = {'source' : 'en', 'target' : 'ko', 'word' : SENTC};            
+  }  
   let TEXT_JSON = JSON.stringify(TEXT);
   console.log(TEXT);
   console.log(JSON.stringify(TEXT));
@@ -142,6 +153,11 @@ function main_trans_papago(SENTC){
     var tmp = document.getElementById("Sres_KOR");
     function addtext(){
       tmp.innerText = result.message.result.translatedText;
+      if (kor_check.test(result.message.result.translatedText) === false) {
+        document.getElementById('msi_link_yarn').setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + result.message.result.translatedText));
+        document.getElementById('msi_link_youglish').setAttribute('href', encodeURI('https://youglish.com/pronounce/' + result.message.result.translatedText + '/english?'));
+        document.getElementById('msi_link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + result.message.result.translatedText +'"'));
+      }
     }
     addtext();
   }
@@ -158,8 +174,15 @@ function main_trans_papago(SENTC){
 // 합성 음성 https://cloud.google.com/text-to-speech/docs/create-audio
 
   function tts(sentence, speed){    
-    let text = sentence;
-    let rate = speed;   
+    let text = '';
+    let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;  
+    if (kor_check.test(sentence)) {
+      text = document.getElementById('Sres_KOR').innerText;
+    } else {
+      text = sentence;
+    }
+    
+    let rate = speed;               
     
     fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
         method: 'POST',
@@ -189,7 +212,8 @@ function main_trans_papago(SENTC){
         console.log('sound err');
       });      
     }
-  }
+  };
+  
 
 
 
@@ -307,51 +331,149 @@ function main_trans_papago(SENTC){
 
 // main box modal
 
-function addword_click() {
+function modal1_openbtn_click(position) {
+  console.log('modal1_openbtn_click start');
+  var req_pos = position;  
+  var wim_title = document.getElementById('wim_title');
   var dropdown_list = '';
-  var dropdown_menu = document.getElementById("addword_dropdown_wordbook");
-  var dropdown_buttton = document.getElementById("dropdown_button");
-  var form_add_word = document.getElementById("form_add_word");
+  var dropdown_menu = document.getElementById("wim_dropdown_wordbook");
+  var dropdown_button = document.getElementById("wim_dropdown_btn");  
+  var selected_wordbook = dropdown_button.innerText;  
+  var pre_selected_wordbook = document.getElementById("pre_selected_wordbook").innerText;
   
-  var engs = document.getElementById('main_input').value.replace(/\n$/,'');        
-  document.getElementById("mainmodal_add_word_eng").value = engs;
-  if (document.getElementById('Sres_KOR').innerText === "") {          
-  } else {
-    console.log(document.getElementById('Sres_KOR').innerText);
-    document.getElementById("mainmodal_add_word_kor").value=document.getElementById('Sres_KOR').innerText;
-  }      
-  fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{        
-    console.log(results);
-    for (let result of results){
-      dropdown_list += `<li><a class="dropdown-item" href="#" onclick="click_dropdown_menu(this)">${result.Tables_in_oq4p2dxa5zpnk9gu}</a></li>`;
-    };
-    dropdown_menu.innerHTML = dropdown_list;
+  var word_id = '';
+
+  if (req_pos === 'mainbox_center') {
+    console.log('mainbox modal1 starting');
+    wim_title.innerText = 'Add words to the wordbook';                
+    document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('mainbox_center')");
+    document.getElementById("toggle_row").style.display = 'block';    
+
+    let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;  
+    if (kor_check.test(document.getElementById('main_search_input').value)) {
+      document.getElementById("wim_input_kor").value = document.getElementById('main_search_input').value;
+      document.getElementById("wim_input_eng").value = document.getElementById('Sres_KOR').innerText;
+    } else { 
+      var engs = document.getElementById('main_search_input').value.replace(/\n$/,'');        
+      document.getElementById("wim_input_eng").value = engs;
+    
+      if (document.getElementById('Sres_KOR').innerText !== '') {
+        document.getElementById("wim_input_kor").value=document.getElementById('Sres_KOR').innerText;          
+      }
+    }
+      
+    fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{              
+      console.log('dropdown creating');
+      
+      for (let result of results){
+        dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result.Tables_in_oq4p2dxa5zpnk9gu}</a></li>`;
+      };
+      dropdown_menu.innerHTML = dropdown_list;   
+      console.log(results.length, selected_wordbook);
+      if ((selected_wordbook === '') && (results.length === 0)) {        
+        dropdown_button.innerText = 'create' ;
+        // selected_wordbook !!!!!! 워드북 만드는 화면으로
+      } else if ((selected_wordbook === '') && (results.length === 1)) {
+        dropdown_button.innerText = results[0].Tables_in_oq4p2dxa5zpnk9gu;
+      } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (results.includes(pre_selected_wordbook))){              
+        dropdown_button.innerText = pre_selected_wordbook;      
+      } 
+    });      
+  } else if (req_pos === 'second_2box_center'){
+    console.log('second_2box modal1 starting');
+    wim_title.innerText = 'Add words to the wordbook';    
+    selected_wordbook = document.getElementById('s2_wordbook_title').innerText;
     console.log(selected_wordbook);
-    console.log(results.includes(selected_wordbook));
-    if ((selected_wordbook !== '') && (results.includes(selected_wordbook))) {
-      dropdown_buttton.innerText = selected_wordbook;          
-    } else if (results.length > 0) {
-      dropdown_buttton.innerText = results[0].Tables_in_oq4p2dxa5zpnk9gu;      
+    document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('second_2box_center');"); 
+    document.getElementById("toggle_row").style.display = 'block';
+
+    fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{              
+      console.log('dropdown creating');
+      console.log(results);
+      i=0;
+      j=0;
+      for (let result of results){
+        dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result.Tables_in_oq4p2dxa5zpnk9gu}</a></li>`;
+        if (selected_wordbook === result.Tables_in_oq4p2dxa5zpnk9gu) { i+=1;};
+        if (pre_selected_wordbook === result.Tables_in_oq4p2dxa5zpnk9gu) {j+=1;};
+      };
+      dropdown_menu.innerHTML = dropdown_list;         
+      
+      if ((selected_wordbook !== '') && (i > 0)) {
+        console.log('this?');
+        dropdown_button.innerText = selected_wordbook;          
+      } else if ((selected_wordbook === '') && (results.length === 1)) {
+        dropdown_button.innerText = results[0].Tables_in_oq4p2dxa5zpnk9gu;
+      } else if ((pre_selected_wordbook !== '') && (results.length > 0) && (j>0)) {
+        dropdown_button.innerText = pre_selected_wordbook;      
+      };
+    });
+  } else if (req_pos === 'second_3box_center'){
+    console.log('second_3box modal1 starting');
+    wim_title.innerText = 'Add examples to the word';
+    selected_wordbook = document.getElementById('s2_wordbook_title').innerText;
+    word_id = document.getElementById('s3_word_id').innerText;
+    document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('second_3box_center');")
+  
+    var engs = document.getElementById('word_toolbar_input').value.replace(/\n$/,'');        
+    document.getElementById("wim_input_eng").value = engs;  
+    if (document.getElementById('wtrv_KOR').innerText !== '') {
+      document.getElementById("wim_input_kor").value=document.getElementById('wtrv_KOR').innerText;          
+    }      
+    document.getElementById("toggle_row").style.display = 'none';
+  }
+}
+
+function dropdown_wordbooklist_click(obj){
+  console.log('dropdown_wordbooklist_click start');
+  var dropdown_button = document.getElementById("wim_dropdown_btn");
+  var pre_selected_wordbook = document.getElementById("pre_selected_wordbook").innerText;
+  // var form_add_word = document.getElementById("form_add_word");
+  dropdown_button.innerText = obj.innerText;
+  pre_selected_wordbook = obj.innerText;
+  // selected_wordbook = obj.innerText;
+  // form_add_word.setAttribute('action', `/word_manage/add/${dropdown_button.innerText}`);    
+}
+
+function wim_submit_btn_click(position){  
+  console.log('wim_submit_btn_click start : position : ' + position);
+  var req_pos = position;  
+  if (req_pos === 'mainbox_center'){
+    console.log(req_pos + ': wim_submit_btn_click start');
+    var word = {
+      'wordbook_title' : document.getElementById('wim_dropdown_btn').innerText, 
+      'eng' : document.getElementById('wim_input_eng').value, 
+      'kor' : document.getElementById('wim_input_kor').value
     };
-  });      
+    fetch("/wordbook/word/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
+      console.log(results);        
+    });
+  } else if (req_pos === 'second_2box_center'){
+    console.log(req_pos + 'wim_submit_btn_click start');
+    var word = {
+      'wordbook_title' : document.getElementById('wim_dropdown_btn').innerText, 
+      'eng' : document.getElementById('wim_input_eng').value, 
+      'kor' : document.getElementById('wim_input_kor').value
+    };
+    fetch("/wordbook/word/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
+      console.log(results);        
+    });  
+  } else if (req_pos === 'second_3box_center'){
+    console.log(req_pos + 'wim_submit_btn_click start');
+    var word = {
+      'wordbook_title' : document.getElementById('s2_wordbook_title').innerText,
+      'word_id' : document.getElementById('s3_word_id').innerText,
+      'exam_eng' : document.getElementById('wim_input_eng').value, 
+      'exam_kor' : document.getElementById('wim_input_kor').value
+    };
+    fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
+      console.log(results);        
+    });
+    word_reading(document.getElementById('s3_word_id').innerText);  
+  }
 }
 
-function click_dropdown_menu(obj){
-  console.log(obj.innerText);
-  var dropdown_buttton = document.getElementById("dropdown_button");
-  var form_add_word = document.getElementById("form_add_word");
-  dropdown_buttton.innerText = obj.innerText;
-  selected_wordbook = obj.innerText;
-  form_add_word.setAttribute('action', `/word_manage/add/${dropdown_buttton.innerText}`);    
-}
 
-function mainmodal_add_word(){
-  var word = {title : document.getElementById('dropdown_button').innerText, eng : document.getElementById('mainmodal_add_word_eng').value, kor : document.getElementById('mainmodal_add_word_kor').value};
-  console.log(word);
-  fetch("/wordbook/word/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
-    console.log(results);        
-  });  
-}
 
 // second box 
   
@@ -361,7 +483,7 @@ function mainmodal_add_word(){
 
 async function wordbook_open(){    
   wordbook_reading();
-  await click_slideoutdown(mainbox_center);  
+  await click_fadeoutdown(mainbox_center);  
   click_slideup(second_1box_center);  
 }
 
@@ -466,6 +588,7 @@ function wordlist_reading(number, title){
   // second_1box_center.style.position = 'relative';
   // second_2box_center.style.position ='absolute';  
   console.log('wordlist_reading start');
+  console.log('elements : ' + number, title);
   let wordbook_title = '';
   if (number === '') {
     wordbook_title = {title : title};
@@ -477,36 +600,36 @@ function wordlist_reading(number, title){
     let add_head_html = '';
     let add_contents_html = '';    
     add_head_html = `
-        <div class="title" name="add_word_title" id="add_word_title"><span class="ft5 ftb"> ${wordbook_title.title} </span></div>
+        <div class="title" id="s2_wordbook_title"><span class="ft5 ftb"> ${wordbook_title.title} </span></div>
         <div class="plus_icon">
-          <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_add_modal" onclick=""></i>
-          <div id="word_add_modal" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <span class="ft5 ftbb">Add words to the wordbook</span>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>                                   
-                <div class="modal-body">                                          
-                  <div class="input-group mb-3">
-                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
-                    <input type="text" name="add_word_eng" class="form-control ft8" placeholder="Input a English Sentence" id="add_word_eng" aria-label="Username" aria-describedby="basic-addon1" > 
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
-                    <input type="text" name="add_word_kor" class="form-control ft8" placeholder="Input it's meaning" id="add_word_kor" aria-label="Username" aria-describedby="basic-addon1">
-                  </div>                                      
-                  <div class="modal-footer">                        
-                    <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="add_word();"> ADD </button>
-                    <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
-                  </div>                    
-                </div>
-              </div>
-            </div>
-          </div> 
+          <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_2box_center')";></i>          
         </div>
         <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft6 ftbb text_red" onclick="wordlist_close();"></i></div>`;
       document.getElementById('wordlist_headline').innerHTML = add_head_html;     
+              // <div id="word_add_modal" class="modal fade" role="dialog">
+          //   <div class="modal-dialog modal-dialog-centered">
+          //     <div class="modal-content">
+          //       <div class="modal-header">
+          //         <span class="ft5 ftbb">Add words to the wordbook</span>
+          //         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          //       </div>                                   
+          //       <div class="modal-body">                                          
+          //         <div class="input-group mb-3">
+          //           <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
+          //           <input type="text" name="add_word_eng" class="form-control ft8" placeholder="Input a English Sentence" id="add_word_eng" aria-label="Username" aria-describedby="basic-addon1" > 
+          //         </div>
+          //         <div class="input-group mb-3">
+          //           <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
+          //           <input type="text" name="add_word_kor" class="form-control ft8" placeholder="Input it's meaning" id="add_word_kor" aria-label="Username" aria-describedby="basic-addon1">
+          //         </div>                                      
+          //         <div class="modal-footer">                        
+          //           <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="add_word();"> ADD </button>
+          //           <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+          //         </div>                    
+          //       </div>
+          //     </div>
+          //   </div>
+          // </div> 
 
     for (let result of results) {
       examples = JSON.parse(result.EXAMPLE);
@@ -515,7 +638,7 @@ function wordlist_reading(number, title){
       add_contents_html += `
       <div class="wordlist_wrap shadow-sm">
         <div class="wordlist_main">
-          <div class="wordlist_text" onclick="word_reading(${result.ID});">                    
+          <div class="wordlist_id_${result.ID}" onclick="word_reading(${result.ID});">                    
             <div id="wordlist_eng_${result.ID}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
             <div id="wordlist_kor_${result.ID}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
           </div>        
@@ -577,9 +700,9 @@ function word_close(){
 
 function word_reading(ID_number){  
   console.log('word_reading start');
-  let wordbook_title = document.getElementById('add_word_title').innerText;
+  let wordbook_title = document.getElementById('s2_wordbook_title').innerText;
   let word_id = ID_number;
-  console.log(wordbook_title, word_id);
+  console.log('elements : ' + wordbook_title, word_id);
   // if (number === '') {
   //   wordbook_title = {title : title};
   // } else {
@@ -590,26 +713,29 @@ function word_reading(ID_number){
   fetch("/wordbook/word", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
     console.log('result :: ////');
     console.log(results);
-    console.log(results[0].EXAMPLE);            
-       
+    console.log(results[0].EXAMPLE);
     
     // 문장타이틀부분 #word_view1
     let word_title_html = `
       <ul>
-        <li><span id="word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng"> ${results[0].ENG} </span></li>
+        <li><span id="s3_word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng"> ${results[0].ENG} </span></li>
         <li><span class="ft7 ftb">${results[0].KOR}</span><i class="fa-solid fa-list-check ft7 ftb text_red"></i></li>
       </ul>`;
     // 예문부분 #example_list    
     let example_html = ``;
     let j = 0;
-    if (examples !== null) {
+    if (results[0].EXAMPLE !== null) {
+      let examples = JSON.parse(results[0].EXAMPLE);            
       for (example of examples){       
         example_html += `<li id="wordbtn_example_${j}" onclick="tts('${example.ENG}', 1);">${example.ENG}<br>${example.KOR}</li>`;        
       }
     };
     
     document.getElementById('word_view1').innerHTML = word_title_html;
-    document.getElementById('example_list').innerHTML = example_html;          
+    document.getElementById('example_list').innerHTML = example_html; 
+    if (results[0].EXAMPLE !== null){
+      document.getElementById('word_view1').click();
+    }        
   });
   word_open();
 };
@@ -623,13 +749,14 @@ function example_add(){
   let now = new Date();
   let time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}`;  
   let wordbook_title = document.getElementById('add_word_title').innerText;
-  let word_id = document.getElementById('word_id').innerText;
+  let word_id = document.getElementById('s3_word_id').innerText;
   let example = {'wordbook_title' : wordbook_title, 'word_id' : word_id, 'ENG' : document.getElementById('exam_eng').value, 'KOR' : document.getElementById('exam_kor').value, 'SAVEDATE' : time, 'LOADDATE' : time , 'LOAD_NUM' : 0};    
   console.log('example');
   console.log(example);
   fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(example)}).then((response)=>response.json()).then((results)=>{
     console.log(results);
   });
+  word_reading(word_id);
   // word_reading(word_id);
 }
 
@@ -745,4 +872,5 @@ function word_toolbar_trans_papago(SENTC){
       }
 
   
-      
+// dblclick
+
