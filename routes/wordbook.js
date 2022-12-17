@@ -33,7 +33,7 @@ router.post('/', function (req, res, next) {
 
 router.post('/add', function (req, res, next) {    
     var newlist_name = (req.body.title).replace(/ /gi, '_');        
-    var sql = "CREATE TABLE " + newlist_name + " (ID INT(11) NOT NULL AUTO_INCREMENT, ENG TEXT, KOR TEXT, EXAMPLE TEXT, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', PRIMARY KEY(ID))";
+    var sql = "CREATE TABLE " + newlist_name + " (ID INT(11) NOT NULL AUTO_INCREMENT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', PRIMARY KEY(ID))";
     console.log(sql);
     conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
@@ -93,6 +93,7 @@ router.post('/word', function (req, res, next) {
     console.log(sql);
     conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);
+        console.log(results);
         res.json(results);        
     });
 });
@@ -106,16 +107,17 @@ router.post('/word/add/', function (req, res, next) {
     console.log(word_english);
     var word_korean = req.body.kor;
     console.log(word_korean);
-    var data = [word_english, word_korean];
+    var data = [word_english, word_korean, '[]'];
     console.log(wordbook_title + ' ---- ' + data);
     let now = new Date();
     let time = `${now.getFullYear()}${now.getMonth()+1}${now.getDate()}`;
     console.log(time);
-    var sql = `INSERT INTO ${wordbook_title} (ENG, KOR, SAVEDATE, LOADDATE) VALUE (?,?, ${time}, ${time})`;
+
+    var sql = `INSERT INTO ${wordbook_title} (ENG, KOR, EXAMPLE, SAVEDATE, LOADDATE) VALUE (?,?,?,${time}, ${time})`;
     conn.query(sql, data, function(err, results){
         if (err) console.err("err:" + err);
         res.json(results);   
-    });
+    });    
 });
 
 // EXAMPLE ADD
@@ -130,14 +132,17 @@ router.post('/exam/add/', function (req, res, next) {
         console.log(exam_eng);
     var exam_kor = req.body.KOR;
         console.log(exam_kor);
-    var data = [{'ENG' : exam_eng, 'KOR' :exam_kor}];
+    var data = {'ENG' : exam_eng, 'KOR' :exam_kor};
     var example = JSON.stringify(data);
     console.log(example);    
-
-
-    var sql = `UPDATE ${wordbook_title} SET EXAMPLE = '${example}' WHERE ID = ${word_id}`;
+    
+    
+    // value change //
+        // var sql = `UPDATE ${wordbook_title} SET EXAMPLE = '${example}' WHERE ID = ${word_id}`;
+    // value add //            
+        var sql = `UPDATE ${wordbook_title} SET EXAMPLE = JSON_ARRAY_APPEND(EXAMPLE, '$', CAST('${example}' AS JSON)) WHERE ID = ${word_id}`;
     console.log(sql);
-    conn.query(sql, data, function(err, results){
+    conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);
         res.json(results);   
     });

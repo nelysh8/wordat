@@ -88,8 +88,8 @@
           <a id="link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
           <a id="link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
           <a id="link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>
-          <i class="tts fa-solid fa-forward text_red animate__animated" onclick="click_fadein(this); tts('a', 1);"></i>          
-          <i class="tts fa-solid fa-play text_green animate__animated" onclick="click_fadein(this); tts('a', 0.5);"></i>          
+          <i class="tts fa-solid fa-forward text_red animate__animated" onclick="click_fadein(this); tts(document.getElementById('main_input').value, 1);"></i>          
+          <i class="tts fa-solid fa-play text_green animate__animated" onclick="click_fadein(this); tts(document.getElementById('main_input').value, 0.5);"></i>          
           <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#home_add_modal" onclick="click_fadein(this); addword_click();"></i>          
           <div id="home_add_modal" class="modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered">

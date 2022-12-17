@@ -1,3 +1,5 @@
+// const { json } = require("express");
+
 // DOM basic
 const mainbox_center = document.getElementById('mainbox_center');
 // 1box : wordbook, 2box : wordlist, 3box : word //
@@ -155,18 +157,9 @@ function main_trans_papago(SENTC){
 // 음성 config https://cloud.google.com/text-to-speech/docs/reference/rest/v1/text/synthesize#audioconfig
 // 합성 음성 https://cloud.google.com/text-to-speech/docs/create-audio
 
-  function tts(target, speed){
-    let object = target;
-    let rate = speed;
-    
-    if (object === 'a') {
-      var sentence = document.getElementById('main_input').value;
-    } else {
-      var sentence = document.getElementById('word_toolbar_input').value;
-    }
-    
-    console.log(sentence);  
-    
+  function tts(sentence, speed){    
+    let text = sentence;
+    let rate = speed;   
     
     fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
         method: 'POST',
@@ -175,7 +168,7 @@ function main_trans_papago(SENTC){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          'input' : {'text' : sentence},
+          'input' : {'text' : text},
           'voice' : {'languageCode' : 'en-US' , 'name' : 'en-US-Neural2-C', 'ssmlGender' : 'FEMALE'},
           // 'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'FEMALE'},
           'audioConfig': {'audioEncoding': 'MP3' },        
@@ -508,6 +501,8 @@ function wordlist_reading(number, title){
       document.getElementById('wordlist_headline').innerHTML = add_head_html;     
 
     for (let result of results) {
+      examples = JSON.parse(result.EXAMPLE);
+      console.log(examples);
       add_contents_html += `<div class="wordlist_wrap shadow-sm">
       <div class="wordlist_main">
         <div class="wordlist_text" onclick="word_reading(${result.ID});">                    
@@ -518,18 +513,21 @@ function wordlist_reading(number, title){
           <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}"></i>
         </div>
       </div>
-
-      
       <div class="wordlist_second">
-        <div class="collapse wordlist_example ft10" id="wordlist_example_${result.ID}">                  
-          <ul>
-            <li>People are absolutely obsessed with their rights. <br> 사람들은 자신의 권리에 절대적으로 집착합니다. </li>
-            <li>They are obsessed with their own plans. <br> 그들은 자신의 계획에 집착합니다.</li>
-          </ul>
-        </div>        
-      </div>
-    </div>`;      
-    }    
+            <div class="collapse wordlist_example ft10" id="wordlist_example_${result.ID}">                  
+              <ul>`;
+      
+      j = 0;
+      for (example of examples) {
+        add_contents_html += `<li id="wordlist_${result.ID}_example_${j}">${example.ENG}<br>${example.KOR}</li>`;
+        j +=1 ;
+      }
+      add_contents_html += `</ul>
+            </div>        
+          </div>
+        </div>`;
+
+    }
     add_contents_html += `</div>
       </div>`;
     document.getElementById('wordlist_list').innerHTML = add_contents_html;
@@ -579,7 +577,12 @@ function word_reading(ID_number){
   let word = {'wordbook_title' : wordbook_title, 'word_id' : word_id};
   console.log(word);
   fetch("/wordbook/word", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
+    console.log('result :: ////');
     console.log(results);
+    console.log(results[0].EXAMPLE);        
+    let examples = JSON.parse(results[0].EXAMPLE);
+    console.log(examples + ' : ' + examples.length);    
+    
     // 문장타이틀부분 #word_view1
     let word_title_html = `
       <ul>
@@ -588,11 +591,13 @@ function word_reading(ID_number){
       </ul>`;
     // 예문부분 #example_list    
     let example_html = ``;
-    for (result of results){
-      if (result.EXAMPLE !== null) {
-        example_html += `<li> ${result.EXAMPLE.ENG} <br> ${result.EXAMPLE.KOR} </li>`;
+    let j = 0;
+    if (examples.length > 0) {
+      for (example of examples){       
+        example_html += `<li id="wordbtn_example_${j}" onclick="tts('${example.ENG}', 1);">${example.ENG}<br>${example.KOR}</li>`;        
       }
-    }
+    };
+    
     document.getElementById('word_view1').innerHTML = word_title_html;
     document.getElementById('example_list').innerHTML = example_html;          
   });
@@ -607,11 +612,14 @@ function word_reading(ID_number){
 function example_add(){
   let now = new Date();
   let time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}`;  
-  let example = {'wordbook_title' : document.getElementById('add_word_title').innerText, 'word_id' : document.getElementById('word_id').innerText, 'ENG' : document.getElementById('exam_eng').value, 'KOR' : document.getElementById('exam_kor').value, 'SAVEDATE' : time, 'LOADDATE' : time , 'LOAD_NUM' : 0};    
+  let wordbook_title = document.getElementById('add_word_title').innerText;
+  let word_id = document.getElementById('word_id').innerText;
+  let example = {'wordbook_title' : wordbook_title, 'word_id' : word_id, 'ENG' : document.getElementById('exam_eng').value, 'KOR' : document.getElementById('exam_kor').value, 'SAVEDATE' : time, 'LOADDATE' : time , 'LOAD_NUM' : 0};    
   console.log(example);
   fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(example)}).then((response)=>response.json()).then((results)=>{
     console.log(results);
   });
+  word_reading(word_id);
 }
 
 
