@@ -586,8 +586,8 @@ function word_reading(ID_number){
     // 문장타이틀부분 #word_view1
     let word_title_html = `
       <ul>
-        <li><span id="word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb"> ${results[0].ENG} </span></li>
-        <li><span class="ft7 ftb"> ${results[0].KOR} </span> <i class="fa-solid fa-list-check ft7 ftb text_red"></i></li>
+        <li><span id="word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng"> ${results[0].ENG} </span></li>
+        <li><span class="ft7 ftb">${results[0].KOR}</span><i class="fa-solid fa-list-check ft7 ftb text_red"></i></li>
       </ul>`;
     // 예문부분 #example_list    
     let example_html = ``;
