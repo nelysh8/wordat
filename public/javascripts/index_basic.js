@@ -47,37 +47,50 @@
         return new Promise(resolve => setTimeout(resolve, sec * 1000));
       } 
 
-      async function clear_input(){        
-        document.getElementById("main_search_input").value="";
-        // click_fadeout(document.getElementById('result_contents'));
-        click_fadeout(document.getElementById('Sres_view'));
-        resize(document.getElementById("main_search_input"));                
-        await sleep(0.9);        
-        iframe2_dis();    
-      //   var doc = document.getElementById('result_view').contentWindow.document;
-      //   doc.getElementById('contents_cambrg').innerHTML = `<div class="blank_sheet">
-      //   <div class="animate__animated animate__slideInDown text_center"><span class="ft3 ftbb"> What's difference? </span> </div>
-      // </div>`;
-        // click_fadein(document.getElementById('result_contents'));           
-      }
+      function clear_input(position){        
+        var req_pos = position;  
+        var target = '';
+        var link_yarn, link_youglish, link_google = '';
 
-      async function clear_word_toolbar_input(){        
-        document.getElementById("word_toolbar_input").value="";
-        // click_fadeout(document.getElementById('result_contents'));
-        click_fadeout(document.getElementById('word_toolbar_result'));
-        resize(document.getElementById("word_toolbar_input"));                
-        await sleep(0.9);                
-      //   var doc = document.getElementById('result_view').contentWindow.document;
-      //   doc.getElementById('contents_cambrg').innerHTML = `<div class="blank_sheet">
-      //   <div class="animate__animated animate__slideInDown text_center"><span class="ft3 ftbb"> What's difference? </span> </div>
-      // </div>`;
-        // click_fadein(document.getElementById('result_contents'));           
+          // 'mainbox_center' // 'second_3box_center'
+        if (req_pos === 'mainbox_center') {
+          target = document.getElementById("main_search_input");
+          link_yarn = document.getElementById('msi_link_yarn');
+          link_youglish = document.getElementById('msi_link_youglish');
+          link_google = document.getElementById('msi_link_google');
+        } else if (req_pos === 'second_3box_center') {
+          target = document.getElementById("word_toolbar_input");
+          link_yarn = document.getElementById('word_toolbar_link_yarn');
+          link_youglish = document.getElementById('word_toolbar_link_youglish');
+          link_google = document.getElementById('word_toolbar_link_google');
+        }
+        target.value="";
+        link_yarn.setAttribute('href', encodeURI('https://getyarn.io/'));
+        link_youglish.setAttribute('href', encodeURI('https://youglish.com/'));
+        link_google.setAttribute('href', encodeURI('https://www.google.com/'));
+        // click_fadeout(document.getElementById('result_contents'));        
+
+        resize(target);                
+
+        if (req_pos === 'mainbox_center') {
+          click_fadeout(document.getElementById('Sres_view'));                      
+        } else if (req_pos === 'second_3box_center') {
+          click_fadeout(document.getElementById('word_toolbar_result'));
+        }
       }
 
       function resize(obj) {        
         obj.style.height = "1px";
         obj.style.height = ((obj.scrollHeight/10)+0.5)+"rem";
       }
+
+      async function click_pulse(obj) {        
+        console.log('pulse detected : '+ obj.id);        
+        obj.classList.toggle('animate__pulse');              
+        await sleep(0.9); 
+        obj.classList.toggle('animate__pulse');
+      }        
+      
 
       async function click_fadein(obj) {        
         console.log('fadein detected : '+ obj.id);
@@ -131,7 +144,7 @@
         console.log(obj);
         console.log(obj.style);
         console.log(obj.style.display);
-        if ((obj.style.display === 'none') || (obj.style.display==='')){
+        if ((obj.style.display === 'none')){
           console.log('visible start')
           obj.style.display = 'block';
         }        
@@ -164,12 +177,14 @@
       function footbar_vis() {        
         click_slideup(document.getElementById('footbar'));
         document.getElementById('footbar').style.display = 'flex';
-        document.getElementById('mainbox_center').style.minHeight = '82%';
+        document.getElementById('mainbody').style.marginBottom = '6rem';             
+
+        
       }           
 
       function footbar_dis() {        
-        click_slideoutdown(document.getElementById('footbar'));        
-        document.getElementById('mainbox_center').style.minHeight = '85%';
+        click_slideoutdown(document.getElementById('footbar'));   
+        document.getElementById('mainbody').style.marginBottom = '0';             
       }
 
       // long touch 함수

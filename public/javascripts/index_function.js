@@ -20,15 +20,25 @@ word_toolbar_input = word_toolbar_doc.querySelector('textarea');
 
 Search_Input.addEventListener("keyup", e => {    
     if (e.keyCode === 13 && e.shiftKey && e.target.value){        
-      main_tranbtn_click();
+      tranbtn_click('mainbox_center');
     }
 });
 
 word_toolbar_input.addEventListener("keyup", e => {    
   if (e.keyCode === 13 && e.shiftKey && e.target.value){        
-    word_toolbar_tranbtn_click();
+    tranbtn_click('second_3box_center');
   }
 });
+
+// function youtube(){
+//   var iframe = document.getElementById('youtube');
+//   console.log(iframe.contentWindow.document.body.innerHTML);
+// }
+
+// iframe.contentWindow.addEventListener('onclick', handler);
+ 
+
+// getElementById('ytp-caption-window-container')
 
 // carousel detection
 
@@ -88,79 +98,106 @@ observer.observe(carousel_wordlist, observer_config);
 
 // Translate Search Btn Click
 
-function main_tranbtn_click(){    
-  var doc = document.getElementById('Sres_ENG');
-  doc.innerHTML = '';
+function tranbtn_click(position){  
+  console.log('tranbtn_click start at ' + position);
+  var req_pos = position;
+  var doc_eng, doc_kor;  
+  // var Input_target = '';
+  var view_target = '';
+  var engs_org, engs_spl, engs_res;
+  var link_yarn, link_youglish, link_google = '';
   let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+  if (req_pos === 'mainbox_center') {
+    doc_eng = document.getElementById('Sres_ENG');
+    doc_kor = document.getElementById('Sres_KOR');
+    Input_target = document.getElementById('main_search_input');
+    view_target = document.getElementById('Sres_view');
+    link_yarn = document.getElementById('msi_link_yarn');
+    link_youglish = document.getElementById('msi_link_youglish');
+    link_google = document.getElementById('msi_link_google');
+  } else if (req_pos === 'second_3box_center') {
+    doc_eng = document.getElementById('wtrv_ENG');
+    doc_kor = document.getElementById('wtrv_KOR');
+    Input_target = document.getElementById('word_toolbar_input');
+    view_target = document.getElementById('word_toolbar_result');
+    link_yarn = document.getElementById('word_toolbar_link_yarn');
+    link_youglish = document.getElementById('word_toolbar_link_youglish');
+    link_google = document.getElementById('word_toolbar_link_google');
+  }
+
+  doc_eng.innerHTML = '';
+  doc_kor.innerHTML = '';
+
+  console.log(Input_target.value);
   
-  if (kor_check.test(Search_Input.value)) {
-    doc.innerHTML = `<span> ${Search_Input.value} </span>`;
-    main_trans_papago(Search_Input.value);
-    click_fadein(document.getElementById('Sres_view'));
-  } else if(Search_Input.value.replace(/ /gi,'').replace(/\n/gi,'')) {                        
-    var engs_org = Search_Input.value.replace(/\n$/,'');
-    var engs_spl = Search_Input.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');          
-    console.log(engs_spl);
-    engs_res = '';          
-              
+  if (kor_check.test(Input_target.value)) {    
+    doc_kor.innerHTML = `<span> ${Input_target.value} </span>`;      
+    (async function(){
+      await trans_papago(req_pos, Input_target.value);
+      engs_org = doc_eng.innerText;
+      link_yarn.setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + engs_org));
+      link_youglish.setAttribute('href', encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?'));
+      link_google.setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));
+    })();    
+  } else if(Input_target.value.replace(/ /gi,'').replace(/\n/gi,'')) {                        
+    engs_org = Input_target.value.replace(/\n$/,'');
+    engs_spl = Input_target.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');              
+    engs_res = '';
     
     function TEST_add(engs_spl){
       for (let words of engs_spl){            
         if (words === '___') {
           engs_res += `<br>`;
         } else {                                
-          // engs_res += `<a href="#" onclick="parent.Cambrg_search('${words}'); ">${words}</a> `;
           engs_res += `<span onclick="Cambrg_search('${words}');">${words}</span> `;
         }              
       }
-
-      doc.innerHTML += engs_res;
+      doc_eng.innerHTML += engs_res;
       re_popup();             
-      // click_fadein(doc);        
-      // iframe2_vis();
-    }      
-    
-    TEST_add(engs_spl);
-    main_trans_papago(engs_org);
+    }
+    TEST_add(engs_spl);    
+    trans_papago(req_pos,engs_org);
     document.getElementById('msi_link_yarn').setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + engs_org));
     document.getElementById('msi_link_youglish').setAttribute('href', encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?'));
-    document.getElementById('msi_link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));
-    
-    click_fadein(document.getElementById('Sres_view'));          
-    iframe2_vis();
+    document.getElementById('msi_link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));  
   }
-};
-
+  click_fadein(view_target);
+}
 
 
 // <!-- papago translation -->
     
-function main_trans_papago(SENTC){  
+function trans_papago(position, SENTC){  
+  console.log('trans_papago start at ' + position);
+  var req_pos = position;
+  var write_target;
   let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
   let TEXT = '';
+
   if (kor_check.test(SENTC)) {
-    TEXT = {'source' : 'ko', 'target' : 'en', 'word' : SENTC};            
+    TEXT = {'source' : 'ko', 'target' : 'en', 'word' : SENTC};
+    if (req_pos === 'mainbox_center') {    
+      view_target = document.getElementById('Sres_view');    
+      write_target = document.getElementById('Sres_ENG');                   
+    } else if (req_pos === 'second_3box_center') {    
+      view_target = document.getElementById('word_toolbar_result');    
+      write_target = document.getElementById('wtrv_ENG');
+    }
   } else {
     TEXT = {'source' : 'en', 'target' : 'ko', 'word' : SENTC};            
-  }  
-  let TEXT_JSON = JSON.stringify(TEXT);
-  console.log(TEXT);
-  console.log(JSON.stringify(TEXT));
-  fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));                
-
-  function data(result){          
-    let B = JSON.stringify(result);          
-    var tmp = document.getElementById("Sres_KOR");
-    function addtext(){
-      tmp.innerText = result.message.result.translatedText;
-      if (kor_check.test(result.message.result.translatedText) === false) {
-        document.getElementById('msi_link_yarn').setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + result.message.result.translatedText));
-        document.getElementById('msi_link_youglish').setAttribute('href', encodeURI('https://youglish.com/pronounce/' + result.message.result.translatedText + '/english?'));
-        document.getElementById('msi_link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + result.message.result.translatedText +'"'));
-      }
+    if (req_pos === 'mainbox_center') {    
+      view_target = document.getElementById('Sres_view');    
+      write_target = document.getElementById('Sres_KOR');                   
+    } else if (req_pos === 'second_3box_center') {    
+      view_target = document.getElementById('word_toolbar_result');    
+      write_target = document.getElementById('wtrv_KOR');
     }
-    addtext();
-  }
+  }    
+  
+  fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>{
+    write_target.innerText = result.message.result.translatedText;      
+  });
 }
     
 
@@ -349,18 +386,8 @@ function modal1_openbtn_click(position) {
     document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('mainbox_center')");
     document.getElementById("toggle_row").style.display = 'block';    
 
-    let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;  
-    if (kor_check.test(document.getElementById('main_search_input').value)) {
-      document.getElementById("wim_input_kor").value = document.getElementById('main_search_input').value;
-      document.getElementById("wim_input_eng").value = document.getElementById('Sres_KOR').innerText;
-    } else { 
-      var engs = document.getElementById('main_search_input').value.replace(/\n$/,'');        
-      document.getElementById("wim_input_eng").value = engs;
-    
-      if (document.getElementById('Sres_KOR').innerText !== '') {
-        document.getElementById("wim_input_kor").value=document.getElementById('Sres_KOR').innerText;          
-      }
-    }
+    document.getElementById("wim_input_eng").value = document.getElementById('Sres_ENG').innerText;
+    document.getElementById("wim_input_kor").value = document.getElementById('Sres_KOR').innerText;    
       
     fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{              
       console.log('dropdown creating');
@@ -379,7 +406,8 @@ function modal1_openbtn_click(position) {
         dropdown_button.innerText = pre_selected_wordbook;      
       } 
     });      
-  } else if (req_pos === 'second_2box_center'){
+  } 
+  else if (req_pos === 'second_2box_center'){
     console.log('second_2box modal1 starting');
     wim_title.innerText = 'Add words to the wordbook';    
     selected_wordbook = document.getElementById('s2_wordbook_title').innerText;
@@ -408,18 +436,18 @@ function modal1_openbtn_click(position) {
         dropdown_button.innerText = pre_selected_wordbook;      
       };
     });
-  } else if (req_pos === 'second_3box_center'){
+  } 
+  
+  else if (req_pos === 'second_3box_center'){
     console.log('second_3box modal1 starting');
     wim_title.innerText = 'Add examples to the word';
     selected_wordbook = document.getElementById('s2_wordbook_title').innerText;
     word_id = document.getElementById('s3_word_id').innerText;
     document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('second_3box_center');")
-  
-    var engs = document.getElementById('word_toolbar_input').value.replace(/\n$/,'');        
-    document.getElementById("wim_input_eng").value = engs;  
-    if (document.getElementById('wtrv_KOR').innerText !== '') {
-      document.getElementById("wim_input_kor").value=document.getElementById('wtrv_KOR').innerText;          
-    }      
+
+    document.getElementById("wim_input_eng").value = document.getElementById('wtrv_ENG').innerText;
+    document.getElementById("wim_input_kor").value = document.getElementById('wtrv_KOR').innerText;    
+    
     document.getElementById("toggle_row").style.display = 'none';
   }
 }
@@ -486,15 +514,14 @@ function wim_submit_btn_click(position){
 
     // open / close
 
-async function wordbook_open(){    
+function wordbook_open(){    
   wordbook_reading();
-  await click_fadeoutdown(mainbox_center);  
+  // await click_fadeoutdown(mainbox_center);  
   click_slideup(second_1box_center);  
 }
 
-async function wordbook_close(){  
-  await click_slideoutdown(second_1box_center);        
-  click_slideup(mainbox_center);
+function wordbook_close(){  
+  click_slideoutdown(second_1box_center);        
 }
 
     // read
@@ -597,11 +624,11 @@ async function edit_wordbook_click(number){
 
 function wordlist_open(){  
   click_slideup(second_2box_center);    
-  click_fadeout(second_1box_contents);
+  // click_fadeout(second_1box_contents);
 }
 
 function wordlist_close(){
-  click_fadein(second_1box_contents);
+  // click_fadein(second_1box_contents);
   click_slideoutdown(second_2box_center);   
 }
 
@@ -686,11 +713,11 @@ function wordlist_reading(number, title){
 function word_open(){
   console.log('word_open start');
   click_slideup(second_3box_center);    
-  click_fadeout(second_2box_contents);
+  // click_fadeout(second_2box_contents);
 }
 
 function word_close(){
-  click_fadein(second_2box_contents);
+  // click_fadein(second_2box_contents);
   click_slideoutdown(second_3box_center); 
 }
 

@@ -55,285 +55,92 @@
     </div>       
     
     <!-- 2. main body -->
+    <div class="mainbody" id="mainbody">
+      <!-- mainbox_center -->
+      <div class="container-fluid mainbox_center animate__animated" id="mainbox_center" style="display:block">
 
-    <div class="container-fluid mainbox_center animate__animated" id="mainbox_center" style="display:block">
-
-      <div id="Upper_search_container" class="shadow-lg">
-        <div id="Upper_carousel" class="carousel slide" data-bs-touch="true">
-          <div class="carousel-indicators">
-            <button type="button" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active" id="contents_wordbook">
-              <div class="blank_sheet">
-                <div class="text_middle"><span class="ft3 ftbb"> What's difference? </span></div>
-              </div>
+        <div id="Upper_search_container" class="shadow-lg">
+          <div id="Upper_carousel" class="carousel slide" data-bs-touch="true">
+            <div class="carousel-indicators">
+              <button type="button" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
-            <div class="carousel-item" id="contents_cambrg">            
-              <div class="blank_sheet">
-                <div class="text_middle"><span class="ft3 ftbb"> Cambridge Dictionary </span></div>
+            <div class="carousel-inner">
+              <div class="carousel-item active" id="contents_wordbook">
+                <div class="blank_sheet">
+                  <div class="text_middle"><span class="ft3 ftbb"> What's difference? </span></div>
+                </div>
               </div>
+              <div class="carousel-item" id="contents_cambrg">            
+                <div class="blank_sheet">
+                  <div class="text_middle"><span class="ft3 ftbb"> Cambridge Dictionary </span></div>
+                </div>
+              </div>
+              <div class="carousel-item" id="contents_wordlist">              
+                <div class="blank_sheet">
+                  <div class="text_middle"><span class="ft3 ftbb"> Wordbook </span></div>
+                </div>
+              </div> 
             </div>
-            <div class="carousel-item" id="contents_wordlist">              
-              <div class="blank_sheet">
-                <div class="text_middle"><span class="ft3 ftbb"> Wordbook </span></div>
-              </div>
-            </div> 
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#Upper_carousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>      
-      </div>
-    
-      <div class="searchbar shadow-lg">
-        <div class="searchbar_main">
-          <textarea class="autosize ft8" id="main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
-          <div id="msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input();click_fadein(this);"></i></div>
-          <div id="msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); main_tranbtn_click();"></i></div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#Upper_carousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>      
         </div>
-        <div class="searchbar_items">          
-          <a id="msi_link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
-          <a id="msi_link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
-          <a id="msi_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>          
-          <i id="msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" ondblclick="tts(document.getElementById('main_search_input').value, 1.5);" onclick="click_fadein(this); tts(document.getElementById('main_search_input').value, 1);" ></i>          
-          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('mainbox_center');"></i>                    
-        </div>  
       
-      <div class="searchResult shadow-sm animate__animated" style="display: none" id="Sres_view" >        
-        <div class="Sres_view" name="Sres_view">
-          <ul>
-            <li class="Sres_ENG" >
-                <p id="Sres_ENG" class="ft8 ftbb text_red"> </p>
-            </li>
-            <li class="Sres_KOR">
-                <p id="Sres_KOR" class="ft8 ftb text_green"></p>
-            </li>
-                <li class="Sres_WORD">
-            <p id="Sres_WORD" class="ft8"> </p>
-                </li>
-            <li class="Sres_option">            
-                </li>          
-          </ul>
-        </div>              
-      </div>
+        <div class="searchbar shadow-lg">
+          <div class="searchbar_main">
+            <textarea class="autosize ft8" id="main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+            <div id="msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('mainbox_center');click_fadein(this);"></i></div>
+            <div id="msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); tranbtn_click('mainbox_center');"></i></div>
+          </div>
+          <div class="searchbar_items">          
+            <a id="msi_link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
+            <a id="msi_link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
+            <a id="msi_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>          
+            <i id="msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" ondblclick="tts(document.getElementById('main_search_input').value, 1.5);" onclick="click_fadein(this); tts(document.getElementById('main_search_input').value, 1);" ></i>          
+            <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('mainbox_center');"></i>                    
+          </div>  
         
-        <div id="test_place">
-          <!-- <button onclick="wordbook_open();"> Wordbook </button> 
-          <button id="testButton" ondblclick="dbclick();" onmousedown="mousedown();", onmouseup="mouseup();"> test </button>
-          <div id="abc" style="display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 150px;
-          height: 150px;
-          background: #ffcc00;
-          border-radius: 8px;
-          font-weight: 500;
-          font-family: Arial;">Touchable Area</div> -->
+        <div class="searchResult shadow-sm animate__animated" style="display: none" id="Sres_view" >        
+          <div class="Sres_view" name="Sres_view">
+            <ul>
+              <li class="Sres_ENG" >
+                  <p id="Sres_ENG" class="ft8 ftbb text_red"></p>
+              </li>
+              <li class="Sres_KOR">
+                  <p id="Sres_KOR" class="ft8 ftb text_green"></p>
+              </li>
+                  <li class="Sres_WORD">
+              <p id="Sres_WORD" class="ft8"> </p>
+                  </li>
+              <li class="Sres_option">            
+                  </li>          
+            </ul>
+          </div>              
         </div>
+        
+      </div>
+      <div id="test_place">            
+        <!-- <iframe src="https://www.youtube.com/embed/videoseries?list=PLJBo3iyb1U0dJU_vsEwdqBGH1ZArNPmt1" style="width:100%; height:100%;"></iframe>     -->
+        <!-- <iframe id="youtube" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLJBo3iyb1U0dJU_vsEwdqBGH1ZArNPmt1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p id = "test_sub">
+          <h1> <button onclick="youtube();"> good day </button> </h1>
+        </p> -->
       </div>
     </div>
-      
-<!-- second_1box_center -->
+        
+      <!-- second_1box_center -->
     <div class="container-fluid second_1box_center animate__animated" id="second_1box_center" style="display:none;">
       <div class="wordbook_headline">
-        <div class="title"><span class="ft5 ftb"> My wordbook </span></div>
-        <div class="plus_icon">
-          <i class="fa-solid fa-file-circle-plus ft5 ftbb text_green" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick=""></i>                    
-          <div id="wordbook_add_modal" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">                
-                  <span class="ft5 ftbb">Add wordbook</span>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>                                                                               
-                <div class="modal-body">                                          
-                  <div class="input-group mb-3">
-                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > TITLE </span>
-                    <input type="text" name="add_wordbook_title" id="add_wordbook_title" class="form-control ft8" placeholder="Input a Wordbook Title"> 
-                  </div>                                      
-                  <div class="modal-footer">                        
-                    <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="add_wordbook_click();"> ADD </button>
-                    <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
-                  </div>                    
-                </div>                
-              </div>
-            </div> 
-          </div>
-        </div>         
-        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red" onclick="wordbook_close();"></i></div>                
+        <div class="title"><span class="ft5 ftb"> My wordbook </span></div>          
       </div>
-<!-- second_2box_center -->
-      <div class="container-fluid second_2box_center animate__animated" id="second_2box_center" style="display:none;">
-        <div class="wordlist_headline" id="wordlist_headline">
-          <div class="title" id="s2_wordbook_title"><span class="ft6 ftb text_pink"> Wordlist_Name </span></div>
-          <div class="plus_icon">
-            <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_2box_center')";></i>
-          </div>
-          <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft6 ftbb text_red" onclick="wordlist_close();"></i></div>
-        </div>
-<!-- Second_3box_center starts -->
-        <div class="container-fluid second_3box_center animate__animated" id="second_3box_center" style="display:none;">
-          <div class="word_headline" id="word_headline">
-            <div class="title"><span class="ft6 ftb "> Phrase study </span></div>
-            <div class="plus_icon">
-              <i class="fa-solid fa-file-circle-plus ft7 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_3box_center');"></i>
-              <!-- <div id="word_exam_modal" class="modal fade" role="dialog">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <span class="ft5 ftbb">Add examples to the word</span>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>   
-                    <form id="form_add_word" action="/word_manage/add/내단어장" method="post">
-                      <div class="modal-body">                                          
-                        <div class="input-group mb-3">
-                          <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
-                          <input type="text" name="word_english" class="form-control ft8" placeholder="Input a English Sentence" id="edit_eng" aria-label="Username" aria-describedby="basic-addon1" > 
-                        </div>
-                        <div class="input-group mb-3">
-                          <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
-                          <input type="text" name="word_korean" class="form-control ft8" placeholder="Input it's meaning" id="edit_kor" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>                                      
-                        <div class="modal-footer">                        
-                          <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal"> ADD </button>
-                          <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
-                        </div>                    
-                      </div>
-                    </form> 
-                  </div>
-                </div>
-              </div>  -->
-            </div>
-            <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_red" onclick="word_close();"></i></div>
-          </div>          
-          <div class="contents" id="second_3box_contents">
-            <div class="word_view">
-              <div class="word_view_1" id="word_view1" data-bs-toggle="collapse" data-bs-target="#word_view_collapse" aria-expanded="false" aria-controls="word_view_collapse" onclick="tts(document.getElementById('word_title_eng').innerText, 1)";>                                                                                                                
-              </div>              
-              <div class="word_view_2">
-                <div class="collapse word_view_collapse ft9" id="word_view_collapse">                  
-                  <ul id="example_list">                    
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="word_toolbar">              
-            <div class="word_toolbar_main">
-              <textarea class="autosize ft8" id="word_toolbar_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
-              <div id="word_toolbar_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_word_toolbar_input();click_fadein(this);"></i></div>
-              <div id="word_toolbar_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); word_toolbar_tranbtn_click();"></i></div>                
-            </div>
-            <div class="word_toolbar_items shadow-sm" >          
-              <a id="word_toolbar_link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
-              <a id="word_toolbar_link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
-              <a id="word_toolbar_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>                
-              <i class="tts fa-solid fa-play text_red animate__animated" onclick="click_fadein(this); tts(document.getElementById('word_toolbar_input').value, 1);"></i>
-              <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_3box_center');"></i>          
-              <!-- <div id="wordexam_add_modal" class="modal fade" role="dialog">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">                      
-                      <span class="ft5 ftbb">Add example to the word</span>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>                  
-                    <div class="modal-body">                                          
-                      <div class="input-group mb-3">
-                        <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
-                        <input type="text" name="exam_eng" class="form-control ft8" placeholder="Input a English Sentence" id="exam_eng" aria-label="Username" aria-describedby="basic-addon1" > 
-                      </div>
-                      <div class="input-group mb-3">
-                        <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
-                        <input type="text" name="exam_kor" class="form-control ft8" placeholder="Input it's meaning" id="exam_kor" aria-label="Username" aria-describedby="basic-addon1">
-                      </div>                                      
-                      <div class="modal-footer">                        
-                        <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="example_add();"> ADD </button>
-                        <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
-                      </div>                    
-                    </div>
-                  </div>
-                </div>
-              </div>                            -->
-            </div>
-            <div class="word_toolbar_result shadow-sm animate__animated" style="display: none" id="word_toolbar_result" >        
-              <div class="word_toolbar_result_view" name="word_toolbar_result_view">
-                <ul>
-                  <li class="wtrv_ENG" >
-                      <p id="wtrv_ENG" class="ft8 ftbb text_red"> </p>
-                  </li>
-                  <li class="wtrv_KOR">
-                      <p id="wtrv_KOR" class="ft8 ftb text_green"></p>
-                  </li>
-                      <li class="wtrv_WORD">
-                  <p id="wtrv_WORD" class="ft8"> </p>
-                      </li>
-                  <li class="wtrv_option">            
-                      </li>          
-                </ul>
-              </div>              
-            </div>  
-          </div>          
-        </div>        
-<!-- Second_3box_center ends -->
-<!-- Second_2box_center continue -->
-        <div class="contents" id="second_2box_contents">
-          <div id="wordlist_list" class="wordlist_list">
-            <!-- example start -->
-            <div class="wordlist_wrap shadow-sm">
-              <div class="wordlist_main">
-                <div class="wordlist_text">                    
-                  <div id="wordlist_eng" class="wordlist_eng ft8 ftb"> <span> I'm obsessed with </span></div>
-                  <div id="wordlist_kor" class="wordlist_kor ft8 ftb"> <span> 난 ~에 빠졌어 </span></div>
-                </div>
-                <div class="wordlist_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordlist_list_post();"></i></div>
-                <div class="wordlist_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
-                <div class="wordlist_option">
-                  <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_1" aria-expanded="false" aria-controls="wordlist_example_1"></i>
-                </div>
-              </div>
-              <div class="wordlist_second">
-                <div class="collapse wordlist_example ft10" id="wordlist_example_1">                  
-                  <ul>
-                    <li>People are absolutely obsessed with their rights. <br> 사람들은 자신의 권리에 절대적으로 집착합니다. </li>
-                    <li>They are obsessed with their own plans. <br> 그들은 자신의 계획에 집착합니다.</li>
-                  </ul>
-                </div>
-              </div>                
-            </div>          
-            <div class="wordlist_wrap shadow-sm">
-              <div class="wordlist_main">
-                <div class="wordlist_text">                    
-                  <div id="wordlist_eng" class="wordlist_eng ft8 ftb"> <span> High maintenance </span></div>
-                  <div id="wordlist_kor" class="wordlist_kor ft8 ftb"> <span> 손이 많이 가는 </span></div>
-                </div>
-                <div class="wordlist_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordlist_list_post();"></i></div>
-                <div class="wordlist_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
-                <div class="wordlist_option">
-                  <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_2" aria-expanded="false" aria-controls="wordlist_example_2"></i>
-                </div>
-              </div>
-              <div class="wordlist_second">
-                <div class="collapse wordlist_example ft10" id="wordlist_example_2">                  
-                  <ul>
-                    <li>low maintenance <br> 소탈한, 까다롭지 않은 </li>
-                    <li>You're high maintenance. <br> 너 손이 많이 가네. </li>
-                  </ul>
-                </div>                
-              </div>                
-            </div>                              
-          </div>
-        </div>  
-      </div>
-<!-- Second-2box-center end -->
-<!-- Second-1box-center continue -->
       <div class="contents animate__animated" id="second_1box_contents">
         <div id="wordbook_list" class="wordbook_list">
 <!--           example
@@ -348,53 +155,157 @@
           -->
         </div>
       </div>
+      <div class="s2_box_bottom_items">
+        <div class="plus_icon">
+          <i class="fa-solid fa-file-circle-plus ft5 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick="click_pulse(this);"></i>                              
+        </div>         
+        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red animate__animated" onclick="click_pulse(this); wordbook_close();"></i></div>                
+      </div>
     </div>
       
-      <!-- Modal -->
-      <!-- <div class="modal fade" id="word_modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">          
-            <div class="modal-body">
-              ...
-            </div>          
+    
+
+      <!-- second_2box_center -->
+    <div class="container-fluid second_2box_center animate__animated" id="second_2box_center" style="display:none;">
+      <div class="wordlist_headline" id="wordlist_headline">
+        <div class="title" id="s2_wordbook_title"><span class="ft6 ftb text_pink"> Wordlist_Name </span></div>
+        <div class="plus_icon">
+          <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_2box_center')";></i>
+        </div>
+        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft6 ftbb text_red" onclick="wordlist_close();"></i></div>
+      </div>
+      <div class="contents" id="second_2box_contents">
+        <div id="wordlist_list" class="wordlist_list">
+          <!-- example start -->
+          <div class="wordlist_wrap shadow-sm">
+            <div class="wordlist_main">
+              <div class="wordlist_text">                    
+                <div id="wordlist_eng" class="wordlist_eng ft8 ftb"> <span> I'm obsessed with </span></div>
+                <div id="wordlist_kor" class="wordlist_kor ft8 ftb"> <span> 난 ~에 빠졌어 </span></div>
+              </div>
+              <div class="wordlist_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordlist_list_post();"></i></div>
+              <div class="wordlist_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
+              <div class="wordlist_option">
+                <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_1" aria-expanded="false" aria-controls="wordlist_example_1"></i>
+              </div>
+            </div>
+            <div class="wordlist_second">
+              <div class="collapse wordlist_example ft10" id="wordlist_example_1">                  
+                <ul>
+                  <li>People are absolutely obsessed with their rights. <br> 사람들은 자신의 권리에 절대적으로 집착합니다. </li>
+                  <li>They are obsessed with their own plans. <br> 그들은 자신의 계획에 집착합니다.</li>
+                </ul>
+              </div>
+            </div>                
+          </div>          
+          <div class="wordlist_wrap shadow-sm">
+            <div class="wordlist_main">
+              <div class="wordlist_text">                    
+                <div id="wordlist_eng" class="wordlist_eng ft8 ftb"> <span> High maintenance </span></div>
+                <div id="wordlist_kor" class="wordlist_kor ft8 ftb"> <span> 손이 많이 가는 </span></div>
+              </div>
+              <div class="wordlist_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordlist_list_post();"></i></div>
+              <div class="wordlist_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
+              <div class="wordlist_option">
+                <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_2" aria-expanded="false" aria-controls="wordlist_example_2"></i>
+              </div>
+            </div>
+            <div class="wordlist_second">
+              <div class="collapse wordlist_example ft10" id="wordlist_example_2">                  
+                <ul>
+                  <li>low maintenance <br> 소탈한, 까다롭지 않은 </li>
+                  <li>You're high maintenance. <br> 너 손이 많이 가네. </li>
+                </ul>
+              </div>                
+            </div>                
+          </div>                              
+        </div>
+      </div>  
+    </div>
+  <!-- Second-2box-center end -->
+
+
+      <!-- Second_3box_center starts -->
+    <div class="container-fluid second_3box_center animate__animated" id="second_3box_center" style="display:none;">
+      <div class="word_headline" id="word_headline">
+        <div class="title"><span class="ft6 ftb "> Phrase study </span></div>
+        <div class="plus_icon">
+          <i class="fa-solid fa-file-circle-plus ft7 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_3box_center');"></i>              
+        </div>
+        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_red" onclick="word_close();"></i></div>
+      </div>          
+      <div class="contents" id="second_3box_contents">
+        <div class="word_view">
+          <div class="word_view_1" id="word_view1" data-bs-toggle="collapse" data-bs-target="#word_view_collapse" aria-expanded="false" aria-controls="word_view_collapse" onclick="tts(document.getElementById('word_title_eng').innerText, 1)";>                                                                                                                
+          </div>              
+          <div class="word_view_2">
+            <div class="collapse word_view_collapse ft9" id="word_view_collapse">                  
+              <ul id="example_list">                    
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-     -->
-    
-
-    
-
-    
-
+      <div class="word_toolbar">              
+        <div class="word_toolbar_main">
+          <textarea class="autosize ft8" id="word_toolbar_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+          <div id="word_toolbar_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('second_3box_center');click_fadein(this);"></i></div>
+          <div id="word_toolbar_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); tranbtn_click('second_3box_center');"></i></div>                
+        </div>
+        <div class="word_toolbar_items shadow-sm" >          
+          <a id="word_toolbar_link_yarn" href="https://getyarn.io/" target="_blank" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
+          <a id="word_toolbar_link_youglish" href="https://www.youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
+          <a id="word_toolbar_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>                
+          <i class="tts fa-solid fa-play text_red animate__animated" onclick="click_fadein(this); tts(document.getElementById('word_toolbar_input').value, 1);"></i>
+          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_3box_center');"></i>                        
+        </div>
+        <div class="word_toolbar_result shadow-sm animate__animated" style="display: none" id="word_toolbar_result" >        
+          <div class="word_toolbar_result_view" name="word_toolbar_result_view">
+            <ul>
+              <li class="wtrv_ENG" >
+                  <p id="wtrv_ENG" class="ft8 ftbb text_red"> </p>
+              </li>
+              <li class="wtrv_KOR">
+                  <p id="wtrv_KOR" class="ft8 ftb text_green"></p>
+              </li>
+                  <li class="wtrv_WORD">
+              <p id="wtrv_WORD" class="ft8"> </p>
+                  </li>
+              <li class="wtrv_option">            
+                  </li>          
+            </ul>
+          </div>              
+        </div>  
+      </div>          
+    </div>        
+  </div>            
 
 <!-- foot bar -->
 
-    <div class="footbar animate__animated" id="footbar">
-      <div class="footbar_menu border">
-        <a href="/">
-          <ul>
-            <li><i class="fa-solid fa-house ft7 ftbb"></i></li>
-            <li><span class="ft10"> Home  </span></li>
-          </ul>
-        </a>
-      </div>        
-      <div class="footbar_menu border" onclick="wordbook_open();">        
+  <div class="footbar animate__animated" id="footbar">
+    <div class="footbar_menu border animate__animated" onclick="click_pulse(this);">
+      <a href="/">
         <ul>
-          <li><i class="fa-solid fa-book ft7 ftbb"></i></li>
-          <li><span class="ft10"> Wordbook  </span></li>
+          <li><i class="fa-solid fa-house ft7 ftbb"></i></li>
+          <li><span class="ft10"> Home  </span></li>
         </ul>
-      </div>
-      <div class="footbar_menu">
-      </div>
-      <div class="footbar_menu border">
-        <ul>
-          <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb"></i></li>
-          <li><span class="ft10"> back </span></li>
-        </ul>
-      </div>
+      </a>
+    </div>        
+    <div class="footbar_menu border animate__animated" onclick="click_pulse(this);wordbook_open();">        
+      <ul>
+        <li><i class="fa-solid fa-book ft7 ftbb"></i></li>
+        <li><span class="ft10"> Wordbook  </span></li>
+      </ul>
     </div>
+    <div class="footbar_menu">
+    </div>
+    <div class="footbar_menu border animate__animated">
+      <ul>
+        <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb"></i></li>
+        <li><span class="ft10"> back </span></li>
+      </ul>
+    </div>
+  </div>
 
 <!-- 
 *******modal***********
@@ -454,6 +365,27 @@
     </div>
   </div>
 </div> 
+<!-- 1-2. word input modal(type2) -->
+<div id="wordbook_add_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">                
+        <span class="ft5 ftbb">Add wordbook</span>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>                                                                               
+      <div class="modal-body">                                          
+        <div class="input-group mb-3">
+          <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > TITLE </span>
+          <input type="text" name="add_wordbook_title" id="add_wordbook_title" class="form-control ft8" placeholder="Input a Wordbook Title"> 
+        </div>                                      
+        <div class="modal-footer">                        
+          <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="add_wordbook_click();"> ADD </button>
+          <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+        </div>                    
+      </div>                
+    </div>
+  </div> 
+</div>
 
 
   <!-- script -->
