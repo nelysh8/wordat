@@ -137,7 +137,6 @@
         obj.classList.toggle('animate__fadeOutDown');
         hidden(obj);
       }
-      
 
 
       function visible(obj){        

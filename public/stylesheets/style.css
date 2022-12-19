@@ -15,6 +15,7 @@ body {
     display : flex;
     width : 100vw;
     height : 100vh;
+    position : relative;
     /* align-items : center; */
     /*justify-content : center;*/    
     font-family : 'poppins', sans-serif;    
@@ -201,6 +202,7 @@ ul {
   margin-left : auto;
   margin-right : auto;    
   overflow-y: scroll;
+  z-index : 0;
 }
 
 /* 2. mainbox */    
@@ -218,6 +220,7 @@ ul {
     margin-left : auto;
     margin-right : auto;    
     overflow-y: scroll;
+    z-index : 2;
     
 }    
 
@@ -601,7 +604,7 @@ ul {
   margin-right : auto;  
   overflow-y: scroll;
   background-color: white;
-  
+  z-index : 4;
 
   /* 660~ i-phone se // 740~ galaxys8+ //  83% */
   /* 840~ i-phone12pro  85% */ 
@@ -640,13 +643,20 @@ ul {
 
             #second_1box_center .wordbook_headline .plus_icon {							
               display : flex;							
-							margin : auto 1rem auto auto;
-						}
+              margin : auto 1rem auto 3rem;
+              background-color: aquamarine;
+                    padding : 1.0rem;
+                    border-radius: 50px;
+            }
 
             #second_1box_center .wordbook_headline .back_icon {							
               display : flex;							
-							margin : auto 1rem auto 1rem;
-						}
+              margin : auto 1rem auto 1rem;
+              background-color: #ff4687;
+                    padding : 1.0rem;
+                    border-radius: 50px;
+            }
+
 
 						#second_1box_center .contents {
 							display : block;
@@ -706,6 +716,8 @@ ul {
 							display : block;														
 						}
 
+    
+          
 
 #second_2box_center {
   display : none;
@@ -719,6 +731,7 @@ ul {
   margin : 5rem 0 0 0;
   overflow-y: scroll;
   background-color: cornsilk;   
+  z-index : 6;
   
   /* display : none;
   width : 100%;  
@@ -759,10 +772,21 @@ ul {
               text-align : left;            
             }
 
-            
+            #second_2box_center .wordlist_headline .plus_icon {							
+              display : flex;							
+              margin : auto 1rem auto 3rem;
+              background-color: aquamarine;
+                    padding : 1.0rem;
+                    border-radius: 50px;
+            }
 
-
-
+            #second_2box_center .wordlist_headline .back_icon {							
+              display : flex;							
+              margin : auto 1rem auto 1rem;
+              background-color: #ff4687;
+                    padding : 1.0rem;
+                    border-radius: 50px;
+            }
 
             #second_2box_center .contents {
               display : block;
@@ -835,29 +859,7 @@ ul {
             #second_2box_center .wordlist_text .wordlist_hashtag {
               display : block;														
             }
-  .s2_box_bottom_items {
-    width : 100%;
-    position : fixed;
-    display : flex;
-    bottom : 7rem;
-    width : 100%;    
-  }
-
-        .s2_box_bottom_items .plus_icon {							
-          display : flex;							
-          margin : auto 1rem auto auto;
-          background-color: aquamarine;
-          padding : 1.2rem;
-          border-radius: 50px;
-        }
-
-        .s2_box_bottom_items .back_icon {							
-          display : flex;							
-          margin : auto 4rem auto 1rem;
-          background-color: #ff4687;
-          padding : 1.2rem;
-          border-radius: 50px;
-        }
+ 
 
 #second_3box_center {
   display : none;
@@ -872,6 +874,7 @@ ul {
   margin : 10rem 0 0 0;  
   overflow-y: scroll;
   background-color: white;   
+  z-index : 8;
   
 
   /* display : none;
@@ -916,13 +919,20 @@ ul {
 
             #second_3box_center .word_headline .plus_icon {							
               display : flex;							
-              margin : auto 1rem auto auto;
+              margin : auto 1rem auto 3rem;
+              background-color: aquamarine;
+                    padding : 1.0rem;
+                    border-radius: 50px;
             }
 
             #second_3box_center .word_headline .back_icon {							
               display : flex;							
               margin : auto 1rem auto 1rem;
-            }
+              background-color: #ff4687;
+                    padding : 1.0rem;
+                    border-radius: 50px;
+            }             
+
 
             #second_3box_center .contents .word_view {
 
@@ -1095,10 +1105,32 @@ ul {
                   border-color: coral;
                   padding-left : 5px;
               }
-            
-               
 
-/* 3. footbar */
+  #link_frame {
+    display : none;
+    position : absolute;        
+    width : 100%;    
+    height : auto;
+    top : 0;
+    bottom : 0;
+    margin : 6rem 0 0 0;  
+    overflow-y: scroll;   
+    z-index : 20;            
+  }
+
+  #lf_close_btn {
+    position : absolute;    
+    top : 0.5rem;    
+    right : 0.5rem;
+    width : 10%;    
+  }
+
+    #link_view {            
+      width : 100%;
+      height : 100%;
+    }
+              
+  /* 3. footbar */
 
 .footbar {
     display: flex;

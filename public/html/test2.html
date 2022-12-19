@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+    </style>
+
+    <title>Document</title>
+</head>
+<body>
+    <div id="my-player"></div>
+    <div id="captions"></div>
+    
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+    /* global YT */
+    
+    function initPlayer (xml) {
+      console.log('initPlayer start');
+      const captions = document.getElementById('captions')
+    
+      // Load the player
+      const player = new YT.Player('my-player', {
+        videoId: '5MgBikgcWnY'
+      })
+    
+      // Map the text elements to objects for easier access
+      const texts = Array.from(
+        xml.querySelectorAll('text'),
+        text => ({
+          text: text.textContent,
+          start: Number(text.getAttribute('start')),
+          dur: Number(text.getAttribute('dur'))
+        })
+      )
+    
+      let handle = null
+    
+      player.addEventListener('onStateChange', event => {
+          console.log('event!');
+          console.log(location.origin);
+        if (event.data !== YT.PlayerState.PLAYING) {
+          return window.clearInterval(handle)
+        }
+    
+        // Find and display the text matching the current player time
+        handle = window.setInterval(() => {
+          const time = player.getCurrentTime()
+          const current = texts.find(text => (
+            text.start <= time &&
+            text.start + text.dur >= time
+          ))
+    
+          captions.textContent = current ? current.text : ''
+        }, 100)
+      })
+    }
+    
+    window.onYouTubePlayerAPIReady = function () {
+      // Load and parse the captions XML, then initialize the player
+      fetch('https://video.google.com/timedtext?lang=en&v=5MgBikgcWnY')
+        .then(res => res.text())
+        .then(text => new DOMParser()
+          .parseFromString(text, 'text/xml')
+        ).then(initPlayer)
+    }
+    </script>
+</body>
+</html>

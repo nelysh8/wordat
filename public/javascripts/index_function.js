@@ -486,7 +486,7 @@ function wim_submit_btn_click(position){
     fetch("/wordbook/word/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
       console.log(results);        
     });
-    wordlist_reading('',word.wordbook_title);
+    wordlist_reading('',word.wordbook_title,'');
   } else if (req_pos === 'second_3box_center'){
     console.log(req_pos + 'wim_submit_btn_click start');
     let exam_eng = document.getElementById('wim_input_eng').value.replace(/'/gi, "''"); //mysql에서 문자 안의 '는 ''로 찍어줘야 함
@@ -502,7 +502,7 @@ function wim_submit_btn_click(position){
     fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
       console.log(results);        
     });
-    // word_reading(document.getElementById('s3_word_id').innerText);  
+    word_reading(document.getElementById('s3_word_id').innerText,'');  
   }
 }
 
@@ -514,19 +514,18 @@ function wim_submit_btn_click(position){
 
     // open / close
 
-function wordbook_open(){    
-  wordbook_reading();
+function wordbook_open(){      
   // await click_fadeoutdown(mainbox_center);  
   click_slideup(second_1box_center);  
 }
 
-function wordbook_close(){  
-  click_slideoutdown(second_1box_center);        
+function wordbook_close(){    
+  click_slideoutdown(second_1box_center);          
 }
 
     // read
 
-function wordbook_reading(){        
+function wordbook_reading(time){        
   fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results));
   function add_result(datas){
     let add_html = '';
@@ -534,7 +533,7 @@ function wordbook_reading(){
     for (let data of datas){
       console.log(data.Tables_in_oq4p2dxa5zpnk9gu);
       add_html += `<div class="wordbook_wrap shadow-sm">
-                      <div class="wordbook_text" onclick="wordlist_reading(${i},)">                                          
+                      <div class="wordbook_text" onclick="wordlist_reading(${i},'','initial')">                                          
                         <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb"><span name="wordbook_title">${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>                        
                         <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                                              
                       </div>                      
@@ -584,7 +583,10 @@ function wordbook_reading(){
     };
     
     var doc = document.getElementById("wordbook_list");
-    doc.innerHTML = add_html;
+    doc.innerHTML = add_html;    
+  }
+  if (time === 'initial'){
+    wordbook_open();
   }
 }
 
@@ -596,7 +598,7 @@ async function add_wordbook_click(){
   await fetch("/wordbook/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
     console.log(results);        
   })
-  wordbook_reading();  
+  wordbook_reading('');  
 }
 
 async function remove_wordbook_click(number){
@@ -605,7 +607,7 @@ async function remove_wordbook_click(number){
   await fetch("/wordbook/remove", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
     console.log(results);
   })
-  wordbook_reading();
+  wordbook_reading('');
 }
 
 async function edit_wordbook_click(number){
@@ -615,7 +617,7 @@ async function edit_wordbook_click(number){
   await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
     console.log(results);
   })
-  wordbook_reading();
+  wordbook_reading('');
 }
 
   // Wordlist - 2box
@@ -629,12 +631,13 @@ function wordlist_open(){
 
 function wordlist_close(){
   // click_fadein(second_1box_contents);
+  wordbook_reading('');
   click_slideoutdown(second_2box_center);   
 }
 
     // read
 
-function wordlist_reading(number, title){    
+function wordlist_reading(number, title, time){    
   // second_1box_center.style.position = 'relative';
   // second_2box_center.style.position ='absolute';  
   console.log('wordlist_reading start');
@@ -652,7 +655,7 @@ function wordlist_reading(number, title){
     add_head_html = `
         <div class="title" id="s2_wordbook_title"><span class="ft5 ftb"> ${wordbook_title.title} </span></div>
         <div class="plus_icon">
-          <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_2box_center')";></i>          
+          <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_2box_center')";></i>
         </div>
         <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft6 ftbb text_red" onclick="wordlist_close();"></i></div>`;
       document.getElementById('wordlist_headline').innerHTML = add_head_html;                  
@@ -664,7 +667,7 @@ function wordlist_reading(number, title){
       add_contents_html += `
       <div class="wordlist_wrap shadow-sm">
         <div class="wordlist_main">
-          <div class="wordlist_id_${result.ID}" onclick="word_reading(${result.ID});">                    
+          <div class="wordlist_id_${result.ID}" onclick="word_reading(${result.ID},'initial');">                    
             <div id="wordlist_eng_${result.ID}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
             <div id="wordlist_kor_${result.ID}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
           </div>        
@@ -690,8 +693,10 @@ function wordlist_reading(number, title){
     add_contents_html += `</div>
         </div>`;
     };
-  document.getElementById('wordlist_list').innerHTML = add_contents_html;
-  wordlist_open();
+    document.getElementById('wordlist_list').innerHTML = add_contents_html;
+    if (time === 'initial') {
+      wordlist_open();
+    }
   });
 }    
 
@@ -718,13 +723,14 @@ function word_open(){
 
 function word_close(){
   // click_fadein(second_2box_contents);
+  wordlist_reading('', document.getElementById('s2_wordbook_title').innerText,'');
   click_slideoutdown(second_3box_center); 
 }
 
 
     // reading
 
-function word_reading(ID_number){  
+function word_reading(ID_number, time){  
   console.log('word_reading start');
   let wordbook_title = document.getElementById('s2_wordbook_title').innerText;
   let word_id = ID_number;
@@ -759,7 +765,9 @@ function word_reading(ID_number){
       document.getElementById('word_view1').click();
     }        
   });
-  word_open();
+  if (time === 'initial') {
+    word_open();
+  }
 };
 
   
@@ -820,53 +828,6 @@ function word_toolbar_tranbtn_click(){
     iframe2_vis();
   }
 };
-
-// <!-- papago translation -->
-    
-function word_toolbar_trans_papago(SENTC){
-  let TEXT = {word : SENTC};        
-  let TEXT_JSON = JSON.stringify(TEXT);
-  console.log(TEXT);
-  console.log(JSON.stringify(TEXT));
-  fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>data(result));                
-
-  function data(result){          
-    let B = JSON.stringify(result);          
-    var tmp = document.getElementById('wtrv_KOR');
-    function addtext(){
-      tmp.innerText = result.message.result.translatedText;
-    }
-    addtext();
-  }
-}
-
-    
-
-  
-
-  
-  // then((response)=>response.json()).then((result)=>data(result));
-  
-    
-    // const tmp = document.getElementById("test_place");          
-    // function addtext(){
-    //   tmp.innerText += `\n제목${i}`;
-    //   var engs = result[i].ENG.split(' ');
-    //   tmp.innerText += `\n${result[i].ENG}`;
-    //   tmp.innerText += `\n${engs}`;
-    //   tmp.innerText += `\n${engs.length}`;
-    //   for (let words of engs) {
-    //     tmp.innerText += `\n${words}`;
-    //   }
-    //   tmp.innerText += `\n${result[i++].KOR}`; 
-  
-    // addtext();
-
-// word add modal control
-
-
-
-    
 
 
 
