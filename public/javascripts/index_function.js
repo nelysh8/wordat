@@ -106,6 +106,7 @@ function tranbtn_click(position){
   var view_target = '';
   var engs_org, engs_spl, engs_res;
   var link_yarn, link_youglish, link_google = '';
+  var url_yarn, url_youglish, url_google = '';
   let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
   if (req_pos === 'mainbox_center') {
@@ -131,15 +132,22 @@ function tranbtn_click(position){
 
   console.log(Input_target.value);
   
-  if (kor_check.test(Input_target.value)) {    
+  if (kor_check.test(Input_target.value)) {        
+    
+    trans_papago(req_pos, Input_target.value);          
+    engs_org = doc_eng.innerText.replace(/\n$/,'');;
+    console.log('EEEEEEE');
+    console.log(engs_org);
+    
     doc_kor.innerHTML = `<span> ${Input_target.value} </span>`;      
-    (async function(){
-      await trans_papago(req_pos, Input_target.value);
-      engs_org = doc_eng.innerText;
-      link_yarn.setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + engs_org));
-      link_youglish.setAttribute('href', encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?'));
-      link_google.setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));
-    })();    
+    url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org);
+    url_youglish = encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?');
+    url_google = encodeURI('https://www.google.com/search?q="' + engs_org +'"');
+
+    link_yarn.setAttribute('onclick', `window.open('${url_yarn}','window_name','scrollbars=yes');`);      
+    link_youglish.setAttribute('onclick', `window.open('${url_youglish}','window_name','scrollbars=yes');`);
+    link_google.setAttribute('onclick', `window.open('${url_google}','window_name','scrollbars=yes');`);    
+
   } else if(Input_target.value.replace(/ /gi,'').replace(/\n/gi,'')) {                        
     engs_org = Input_target.value.replace(/\n$/,'');
     engs_spl = Input_target.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');              
@@ -158,9 +166,13 @@ function tranbtn_click(position){
     }
     TEST_add(engs_spl);    
     trans_papago(req_pos,engs_org);
-    document.getElementById('msi_link_yarn').setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + engs_org));
-    document.getElementById('msi_link_youglish').setAttribute('href', encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?'));
-    document.getElementById('msi_link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));  
+    url_yarn = encodeURI('https://getyarn.io/yarn-find?text=' + engs_org);
+    url_youglish = encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?');
+    url_google = encodeURI('https://www.google.com/search?q="' + engs_org +'"');
+    
+    link_yarn.setAttribute('onclick', `window.open('${url_yarn}','window_name','scrollbars=yes');`);      
+    link_youglish.setAttribute('onclick', `window.open('${url_youglish}','window_name','scrollbars=yes');`);
+    link_google.setAttribute('onclick', `window.open('${url_google}','window_name','scrollbars=yes');`);
   }
   click_fadein(view_target);
 }
@@ -198,6 +210,7 @@ function trans_papago(position, SENTC){
   fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>{
     write_target.innerText = result.message.result.translatedText;      
   });
+    
 }
     
 
