@@ -516,11 +516,11 @@ function wim_submit_btn_click(position){
 
 function wordbook_open(){      
   // await click_fadeoutdown(mainbox_center);  
-  click_slideup(second_1box_center);  
+  click_bounceinup(second_1box_center);  
 }
 
 function wordbook_close(){    
-  click_slideoutdown(second_1box_center);          
+  click_bounceoutdown(second_1box_center);          
 }
 
     // read
@@ -625,14 +625,14 @@ async function edit_wordbook_click(number){
     // open, close 
 
 function wordlist_open(){  
-  click_slideup(second_2box_center);    
+  click_bounceinup(second_2box_center);    
   // click_fadeout(second_1box_contents);
 }
 
 function wordlist_close(){
   // click_fadein(second_1box_contents);
   wordbook_reading('');
-  click_slideoutdown(second_2box_center);   
+  click_bounceoutdown(second_2box_center);   
 }
 
     // read
@@ -654,10 +654,7 @@ function wordlist_reading(number, title, time){
     let add_contents_html = '';    
     add_head_html = `
         <div class="title" id="s2_wordbook_title"><span class="ft5 ftb"> ${wordbook_title.title} </span></div>
-        <div class="plus_icon">
-          <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_2box_center')";></i>
-        </div>
-        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft6 ftbb text_red" onclick="wordlist_close();"></i></div>`;
+        `;
       document.getElementById('wordlist_headline').innerHTML = add_head_html;                  
 
     for (let result of results) {
@@ -717,14 +714,14 @@ function wordlist_reading(number, title, time){
 
 function word_open(){
   console.log('word_open start');
-  click_slideup(second_3box_center);    
+  click_bounceinup(second_3box_center);    
   // click_fadeout(second_2box_contents);
 }
 
 function word_close(){
   // click_fadein(second_2box_contents);
   wordlist_reading('', document.getElementById('s2_wordbook_title').innerText,'');
-  click_slideoutdown(second_3box_center); 
+  click_bounceoutdown(second_3box_center); 
 }
 
 
@@ -855,5 +852,55 @@ function word_toolbar_tranbtn_click(){
       }
 
   
-// dblclick
+// tools
+
+function popup_tool(position){
+  var req_pos = position;
+  var target_div;
+
+  if (req_pos==='second_1box_center'){
+    target_div = document.getElementById('s1_popup_tool');
+    (async function(){
+      await click_rotateout(target_div);
+      target_div.innerHTML = `
+      <div class="popup_icon_top animate__animated">
+        <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick="click_bounce(this);"></i>                              
+      </div>         
+      <div class="popup_icon_bottom animate__animated">
+        <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); wordbook_close();"></i>
+      </div>  
+    `;
+    click_bouncein(target_div);
+    })();
+  } else if (req_pos==='second_2box_center'){
+    target_div = document.getElementById('s2_popup_tool');
+    (async function(){
+      await click_rotateout(target_div);
+      target_div.innerHTML = `
+        <div class="popup_icon_top animate__animated">
+          <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_bounce(this); modal1_openbtn_click('second_2box_center'); click_bounce(this);"></i>                              
+        </div>         
+        <div class="popup_icon_bottom animate__animated">
+          <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); wordlist_close();"></i>
+        </div> 
+      `;
+    click_bouncein(target_div);
+    })();
+  } else if (req_pos==='second_3box_center'){
+    target_div = document.getElementById('s3_popup_tool');
+    (async function(){
+      await click_rotateout(target_div);
+      target_div.innerHTML = `
+      <div class="popup_icon_top animate__animated">
+        <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="modal1_openbtn_click('second_3box_center'); click_bounce(this);"></i>                              
+      </div>         
+      <div class="popup_icon_bottom animate__animated">
+        <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); word_close();"></i>
+      </div>
+      `;
+    click_bouncein(target_div);
+    })();
+  }
+}
+  
 

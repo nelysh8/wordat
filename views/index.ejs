@@ -101,9 +101,9 @@
             <div id="msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); tranbtn_click('mainbox_center');"></i></div>
           </div>
           <div class="searchbar_items">          
-            <a id="msi_link_yarn" href="https://getyarn.io/" target="link_view" onclick="click_slideup(document.getElementById('link_frame'));" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
-            <a id="msi_link_youglish" href="https://www.youglish.com/" target="link_view" onclick="click_slideup(document.getElementById('link_frame'));"> <img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
-            <a id="msi_link_google" href="https://www.google.com/" target="link_view" onclick="click_slideup(document.getElementById('link_frame'));"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>          
+            <a id="msi_link_yarn" href="https://getyarn.io/" target="link_view" onclick="click_bounceinup(document.getElementById('link_frame'));" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
+            <a id="msi_link_youglish" href="https://www.youglish.com/" target="link_view" onclick="click_bounceinup(document.getElementById('link_frame'));"> <img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
+            <a id="msi_link_google" href="https://www.google.com/" target="link_view" onclick="click_bounceinup(document.getElementById('link_frame'));"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>          
             <i id="msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" ondblclick="tts(document.getElementById('main_search_input').value, 1.5);" onclick="click_fadein(this); tts(document.getElementById('main_search_input').value, 1);" ></i>          
             <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('mainbox_center');"></i>                    
           </div>  
@@ -139,11 +139,7 @@
       <!-- second_1box_center :my wordbook  -->
     <div class="container-fluid second_1box_center animate__animated" id="second_1box_center" style="display:none;">
       <div class="wordbook_headline">
-        <div class="title"><span class="ft5 ftb"> My wordbook </span></div>          
-        <div class="plus_icon">
-          <i class="fa-solid fa-file-circle-plus ft5 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick="click_pulse(this);"></i>                              
-        </div>         
-        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft5 ftbb text_red animate__animated" onclick="click_pulse(this); wordbook_close();"></i></div>                
+        <div class="title"><span class="ft5 ftb"> My wordbook </span></div>                  
       </div>
       <div class="contents animate__animated" id="second_1box_contents">
         <div id="wordbook_list" class="wordbook_list">
@@ -159,6 +155,17 @@
           -->
         </div>
       </div>
+      <div class="popup_tool animate__animated" id="s1_popup_tool">
+        <!-- <div class="popup_icon_top animate__animated">
+          <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick="click_bounce(this);"></i>                              
+        </div>         
+        <div class="popup_icon_bottom animate__animated">
+          <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); wordbook_close();"></i>
+        </div>   -->
+        <div class="popup_icon_middle" onclick="popup_tool('second_1box_center');">
+          <i class="fa-solid fa-fan ft3 ftbb text_blue animate__animated"></i>
+        </div>        
+      </div>
     </div>
       
     
@@ -166,11 +173,7 @@
       <!-- second_2box_center : 단어장 -->
     <div class="container-fluid second_2box_center animate__animated" id="second_2box_center" style="display:none;">
       <div class="wordlist_headline" id="wordlist_headline">
-        <div class="title" id="s2_wordbook_title"><span class="ft6 ftb text_pink"> Wordlist_Name </span></div>        
-        <div class="plus_icon">
-          <i class="fa-solid fa-file-circle-plus ft6 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_2box_center')";></i>
-        </div>
-        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft6 ftbb text_red" onclick="wordlist_close();"></i></div>
+        <div class="title" id="s2_wordbook_title"><span class="ft6 ftb text_pink"> Wordlist_Name </span></div>                
       </div>
       <div class="contents" id="second_2box_contents">
         <div id="wordlist_list" class="wordlist_list">
@@ -218,7 +221,18 @@
             </div>                
           </div>                              
         </div>
-      </div>  
+      </div> 
+      <div class="popup_tool animate__animated" id="s2_popup_tool">
+        <!-- <div class="popup_icon_top animate__animated">
+          <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="modal1_openbtn_click('second_2box_center'); click_bounce(this);"></i>                              
+        </div>         
+        <div class="popup_icon_bottom animate__animated">
+          <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); wordlist_close();"></i>
+        </div>   -->
+        <div class="popup_icon_middle" onclick="popup_tool('second_2box_center');">
+          <i class="fa-solid fa-fan ft3 ftbb text_blue animate__animated"></i>
+        </div>        
+      </div>      
     </div>
   <!-- Second-2box-center end -->
 
@@ -226,11 +240,7 @@
       <!-- Second_3box_center starts -->
     <div class="container-fluid second_3box_center animate__animated" id="second_3box_center" style="display:none;">
       <div class="word_headline" id="word_headline">
-        <div class="title"><span class="ft6 ftb "> Phrase study </span></div> 
-        <div class="plus_icon">
-          <i class="fa-solid fa-file-circle-plus ft7 ftbb text_green" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_3box_center');"></i>              
-        </div>
-        <div class="back_icon"><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_red" onclick="word_close();"></i></div>                 
+        <div class="title"><span class="ft6 ftb "> Phrase study </span></div>         
       </div>          
       <div class="contents" id="second_3box_contents">
         <div class="word_view">
@@ -243,17 +253,17 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="word_toolbar">              
+      </div>      
+      <div class="word_toolbar shadow-sm">              
         <div class="word_toolbar_main">
           <textarea class="autosize ft8" id="word_toolbar_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
           <div id="word_toolbar_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('second_3box_center');click_fadein(this);"></i></div>
           <div id="word_toolbar_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); tranbtn_click('second_3box_center');"></i></div>                
         </div>
-        <div class="word_toolbar_items shadow-sm" >          
-          <a id="word_toolbar_link_yarn" href="https://getyarn.io/" target="link_view" onclick="click_slideup(document.getElementById('link_frame'));" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
-          <a id="word_toolbar_link_youglish" href="https://www.youglish.com/" target="link_view" onclick="click_slideup(document.getElementById('link_frame'));"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
-          <a id="word_toolbar_link_google" href="https://www.google.com/" target="link_view" onclick="click_slideup(document.getElementById('link_frame'));"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>                
+        <div class="word_toolbar_items" >          
+          <a id="word_toolbar_link_yarn" href="https://getyarn.io/" target="link_view" onclick="click_bounceinup(document.getElementById('link_frame'));" sytle="margin-left : 0;"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
+          <a id="word_toolbar_link_youglish" href="https://www.youglish.com/" target="link_view" onclick="click_bounceinup(document.getElementById('link_frame'));"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
+          <a id="word_toolbar_link_google" href="https://www.google.com/" target="link_view" onclick="click_bounceinup(document.getElementById('link_frame'));"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>                
           <i class="tts fa-solid fa-play text_red animate__animated" onclick="click_fadein(this); tts(document.getElementById('word_toolbar_input').value, 1);"></i>
           <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_3box_center');"></i>                        
         </div>
@@ -275,12 +285,25 @@
           </div>              
         </div>  
       </div>
+      <div class="popup_tool animate__animated" id="s3_popup_tool">
+        <!-- <div class="popup_icon_top animate__animated">
+          <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="modal1_openbtn_click('second_3box_center'); click_bounce(this);"></i>                              
+        </div>         
+        <div class="popup_icon_bottom animate__animated">
+          <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); word_close();"></i>
+        </div>   -->
+        <div class="popup_icon_middle" onclick="popup_tool('second_3box_center');">
+          <i class="fa-solid fa-fan ft3 ftbb text_blue animate__animated"></i>
+        </div>        
+      </div> 
     </div>            
   </div>   
+  
   <div id="link_frame" class="animate__animated" style="display:none;">
     <div id="lf_close_btn" class="animate__animated" onclick="click_fadein(this); click_slideoutdown(document.getElementById('link_frame'));"><i class="fa-solid fa-rectangle-xmark text_red ft1 ftbb"></i></div>
     <iframe src="#" id="link_view" name="link_view"></iframe>
-  </div>           
+  </div>  
+         
 
 <!-- foot bar -->
 

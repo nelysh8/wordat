@@ -90,7 +90,63 @@
         await sleep(0.9); 
         obj.classList.toggle('animate__pulse');
       }        
+
+      async function click_bounce(obj) {                
+        console.log('animate__bounce detected : '+ obj.id);        
+        visible(obj);   
+        obj.classList.toggle('animate__bounce'); 
+        await sleep(0.9);
+        obj.classList.toggle('animate__bounce');                
+      }
+
+      async function click_bouncein(obj) {                
+        console.log('animate__bounceIn detected : '+ obj.id);        
+        visible(obj);   
+        obj.classList.toggle('animate__bounceIn'); 
+        await sleep(0.9);
+        obj.classList.toggle('animate__bounceIn');                
+      }
+
+      animate__bounceIn
+
+      async function click_bounceinup(obj) {                
+        console.log('animate__bounceInUp detected : '+ obj.id);        
+        visible(obj);   
+        obj.classList.toggle('animate__bounceInUp'); 
+        await sleep(0.9);
+        obj.classList.toggle('animate__bounceInUp');                
+      }
+
+      async function click_bounceoutdown(obj) {                
+        console.log('animate__bounceOutDown detected : '+ obj.id);                
+        obj.classList.toggle('animate__bounceOutDown'); 
+        await sleep(0.9);
+        hidden(obj);
+        obj.classList.toggle('animate__bounceOutDown');                
+      }
+
+      async function click_rotateout(obj) {                
+        console.log('animate__rotateOut detected : '+ obj.id);                
+        obj.classList.toggle('animate__rotateOut'); 
+        await sleep(0.5);
+        obj.classList.toggle('animate__rotateOut');                
+      }
+
+      async function click_slideoutup(obj) {                
+        console.log('animate__slideOutUp detected : '+ obj.id);                
+        obj.classList.toggle('animate__slideOutUp'); 
+        await sleep(0.9);
+        obj.classList.toggle('animate__slideOutUp');                
+      }
+
       
+      
+
+      // obj.classList.toggle('animate__bounce');
+      //   (async function(){
+      //     await sleep(0.9);                      
+      //     obj.classList.toggle('animate__bounce');          
+      //   })();                      
 
       async function click_fadein(obj) {        
         console.log('fadein detected : '+ obj.id);
@@ -110,9 +166,9 @@
       async function click_slideup(obj) {                
         console.log('slideup detected : '+ obj.id);        
         visible(obj);   
-        obj.classList.toggle('animate__slideInUp');              
-        await sleep(0.9);                      
-        obj.classList.toggle('animate__slideInUp');        
+        obj.classList.toggle('animate__slideInUp'); 
+        await sleep(0.9);
+        obj.classList.toggle('animate__slideInUp');                
       }
 
       async function click_slidedown(obj) {        

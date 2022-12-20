@@ -23,6 +23,15 @@ body {
     padding : 0;
     }
 
+/* animation */
+
+.animate__animated.animate__slideInUp {
+  
+}
+.animate__animated.animate__rotateOut {
+  --animate-duration: 300ms;
+}
+
 /* font */
 
 .ft1 {
@@ -108,6 +117,13 @@ ul {
 
 .text_pink {
   color : #ff4687;
+}
+.text_gold {
+  color :gold; 
+}
+
+.text_blue {
+  color:royalblue
 }
 
 .modal-content {
@@ -196,9 +212,10 @@ ul {
   display : block;
   position : relative;
   width : 100%;  
-  min-height : 82%;
+  height : 82%;
   margin-top : 6rem;
-  margin-bottom : 6rem;    
+  margin-bottom : 6rem; 
+  padding-bottom : 1rem;   
   margin-left : auto;
   margin-right : auto;    
   overflow-y: scroll;
@@ -213,7 +230,7 @@ ul {
     width : 100%;    
     min-height : 100%;
     justify-content: space-between;  
-    /* padding : 0.5rem 0.5rem 0.5rem 1rem; */
+    padding-bottom : 0.5rem;
     /* align-content:center;
     align-items: center;
     text-align: center; */            
@@ -421,7 +438,7 @@ ul {
     vertical-align: middle;
     width : 95%;
     border-radius : 7px;    
-    margin : 0 auto 0rem auto;
+    margin : 0 auto 0 auto;
     padding : 1rem 0 1rem 0;
 }
 
@@ -483,7 +500,7 @@ ul {
 				width : 95%;
 				padding : 0.5rem;
 				border-radius: 7px ;
-				margin : auto auto 0.8rem auto;				
+				margin : auto auto auto auto;				
 				text-align :justify;
 				text-align-last: justify;
 				align-content: space-between;
@@ -516,13 +533,21 @@ ul {
 			align-items: center;			
 			vertical-align: middle;    
       width : 90%;
-      margin : auto auto auto auto;
+      margin : 1rem auto auto auto;
       padding : 1rem 0.5rem 1rem 0.5rem;
 			background-color: cornsilk;
 			border-radius : 7px;   			       
 		}
 			
-
+    .result_view {
+      display : flex;
+      height : 33rem;
+      width : 85%;    
+      margin : auto;
+      /* margin-bottom : 10px; */
+      align-content: space-between;
+      vertical-align: middle;
+  }
 
     
 
@@ -533,15 +558,7 @@ ul {
     /* 2. 2. detail box */
 
         /* 2. 2. 1. result_contents view */
-.result_view {
-    display : flex;
-    height : 33rem;
-    width : 85%;    
-    margin : auto;
-    /* margin-bottom : 10px; */
-    align-content: space-between;
-    vertical-align: middle;
-}
+
 
         /* 2. 2. 2. searchbar view */
             /* 2. 2. 2. 1. searchbar_main */
@@ -603,8 +620,9 @@ ul {
   margin-left : auto;
   margin-right : auto;  
   overflow-y: scroll;
-  background-color: white;
+  background-color: white;  
   z-index : 4;
+  border-radius: 15px;
 
   /* 660~ i-phone se // 740~ galaxys8+ //  83% */
   /* 840~ i-phone12pro  85% */ 
@@ -716,6 +734,35 @@ ul {
 							display : block;														
 						}
 
+      .popup_tool {
+        position : fixed;
+        bottom : 10%;
+        left : 80%;
+        background-color: #00000020;
+        border-radius: 20%;
+        padding : 0 0.5rem 0 0.5rem;     
+      }
+
+      .popup_tool .popup_icon_top {
+        display : block;
+        margin : 0 0 1rem 0;
+        padding : 1rem;
+      }
+
+      .popup_tool .popup_icon_middle {
+        display : block;
+        margin : auto 0 auto 0;
+        padding : 1rem;
+      }
+
+      .popup_tool .popup_icon_bottom {
+        display : block;
+        margin : 1rem 0 0 0;
+        padding : 1rem;
+      }
+
+      
+
     
           
 
@@ -728,10 +775,12 @@ ul {
   bottom : 0;
   /* min-height : 91%;  
   max-height : 94%; */
-  margin : 5rem 0 0 0;
+  margin : 4rem 0 0 0;
+  padding-top : 0.5rem;
   overflow-y: scroll;
   background-color: cornsilk;   
   z-index : 6;
+  border-radius: 15px;
   
   /* display : none;
   width : 100%;  
@@ -871,10 +920,13 @@ ul {
   /* min-height : 83%;
   max-height: 85%; */
   /* min-height : 83%; */
-  margin : 10rem 0 0 0;  
+  padding-top : 0.5rem;
+  padding-bottom : 0.5rem;
+  margin : 8.5rem 0 0 0;  
   overflow-y: scroll;
   background-color: white;   
   z-index : 8;
+  border-radius: 15px;
   
 
   /* display : none;
@@ -981,9 +1033,11 @@ ul {
               align-items: center;
               text-align: center;
               vertical-align: middle;
+              width : 95%;
               border-radius : 7px;    
-              margin-bottom : 2rem;
-            }
+              margin : 0 auto 0 auto;
+              padding : 1rem 0 1rem 0;              
+            }            
           
               .word_toolbar_main {
                   display : flex;
@@ -1032,17 +1086,17 @@ ul {
           
               .word_toolbar_items {
                   display : flex;
-                  width : 90%;
+                  width : 95%;
                   padding : 0.5rem;
-                  border-radius: 5px ;
-                  margin : auto;
-                  margin-bottom : 1.5rem;
+                  border-radius: 7px ;
+                  margin : auto auto auto auto;                  
                   text-align :justify;
                   text-align-last: justify;
                   align-content: space-between;
                   vertical-align: middle;    
               }
-          
+              
+                       
                 .word_toolbar_items a {				
                   margin : auto;
                   /* align-content:center;
@@ -1066,21 +1120,17 @@ ul {
               .word_toolbar_result {
                 display : block;        
                 align-content:center;
-                align-items: center;
-                text-align: center;
+                align-items: center;			
                 vertical-align: middle;    
-                background-color: cornsilk;
-                border-radius : 7px;   
-                margin-bottom : 5rem;        
-              }
-
-              .word_toolbar_result {
                 width : 90%;
-                margin : auto;        
-                text-align : left;
-              }
+                margin : 1rem auto auto auto;
+                padding : 1rem 0.5rem 1rem 0.5rem;
+                background-color: cornsilk;
+                border-radius : 7px;   			       
+              }              
+              
             
-              .word_toolbar_result ul {    
+              .word_toolbar_result_view ul {    
                   width : 95%;                          
                   margin-left : 1rem;    
                   text-align : left;
@@ -1088,7 +1138,7 @@ ul {
                   padding : 0;
               }
               
-              .word_toolbar_result ul li {
+              .word_toolbar_result_view ul li {
                   color : gray;            
               }
               
