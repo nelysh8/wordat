@@ -31,6 +31,9 @@ body {
 .animate__animated.animate__rotateOut {
   --animate-duration: 300ms;
 }
+.animate__animated.animate__zoomIn {
+  --animate-duration: 300ms;
+}
 
 /* font */
 
@@ -869,6 +872,10 @@ ul {
               
               margin-left : 0rem;							
               margin-right : 0rem;
+            }
+
+            #second_2box_center .wordlist_wrap .wordlist_main .collapse_btn {
+              padding: 1.5rem;
             }
 
             #second_2box_center .wordlist_wrap .wordlist_text {

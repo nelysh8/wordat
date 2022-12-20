@@ -732,8 +732,8 @@ function wordlist_reading(number, title, time){
             <div id="wordlist_eng_${result.ID}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
             <div id="wordlist_kor_${result.ID}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
           </div>        
-          <div class="wordlist_option" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}">
-            <i class="fa-solid fa-list-check ft7 ftb text_red"></i>
+          <div class="wordlist_option animate__animated" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}" onclick="touch_action(this);">
+            <i class="fa-solid fa-list-check ft7 ftb text_red collapse_btn"></i>
           </div>
         </div>`;
       if (examples !== null) {

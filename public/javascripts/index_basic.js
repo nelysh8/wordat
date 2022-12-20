@@ -184,13 +184,32 @@
         hidden(obj);
       }
 
-      async function click_fadeoutdown(obj) {        
+      async function click_fadeoutdown(obj, after) {        
         console.log('slideup detected : '+ obj.id);
         obj.classList.toggle('animate__fadeOutDown');      
         await sleep(0.9); 
         obj.classList.toggle('animate__fadeOutDown');
-        hidden(obj);
+        if (after === 'out'){
+          hidden(obj);
+        }        
       }
+
+      async function click_shakeY(obj) {        
+        console.log('animate__shakeY detected : '+ obj.id);
+        obj.classList.toggle('animate__shakeY');      
+        await sleep(0.9); 
+        obj.classList.toggle('animate__shakeY');
+      }
+
+      async function touch_action(obj) {        
+        console.log('touch_action detected : '+ obj.id);
+        obj.setAttribute('style', 'background-color : #00000020;  border-radius : 50%;');
+        obj.classList.toggle('animate__zoomIn');      
+        await sleep(0.3); 
+        obj.setAttribute('style', 'background-color : none;  border-radius : none;');
+        obj.classList.toggle('animate__zoomIn');
+      }
+      
 
 
       function visible(obj){        
