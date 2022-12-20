@@ -107,8 +107,6 @@
         obj.classList.toggle('animate__bounceIn');                
       }
 
-      animate__bounceIn
-
       async function click_bounceinup(obj) {                
         console.log('animate__bounceInUp detected : '+ obj.id);        
         visible(obj);   
@@ -244,31 +242,45 @@
 
       // long touch 함수
 
-      let onlongtouch = false;
-      let timer = false;
-      let duration = 800;
-
+      let onlongtouch1, onlongtouch2  = false;
+      let timer1, timer2 = false;
+      let duration = 500;
       function touchStart(){
-        if (!timer) {
-          timer = setTimeout(onlongtouch, duration);
+        if (!timer1) {
+          timer1 = setTimeout(onlongtouch1, duration);       
+        }
+        if (!timer2) {
+          timer2 = setTimeout(onlongtouch2, duration);       
         }
       }
-
       function touchEnd(){
-        if (timer) {
-          clearTimeout(timer)
-          timer = false;
+        if (timer1) {
+          clearTimeout(timer1)
+          timer1 = false;
+        }
+        if (timer2) {
+          clearTimeout(timer2)
+          timer2 = false;
         }
       }
-
-      onlongtouch = function(){
-        document.querySelector("#msi_play_btn").onclick = tts(document.getElementById('main_search_input').value, 0.5);
+      onlongtouch1 = function(){
+        document.querySelector("#msi_play_btn").onclick = tts(document.getElementById('main_search_input').value, 0.5);        
       }
+      onlongtouch2 = function(){
+        document.querySelector("#word_toolbar_play_btn").onclick = tts(document.getElementById('word_toolbar_input').value, 0.5);        
+      }
+      
 
       document.addEventListener("DOMContentLoaded", function(){
         document.querySelector("#msi_play_btn").addEventListener("touchstart", touchStart);
         document.querySelector("#msi_play_btn").addEventListener("touchend", touchEnd);
       })
+      document.addEventListener("DOMContentLoaded", function(){
+        document.querySelector("#word_toolbar_play_btn").addEventListener("touchstart", touchStart);
+        document.querySelector("#word_toolbar_play_btn").addEventListener("touchend", touchEnd);
+      })
+
+      
 
       // dblclick 활성화
 

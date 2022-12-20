@@ -873,7 +873,7 @@ ul {
 
             #second_2box_center .wordlist_wrap .wordlist_text {
               display : block;
-              width : 80%;
+              width : 85%;
               
               margin-left : 0rem;							
               margin-right : 0rem;
@@ -991,12 +991,12 @@ ul {
             }
 
             #second_3box_center .contents .word_view .word_view_1 {                            
-              width : 90%;
+              width : 85%;
               margin : auto;
               border-radius: 0.5rem;
               border :0.1rem solid #768689;
               background-color: #ddfaff;
-            }
+            }            
 
             #second_3box_center .contents .word_view_1 ul {
               margin : auto;              
@@ -1004,12 +1004,18 @@ ul {
             }
 
             #second_3box_center .contents .word_view_1 ul li{
-              text-align : left;      
+              text-align : left;
+              align-items: center;
+            }
 
+            #second_3box_center .contents .word_view_1 ul li i {              
+              float : right;                            
+              padding : 0.3rem;
+              margin-top : 0.2rem;
             }
 
             #second_3box_center .contents .word_view .word_view_2 {                            
-              width : 90%;
+              width : 85%;
               margin : auto;
               border-radius: 0.5rem;
             }

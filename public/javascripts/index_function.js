@@ -105,8 +105,7 @@ function tranbtn_click(position){
   // var Input_target = '';
   var view_target = '';
   var engs_org, engs_spl, engs_res;
-  var link_yarn, link_youglish, link_google = '';
-  var url_yarn, url_youglish, url_google = '';
+
   let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
   if (req_pos === 'mainbox_center') {
@@ -114,17 +113,11 @@ function tranbtn_click(position){
     doc_kor = document.getElementById('Sres_KOR');
     Input_target = document.getElementById('main_search_input');
     view_target = document.getElementById('Sres_view');
-    link_yarn = document.getElementById('msi_link_yarn');
-    link_youglish = document.getElementById('msi_link_youglish');
-    link_google = document.getElementById('msi_link_google');
   } else if (req_pos === 'second_3box_center') {
     doc_eng = document.getElementById('wtrv_ENG');
     doc_kor = document.getElementById('wtrv_KOR');
     Input_target = document.getElementById('word_toolbar_input');
     view_target = document.getElementById('word_toolbar_result');
-    link_yarn = document.getElementById('word_toolbar_link_yarn');
-    link_youglish = document.getElementById('word_toolbar_link_youglish');
-    link_google = document.getElementById('word_toolbar_link_google');
   }
 
   doc_eng.innerHTML = '';
@@ -132,22 +125,9 @@ function tranbtn_click(position){
 
   console.log(Input_target.value);
   
-  if (kor_check.test(Input_target.value)) {        
-    
-    trans_papago(req_pos, Input_target.value);          
-    engs_org = doc_eng.innerText.replace(/\n$/,'');;
-    console.log('EEEEEEE');
-    console.log(engs_org);
-    
-    doc_kor.innerHTML = `<span> ${Input_target.value} </span>`;      
-    url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org);
-    url_youglish = encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?');
-    url_google = encodeURI('https://www.google.com/search?q="' + engs_org +'"');
-
-    link_yarn.setAttribute('onclick', `window.open('${url_yarn}','window_name','scrollbars=yes');`);      
-    link_youglish.setAttribute('onclick', `window.open('${url_youglish}','window_name','scrollbars=yes');`);
-    link_google.setAttribute('onclick', `window.open('${url_google}','window_name','scrollbars=yes');`);    
-
+  if (kor_check.test(Input_target.value)) {            
+    trans_papago(req_pos, Input_target.value);
+    doc_kor.innerHTML = `<span> ${Input_target.value} </span>`;  
   } else if(Input_target.value.replace(/ /gi,'').replace(/\n/gi,'')) {                        
     engs_org = Input_target.value.replace(/\n$/,'');
     engs_spl = Input_target.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');              
@@ -165,14 +145,7 @@ function tranbtn_click(position){
       re_popup();             
     }
     TEST_add(engs_spl);    
-    trans_papago(req_pos,engs_org);
-    url_yarn = encodeURI('https://getyarn.io/yarn-find?text=' + engs_org);
-    url_youglish = encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?');
-    url_google = encodeURI('https://www.google.com/search?q="' + engs_org +'"');
-    
-    link_yarn.setAttribute('onclick', `window.open('${url_yarn}','window_name','scrollbars=yes');`);      
-    link_youglish.setAttribute('onclick', `window.open('${url_youglish}','window_name','scrollbars=yes');`);
-    link_google.setAttribute('onclick', `window.open('${url_google}','window_name','scrollbars=yes');`);
+    trans_papago(req_pos,engs_org);    
   }
   click_fadein(view_target);
 }
@@ -183,34 +156,96 @@ function tranbtn_click(position){
 function trans_papago(position, SENTC){  
   console.log('trans_papago start at ' + position);
   var req_pos = position;
-  var write_target;
+  var patch_target;
+  var write_target, write_target_id;
+  var link_yarn, link_youglish, link_google = '';
+  var url_yarn, url_youglish, url_google = '';
+  var engs_org;
   let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
   let TEXT = '';
 
-  if (kor_check.test(SENTC)) {
-    TEXT = {'source' : 'ko', 'target' : 'en', 'word' : SENTC};
-    if (req_pos === 'mainbox_center') {    
-      view_target = document.getElementById('Sres_view');    
+  if (req_pos === 'mainbox_center') {    
+    view_target = document.getElementById('Sres_view');
+    link_yarn = document.getElementById('msi_link_yarn');
+    link_youglish = document.getElementById('msi_link_youglish');
+    link_google = document.getElementById('msi_link_google');    
+    if (kor_check.test(SENTC)) {
+      TEXT = {'source' : 'ko', 'target' : 'en', 'word' : SENTC};
+      patch_target = document.getElementById('Sres_KOR');
       write_target = document.getElementById('Sres_ENG');                   
-    } else if (req_pos === 'second_3box_center') {    
-      view_target = document.getElementById('word_toolbar_result');    
-      write_target = document.getElementById('wtrv_ENG');
-    }
-  } else {
-    TEXT = {'source' : 'en', 'target' : 'ko', 'word' : SENTC};            
-    if (req_pos === 'mainbox_center') {    
-      view_target = document.getElementById('Sres_view');    
+      write_target_id = 'ENG';
+    } else {      
+      TEXT = {'source' : 'en', 'target' : 'ko', 'word' : SENTC};            
+      patch_target = document.getElementById('Sres_ENG')
       write_target = document.getElementById('Sres_KOR');                   
-    } else if (req_pos === 'second_3box_center') {    
-      view_target = document.getElementById('word_toolbar_result');    
-      write_target = document.getElementById('wtrv_KOR');
-    }
-  }    
-  
-  fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>{
-    write_target.innerText = result.message.result.translatedText;      
-  });
-    
+      write_target_id = 'KOR';
+    };
+    fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>{
+      write_target.innerText = result.message.result.translatedText;      
+      if (write_target_id === 'ENG') {
+        engs_org = write_target.innerText;
+        // engs_org = engs_org.replace(/'/g, '%27');
+      } else if (write_target_id === 'KOR') {
+        engs_org = patch_target.innerText;
+        engs_org = engs_org.replace(/\n$/,'');
+        // engs_org = engs_org.replace(/'/g, '%27');
+      }
+      url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org);
+      url_yarn = url_yarn.replace(/'/g, '%27');
+      url_youglish = 'https://youglish.com/pronounce/' + encodeURIComponent(engs_org) + '/english?';
+      url_youglish = url_youglish.replace(/'/g, '%27');
+      url_google = 'https://www.google.com/search?q="' + encodeURIComponent(engs_org) +'"';
+      url_google = url_google.replace(/'/g, '%27');
+
+      console.log(engs_org);
+      console.log(url_yarn);
+
+      link_yarn.setAttribute('href', `${url_yarn}`);      
+      link_youglish.setAttribute('href', `${url_youglish}`);
+      link_google.setAttribute('href', `${url_google}`);
+    });
+  }
+  else if (req_pos === 'second_3box_center') {    
+    view_target = document.getElementById('word_toolbar_result'); 
+    link_yarn = document.getElementById('word_toolbar_link_yarn');
+    link_youglish = document.getElementById('word_toolbar_link_youglish');
+    link_google = document.getElementById('word_toolbar_link_google');   
+    if (kor_check.test(SENTC)) {
+      TEXT = {'source' : 'ko', 'target' : 'en', 'word' : SENTC};
+      patch_target = document.getElementById('wtrv_KOR');
+      write_target = document.getElementById('wtrv_ENG');
+      write_target_id = 'ENG';
+    } else {
+      TEXT = {'source' : 'en', 'target' : 'ko', 'word' : SENTC};            
+      patch_target = document.getElementById('wtrv_ENG')
+      write_target = document.getElementById('wtrv_KOR');                   
+      write_target_id = 'KOR';      
+    };
+    fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>{
+      write_target.innerText = result.message.result.translatedText;  
+      if (write_target_id === 'ENG') {
+        engs_org = write_target.innerText;
+        // engs_org = engs_org.replace(/'/g, '%27');
+      } else if (write_target_id === 'KOR') {
+        engs_org = patch_target.innerText;
+        engs_org = engs_org.replace(/\n$/,'');
+        // engs_org = engs_org.replace(/'/g, '%27');
+      }  
+      url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org);
+      url_yarn = url_yarn.replace(/'/g, '%27');
+      url_youglish = 'https://youglish.com/pronounce/' + encodeURIComponent(engs_org) + '/english?';
+      url_youglish = url_youglish.replace(/'/g, '%27');
+      url_google = 'https://www.google.com/search?q="' + encodeURIComponent(engs_org) +'"';
+      url_google = url_google.replace(/'/g, '%27');
+
+      console.log(engs_org);
+      console.log(url_yarn);
+
+      link_yarn.setAttribute('href', `${url_yarn}`);      
+      link_youglish.setAttribute('href', `${url_youglish}`);
+      link_google.setAttribute('href', `${url_google}`);
+    });    
+  }  
 }
     
 
@@ -528,12 +563,22 @@ function wim_submit_btn_click(position){
     // open / close
 
 function wordbook_open(){      
-  // await click_fadeoutdown(mainbox_center);  
-  click_bounceinup(second_1box_center);  
+  // await click_fadeoutdown(mainbox_center);    
+  if (second_1box_center.style.display !== 'none') {
+    click_bouncein(second_1box_center);
+  } else {
+    click_bounceinup(second_1box_center);  
+  }  
 }
 
 function wordbook_close(){    
-  click_bounceoutdown(second_1box_center);          
+  click_bounceoutdown(second_1box_center); 
+  if (second_2box_center.style.display !== 'none') {
+    click_bounceoutdown(second_2box_center);
+  }           
+  if (second_3box_center.style.display !== 'none') {
+    click_bounceoutdown(second_3box_center);
+  }           
 }
 
     // read
@@ -637,15 +682,21 @@ async function edit_wordbook_click(number){
 
     // open, close 
 
-function wordlist_open(){  
-  click_bounceinup(second_2box_center);    
-  // click_fadeout(second_1box_contents);
+function wordlist_open(){    
+  if (second_2box_center.style.display !== 'none') {
+    click_bouncein(second_2box_center);
+  } else {
+    click_bounceinup(second_2box_center);  
+  }    
 }
 
 function wordlist_close(){
   // click_fadein(second_1box_contents);
   wordbook_reading('');
-  click_bounceoutdown(second_2box_center);   
+  click_bounceoutdown(second_2box_center); 
+  if (second_3box_center.style.display !== 'none') {
+    click_bounceoutdown(second_3box_center);
+  }    
 }
 
     // read
@@ -666,7 +717,7 @@ function wordlist_reading(number, title, time){
     let add_head_html = '';
     let add_contents_html = '';    
     add_head_html = `
-        <div class="title" id="s2_wordbook_title"><span class="ft5 ftb"> ${wordbook_title.title} </span></div>
+        <div class="title" id="s2_wordbook_title" onclick="s2_box_click();"><span class="ft5 ftb"> ${wordbook_title.title} </span></div>
         `;
       document.getElementById('wordlist_headline').innerHTML = add_head_html;                  
 
@@ -677,12 +728,12 @@ function wordlist_reading(number, title, time){
       add_contents_html += `
       <div class="wordlist_wrap shadow-sm">
         <div class="wordlist_main">
-          <div class="wordlist_id_${result.ID}" onclick="word_reading(${result.ID},'initial');">                    
+          <div class="wordlist_text wordlist_id_${result.ID}" onclick="word_reading(${result.ID},'initial');">                    
             <div id="wordlist_eng_${result.ID}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
             <div id="wordlist_kor_${result.ID}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
           </div>        
-          <div class="wordlist_option">
-            <i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}"></i>
+          <div class="wordlist_option" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}">
+            <i class="fa-solid fa-list-check ft7 ftb text_red"></i>
           </div>
         </div>`;
       if (examples !== null) {
@@ -726,9 +777,12 @@ function wordlist_reading(number, title, time){
     // open, close
 
 function word_open(){
-  console.log('word_open start');
-  click_bounceinup(second_3box_center);    
-  // click_fadeout(second_2box_contents);
+  console.log('word_open start');  
+  if (second_3box_center.style.display !== 'none') {
+    click_bouncein(second_3box_center);
+  } else {
+    click_bounceinup(second_3box_center);  
+  }   
 }
 
 function word_close(){
@@ -742,6 +796,7 @@ function word_close(){
 
 function word_reading(ID_number, time){  
   console.log('word_reading start');
+  second_2box_center.scrollTop = 0;
   let wordbook_title = document.getElementById('s2_wordbook_title').innerText;
   let word_id = ID_number;
   console.log('elements : ' + wordbook_title, word_id);
@@ -756,8 +811,8 @@ function word_reading(ID_number, time){
     // 문장타이틀부분 #word_view1
     let word_title_html = `
       <ul>
-        <li><span id="s3_word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng"> ${results[0].ENG} </span></li>
-        <li><span class="ft7 ftb">${results[0].KOR}</span><i class="fa-solid fa-list-check ft7 ftb text_red"></i></li>
+        <li><span id="s3_word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng" onclick="tts(this.innerText, 1)"> ${results[0].ENG} </span></li>
+        <li><span class="ft7 ftb">${results[0].KOR}</span><i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#word_view_collapse" aria-expanded="false" aria-controls="word_view_collapse"></i></li>
       </ul>`;
     // 예문부분 #example_list    
     let example_html = ``;
@@ -780,64 +835,17 @@ function word_reading(ID_number, time){
   }
 };
 
-  
-    // functions
+function s1_box_click(){
+  hidden(second_2box_center);
+  hidden(second_3box_center);
+}
 
-      // exam add
-
-// function example_add(){
-//   let now = new Date();
-//   let time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}`;  
-//   let wordbook_title = document.getElementById('s2_wordbook_title').innerText;
-//   let word_id = document.getElementById('s3_word_id').innerText;
-//   let example = {'wordbook_title' : wordbook_title, 'word_id' : word_id, 'ENG' : document.getElementById('exam_eng').value, 'KOR' : document.getElementById('exam_kor').value, 'SAVEDATE' : time, 'LOADDATE' : time , 'LOAD_NUM' : 0};    
-//   console.log('example');
-//   console.log(example);
-//   fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(example)}).then((response)=>response.json()).then((results)=>{
-//     console.log(results);
-//   });
-//   word_reading(word_id);
-  // word_reading(word_id);
-// }
+function s2_box_click(){
+  hidden(second_3box_center);
+}
 
 
-function word_toolbar_tranbtn_click(){    
 
-  if(word_toolbar_input.value.replace(/ /gi,'').replace(/\n/gi,'')) {                        
-    var engs_org = word_toolbar_input.value.replace(/\n$/,'');
-    var engs_spl = word_toolbar_input.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');          
-    console.log(engs_spl);
-    engs_res = '';          
-    
-    var doc = document.getElementById('wtrv_ENG');
-    doc.innerHTML = '';          
-    
-    function TEST_add(engs_spl){
-      for (let words of engs_spl){            
-        if (words === '___') {
-          engs_res += `<br>`;
-        } else {                                
-          // engs_res += `<a href="#" onclick="parent.Cambrg_search('${words}'); ">${words}</a> `;
-          engs_res += `${words} `;
-        }              
-      }
-
-      doc.innerHTML += engs_res;
-      re_popup();             
-      // click_fadein(doc);        
-      // iframe2_vis();
-    }      
-    
-    TEST_add(engs_spl);
-    word_toolbar_trans_papago(engs_org);
-    document.getElementById('word_toolbar_link_yarn').setAttribute('href', encodeURI('https://getyarn.io/yarn-find?text=' + engs_org));
-    document.getElementById('word_toolbar_link_youglish').setAttribute('href', encodeURI('https://youglish.com/pronounce/' + engs_org + '/english?'));
-    document.getElementById('word_toolbar_link_google').setAttribute('href', encodeURI('https://www.google.com/search?q="' + engs_org +'"'));
-    
-    click_fadein(document.getElementById('word_toolbar_result'));          
-    iframe2_vis();
-  }
-};
 
 
 
