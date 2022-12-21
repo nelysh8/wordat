@@ -90,12 +90,17 @@ router.post('/word', function (req, res, next) {
     var wordbook_title = req.body.wordbook_title;    
     var word_id = req.body.word_id;
     console.log(wordbook_title, word_id);
-    var sql = `SELECT * FROM ${wordbook_title} WHERE ID = ${word_id}`;
+    let now = new Date();
+    let time = `${now.getFullYear()}${now.getMonth()+1}${now.getDate()}`;
+    var sql = `
+        UPDATE ${wordbook_title} SET LOADDATE = ${time}, LOAD_NUM = LOAD_NUM + 1 WHERE ID = ${word_id};
+        SELECT * FROM ${wordbook_title} WHERE ID = ${word_id};`;
     // var sql = "SELECT * FROM " + wordbook_title + " WHERE P_ID=0";
+    //  
     console.log(sql);
     conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
-        res.json(results);        
+        res.json(results[1]);        
     });
 });
 
@@ -143,6 +148,15 @@ router.post('/exam/add/', function (req, res, next) {
         res.json(results);   
     });
 });
+
+// Quiz search
+
+router.post('/quiz', async function (req, res, next) {
+    
+});
+    
+
+
 // 
 // router.post('/exam/add/', function (req, res, next) {        
 //     var word_title = req.body.title;

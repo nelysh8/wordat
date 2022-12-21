@@ -278,15 +278,30 @@ function trans_papago(position, SENTC){
 // 음성 config https://cloud.google.com/text-to-speech/docs/reference/rest/v1/text/synthesize#audioconfig
 // 합성 음성 https://cloud.google.com/text-to-speech/docs/create-audio
 
-  function tts(sentence, speed){    
-    let text = '';
+  function tts_pos(position, speed){    
+    let req_pos = position;
+    let input_value, res_value;
+    let sentence;
     let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;  
-    if (kor_check.test(sentence)) {
-      text = document.getElementById('Sres_KOR').innerText;
-    } else {
-      text = sentence;
-    }
     
+    if (req_pos === 'mainbox_center') {      
+      input_value = document.getElementById('main_search_input').value.replace(/ /gi,'').replace(/\n/gi,'');
+      res_value = document.getElementById('Sres_ENG').innerText;      
+    } else if (req_pos === 'second_3box_center') {
+      input_value = document.getElementById('word_toolbar_input').value.replace(/ /gi,'').replace(/\n/gi,'');
+      res_value = document.getElementById('wtrv_ENG').innerText;
+    }
+    // input_value 확인(빈칸 or 한국 => res_value / ! input_value )
+    if ((input_value === '') || (kor_check.test(input_value))) {
+      if (res_value !== '') {
+        sentence = res_value;
+      } else {
+        return;
+      }
+    } else {
+      sentence = input_value;
+    }      
+
     let rate = speed;               
     
     fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
@@ -296,7 +311,7 @@ function trans_papago(position, SENTC){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          'input' : {'text' : text},
+          'input' : {'text' : sentence},
           'voice' : {'languageCode' : 'en-US' , 'name' : 'en-US-Neural2-C', 'ssmlGender' : 'FEMALE'},
           // 'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'FEMALE'},
           'audioConfig': {'audioEncoding': 'MP3' },        
@@ -317,7 +332,41 @@ function trans_papago(position, SENTC){
         console.log('sound err');
       });      
     }
-  };
+  }
+
+  function tts_any(text, rate){
+    let sentence = text;
+    let speed = rate;               
+    
+    fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
+        method: 'POST',
+        headers: {
+            'X-Goog-Api-Key': 'AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'input' : {'text' : sentence},
+          'voice' : {'languageCode' : 'en-US' , 'name' : 'en-US-Neural2-C', 'ssmlGender' : 'FEMALE'},
+          // 'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'FEMALE'},
+          'audioConfig': {'audioEncoding': 'MP3' },        
+        }),
+      })
+    .then((response)=>response.json())
+    .then((result)=>data(result));  
+    function data(result){      
+      console.log(result);      
+      // console.log(JSON.stringify(result.audioContent.data));
+      var Sound = new Audio(`data:audio/mp3;base64,${result.audioContent}`);
+      Sound.playbackRate = speed;
+      Sound.play().then(()=>{        
+      // new Audio(`data:audio/mp3;base64,${result.audioContent}`).play().then(()=>{        
+        console.log('sound ok');
+      })
+      .catch(error => {
+        console.log('sound err');
+      });      
+    }
+  }
   
 
 
@@ -831,7 +880,7 @@ function word_reading(ID_number, time){
     // 문장타이틀부분 #word_view1
     let word_title_html = `
       <ul>
-        <li><span id="s3_word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng" onclick="touch_block_action(this); tts(this.innerText, 1);"> ${results[0].ENG} </span></li>
+        <li><span id="s3_word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng" onclick="touch_block_action(this); tts_any(this.innerText, 1);"> ${results[0].ENG} </span></li>
         <li>
           <span class="ft7 ftb">${results[0].KOR}</span>
           <div class="animate__animated word_title_collase_icon" onclick="touch_icon_action(this);" data-bs-toggle="collapse" data-bs-target="#word_view_collapse" aria-expanded="false" aria-controls="word_view_collapse"><i class="fa-solid fa-list-check ft7 ftb text_red"></i></div>          
@@ -844,7 +893,7 @@ function word_reading(ID_number, time){
       let examples = JSON.parse(results[0].EXAMPLE);            
       for (example of examples){       
         example_html += `
-          <li id="wordbtn_example_${j}" onclick="touch_block_action(document.getElementById('wordbtn_example_${j}_eng')); tts(document.getElementById('wordbtn_example_${j}_eng').innerText, 1);">
+          <li id="wordbtn_example_${j}" onclick="touch_block_action(document.getElementById('wordbtn_example_${j}_eng')); tts_any(document.getElementById('wordbtn_example_${j}_eng').innerText, 1);">
             <span id="wordbtn_example_${j}_eng" class="animate__animated"> ${example.ENG} </span>
             <br>
             <span>${example.KOR}</span>
@@ -954,3 +1003,8 @@ function popup_tool(position){
 }
   
 
+function testquiz(){
+  fetch("/wordbook/quiz", {method : 'post'}).then((response)=>response.json()).then((results)=>{
+    console.log(results);
+  });
+}

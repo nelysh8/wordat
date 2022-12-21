@@ -292,10 +292,10 @@
         }
       }
       onlongtouch1 = function(){
-        document.querySelector("#msi_play_btn").onclick = tts(document.getElementById('main_search_input').value, 0.5);        
+        document.querySelector("#msi_play_btn").onclick = tts_pos('main_search_input', 0.5);        
       }
       onlongtouch2 = function(){
-        document.querySelector("#word_toolbar_play_btn").onclick = tts(document.getElementById('word_toolbar_input').value, 0.5);        
+        document.querySelector("#word_toolbar_play_btn").onclick = tts_pos('word_toolbar_input', 0.5);        
       }
       
 
