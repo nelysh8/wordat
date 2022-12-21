@@ -1,5 +1,7 @@
 // const { json } = require("express");
 
+// const { filter } = require("domutils");
+
 // DOM basic
 const mainbox_center = document.getElementById('mainbox_center');
 // 1box : wordbook, 2box : wordlist, 3box : word //
@@ -1004,7 +1006,84 @@ function popup_tool(position){
   
 
 function testquiz(){
-  fetch("/wordbook/quiz", {method : 'post'}).then((response)=>response.json()).then((results)=>{
+  var target_sentence;
+  // 테이블명 모두 받아와서 레코드 병합조회하는 쿼리문 만들기
+  fetch("/wordbook/", {method : 'post'}).then((response)=>response.json()).then((results)=>{
     console.log(results);
+    var sql_query = ''    
+    
+    sql_query += `SELECT * FROM ${results[0].Tables_in_oq4p2dxa5zpnk9gu}`;
+    for (let i=1 ; i < results.length ; i ++) {
+      sql_query += ` UNION ALL SELECT * FROM ${results[i].Tables_in_oq4p2dxa5zpnk9gu}`;
+    }
+    console.log(sql_query);
+    // 만든 쿼리문으로 레코드 병합조회하기
+    sql_query_json = {'sql_query' : sql_query};
+    fetch("/wordbook/quiz", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sql_query_json)}).then((response)=>response.json()).then((results)=>{
+      // 조회된 레코드 중 퀴즈문제 선별하기
+      // 1. 가장 조회수가 적은 것들 선별
+      var temp_arr = results.map(row=>row.LOAD_NUM);      
+      minimum_hit = Math.min(...temp_arr);
+      console.log(minimum_hit);
+      filtered_result1 = results.filter(function(result){
+        if (result.LOAD_NUM === minimum_hit) {
+          return true;
+        }
+      });
+      console.log(filtered_result1);
+      if (filtered_result1.length = 1) {
+        target_sentence = filtered_result1[0];
+      } else { // 2. 가장 조회한지 오래된 것들 선별
+        temp_arr = results.map(row=>{
+          let date_hit = new Date(row.LOADDATE);
+          date_hit = new Date(`${date_hit.getFullYear()}-${date_hit.getMonth()}-${date_hit.getDate()}`);
+          return date_hit.getTime();
+        });      
+        console.log(temp_arr);
+        older_record = Math.min(...temp_arr);      
+        console.log(older_record);
+        filtered_result2 = filtered_result1.filter(function(result){
+          let date_hit = new Date(result.LOADDATE);
+          date_hit = new Date(`${date_hit.getFullYear()}-${date_hit.getMonth()}-${date_hit.getDate()}`);
+          date_hit = date_hit.getTime();
+          if (date_hit === older_record) {
+            return true;
+          }
+        });
+        console.log(filtered_result2);
+        if (filtered_result2.length = 1) {
+          target_sentence = filtered_result2[0];
+        } else { // 3. 가장 기록한지 오래된 것들 선별
+          temp_arr = results.map(row=>{
+            let date_hit = new Date(row.SAVEDATE);
+            date_hit = new Date(`${date_hit.getFullYear()}-${date_hit.getMonth()}-${date_hit.getDate()}`);
+            return date_hit.getTime();
+          });            
+          older_record = Math.min(...temp_arr);            
+          filtered_result3 = filtered_result2.filter(function(result){
+            let date_hit = new Date(result.SAVEDATE);
+            date_hit = new Date(`${date_hit.getFullYear()}-${date_hit.getMonth()}-${date_hit.getDate()}`);
+            date_hit = date_hit.getTime();
+            if (date_hit === older_record) {
+              return true;
+            }
+          });
+          console.log(filtered_result3);
+          if (filtered_result3.length = 1) {
+            target_sentence = filtered_result3[0];
+          } else { // 4. 결과값이 여러개인 경우 랜덤하게 선택 
+            if (filtered_result3.length > 1) {
+              var random_num = Math.floor(Math.random() * filtered_result3.length); 
+              target_sentence = filtered_result3[random_num];
+            } else {
+              target_sentence = filtered_result3[0];
+            }
+          }
+        }
+      }
+      console.log('------------------quiz------------');
+      console.log(target_sentence);
+      document.getElementById('quiz_sentence').innerText = target_sentence.ENG;
+    })
   });
 }

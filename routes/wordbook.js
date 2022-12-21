@@ -152,7 +152,11 @@ router.post('/exam/add/', function (req, res, next) {
 // Quiz search
 
 router.post('/quiz', async function (req, res, next) {
-    
+    var sql = req.body.sql_query;
+    conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);
+        res.json(results);
+    });
 });
     
 
