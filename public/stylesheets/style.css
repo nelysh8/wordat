@@ -1015,7 +1015,7 @@ ul {
               align-items: center;
             }
 
-            #second_3box_center .contents .word_view_1 ul li i {              
+            #second_3box_center .contents .word_view_1 ul li .word_title_collase_icon {              
               float : right;                            
               padding : 0.3rem;
               margin-top : 0.2rem;

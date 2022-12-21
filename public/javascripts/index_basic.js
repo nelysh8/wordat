@@ -201,12 +201,21 @@
         obj.classList.toggle('animate__shakeY');
       }
 
-      async function touch_action(obj) {        
+      async function touch_icon_action(obj) {        
         console.log('touch_action detected : '+ obj.id);
         obj.setAttribute('style', 'background-color : #00000020;  border-radius : 50%;');
         obj.classList.toggle('animate__zoomIn');      
         await sleep(0.3); 
         obj.setAttribute('style', 'background-color : none;  border-radius : none;');
+        obj.classList.toggle('animate__zoomIn');
+      }
+
+      async function touch_block_action(obj) {        
+        console.log('touch_action detected : '+ obj.id);
+        obj.setAttribute('style', 'background-color : #00000020;  border-radius : 5%; padding : 0.2rem 0.1rem 0.2rem 0.1rem;');
+        obj.classList.toggle('animate__zoomIn');      
+        await sleep(0.3); 
+        obj.setAttribute('style', 'background-color : none;  border-radius : none; padding : auto;');
         obj.classList.toggle('animate__zoomIn');
       }
       

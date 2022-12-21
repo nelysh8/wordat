@@ -125,27 +125,33 @@ function tranbtn_click(position){
 
   console.log(Input_target.value);
   
-  if (kor_check.test(Input_target.value)) {            
+  if (kor_check.test(Input_target.value)) {      // 한글입력의 경우 -> 한글 : 그대로 / 영어 : 번역후 처리
     trans_papago(req_pos, Input_target.value);
     doc_kor.innerHTML = `<span> ${Input_target.value} </span>`;  
-  } else if(Input_target.value.replace(/ /gi,'').replace(/\n/gi,'')) {                        
-    engs_org = Input_target.value.replace(/\n$/,'');
-    engs_spl = Input_target.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');              
-    engs_res = '';
-    
-    function TEST_add(engs_spl){
-      for (let words of engs_spl){            
-        if (words === '___') {
-          engs_res += `<br>`;
-        } else {                                
-          engs_res += `<span onclick="Cambrg_search('${words}');">${words}</span> `;
-        }              
+  } else if(Input_target.value.replace(/ /gi,'').replace(/\n/gi,'')) {    //영어입력의 경우 
+    if (req_pos === 'mainbox_center'){  // 메인박스 -> 영어 : 그대로 처리 / 한글 : 번역              
+      engs_org = Input_target.value.replace(/\n$/,'');
+      engs_spl = Input_target.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');              
+      engs_res = '';
+      function TEST_add(engs_spl){
+        for (let words of engs_spl){            
+          if (words === '___') {
+            engs_res += `<br>`;
+          } else {                                
+            words_encode = encodeURIComponent(words).replace(/'/g, '%27');    
+            engs_res += `<span onclick="touch_block_action(this); Cambrg_search('${words_encode}');">${words}</span> `;
+          }              
+        }
+        doc_eng.innerHTML += engs_res;
+        re_popup();             
       }
-      doc_eng.innerHTML += engs_res;
-      re_popup();             
+      TEST_add(engs_spl);    
+      trans_papago(req_pos,engs_org);         
+    } else if (req_pos === 'second_3box_center') { //  S3박스 -> 영어 : 그대로 / 한글 : 번역
+      engs_org = Input_target.value;
+      trans_papago(req_pos,engs_org);   
+      doc_eng.innerHTML = `<span> ${Input_target.value} </span>`;   
     }
-    TEST_add(engs_spl);    
-    trans_papago(req_pos,engs_org);    
   }
   click_fadein(view_target);
 }
@@ -160,11 +166,11 @@ function trans_papago(position, SENTC){
   var write_target, write_target_id;
   var link_yarn, link_youglish, link_google = '';
   var url_yarn, url_youglish, url_google = '';
-  var engs_org;
+  var engs_org, engs_spl, engs_res;
   let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
   let TEXT = '';
 
-  if (req_pos === 'mainbox_center') {    
+  if (req_pos === 'mainbox_center') {    // 메인박스 -> 
     view_target = document.getElementById('Sres_view');
     link_yarn = document.getElementById('msi_link_yarn');
     link_youglish = document.getElementById('msi_link_youglish');
@@ -180,23 +186,38 @@ function trans_papago(position, SENTC){
       write_target = document.getElementById('Sres_KOR');                   
       write_target_id = 'KOR';
     };
-    fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>{
-      write_target.innerText = result.message.result.translatedText;      
-      if (write_target_id === 'ENG') {
-        engs_org = write_target.innerText;
+    fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>{           
+      if (write_target_id === 'ENG') { // 한글입력의 경우 -> 한글: 기처리 / 영어 : 번역 후 처리
+        engs_org = result.message.result.translatedText; 
+        console.log('============' + result.message.result.translatedText);
+        engs_spl = engs_org.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');
+        engs_res = '';    
+    
+        function TEST_add(engs_spl){
+          for (let words of engs_spl){               
+            if (words === '___') {
+              engs_res += `<br>`;
+            } else {           
+              words_encode = encodeURIComponent(words).replace(/'/g, '%27');      
+              engs_res += `<span onclick="touch_block_action(this); Cambrg_search('${words_encode}');">${words}</span> `;
+            }                             
+          }
+          write_target.innerHTML += engs_res;          
+          re_popup();               
+        }            
+        TEST_add(engs_spl);        
+        
         // engs_org = engs_org.replace(/'/g, '%27');
-      } else if (write_target_id === 'KOR') {
+      } else if (write_target_id === 'KOR') {     // 영어입력의 경우 -> 영어 : 기처리 / 한글 : 번역           
+        write_target.innerText = result.message.result.translatedText; 
         engs_org = patch_target.innerText;
-        engs_org = engs_org.replace(/\n$/,'');
         // engs_org = engs_org.replace(/'/g, '%27');
       }
-      url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org);
-      url_yarn = url_yarn.replace(/'/g, '%27');
-      url_youglish = 'https://youglish.com/pronounce/' + encodeURIComponent(engs_org) + '/english?';
-      url_youglish = url_youglish.replace(/'/g, '%27');
-      url_google = 'https://www.google.com/search?q="' + encodeURIComponent(engs_org) +'"';
-      url_google = url_google.replace(/'/g, '%27');
+      url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org).replace(/'/g, '%27');      
+      url_youglish = 'https://youglish.com/pronounce/' + encodeURIComponent(engs_org).replace(/'/g, '%27') + '/english?';
+      url_google = 'https://www.google.com/search?q="' + encodeURIComponent(engs_org).replace(/'/g, '%27') +'"';
 
+      console.log(encodeURIComponent(engs_org), encodeURIComponent(engs_org).replace(/'/g, '%27'));
       console.log(engs_org);
       console.log(url_yarn);
 
@@ -205,7 +226,7 @@ function trans_papago(position, SENTC){
       link_google.setAttribute('href', `${url_google}`);
     });
   }
-  else if (req_pos === 'second_3box_center') {    
+  else if (req_pos === 'second_3box_center') {    // S3 박스 ->
     view_target = document.getElementById('word_toolbar_result'); 
     link_yarn = document.getElementById('word_toolbar_link_yarn');
     link_youglish = document.getElementById('word_toolbar_link_youglish');
@@ -221,22 +242,21 @@ function trans_papago(position, SENTC){
       write_target = document.getElementById('wtrv_KOR');                   
       write_target_id = 'KOR';      
     };
-    fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>{
-      write_target.innerText = result.message.result.translatedText;  
-      if (write_target_id === 'ENG') {
+    console.log(TEXT);
+    fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>{    
+      if (write_target_id === 'ENG') { // 한글입력의 경우 -> 한글 : 기처리 / 영어 : 번역
+        write_target.innerText = result.message.result.translatedText; 
         engs_org = write_target.innerText;
         // engs_org = engs_org.replace(/'/g, '%27');
-      } else if (write_target_id === 'KOR') {
+      } else if (write_target_id === 'KOR') { // 영어입력의 경우 -> 영어 : 기처리 / 한글 : 번역
+        write_target.innerText = result.message.result.translatedText; 
         engs_org = patch_target.innerText;
         engs_org = engs_org.replace(/\n$/,'');
         // engs_org = engs_org.replace(/'/g, '%27');
       }  
-      url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org);
-      url_yarn = url_yarn.replace(/'/g, '%27');
-      url_youglish = 'https://youglish.com/pronounce/' + encodeURIComponent(engs_org) + '/english?';
-      url_youglish = url_youglish.replace(/'/g, '%27');
-      url_google = 'https://www.google.com/search?q="' + encodeURIComponent(engs_org) +'"';
-      url_google = url_google.replace(/'/g, '%27');
+      url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org).replace(/'/g, '%27');      
+      url_youglish = 'https://youglish.com/pronounce/' + encodeURIComponent(engs_org).replace(/'/g, '%27') + '/english?';
+      url_google = 'https://www.google.com/search?q="' + encodeURIComponent(engs_org).replace(/'/g, '%27') +'"';
 
       console.log(engs_org);
       console.log(url_yarn);
@@ -591,8 +611,8 @@ function wordbook_reading(time){
     for (let data of datas){
       console.log(data.Tables_in_oq4p2dxa5zpnk9gu);
       add_html += `<div class="wordbook_wrap shadow-sm">
-                      <div class="wordbook_text" onclick="wordlist_reading(${i},'','initial')">                                          
-                        <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb"><span name="wordbook_title">${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>                        
+                      <div class="wordbook_text" onclick="touch_block_action(document.getElementById('wordbook_title_span_${i}')); wordlist_reading(${i},'','initial');">                                          
+                        <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb animate__animated"><span id="wordbook_title_span_${i}" name="wordbook_title">${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>                        
                         <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                                              
                       </div>                      
                       <div class="wordbook_option">
@@ -728,11 +748,11 @@ function wordlist_reading(number, title, time){
       add_contents_html += `
       <div class="wordlist_wrap shadow-sm">
         <div class="wordlist_main">
-          <div class="wordlist_text wordlist_id_${result.ID}" onclick="word_reading(${result.ID},'initial');">                    
+          <div class="wordlist_text animate__animated wordlist_id_${result.ID}" onclick="touch_block_action(document.getElementById('wordlist_eng_${result.ID}')); word_reading(${result.ID},'initial');">                    
             <div id="wordlist_eng_${result.ID}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
             <div id="wordlist_kor_${result.ID}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
           </div>        
-          <div class="wordlist_option animate__animated" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}" onclick="touch_action(this);">
+          <div class="wordlist_option animate__animated" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}" onclick="touch_icon_action(this);">
             <i class="fa-solid fa-list-check ft7 ftb text_red collapse_btn"></i>
           </div>
         </div>`;
@@ -811,8 +831,11 @@ function word_reading(ID_number, time){
     // 문장타이틀부분 #word_view1
     let word_title_html = `
       <ul>
-        <li><span id="s3_word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng" onclick="tts(this.innerText, 1)"> ${results[0].ENG} </span></li>
-        <li><span class="ft7 ftb">${results[0].KOR}</span><i class="fa-solid fa-list-check ft7 ftb text_red" data-bs-toggle="collapse" data-bs-target="#word_view_collapse" aria-expanded="false" aria-controls="word_view_collapse"></i></li>
+        <li><span id="s3_word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng" onclick="touch_block_action(this); tts(this.innerText, 1);"> ${results[0].ENG} </span></li>
+        <li>
+          <span class="ft7 ftb">${results[0].KOR}</span>
+          <div class="animate__animated word_title_collase_icon" onclick="touch_icon_action(this);" data-bs-toggle="collapse" data-bs-target="#word_view_collapse" aria-expanded="false" aria-controls="word_view_collapse"><i class="fa-solid fa-list-check ft7 ftb text_red"></i></div>          
+        </li>
       </ul>`;
     // 예문부분 #example_list    
     let example_html = ``;
@@ -820,7 +843,13 @@ function word_reading(ID_number, time){
     if (results[0].EXAMPLE !== null) {
       let examples = JSON.parse(results[0].EXAMPLE);            
       for (example of examples){       
-        example_html += `<li id="wordbtn_example_${j}" onclick="tts('${example.ENG}', 1);">${example.ENG}<br>${example.KOR}</li>`;        
+        example_html += `
+          <li id="wordbtn_example_${j}" onclick="touch_block_action(document.getElementById('wordbtn_example_${j}_eng')); tts(document.getElementById('wordbtn_example_${j}_eng').innerText, 1);">
+            <span id="wordbtn_example_${j}_eng" class="animate__animated"> ${example.ENG} </span>
+            <br>
+            <span>${example.KOR}</span>
+          </li>`;    
+        j += 1;    
       }
     };
     

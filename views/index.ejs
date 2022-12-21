@@ -97,15 +97,15 @@
         <div class="searchbar shadow-lg">
           <div class="searchbar_main">
             <textarea class="autosize ft8" id="main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
-            <div id="msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('mainbox_center');click_fadein(this);"></i></div>
-            <div id="msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); tranbtn_click('mainbox_center');"></i></div>
+            <div id="msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('mainbox_center');touch_icon_action(this);"></i></div>
+            <div id="msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="touch_icon_action(this); tranbtn_click('mainbox_center');"></i></div>
           </div>
           <div class="searchbar_items">          
-            <a id="msi_link_yarn" href="https://getyarn.io/" target="_blank"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
-            <a id="msi_link_youglish" href="https://youglish.com/" target="_blank"> <img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
-            <a id="msi_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>          
-            <i id="msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="click_fadein(this); tts(document.getElementById('main_search_input').value, 1);" ></i>          
-            <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('mainbox_center');"></i>                    
+            <a id="msi_link_yarn" href="https://getyarn.io/" target="_blank"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="touch_icon_action(this);"/></a>
+            <a id="msi_link_youglish" href="https://youglish.com/" target="_blank"> <img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="touch_icon_action(this);"/></a>
+            <a id="msi_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>          
+            <i id="msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="touch_icon_action(this); tts(document.getElementById('main_search_input').value, 1);" ></i>          
+            <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="touch_icon_action(this); modal1_openbtn_click('mainbox_center');"></i>                    
           </div>  
         
         <div class="searchResult shadow-sm animate__animated" style="display: none" id="Sres_view" >        
@@ -215,15 +215,15 @@
       <div class="word_toolbar shadow-sm">              
         <div class="word_toolbar_main">
           <textarea class="autosize ft8" id="word_toolbar_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
-          <div id="word_toolbar_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('second_3box_center');click_fadein(this);"></i></div>
-          <div id="word_toolbar_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="click_fadein(this); tranbtn_click('second_3box_center');"></i></div>                
+          <div id="word_toolbar_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('second_3box_center');touch_icon_action(this);"></i></div>
+          <div id="word_toolbar_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="touch_icon_action(this); tranbtn_click('second_3box_center');"></i></div>                
         </div>
         <div class="word_toolbar_items" >          
-          <a id="word_toolbar_link_yarn" href="https://getyarn.io/" target="_blank" ><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="click_fadein(this);"/></a>
-          <a id="word_toolbar_link_youglish" href="https://youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="click_fadein(this);"/></a>
-          <a id="word_toolbar_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="click_fadein(this);"/></a>                
-          <i id="word_toolbar_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="click_fadein(this); tts(document.getElementById('word_toolbar_input').value, 1);"></i>
-          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="click_fadein(this); modal1_openbtn_click('second_3box_center');"></i>                        
+          <a id="word_toolbar_link_yarn" href="https://getyarn.io/" target="_blank" ><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="touch_icon_action(this);"/></a>
+          <a id="word_toolbar_link_youglish" href="https://youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="touch_icon_action(this);"/></a>
+          <a id="word_toolbar_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>                
+          <i id="word_toolbar_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="touch_icon_action(this); tts(document.getElementById('word_toolbar_input').value, 1);"></i>
+          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="touch_icon_action(this); modal1_openbtn_click('second_3box_center');"></i>                        
         </div>
         <div class="word_toolbar_result shadow-sm animate__animated" style="display: none" id="word_toolbar_result" >        
           <div class="word_toolbar_result_view" name="word_toolbar_result_view">
@@ -263,7 +263,7 @@
     <button onclick="window.open('https://www.youtube.com/','window_name','width=100,height=100,location=no,status=no,scrollbars=yes');">button</button>
     <button onclick="window.open('https://dictionary.cambridge.org/dictionary/english/','window_name','width=100,height=100,location=no,status=no,scrollbars=yes');">button</button>
 
-    <div id="lf_close_btn" class="animate__animated" onclick="click_fadein(this); click_slideoutdown(document.getElementById('link_frame'));"><i class="fa-solid fa-rectangle-xmark text_red ft1 ftbb"></i></div>
+    <div id="lf_close_btn" class="animate__animated" onclick="touch_icon_action(this); click_slideoutdown(document.getElementById('link_frame'));"><i class="fa-solid fa-rectangle-xmark text_red ft1 ftbb"></i></div>
     <iframe src="#" id="link_view" name="link_view"></iframe>
     
   </div>   -->
