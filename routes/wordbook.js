@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mysql_odbc = require('../db/db_conn')();
 var conn = mysql_odbc.init();
+var moment = require('moment');
+var today = moment();
 
 // WORDBOOK List
 
@@ -152,11 +154,54 @@ router.post('/exam/add/', function (req, res, next) {
 // Quiz search
 
 router.post('/quiz', async function (req, res, next) {
-    var sql = req.body.sql_query;
-    conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);
-        res.json(results);
-    });
+	var sql = req.body.sql_query;
+	var filtered_results;
+	var ranged_results;
+	var target_result;
+	var random_num;
+
+	conn.query(sql, function(err, results){
+		if (err) console.err("err:" + err);
+		if (results.length === 0) {  // 총 문장수가 0개
+			res.send(0);
+		} else if ((results.length>0) && (results.length <= 10 )){ // 총 문장수가 x개 이하
+			random_num = Math.floor(Math.random() * results.length);
+			console.log(`오늘의 숫자는 ${random_num}(총 문장갯수 ${results.length})입니다`);
+			console.log(`오늘의 문장은 ${(results[random_num].ENG)}입니다.`);
+			res.send(results[random_num]);
+		} else { // 그외
+			// 1. 최종조회기간 평균 초과범위
+			var interval=0;
+			var interval_avg;
+			for (result of results) {            
+				interval += today.diff(moment(result.LOADDATE),'days');
+			}
+			interval_avg = interval / results.length;
+			console.log(`총 ${results.length}개 문장과의 평균기간도과일은 ${interval_avg}일입니다.`);
+			filtered_results = results.filter(function(result){
+					if (today.diff(moment(result.LOADDATE),'days') > interval_avg) {
+							return true;
+					}					
+			});
+			console.log(`평균기간도과 문장은 총 ${filtered_results.length}개입니다.`);
+			if (filtered_results.length <= 10) { // 필터된 문장수가 x개 이하인 경우
+				console.log(`필터된 문장갯수는 ${filtered_results.length}개 입니다`);
+				filtered_results = results;
+				random_num = Math.floor(Math.random() * filtered_results.length);
+				console.log(`오늘의 숫자는 ${random_num}(총 대상문장갯수 ${filtered_results.length})입니다`);
+				console.log(`오늘의 문장은 ${(filtered_results[random_num].ENG)}입니다.`);
+				res.send(filtered_results[random_num]);
+			} else {
+				// 2. 정확도 체크(1. 정답률 -> 2. 응답률) 향후 구현
+				console.log(`필터된 문장갯수는 ${filtered_results.length}개 입니다`);
+				filtered_results = results;
+				random_num = Math.floor(Math.random() * filtered_results.length);
+				console.log(`오늘의 숫자는 ${random_num}(총 대상문장갯수 ${filtered_results.length})입니다`);
+				console.log(`오늘의 문장은 ${(filtered_results[random_num].ENG)}입니다.`);
+				res.send(filtered_results[random_num]);
+			}			
+		}
+	});
 });
     
 

@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Poppins&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap'); 
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@600&display=swap');
+
+
 
 * {
     margin : 0;
@@ -153,13 +156,7 @@ ul {
 
 /* text-align */
 
-.text_middle {    
-  width : 100%;
-  position: absolute;
-  top: 50%; right: 50%;
-  transform: translate(50%,-50%);    
-	text-align : center;  
-}
+
 
 .vertical_middle {
 	vertical-align: middle;
@@ -287,6 +284,50 @@ ul {
               margin : 0;
               padding : 0;                            
             }
+
+            #today_short_quiz {                            
+              height: 100%;
+              width : 100%;
+              /* background-color:beige;                                                   */
+            }
+
+            #today_short_quiz #ts_quiz_title {              
+              width : 90%;
+              padding : 1rem auto 1rem 2rem;
+              margin : auto;
+              font-family: 'Noto Sans KR', sans-serif;                             
+            }
+
+            #ts_quiz_title span {              
+            }
+
+            #today_short_quiz #ts_quiz_kor {                  
+              width : 80%;
+              margin : 8rem auto 3rem auto;
+              text-align:left;
+              font-family: 'Noto Sans KR', sans-serif;                            
+            }
+
+            #today_short_quiz #ts_quiz_eng {                                
+              width : 80%;
+              margin : auto;
+              text-align: left;
+              font-family: 'poppins', sans-serif; 
+              vertical-align:text-bottom;
+            }
+
+            #today_short_quiz #ts_quiz_eng input {                                
+              border : none;
+              border-bottom : 4px solid firebrick;
+            }
+
+            #today_short_quiz #ts_quiz_eng input:focus {                                
+              border : none;              
+              background-color: #00000020;
+              border-bottom : 4px solid firebrick;
+              outline: none;
+            }
+            
 
             /* 0. Cambrg */
 

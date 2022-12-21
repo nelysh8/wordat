@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap" rel="stylesheet">    
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&display=swap" rel="stylesheet">
+    
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -61,15 +63,17 @@
 
         <div id="Upper_search_container" class="shadow-lg">
           <div id="Upper_carousel" class="carousel slide" data-bs-touch="true">
-            <div class="carousel-indicators">
+            <div class="carousel-indicators" style="display:none;">
               <button type="button" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
               <button type="button" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
               <button type="button" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active" id="contents_wordbook">
-                <div class="blank_sheet">
-                  <div class="text_middle"><span class="ft3 ftbb"> What's difference? </span></div>
+                <div id="today_short_quiz">
+                  <div id="ts_quiz_title"><span class="ft5 ftb"></span></div>
+                  <div id="ts_quiz_kor"><span class="ft5 ftb"></span></div>
+                  <div id="ts_quiz_eng"><span class="ft5 ftb"></span></div>
                 </div>
               </div>
               <div class="carousel-item" id="contents_cambrg">            
@@ -83,11 +87,11 @@
                 </div>
               </div> 
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev" style="display:none;">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#Upper_carousel" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#Upper_carousel" data-bs-slide="next" style="display:none;">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
@@ -382,6 +386,7 @@
 
   <!-- script -->
 
+  
   <script src="/javascripts/index_function.js"></script> 
   
     
