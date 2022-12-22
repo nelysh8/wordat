@@ -272,40 +272,48 @@
 
       let onlongtouch1, onlongtouch2  = false;
       let timer1, timer2 = false;
-      let duration = 500;
-      function touchStart(){
+      let duration = 300;
+      function touchStart1(){
         if (!timer1) {
           timer1 = setTimeout(onlongtouch1, duration);       
         }
+      }
+      function touchStart2(){
         if (!timer2) {
           timer2 = setTimeout(onlongtouch2, duration);       
         }
       }
-      function touchEnd(){
+      function touchEnd1(){
         if (timer1) {
           clearTimeout(timer1)
-          timer1 = false;
-        }
+          timer1 = false;          
+        }        
+      }
+      function touchEnd2(){
         if (timer2) {
           clearTimeout(timer2)
-          timer2 = false;
-        }
+          timer2 = false;          
+        }             
       }
       onlongtouch1 = function(){
-        document.querySelector("#msi_play_btn").onclick = tts_pos('main_search_input', 0.5);        
+        document.getElementById("msi_play_btn").onclick = touch_icon_action(this); 
+        document.querySelector("#msi_play_btn").onclick = tts_pos('mainbox_center', 0.5);                
+        document.querySelector("#msi_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('mainbox_center', 1);");
       }
       onlongtouch2 = function(){
-        document.querySelector("#word_toolbar_play_btn").onclick = tts_pos('word_toolbar_input', 0.5);        
+        document.getElementById("word_toolbar_play_btn").onclick = touch_icon_action(this); 
+        document.querySelector("#word_toolbar_play_btn").onclick = tts_pos('second_3box_center', 0.5);
+        document.querySelector("#word_toolbar_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('second_3box_center', 1);");  
       }
       
 
       document.addEventListener("DOMContentLoaded", function(){
-        document.querySelector("#msi_play_btn").addEventListener("touchstart", touchStart);
-        document.querySelector("#msi_play_btn").addEventListener("touchend", touchEnd);
+        document.querySelector("#msi_play_btn").addEventListener("touchstart", touchStart1);
+        document.querySelector("#msi_play_btn").addEventListener("touchend", touchEnd1);
       })
       document.addEventListener("DOMContentLoaded", function(){
-        document.querySelector("#word_toolbar_play_btn").addEventListener("touchstart", touchStart);
-        document.querySelector("#word_toolbar_play_btn").addEventListener("touchend", touchEnd);
+        document.querySelector("#word_toolbar_play_btn").addEventListener("touchstart", touchStart2);
+        document.querySelector("#word_toolbar_play_btn").addEventListener("touchend", touchEnd2);
       })
 
       
