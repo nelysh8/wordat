@@ -68,12 +68,13 @@
               <button type="button" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
               <button type="button" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
-            <div class="carousel-inner">
+            <div class="carousel-inner" id="carousel_contents">
               <div class="carousel-item active" id="contents_wordbook">
                 <div id="today_short_quiz">
-                  <div id="ts_quiz_title"><span class="ft5 ftb"></span></div>
+                  <div id="ts_quiz_title"><span class="ft7 ftb text_green">기억하시나요? 이 표현들.</span></div>
                   <div id="ts_quiz_kor"><span class="ft5 ftb"></span></div>
                   <div id="ts_quiz_eng"><span class="ft5 ftb"></span></div>
+                  <div id="quiz_chg_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz();"><i class="fa-solid fa-shuffle ft5 ftbb text_red"></i></div>
                 </div>
               </div>
               <div class="carousel-item" id="contents_cambrg">            
@@ -111,10 +112,10 @@
             <i id="msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="touch_icon_action(this); tts_pos('mainbox_center', 1);" ></i>          
             <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="touch_icon_action(this); modal1_openbtn_click('mainbox_center');"></i>                    
           </div>  
-          <div style="height:100px; width:100%; display:block;"> 
+          <!-- <div style="height:100px; width:100%; display:block;"> 
             <button onclick="testquiz();">quiz</button>
             <p id="quiz_sentence" class="ft5 ftbb"></p>
-          </div>        
+          </div>         -->
         
         <div class="searchResult shadow-sm animate__animated" style="display: none" id="Sres_view" >        
           <div class="Sres_view" name="Sres_view">

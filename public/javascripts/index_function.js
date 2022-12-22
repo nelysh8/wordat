@@ -1,6 +1,6 @@
 // const { json } = require("express");
 
-const { text } = require("express");
+// const { text } = require("express");
 
 // const { filter } = require("domutils");
 
@@ -36,6 +36,9 @@ word_toolbar_input.addEventListener("keyup", e => {
   }
 });
 
+window.onload=testquiz();
+
+
 // function youtube(){
 //   var iframe = document.getElementById('youtube');
 //   console.log(iframe.contentWindow.document.body.innerHTML);
@@ -48,14 +51,14 @@ word_toolbar_input.addEventListener("keyup", e => {
 
 // carousel detection
 
-var carousel_wordlist = document.getElementById("contents_wordlist");
+var carousel_contents = document.getElementById("carousel_contents");
 
 var observer = new MutationObserver(mutations => {    
   if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
-    console.log('wordlist open');
+    alert('mutation obs detected');
     // wordlist_open();
   } else if ((mutations[0].oldValue.includes('active') === true) && (mutations[0].target.className.includes('active') === false)) {
-    console.log('wordlist close');
+    alert('mutation obs detected');
   } else {
     console.log('nothing');
   };
@@ -71,7 +74,7 @@ var observer_config = {
 };
 
 // 감지 시작
-observer.observe(carousel_wordlist, observer_config);
+observer.observe(carousel_contents, observer_config);
 
 // 감지 종료
 // observer.disconnect();
@@ -1009,12 +1012,12 @@ function popup_tool(position){
 }
 
 
+
 function testquiz(){
   var write_kor = document.getElementById('ts_quiz_kor');
   var write_eng = document.getElementById('ts_quiz_eng');
   var eng_parts;
-  var correct_answer;
-  
+  var correct_answer;      
   
   // 테이블명 모두 받아와서 레코드 병합조회하는 쿼리문 만들기
   fetch("/wordbook/", {method : 'post'}).then((response)=>response.json()).then((results)=>{
@@ -1034,15 +1037,43 @@ function testquiz(){
       write_eng.innerHTML = '<form action="#">';
       eng_parts = results.ENG.split(' ');      
       var i = 1;
+      write_eng.innerHTML = '';          
       for (part of eng_parts) {
         if (part.length > 1) {
-          var left_length = part.length-1;
+          var left_length = part.length-1;          
+          write_eng.innerHTML += `          
+            <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
+            <span class="ft5 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
+            <span class="ft5 ftb">${part.substr(0,1)}</span><input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft5 ftb"> </span>`;             
+          var part_text = document.getElementById(`part_text_${i}`);
+          var part_underbar = document.getElementById(`part_underbar_${i}`);
+          var quiz_input = document.getElementById(`quiz_input_${i}`);
+          var script = document.createElement('script');
+          script.async = true;   
+          script.text = `
+            var quiz_input_detector_${i} = document.getElementById('quiz_input_${i}');
+            quiz_input_detector_${i}.addEventListener("keyup", e => {
+              console.log(e);
+            });
+          `;
+          document.body.appendChild(script);
+          console.log(quiz_input.style);
+          console.log((part_text.clientHeight) + "px");
+          console.log((part_text.clientWidth) + "px");
+          quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
+          quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
+          quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
+          quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";          
+        } else {
           write_eng.innerHTML += `
-            <span class="ft5 ftb">${part.substr(0,1)}</span><input type="text" class="ft5 ftb" id="answer_${i}" style="width:${left_length*1.23}rem" placeholder="${'*'.repeat(left_length)}" required><span class="ft5 ftb"> </span>`;             
+            <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part}</span><span class="ft5 ftb">${part.substr(0,1)}</span><span class="ft5 ftb"> </span>`;             
         }
-        write_eng.innerHTML += `</form>`;
         i += 1;
-      }      
+      } 
+      write_eng.innerHTML += `</form>`;                 
+      
+      
+      
 
 
       // 조회된 레코드 중 퀴즈문제 선별하기(최소 10개)
@@ -1125,3 +1156,4 @@ function testquiz(){
     })
   });
 }
+
