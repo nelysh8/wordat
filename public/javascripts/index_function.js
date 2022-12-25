@@ -294,14 +294,16 @@ function trans_papago(position, SENTC){
     let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;  
     
     if (req_pos === 'mainbox_center') {      
-      input_value = document.getElementById('main_search_input').value.replace(/ /gi,'').replace(/\n/gi,'');
+      input_value = document.getElementById('main_search_input').value;
+      det_value = input_value.replace(/ /gi,'').replace(/\n/gi,'');
       res_value = document.getElementById('Sres_ENG').innerText;      
     } else if (req_pos === 'second_3box_center') {
-      input_value = document.getElementById('word_toolbar_input').value.replace(/ /gi,'').replace(/\n/gi,'');
+      input_value = document.getElementById('word_toolbar_input').value;
+      det_value = input_value.replace(/ /gi,'').replace(/\n/gi,'');
       res_value = document.getElementById('wtrv_ENG').innerText;
     }
     // input_value 확인(빈칸 or 한국 => res_value / ! input_value )
-    if ((input_value === '') || (kor_check.test(input_value))) {
+    if ((det_value === '') || (kor_check.test(input_value))) {
       if (res_value !== '') {
         sentence = res_value;
       } else {
@@ -312,6 +314,9 @@ function trans_papago(position, SENTC){
     }      
 
     let rate = speed;               
+
+    console.log('------------tts detected------------------');
+    console.log('sentence : ' + sentence);
     
     fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
         method: 'POST',
@@ -345,7 +350,10 @@ function trans_papago(position, SENTC){
 
   function tts_any(text, rate){
     let sentence = text;
-    let speed = rate;               
+    let speed = rate;          
+    
+    console.log('------------tts detected------------------');
+    console.log('sentence : ' + sentence);
     
     fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
         method: 'POST',
@@ -1035,35 +1043,62 @@ function testquiz(){
       console.log(results);      
       write_kor.innerHTML = `<span class="ft5 ftb">${results.KOR}</span>`;
       write_eng.innerHTML = '<form action="#">';
-      eng_parts = results.ENG.split(' ');      
+      eng_trim = results.ENG.replace(/ /gi, ' ');
+      eng_parts = eng_trim.split(' ');  
+      console.log(eng_parts);
       var i = 1;
       write_eng.innerHTML = '';          
       for (part of eng_parts) {
+        var trial_num;        
+        var trim_word_start, trim_word_strpt;
+        var display_word = '';        
+        var regex = /[.?',!"-$+;/=]/;
         if (part.length > 1) {
-          var left_length = part.length-1;          
-          write_eng.innerHTML += `          
-            <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
-            <span class="ft5 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
-            <span class="ft5 ftb">${part.substr(0,1)}</span><input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft5 ftb"> </span>`;             
-          var part_text = document.getElementById(`part_text_${i}`);
-          var part_underbar = document.getElementById(`part_underbar_${i}`);
-          var quiz_input = document.getElementById(`quiz_input_${i}`);
-          var script = document.createElement('script');
-          script.async = true;   
-          script.text = `
-            var quiz_input_detector_${i} = document.getElementById('quiz_input_${i}');
-            quiz_input_detector_${i}.addEventListener("keyup", e => {
-              console.log(e);
-            });
-          `;
-          document.body.appendChild(script);
-          console.log(quiz_input.style);
-          console.log((part_text.clientHeight) + "px");
-          console.log((part_text.clientWidth) + "px");
-          quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
-          quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
-          quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
-          quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";          
+          trim_word_start = part.replace(/[.?',!"-$+;/=]/gi, '').substr(0,1);          
+          trim_word_strpt = part.indexOf(trim_word_start);                     
+          for (let j = 0; j<part.length; j++) {
+            if (regex.test(part.substr(j,1))) {                            
+              display_word += part.substr(j,1);
+            } else {                            
+              display_word += '_';              
+            }
+          }          
+          if (trim_word_strpt === 0) {
+            display_word = part.substr(0,1) + display_word.substr(1,part.length-1);
+          } else {
+            display_word = display_word.substr(0,trim_word_strpt) + part.substr(trim_word_strpt, 1) + display_word.substr(trim_word_strpt + 1, part.length - (trim_word_strpt+1) );
+          }         
+          console.log(display_word);
+          write_eng.innerHTML += `
+            <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part}</span><span class="ft5 ftb">${display_word} </span><span class="ft5 ftb"> </span>`;             
+          
+
+
+
+          // var left_length = part.length-1;          
+          // write_eng.innerHTML += `          
+          //   <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
+          //   <span class="ft5 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
+          //   <span class="ft5 ftb">${part.substr(0,1)}</span><input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft5 ftb"> </span>`;             
+          // var part_text = document.getElementById(`part_text_${i}`);
+          // var part_underbar = document.getElementById(`part_underbar_${i}`);
+          // var quiz_input = document.getElementById(`quiz_input_${i}`);
+          // var script = document.createElement('script');
+          // script.async = true;   
+          // script.text = `
+          //   var quiz_input_detector_${i} = document.getElementById('quiz_input_${i}');
+          //   quiz_input_detector_${i}.addEventListener("keyup", e => {
+          //     console.log(e);
+          //   });
+          // `;
+          // document.body.appendChild(script);
+          // console.log(quiz_input.style);
+          // console.log((part_text.clientHeight) + "px");
+          // console.log((part_text.clientWidth) + "px");
+          // quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
+          // quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
+          // quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
+          // quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";          
         } else {
           write_eng.innerHTML += `
             <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part}</span><span class="ft5 ftb">${part.substr(0,1)}</span><span class="ft5 ftb"> </span>`;             

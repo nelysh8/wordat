@@ -295,13 +295,11 @@
           timer2 = false;          
         }             
       }
-      onlongtouch1 = function(){
-        document.getElementById("msi_play_btn").onclick = touch_icon_action(this); 
-        document.querySelector("#msi_play_btn").onclick = tts_pos('mainbox_center', 0.5);                
-        document.querySelector("#msi_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('mainbox_center', 1);");
+      onlongtouch1 = function(){        
+        document.getElementById("msi_play_btn").onclick = tts_pos('mainbox_center', 0.5);
+        document.querySelector("#msi_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('mainbox_center', 1);");  
       }
-      onlongtouch2 = function(){
-        document.getElementById("word_toolbar_play_btn").onclick = touch_icon_action(this); 
+      onlongtouch2 = function(){                
         document.querySelector("#word_toolbar_play_btn").onclick = tts_pos('second_3box_center', 0.5);
         document.querySelector("#word_toolbar_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('second_3box_center', 1);");  
       }
