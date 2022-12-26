@@ -1047,13 +1047,15 @@ function testquiz(){
       eng_parts = eng_trim.split(' ');  
       console.log(eng_parts);
       var i = 1;
+      var input_num = 0;
       write_eng.innerHTML = '';          
       for (part of eng_parts) {
         var trial_num;        
         var trim_word_start, trim_word_strpt;
         var display_word = '';        
-        var regex = /[.?',!"-$+;/=]/;
+        var regex = /[.?',!"-$+;/=]/;        
         if (part.length > 1) {
+          input_num += 1;
           trim_word_start = part.replace(/[.?',!"-$+;/=]/gi, '').substr(0,1);          
           trim_word_strpt = part.indexOf(trim_word_start);                     
           for (let j = 0; j<part.length; j++) {
@@ -1070,10 +1072,17 @@ function testquiz(){
           }         
           console.log(display_word);
           write_eng.innerHTML += `
-            <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part}</span><span class="ft5 ftb">${display_word} </span><span class="ft5 ftb"> </span>`;             
-          
-
-
+            <span class="ft5 ftb hidden_text" id="answer_text_${input_num}" >${part}</span>
+            <span class="ft5 ftb hidden_text" id="answer_underbar_${input_num}" >${display_word.substr(1,display_word.length-1)}</span>            
+            <span class="ft5 ftb">${display_word.substr(0,1)} </span>
+            <input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="height:0; width:0;" placeholder="${display_word.substr(1,display_word.length-1)}" required><span class="ft5 ftb"> </span>`;             
+          var part_text = document.getElementById(`answer_text_${input_num}`);
+          var part_underbar = document.getElementById(`answer_underbar_${input_num}`);
+          var quiz_input = document.getElementById(`quiz_input_${input_num}`);
+          quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
+          quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
+          quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
+          quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";   
 
           // var left_length = part.length-1;          
           // write_eng.innerHTML += `          
@@ -1098,13 +1107,15 @@ function testquiz(){
           // quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
           // quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
           // quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
-          // quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";          
+          // quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";      
+            
         } else {
           write_eng.innerHTML += `
             <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part}</span><span class="ft5 ftb">${part.substr(0,1)}</span><span class="ft5 ftb"> </span>`;             
-        }
+        }        
         i += 1;
-      } 
+      }
+      write_eng.innerHTML += `<span class="ft5 ftb hidden_text" id="input_num" >${input_num}</span>`
       write_eng.innerHTML += `</form>`;                 
       
       
@@ -1158,7 +1169,7 @@ function testquiz(){
     //     if (filtered_result2.length = 1) {
     //       target_sentence = filtered_result2[0];
     //     } else { // 3. 가장 기록한지 오래된 것들 선별
-    //       temp_arr = results.map(row=>{
+    //       temp_rr = results.map(row=>{
     //         let date_hit = new Date(row.SAVEDATE);
     //         date_hit = new Date(`${date_hit.getFullYear()}-${date_hit.getMonth()}-${date_hit.getDate()}`);
     //         return date_hit.getTime();
@@ -1192,3 +1203,39 @@ function testquiz(){
   });
 }
 
+function submit_quiz_answer(){
+  var input_num = Number(document.getElementById('input_num').innerHTML);
+  var correct_answer;
+  var input_answer = [];
+  var check_sheet = [];
+  var check_value;
+  console.log('input_num : ' + input_num);
+  for (let i = 0; i<input_num; i++) {
+    input_answer.push(document.getElementById(`quiz_input_${i+1}`).value);
+    correct_answer = document.getElementById(`answer_text_${i+1}`).innerHTML;
+    correct_answer = correct_answer.substr(1, correct_answer.length-1);
+    console.log(input_answer[i]);
+    if (input_answer[i] === correct_answer) {      
+      check_sheet.push(1);
+      console.log('input ' + (i+1) + ' - right answer ' + correct_answer + ' : result - correct');
+    } else {
+      check_sheet.push(0);
+      console.log('input ' + (i+1) + ' - right answer ' + correct_answer + ' : result - incorrect');
+    }
+  }
+  console.log(input_answer);
+  console.log(check_sheet);
+  console.log('correct : ' + input_num);
+  check_value = check_sheet.reduce((a,b) => (a+b));
+  console.log("sum : " + check_value);
+
+  
+  if (check_value === input_num) {
+    console.log(check_value + ' = ' + input_num);
+    alert('correct!!');    
+  } else {
+    console.log(check_value + ' =/ ' + input_num);
+    alert('incorrect!!!');
+  }
+  
+}

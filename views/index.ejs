@@ -74,7 +74,12 @@
                   <div id="ts_quiz_title"><span class="ft7 ftb text_green">기억하시나요? 이 표현들.</span></div>
                   <div id="ts_quiz_kor"><span class="ft5 ftb"></span></div>
                   <div id="ts_quiz_eng"><span class="ft5 ftb"></span></div>
-                  <div id="quiz_chg_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz();"><i class="fa-solid fa-shuffle ft5 ftbb text_red"></i></div>
+                  <div id="quiz_answer_line">
+                    <div id="quiz_chg_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz();"><i class="fa-solid fa-shuffle ft5 ftbb text_red"></i></div>                
+                    <div id="quiz_answer_btn" class="animate__animated" onclick="touch_icon_action(this); submit_quiz_answer();">
+                      <div class="btn bg_firebrick text_white ftb" >ANSWER</div>
+                    </div>                    
+                  </div>                    
                 </div>
               </div>
               <div class="carousel-item" id="contents_cambrg">            
@@ -96,8 +101,9 @@
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
-          </div>      
+          </div>
         </div>
+        
       
         <div class="searchbar shadow-lg">
           <div class="searchbar_main">

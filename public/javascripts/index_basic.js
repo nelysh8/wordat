@@ -208,7 +208,7 @@
         await sleep(0.3); 
         obj.setAttribute('style', 'background-color : none;  border-radius : none;');
         obj.classList.toggle('animate__zoomIn');
-      }
+      }     
 
       async function touch_block_action(obj) {        
         console.log('touch_action detected : '+ obj.id);
