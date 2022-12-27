@@ -35,7 +35,7 @@ router.post('/', function (req, res, next) {
 
 router.post('/add', function (req, res, next) {    
     var newlist_name = (req.body.title).replace(/ /gi, '_');        
-    var sql = "CREATE TABLE " + newlist_name + " (ID INT(11) NOT NULL AUTO_INCREMENT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', PRIMARY KEY(ID))";
+    var sql = "CREATE TABLE " + newlist_name + " (ID INT(11) NOT NULL AUTO_INCREMENT, WORDBOOK_TITLE TEXT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_RESULT INT(11) NOT NULL DEFAULT '0', QUIZ_DATE DATETIME NOT NULL, PRIMARY KEY(ID))";
     console.log(sql);
     conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
@@ -115,13 +115,13 @@ router.post('/word/add/', function (req, res, next) {
     console.log(word_english);
     var word_korean = req.body.kor;
     console.log(word_korean);
-    var data = [word_english, word_korean, '[]'];
+    var data = [wordbook_title, word_english, word_korean, '[]'];
     console.log(wordbook_title + ' ---- ' + data);
     let now = new Date();
     let time = `${now.getFullYear()}${now.getMonth()+1}${now.getDate()}`;
     console.log(time);
 
-    var sql = `INSERT INTO ${wordbook_title} (ENG, KOR, EXAMPLE, SAVEDATE, LOADDATE) VALUE (?,?,?,${time}, ${time})`;
+    var sql = `INSERT INTO ${wordbook_title} (WORDBOOK_TITLE, ENG, KOR, EXAMPLE, SAVEDATE, LOADDATE, QUIZ_DATE) VALUE (?,?,?,?,${time}, ${time}, ${time})`;
     conn.query(sql, data, function(err, results){
         if (err) console.err("err:" + err);
         res.json(results);   
@@ -189,7 +189,7 @@ router.post('/quiz', async function (req, res, next) {
 				filtered_results = results;
 				random_num = Math.floor(Math.random() * filtered_results.length);
 				console.log(`오늘의 숫자는 ${random_num}(총 대상문장갯수 ${filtered_results.length})입니다`);
-				console.log(`오늘의 문장은 ${(filtered_results[random_num].ENG)}입니다.`);
+				console.log(`오늘의 문장은 ${(filtered_results[random_num].ENG)}입니다.`);                
 				res.send(filtered_results[random_num]);
 			} else {
 				// 2. 정확도 체크(1. 정답률 -> 2. 응답률) 향후 구현
@@ -204,6 +204,23 @@ router.post('/quiz', async function (req, res, next) {
 	});
 });
     
+router.post('/quiz_result', async function (req, res, next) {
+    let now = new Date();
+    let time = `${now.getFullYear()}${now.getMonth()+1}${now.getDate()}`;
+
+    var wordbook_title = req.body.wordbook_title;
+    var word_id = req.body.word_id;
+    var quiz_num = req.body.quiz_num;
+    var quiz_result = req.body.quiz_result;
+    
+    var sql = `UPDATE ${wordbook_title} SET QUIZ_NUM = QUIZ_NUM + ${quiz_num}, QUIZ_RESULT = QUIZ_RESULT + ${quiz_result}, QUIZ_DATE = ${time} WHERE ID = ${word_id};`;
+    console.log(sql);
+
+    conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);
+        res.json(results);   
+    });
+});
 
 
 // 

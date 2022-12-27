@@ -249,6 +249,22 @@
         }
       }
 
+      function onvis(obj) {
+        console.log(obj.style);        
+        if (obj.style.visibility !== 'visible') {
+          console.log('onvis start')              
+          obj.style.visibility = 'visible';
+        }
+      }
+      function unvis(obj) {           
+        console.log(obj.style);        
+        if (obj.style.visibility !== 'hidden') {
+          console.log('unvis start')              
+          obj.style.visibility = 'hidden';
+        }
+      }
+
+
       function iframe2_vis() {                        
         console.log(document.getElementById('Sres_view').style.display);
         if ((document.getElementById('Sres_view').style.display === 'none') || (document.getElementById('Sres_view').style.display === '')){
@@ -324,10 +340,15 @@
       })
 
       function popup_main_layer(obj) {        
-        click_bouncein(obj);
-        
+        unvis(document.getElementById('Upper_carousel'));
+        click_bouncein(obj);        
       }
 
+      async function close_main_layer(obj){
+        await click_bounceout(obj); 
+        onvis(document.getElementById('Upper_carousel'));
+      }
+      
       
 
       // dblclick 활성화

@@ -36,7 +36,7 @@ word_toolbar_input.addEventListener("keyup", e => {
   }
 });
 
-window.onload=testquiz();
+window.onload=testquiz(1);
 
 
 // function youtube(){
@@ -148,7 +148,9 @@ function tranbtn_click(position){
             engs_res += `<br>`;
           } else {                                
             words_encode = encodeURIComponent(words).replace(/'/g, '%27');    
-            engs_res += `<span onclick="touch_block_action(this); Cambrg_search('${words_encode}');">${words}</span> `;
+            engs_res += `<span onclick="touch_block_action(this); window.open('https://dictionary.cambridge.org/dictionary/english-korean/${words_encode}');">${words}</span> `;
+            
+            // engs_res += `<span onclick="touch_block_action(this); Cambrg_search('${words_encode}');">${words}</span> `;
           }              
         }
         doc_eng.innerHTML += engs_res;
@@ -705,21 +707,7 @@ function wordbook_reading(time){
                         </div>                                                                                                         
                       </div>
                       <div class="wordbook_option">
-                        <i class="fa-solid fa-trash-can ft7 ftb text_red" data-bs-toggle="modal" data-bs-target="#wb_remove_confirm"> </i>
-                        <div class="modal fade" id="wb_remove_confirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">                              
-                              <div class="modal-body">
-                                정말 삭제하시겠습니까?
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" onclick="remove_wordbook_click(${i});">CONFIRM</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                                
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
+                        <i class="fa-solid fa-trash-can ft7 ftb text_red" data-bs-toggle="modal" data-bs-target="#wb_remove_confirm" onclick="remove_wordbook_num(${i});"> </i>
                       </div>                      
                     </div>                  
                   </div>`;                  
@@ -732,6 +720,12 @@ function wordbook_reading(time){
   if (time === 'initial'){
     wordbook_open();
   }
+}
+
+function remove_wordbook_num(num){
+  var wordbook_num = num;
+  console.log(wordbook_num);
+  document.getElementById('remove_btn').setAttribute("onclick", `remove_wordbook_click(${wordbook_num});`);
 }
 
     // functions
@@ -1021,102 +1015,174 @@ function popup_tool(position){
 
 
 
-function testquiz(){
+function testquiz(hint){
   var write_kor = document.getElementById('ts_quiz_kor');
   var write_eng = document.getElementById('ts_quiz_eng');
   var eng_parts;
-  var correct_answer;      
-  
-  // 테이블명 모두 받아와서 레코드 병합조회하는 쿼리문 만들기
-  fetch("/wordbook/", {method : 'post'}).then((response)=>response.json()).then((results)=>{
-    console.log(results);
-    var sql_query = ''    
-    
-    sql_query += `SELECT * FROM ${results[0].Tables_in_oq4p2dxa5zpnk9gu}`;
-    for (let i=1 ; i < results.length ; i ++) {
-      sql_query += ` UNION ALL SELECT * FROM ${results[i].Tables_in_oq4p2dxa5zpnk9gu}`;
-    }
-    console.log(sql_query);
-    // 만든 쿼리문으로 레코드 병합조회하기
-    sql_query_json = {'sql_query' : sql_query};
-    fetch("/wordbook/quiz", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sql_query_json)}).then((response)=>response.json()).then((results)=>{
-      console.log(results);      
-      write_kor.innerHTML = `<span class="ft5 ftb">${results.KOR}</span>`;
-      write_eng.innerHTML = '<form action="#">';
-      eng_trim = results.ENG.replace(/ /gi, ' ');
-      eng_parts = eng_trim.split(' ');  
-      console.log(eng_parts);
-      var i = 1;
-      var input_num = 0;
-      write_eng.innerHTML = '';          
-      for (part of eng_parts) {
-        var trial_num;        
-        var trim_word_start, trim_word_strpt;
-        var display_word = '';        
-        var regex = /[.?',!"-$+;/=]/;        
-        if (part.length > 1) {
-          input_num += 1;
-          trim_word_start = part.replace(/[.?',!"-$+;/=]/gi, '').substr(0,1);          
-          trim_word_strpt = part.indexOf(trim_word_start);                     
-          for (let j = 0; j<part.length; j++) {
-            if (regex.test(part.substr(j,1))) {                            
-              display_word += part.substr(j,1);
-            } else {                            
-              display_word += '_';              
-            }
-          }          
-          if (trim_word_strpt === 0) {
-            display_word = part.substr(0,1) + display_word.substr(1,part.length-1);
+  var correct_answer;   
+  var hint = hint;
+  if (hint === 1) {
+    // 테이블명 모두 받아와서 레코드 병합조회하는 쿼리문 만들기
+    fetch("/wordbook/", {method : 'post'}).then((response)=>response.json()).then((results)=>{
+      console.log(results);
+      var sql_query = ''    
+      
+      sql_query += `SELECT * FROM ${results[0].Tables_in_oq4p2dxa5zpnk9gu}`;
+      for (let i=1 ; i < results.length ; i ++) {
+        sql_query += ` UNION ALL SELECT * FROM ${results[i].Tables_in_oq4p2dxa5zpnk9gu}`;
+      }
+      console.log(sql_query);
+      // 만든 쿼리문으로 레코드 병합조회하기
+      sql_query_json = {'sql_query' : sql_query};
+      fetch("/wordbook/quiz", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sql_query_json)}).then((response)=>response.json()).then((results)=>{
+        console.log(results);      
+        write_kor.innerHTML = `<span class="ft5 ftb">${results.KOR}</span><span class="ft5 ftb hidden_text" id="answer_sentence">${results.ENG}</span><span class="ft5 ftb hidden_text" id="answer_wordbook_title">${results.WORDBOOK_TITLE}</span><span class="ft5 ftb hidden_text" id="answer_word_id">${results.ID}</span>`;
+        write_eng.innerHTML = `<form action="#">`;
+        eng_trim = results.ENG.replace(/ /gi, ' ');
+        eng_parts = eng_trim.split(' ');  
+        console.log(eng_parts);
+        var i = 1;
+        var input_num = 0;
+        var part_num = 0;
+        write_eng.innerHTML = '';          
+        for (part of eng_parts) {          
+          var trim_word_start, trim_word_strpt;
+          var display_word = '';        
+          var regex = /[.?',!"-$+;/=]/;      
+          
+          part_num += 1;  
+          if (part.length > hint) {
+            input_num += 1;
+            trim_word_start = part.replace(/[.?',!"-$+;/=]/gi, '').substr(0,1);          
+            trim_word_strpt = part.indexOf(trim_word_start);                     
+            for (let j = 0; j<part.length; j++) {
+              if (regex.test(part.substr(j,1))) {                            
+                display_word += part.substr(j,1);
+              } else {                            
+                display_word += '_';              
+              }
+            }          
+            if (trim_word_strpt === 0) {
+              display_word = part.substr(0,hint) + display_word.substr(hint,part.length-hint);
+            } else {
+              display_word = display_word.substr(0,trim_word_strpt) + part.substr(trim_word_strpt, hint) + display_word.substr(trim_word_strpt + hint, part.length - (trim_word_strpt+hint) );
+            }         
+            console.log(display_word);
+            write_eng.innerHTML += `              
+              <span class="ft5 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>
+              <span class="ft5 ftb hidden_text" id="answer_text_${input_num}">${part.substr(hint,display_word.length-hint)}</span>
+              <span class="ft5 ftb hidden_text" id="answer_underbar_${input_num}">${display_word.substr(hint,display_word.length-hint)}</span>            
+              <span class="ft5 ftb" id="answer_vis_text_${part_num}">${display_word.substr(0,hint)}</span>
+              <input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="width:0; height:0;" placeholder="${display_word.substr(hint,display_word.length-hint)}" required><span class="ft5 ftb"> </span>`;             
+                      
+
+            // var left_length = part.length-1;          
+            // write_eng.innerHTML += `          
+            //   <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
+            //   <span class="ft5 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
+            //   <span class="ft5 ftb">${part.substr(0,1)}</span><input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft5 ftb"> </span>`;             
+            // var part_text = document.getElementById(`part_text_${i}`);
+            // var part_underbar = document.getElementById(`part_underbar_${i}`);
+            // var quiz_input = document.getElementById(`quiz_input_${i}`);
+            // var script = document.createElement('script');
+            // script.async = true;   
+            // script.text = `
+            //   var quiz_input_detector_${i} = document.getElementById('quiz_input_${i}');
+            //   quiz_input_detector_${i}.addEventListener("keyup", e => {
+            //     console.log(e);
+            //   });
+            // `;
+            // document.body.appendChild(script);
+            // console.log(quiz_input.style);
+            // console.log((part_text.clientHeight) + "px");
+            // console.log((part_text.clientWidth) + "px");
+            // quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
+            // quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
+            // quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
+            // quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";      
+              
           } else {
-            display_word = display_word.substr(0,trim_word_strpt) + part.substr(trim_word_strpt, 1) + display_word.substr(trim_word_strpt + 1, part.length - (trim_word_strpt+1) );
-          }         
-          console.log(display_word);
-          write_eng.innerHTML += `
-            <span class="ft5 ftb hidden_text" id="answer_text_${input_num}">${part}</span>
-            <span class="ft5 ftb hidden_text" id="answer_underbar_${input_num}">${display_word.substr(1,display_word.length-1)}</span>            
-            <span class="ft5 ftb">${display_word.substr(0,1)}</span>
-            <input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="height:0; width:0;" placeholder="${display_word.substr(1,display_word.length-1)}" required><span class="ft5 ftb"> </span>`;             
+            input_num += 1;
+            write_eng.innerHTML += `
+              <span class="ft5 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>              
+              <span class="ft5 ftb hidden_text" id="answer_text_${part_num}"></span><span class="ft5 ftb" id="answer_vis_text_${part_num}">${part.substr(0,hint)}</span><span class="ft5 ftb"> </span>
+              <input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="display:none;" placeholder="" required>`;             
+          }                   
+          i += 1;          
+
           var part_text = document.getElementById(`answer_text_${input_num}`);
           var part_underbar = document.getElementById(`answer_underbar_${input_num}`);
-          var quiz_input = document.getElementById(`quiz_input_${input_num}`);                    
-          quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
-          quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
-          quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
-          quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";   
-
-          // var left_length = part.length-1;          
-          // write_eng.innerHTML += `          
-          //   <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
-          //   <span class="ft5 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
-          //   <span class="ft5 ftb">${part.substr(0,1)}</span><input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft5 ftb"> </span>`;             
-          // var part_text = document.getElementById(`part_text_${i}`);
-          // var part_underbar = document.getElementById(`part_underbar_${i}`);
-          // var quiz_input = document.getElementById(`quiz_input_${i}`);
-          // var script = document.createElement('script');
-          // script.async = true;   
-          // script.text = `
-          //   var quiz_input_detector_${i} = document.getElementById('quiz_input_${i}');
-          //   quiz_input_detector_${i}.addEventListener("keyup", e => {
-          //     console.log(e);
-          //   });
-          // `;
-          // document.body.appendChild(script);
-          // console.log(quiz_input.style);
-          // console.log((part_text.clientHeight) + "px");
-          // console.log((part_text.clientWidth) + "px");
-          // quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
-          // quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
-          // quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
-          // quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";      
-            
+          var quiz_input = document.getElementById(`quiz_input_${input_num}`);              
+          
+          console.log(part_text.innerHTML);  
+          if (part_text.innerHTML === '') {
+            console.log("part_text '' : " +part_text.innerHTML);
+            quiz_input.style.maxHeight = 0;           
+            quiz_input.style.minHeight = 0;           
+            quiz_input.style.maxWidth = 0;          
+            quiz_input.style.minWidth = 0;                    
+          } else {
+            console.log(part_text.innerHTML);
+            console.log(part_text.clientWidth);
+            console.log(part_underbar.innerHTML);
+            console.log(part_underbar.clientWidth);
+            quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
+            quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
+            quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
+            quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";                    
+          }           
+        }
+        write_eng.innerHTML += `
+          <span class="ft5 ftb hidden_text" id="part_num" >${part_num}</span>
+          <span class="ft5 ftb hidden_text" id="input_num" >${input_num}</span>
+          <span class="ft5 ftb hidden_text" id="hint_num">${hint}</span>
+          <span class="ft5 ftb hidden_text" id="try_num">0</span>`
+        write_eng.innerHTML += `</form>`;                 
+      })
+    });
+  } else if (hint === 2) {
+    console.log('hint start');
+    var part_num = Number(document.getElementById('part_num').innerHTML);
+    var input_num = Number(document.getElementById('input_num').innerHTML);
+    console.log(part_num, input_num);
+    for (let part_i=0; part_i<part_num; part_i++) {
+      var part_all = document.getElementById(`answer_all_text_${part_i+1}`);
+      // console.log(part_all.innerHTML);
+      var part_answer = document.getElementById(`answer_text_${part_i+1}`);
+      var part_answer_vis_text = document.getElementById(`answer_vis_text_${part_i+1}`);      
+      if (part_all.innerHTML.length > 1){              
+        if (part_all.innerHTML.length === 2) {
+          part_answer_vis_text.innerHTML += '<span class="ft5 ftb"> </span>';
         } else {
-          write_eng.innerHTML += `
-            <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part}</span><span class="ft5 ftb">${part.substr(0,1)}</span><span class="ft5 ftb"> </span>`;             
-        }        
-        i += 1;
+          part_answer.innerHTML = part_answer.innerHTML.substr(1,part_answer.innerHTML.length-1);
+          part_answer_vis_text.innerHTML = part_all.innerHTML.substr(0,2);
+        }
+      } 
+      // console.log(part_all.innerHTML, part_answer.innerHTML, part_answer_vis_text.innerHTML);    
+    }
+    for (let input_i=0; input_i<input_num; input_i++) {
+      var answer_underbar = document.getElementById(`answer_underbar_${input_i+1}`);
+      var quiz_input = document.getElementById(`quiz_input_${input_i+1}`);
+      quiz_input.value= '';
+      if (answer_underbar.innerHTML.length > 1) {
+        answer_underbar.innerHTML = answer_underbar.innerHTML.substr(1, answer_underbar.innerHTML.length-1);
+        quiz_input.setAttribute('placeholder', `${answer_underbar.innerHTML}`)
+      } else {
+        answer_underbar.innerHTML = '';
+        quiz_input.setAttribute('style', 'display:none;');
       }
-      write_eng.innerHTML += `<span class="ft5 ftb hidden_text" id="input_num" >${input_num}</span>`
-      write_eng.innerHTML += `</form>`;                 
+      console.log(answer_underbar.innerHTML);    
+    }
+    document.getElementById('hint_num').innerHTML = hint;
+    console.log(hint);
+  } else {
+    var full_sentence = document.getElementById('answer_sentence').innerHTML;
+    console.log(full_sentence);
+    tts_any(full_sentence, 1);
+    document.getElementById('hint_num').innerHTML = hint;
+  }
+}
+  
       
       
       
@@ -1199,9 +1265,7 @@ function testquiz(){
     //   console.log('------------------quiz------------');
     //   console.log(target_sentence);
     //   document.getElementById('quiz_sentence').innerText = target_sentence.ENG;
-    })
-  });
-}
+    
 
 async function submit_quiz_answer(){
   var input_num = Number(document.getElementById('input_num').innerHTML);
@@ -1209,11 +1273,11 @@ async function submit_quiz_answer(){
   var input_answer = [];
   var check_sheet = [];
   var check_value;
+  var point;
   console.log('input_num : ' + input_num);
   for (let i = 0; i<input_num; i++) {
     input_answer.push(document.getElementById(`quiz_input_${i+1}`).value);
-    correct_answer = document.getElementById(`answer_text_${i+1}`).innerHTML;
-    correct_answer = correct_answer.substr(1, correct_answer.length-1);
+    correct_answer = document.getElementById(`answer_text_${i+1}`).innerHTML;    
     console.log(input_answer[i]);
     if (input_answer[i] === correct_answer) {      
       check_sheet.push(1);
@@ -1230,31 +1294,65 @@ async function submit_quiz_answer(){
   console.log("sum : " + check_value);
 
   await sleep(0.3)
-
+  
   var layer = document.getElementById('mainbody_layer');
   var layer_contents = document.getElementById('mainbody_layer_contents');
 
   if (check_value === input_num) {
-    console.log(check_value + ' = ' + input_num);
+    console.log(check_value + ' = ' + input_num);    
     layer_contents.innerHTML = `
       <img src="/images/lets-dance-snoopy.gif"> 
       <div class="mainbody_layer_text">
         <p><span class="text_red ft4 ftbb"> Correct! </span> </p>
         <p><span class="text_black ft_noto fr5 ftbb"> 정답입니다. </span></p>
-      </div>`;
+      </div>`;    
     popup_main_layer(layer);    
-    // alert('correct!!');    
+    var wordbook_title = document.getElementById('answer_wordbook_title').innerHTML;
+    var word_id = document.getElementById('answer_word_id').innerHTML;
+    var quiz_num = 1;
+    var quiz_result = Number(document.getElementById('hint_num').innerHTML);
+    var req_text = {
+      'wordbook_title' : wordbook_title,
+      'word_id' : word_id,
+      'quiz_num' : quiz_num,
+      'quiz_result' : quiz_result
+    };
+    console.log(req_text);
+    fetch("/wordbook/quiz_result", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_text)}).then((response)=>response.json()).then((results)=>{
+      console.log(results);
+    });
+    document.getElementById('try_num').innerHTML = 1;  
+    testquiz(1);
   } else {
-    console.log(check_value + ' =/ ' + input_num);
+    console.log(check_value + ' =/ ' + input_num);    
     layer_contents.innerHTML = `
       <img src="/images/snoopy-sad.gif"> 
       <div class="mainbody_layer_text">
         <p><span class="text_red ft4 ftbb"> incorrect! </span> </p>
         <p><span class="text_black ft_noto fr5 ftbb"> ${input_num - check_value}곳만 다시 생각해보세요. </span></p>
       </div>`;
+    
     popup_main_layer(layer);
-    // alert('incorrect!!!');
-
-  }
-  
+    var wordbook_title = document.getElementById('answer_wordbook_title').innerHTML;
+    var word_id = document.getElementById('answer_word_id').innerHTML;
+    var quiz_num = 1;
+    var quiz_result;
+    if (Number(document.getElementById('try_num').innerHTML) === 0) {
+      document.getElementById('hint_num').innerHTML = Number(document.getElementById('hint_num').innerHTML) + 1;
+      quiz_result = Number(document.getElementById('hint_num').innerHTML);
+    } else {
+      quiz_result = 1;
+    }    
+    var req_text = {
+      'wordbook_title' : wordbook_title,
+      'word_id' : word_id,
+      'quiz_num' : quiz_num,
+      'quiz_result' : quiz_result
+    };
+    console.log(req_text);
+    fetch("/wordbook/quiz_result", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_text)}).then((response)=>response.json()).then((results)=>{
+      console.log(results);
+    });
+    document.getElementById('try_num').innerHTML = 1;
+  }  
 }

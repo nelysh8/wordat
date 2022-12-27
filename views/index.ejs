@@ -62,12 +62,12 @@
       <div class="container-fluid mainbox_center animate__animated" id="mainbox_center" style="display:block">
 
         <div id="Upper_search_container" class="shadow-lg">
-          <div class="mainbody_layer animate__animated" id="mainbody_layer" style="display:none;" onclick="click_bounceout(this);"> 
+          <div class="mainbody_layer animate__animated" id="mainbody_layer" style="display:none;" onclick="close_main_layer(this);"> 
             <div class="mainbody_layer_contents" id="mainbody_layer_contents">              
             </div>
           </div>
-          <div id="Upper_carousel" class="carousel slide" data-bs-touch="true">
-            <div class="carousel-indicators" style="display:none;">
+          <div id="Upper_carousel" class="carousel slide" style="display: block;" data-bs-touch="true">
+            <div class="carousel-indicators" style="visibility: hidden;">
               <button type="button" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
               <button type="button" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
               <button type="button" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
@@ -79,7 +79,7 @@
                   <div id="ts_quiz_kor"><span class="ft5 ftb"></span></div>
                   <div id="ts_quiz_eng"><span class="ft5 ftb"></span></div>
                   <div id="quiz_answer_line">
-                    <div id="quiz_chg_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz();"><i class="fa-solid fa-shuffle ft5 ftbb text_red"></i></div>                                    
+                    <div id="quiz_chg_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz(1);"><i class="fa-solid fa-shuffle ft5 ftbb text_red"></i></div>                                    
                   </div>                    
                 </div>
               </div>
@@ -95,15 +95,18 @@
               </div> 
             </div>
             <div class="carousel-btn-line" id="carousel-btn-line">
+              <div id="quiz_hint_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz((Number(document.getElementById('hint_num').innerHTML)) + 1);">
+                <div class="btn bg_green text_white ftb" >HINT</div>
+              </div>  
               <div id="quiz_answer_btn" class="animate__animated" onclick="touch_icon_action(this); submit_quiz_answer();">
                 <div class="btn bg_firebrick text_white ftb" >ANSWER</div>
               </div>  
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev" style="display:none;">
+            <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#Upper_carousel" data-bs-slide="next" style="display:none;">
+            <button class="carousel-control-next" type="button" data-bs-target="#Upper_carousel" data-bs-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
@@ -398,6 +401,20 @@
       </div>                
     </div>
   </div> 
+</div>
+<!-- 2-1 Remove confirm modal -->
+<div class="modal fade" id="wb_remove_confirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">                              
+      <div class="modal-body">
+        정말 삭제하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button id="remove_btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="remove_wordbook_click(${i});">CONFIRM</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                                
+      </div>
+    </div>
+  </div>
 </div>
 
 
