@@ -62,6 +62,10 @@
       <div class="container-fluid mainbox_center animate__animated" id="mainbox_center" style="display:block">
 
         <div id="Upper_search_container" class="shadow-lg">
+          <div class="mainbody_layer animate__animated" id="mainbody_layer" style="display:none;" onclick="click_bounceout(this);"> 
+            <div class="mainbody_layer_contents" id="mainbody_layer_contents">              
+            </div>
+          </div>
           <div id="Upper_carousel" class="carousel slide" data-bs-touch="true">
             <div class="carousel-indicators" style="display:none;">
               <button type="button" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -75,10 +79,7 @@
                   <div id="ts_quiz_kor"><span class="ft5 ftb"></span></div>
                   <div id="ts_quiz_eng"><span class="ft5 ftb"></span></div>
                   <div id="quiz_answer_line">
-                    <div id="quiz_chg_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz();"><i class="fa-solid fa-shuffle ft5 ftbb text_red"></i></div>                
-                    <div id="quiz_answer_btn" class="animate__animated" onclick="touch_icon_action(this); submit_quiz_answer();">
-                      <div class="btn bg_firebrick text_white ftb" >ANSWER</div>
-                    </div>                    
+                    <div id="quiz_chg_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz();"><i class="fa-solid fa-shuffle ft5 ftbb text_red"></i></div>                                    
                   </div>                    
                 </div>
               </div>
@@ -93,6 +94,11 @@
                 </div>
               </div> 
             </div>
+            <div class="carousel-btn-line" id="carousel-btn-line">
+              <div id="quiz_answer_btn" class="animate__animated" onclick="touch_icon_action(this); submit_quiz_answer();">
+                <div class="btn bg_firebrick text_white ftb" >ANSWER</div>
+              </div>  
+            </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev" style="display:none;">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
@@ -101,8 +107,9 @@
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
-          </div>
+          </div>          
         </div>
+        
         
       
         <div class="searchbar shadow-lg">
@@ -143,7 +150,7 @@
         </div>
         
       </div>
-      <div id="test_place">            
+      <div id="test_place">                    
         <!-- <iframe src="https://www.youtube.com/embed/videoseries?list=PLJBo3iyb1U0dJU_vsEwdqBGH1ZArNPmt1" style="width:100%; height:100%;"></iframe>     -->
         <!-- <iframe id="youtube" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLJBo3iyb1U0dJU_vsEwdqBGH1ZArNPmt1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <p id = "test_sub">
@@ -271,6 +278,9 @@
         </div>        
       </div> 
     </div>   
+
+    <!-- layer -->
+    
   </div>      
   
   
@@ -393,7 +403,8 @@
 
   <!-- script -->
 
-  
+
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
   <script src="/javascripts/index_function.js"></script> 
   
     

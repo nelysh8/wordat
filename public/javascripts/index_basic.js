@@ -107,6 +107,15 @@
         obj.classList.toggle('animate__bounceIn');                
       }
 
+      async function click_bounceout(obj) {                
+        console.log('animate__bounceOut detected : '+ obj.id);              
+        obj.classList.toggle('animate__bounceOut'); 
+        await sleep(0.9);
+        hidden(obj);
+        obj.classList.toggle('animate__bounceOut');                
+      }
+      animate__bounceOut
+
       async function click_bounceinup(obj) {                
         console.log('animate__bounceInUp detected : '+ obj.id);        
         visible(obj);   
@@ -313,6 +322,11 @@
         document.querySelector("#word_toolbar_play_btn").addEventListener("touchstart", touchStart2);
         document.querySelector("#word_toolbar_play_btn").addEventListener("touchend", touchEnd2);
       })
+
+      function popup_main_layer(obj) {        
+        click_bouncein(obj);
+        
+      }
 
       
 

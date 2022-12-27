@@ -1072,13 +1072,13 @@ function testquiz(){
           }         
           console.log(display_word);
           write_eng.innerHTML += `
-            <span class="ft5 ftb hidden_text" id="answer_text_${input_num}" >${part}</span>
-            <span class="ft5 ftb hidden_text" id="answer_underbar_${input_num}" >${display_word.substr(1,display_word.length-1)}</span>            
-            <span class="ft5 ftb">${display_word.substr(0,1)} </span>
+            <span class="ft5 ftb hidden_text" id="answer_text_${input_num}">${part}</span>
+            <span class="ft5 ftb hidden_text" id="answer_underbar_${input_num}">${display_word.substr(1,display_word.length-1)}</span>            
+            <span class="ft5 ftb">${display_word.substr(0,1)}</span>
             <input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="height:0; width:0;" placeholder="${display_word.substr(1,display_word.length-1)}" required><span class="ft5 ftb"> </span>`;             
           var part_text = document.getElementById(`answer_text_${input_num}`);
           var part_underbar = document.getElementById(`answer_underbar_${input_num}`);
-          var quiz_input = document.getElementById(`quiz_input_${input_num}`);
+          var quiz_input = document.getElementById(`quiz_input_${input_num}`);                    
           quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
           quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
           quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
@@ -1203,7 +1203,7 @@ function testquiz(){
   });
 }
 
-function submit_quiz_answer(){
+async function submit_quiz_answer(){
   var input_num = Number(document.getElementById('input_num').innerHTML);
   var correct_answer;
   var input_answer = [];
@@ -1229,13 +1229,32 @@ function submit_quiz_answer(){
   check_value = check_sheet.reduce((a,b) => (a+b));
   console.log("sum : " + check_value);
 
-  
+  await sleep(0.3)
+
+  var layer = document.getElementById('mainbody_layer');
+  var layer_contents = document.getElementById('mainbody_layer_contents');
+
   if (check_value === input_num) {
     console.log(check_value + ' = ' + input_num);
-    alert('correct!!');    
+    layer_contents.innerHTML = `
+      <img src="/images/lets-dance-snoopy.gif"> 
+      <div class="mainbody_layer_text">
+        <p><span class="text_red ft4 ftbb"> Correct! </span> </p>
+        <p><span class="text_black ft_noto fr5 ftbb"> 정답입니다. </span></p>
+      </div>`;
+    popup_main_layer(layer);    
+    // alert('correct!!');    
   } else {
     console.log(check_value + ' =/ ' + input_num);
-    alert('incorrect!!!');
+    layer_contents.innerHTML = `
+      <img src="/images/snoopy-sad.gif"> 
+      <div class="mainbody_layer_text">
+        <p><span class="text_red ft4 ftbb"> incorrect! </span> </p>
+        <p><span class="text_black ft_noto fr5 ftbb"> ${input_num - check_value}곳만 다시 생각해보세요. </span></p>
+      </div>`;
+    popup_main_layer(layer);
+    // alert('incorrect!!!');
+
   }
   
 }

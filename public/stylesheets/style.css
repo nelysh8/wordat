@@ -132,6 +132,14 @@ ul {
   color:royalblue
 }
 
+.ft_tree {
+  font-family: 'Permanent Marker', 'poppins',sans-serif;    
+}
+
+.ft_noto {
+  font-family: 'Noto Sans KR', sans-serif; 
+}
+
 .modal-content {
   font-family: 'poppins', sans-serif;
 }
@@ -245,7 +253,7 @@ ul {
     #Upper_search_container{
         display : flex;
         
-        height : 33rem;
+        height : 40rem;
         width : 95%;
         margin-left:auto; margin-right: auto;
         /* align-content:center; */
@@ -255,6 +263,46 @@ ul {
         margin-bottom : 2rem;    
         z-index : 4;
     }
+
+      /* mainbody_layer */
+
+      .mainbody_layer {
+        display : none;
+        position : absolute;        
+        top : 0;
+        width : 91%;
+        height : 65%;
+        background-color: #00000020;
+        border-radius : 20px;  
+        z-index : 10;        
+      }
+
+      .mainbody_layer .mainbody_layer_contents {                                          
+        display : flex;
+        margin : 12rem auto auto auto; 
+        background-color: white;       
+      }
+
+      .mainbody_layer .mainbody_layer_contents img {        
+        height : 10rem;
+        width : 10rem;
+      }
+
+      .mainbody_layer .mainbody_layer_contents .mainbody_layer_text {
+        height :fit-content;
+        margin : auto;        
+        margin-left : 1rem;
+        display : block;
+        font-family: 'Permanent Marker', 'poppins',sans-serif;  
+      }
+      
+      .mainbody_layer .mainbody_layer_contents span {        
+        
+        
+      }
+
+      /* Upper_carousel */
+
       #Upper_carousel{
           width : 100%;
           height: 90%;
@@ -289,9 +337,9 @@ ul {
             }
 
             #today_short_quiz {                            
-              position: relative;
-              height: 100%;
-              width : 100%;
+              /* position: relative; */
+              /* height: 100%; */
+              /* width : 100%; */
               /* background-color:beige;                                                   */
             }
 
@@ -307,7 +355,7 @@ ul {
             }
 
             #today_short_quiz #ts_quiz_kor {                  
-              width : 95%;
+              width : 90%;
               padding : 0.5rem;            
               margin : 1.5rem;              
               /* margin : 3rem auto 3rem auto;   */
@@ -320,7 +368,7 @@ ul {
             }
 
             #today_short_quiz #ts_quiz_eng {                                
-              width : 95%;
+              width : 90%;
               padding : 0.5rem;            
               margin : 1.5rem;  
               text-align: left;
@@ -346,27 +394,33 @@ ul {
               outline: none;
             }
 
-            #today_short_quiz #quiz_answer_line {
-              width : 95%;
-              padding : 0.5rem;            
-              margin : 1.5rem;                
+            #today_short_quiz #quiz_answer_line {              
+              position : absolute;    
+              right : 1rem;
+              bottom : 1rem;                        
               font-family: 'poppins', sans-serif;               
             }
 
             #quiz_answer_line #quiz_chg_btn {                          
               display :flex;
-              width: fit-content;
-              margin : auto 0rem 1.5rem auto; 
+              width: fit-content;              
             }
 
             #quiz_chg_btn i {
                
             }
 
-            #today_short_quiz #quiz_answer_line #quiz_answer_btn {
+            #carousel-btn-line {
+              font-family: 'poppins', sans-serif;
+              /* height : 10%; */
+              margin : 0;              
+            }
+            
+            
+            #carousel-btn-line #quiz_answer_btn {
               display :flex;
               width: fit-content;
-              margin : auto 0rem 1.5rem auto;              
+              margin : 1rem 1rem 0.5rem auto;              
             }
 
             #quiz_answer_btn .btn{
@@ -1281,6 +1335,8 @@ ul {
       width : 100%;
       height : 100%;
     }
+
+  
               
   /* 3. footbar */
 
