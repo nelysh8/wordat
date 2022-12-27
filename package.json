@@ -17,6 +17,8 @@
     "moment": "^2.29.4",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
+    "puppeteer": "^19.4.1",
+    "puppeteer-core": "^19.4.1",
     "request": "^2.88.2"
   }
 }

@@ -67,7 +67,7 @@
             </div>
           </div>
           <div id="Upper_carousel" class="carousel slide" style="display: block;" data-bs-ride="carousel">
-            <div class="carousel-indicators" style="visibility: hidden;">
+            <div class="carousel-indicators">
               <button type="button" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
               <button type="button" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
               <button type="button" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
@@ -85,10 +85,10 @@
               </div>
               <div class="carousel-item active" data-bs-interval="1000000000" id="contents_cartoon">            
                 <div class="blank_sheet">
-                  <div class="text_middle"><span class="ft3 ftbb"> Cambridge Dictionary </span></div>
+                  <div class="text_middle"><span class="ft3 ftbb" onclick="cartoon();">cartoon</span></div>
                 </div>
               </div>
-              <div class="carousel-item" data-bs-interval="1000000000" id="contents_wordlist">              
+              <div class="carousel-item" data-bs-interval="1000000000" id="contents_video">              
                 <div class="blank_sheet">
                   <div class="text_middle"><span class="ft3 ftbb"> Wordbook </span></div>
                 </div>
@@ -102,11 +102,11 @@
                 <div class="btn bg_firebrick text_white ftb" >ANSWER</div>
               </div>  
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev" style="display: none;">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#Upper_carousel" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#Upper_carousel" data-bs-slide="next" style="display: none;">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>

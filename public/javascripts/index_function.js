@@ -18,6 +18,37 @@ const second_3box_center = document.getElementById('second_3box_center');
 // Setting
 const selected_wordbook = '';
 
+// Carousel 감지
+var contents_wordbook = document.getElementById("contents_wordbook");
+var observer = new MutationObserver(mutations => {    
+  if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
+    console.log('mutation activation detected');  
+    console.log(document.getElementById('ts_quiz_kor').innerText);
+    if (document.getElementById('ts_quiz_kor').innerText === "") {
+      testquiz(1);
+    }    
+  } else if ((mutations[0].oldValue.includes('active') === true) && (mutations[0].target.className.includes('active') === false)) {
+    console.log('mutation deactivation detected');
+  } else {
+    console.log('nothing');
+  };
+});
+
+var observer_config = {
+  childList: false,	// 하위요소 감지
+  attributes: true,	// 속성변경 감지
+  characterData: false,	// 데이터변경 감지
+  subtree: false,	// 하위요소이하 전부 감지
+  attributeOldValue: true,	// 속성변경 전 속성 감지
+  characterDataOldValue: false	// 데이터변경 전 데이터 감지
+};
+
+// 감지 시작
+observer.observe(contents_wordbook, observer_config);
+
+// 감지 종료
+// observer.disconnect();
+
 // input detection
 const Search_DOC = document.querySelector(".searchbar");
 Search_Input = Search_DOC.querySelector("textarea");
@@ -36,9 +67,6 @@ word_toolbar_input.addEventListener("keyup", e => {
   }
 });
 
-window.onload=testquiz(1);
-
-
 // function youtube(){
 //   var iframe = document.getElementById('youtube');
 //   console.log(iframe.contentWindow.document.body.innerHTML);
@@ -51,33 +79,7 @@ window.onload=testquiz(1);
 
 // carousel detection
 
-var carousel_contents = document.getElementById("carousel_contents");
 
-var observer = new MutationObserver(mutations => {    
-  if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
-    alert('mutation obs detected');
-    // wordlist_open();
-  } else if ((mutations[0].oldValue.includes('active') === true) && (mutations[0].target.className.includes('active') === false)) {
-    alert('mutation obs detected');
-  } else {
-    console.log('nothing');
-  };
-});
-
-var observer_config = {
-  childList: false,	// 하위요소 감지
-  attributes: true,	// 속성변경 감지
-  characterData: false,	// 데이터변경 감지
-  subtree: false,	// 하위요소이하 전부 감지
-  attributeOldValue: true,	// 속성변경 전 속성 감지
-  characterDataOldValue: false	// 데이터변경 전 데이터 감지
-};
-
-// 감지 시작
-observer.observe(carousel_contents, observer_config);
-
-// 감지 종료
-// observer.disconnect();
 
 
 
@@ -210,7 +212,7 @@ function trans_papago(position, SENTC){
               engs_res += `<br>`;
             } else {           
               words_encode = encodeURIComponent(words).replace(/'/g, '%27');      
-              engs_res += `<span onclick="touch_block_action(this); Cambrg_search('${words_encode}');">${words}</span> `;
+              engs_res += `<span onclick="touch_block_action(this); window.open('https://dictionary.cambridge.org/dictionary/english-korean/${words_encode}');">${words}</span> `;
             }                             
           }
           write_target.innerHTML += engs_res;          
@@ -1355,4 +1357,11 @@ async function submit_quiz_answer(){
     });
     document.getElementById('try_num').innerHTML = 1;
   }  
+}
+
+function cartoon(){
+  console.log('cartoon start');
+  fetch("/cartoon", {method : 'post'}).then((response)=>response.json()).then((results)=>{
+    console.log(results);
+  });
 }
