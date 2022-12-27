@@ -343,7 +343,7 @@ ul {
               width : 100%;
               height : 100%;
               margin : 0;
-              padding : 0;                            
+              padding : 0;                                  
             }
 
             #today_short_quiz {                            
@@ -450,6 +450,9 @@ ul {
               color : white !important;
             }
 
+            #today_cartoon img {
+              max-width : 100%;
+            }
             
             
 

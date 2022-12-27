@@ -1362,6 +1362,6 @@ async function submit_quiz_answer(){
 function cartoon(){
   console.log('cartoon start');
   fetch("/cartoon", {method : 'post'}).then((response)=>response.json()).then((results)=>{
-    console.log(results);
+    document.getElementById('today_cartoon').innerHTML = `<img src='${results}'>`
   });
 }
