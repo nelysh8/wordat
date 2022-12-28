@@ -302,6 +302,95 @@ app.post('/cartoon', function (req, res) {
   result();
 });
         
+app.post('/paper', function (req, res) {  
+  const axios = require("axios");
+  const cheerio = require("cheerio");  
+  var moment = require('moment');  
+  var today = moment().subtract(1, 'days');
+  var random_num;
+  var links = {
+    'word' : {
+      'title' : '',      
+      'pronun' : '',
+      'part' : '',
+      'image_link' : '',
+      'image_title' : '', 
+      'definition' : '',
+      'example' : ''
+    },
+    'quote' : {
+      'image_link' : '',
+      'quote_text' : '',
+      'author' : ''
+    }
+  };
+  function sleep(sec) {
+    return new Promise(resolve => setTimeout(resolve, sec * 1000));
+  } 
+
+  console.log(today.format('YYYY/MM/DD'));
+  const getHtml_1 = async () => {
+      try {
+        return await axios.get("https://www.britannica.com/dictionary/eb/word-of-the-day");
+      } catch (error) {
+        console.error(error);
+      }
+    };    
+  getHtml_1()
+  .then(html => {      
+    var cheerio = require('cheerio')
+    var $ = cheerio.load(html.data);
+    var $content = $('div.lwod_main_c');    
+    const $title = $content.find('div.hw_m.box_sizing');
+    links.word.title = $title.find('div.hw_line span').text();    
+    links.word.pronun = $title.find('div.text_prons span.hpron_word').text();
+    links.word.part = $title.find('div.fl').text();
+    links.word.image_link = $content.find('div.wod_img_act img').attr('src');
+    links.word.image_title = $content.find('div.wod_img_tit').text();
+    links.word.definition = $content.find('div.midbs div:nth-child(1) div.midbt p').text();
+    links.word.example = $content.find('div.midbs div:nth-child(1) div.vibs li.vi p').text();
+    
+    console.log(links);
+    return links;
+  })
+  .then(result => {      
+    console.log(result);               
+  });
+
+  // quote
+
+  random_num = Math.floor(Math.random() * 10);
+  console.log('random page : ' + random_num);
+
+  const getHtml_2 = async () => {
+    try {
+      return await axios.get("https://www.goodreads.com/quotes?page="+random_num);
+    } catch (error) {
+      console.error(error);
+    }
+  };    
+  getHtml_2()
+  .then(html => {      
+    var cheerio = require('cheerio')
+    var $ = cheerio.load(html.data);
+    var $content = $('div.quoteDetails');    
+    random_num = Math.floor(Math.random() * $content.length);
+    console.log('quote number : ' + $content.length + 'random number : ' + random_num);
+    const $quote_detail = $content.parent().find(`div:nth-child(${random_num}) div.quoteDetails`);
+    links.quote.image_link = $quote_detail.find('img').attr('src');
+    links.quote.quote_text = $quote_detail.find('div.quoteText').text();
+    links.quote.author = $quote_detail.find('span.authorOrTitle').text();   
+    console.log(links);
+    return links;
+  })
+  .then(result => {      
+    console.log(result);               
+  });
+
+});
+
+// quote :: https://www.goodreads.com/quotes?page=1
+// 
 
   
 

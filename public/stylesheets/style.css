@@ -80,6 +80,14 @@ body {
     font-size : 1rem;
 }
 
+.ft11 {
+  font-size : 0.8rem;
+}
+
+.ft12 {
+  font-size : 0.6rem;
+}
+
 .ftb {
     font-weight: bold;
 }
@@ -495,6 +503,45 @@ ul {
             
             #today_cartoon img {
               max-width : 100%;
+            }
+
+/* paper */
+            .paper_box_title {
+              width : 90%;
+              padding : 1rem auto 1rem 2rem;              
+              margin : 1rem auto auto auto;              
+            }
+
+            .paper_box_link {
+              width : fit-content;
+              /* padding : 0rem 1rem 0rem auto;               */
+              margin : 0 1rem auto auto;                            
+            }
+
+            .paper_item {
+              width : 90%;
+              padding : 1rem;
+              margin : 1rem auto 1rem auto; 
+              border : 2px solid black;
+              border-radius: 7px;             
+            }
+            
+            #today_paper img {
+              max-width : 100%;
+            }
+
+            .paper_type {
+              background-color: #071c2e;
+              color : white;
+              text-align: center;              
+            }
+
+            .paper_explain {
+              margin-top : 1rem;
+            }
+
+            .paper_explain li {
+              list-style : disc outside none;
             }
             
             

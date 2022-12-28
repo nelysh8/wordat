@@ -22,18 +22,34 @@ window.onload = cartoon();
 
 // Carousel 감지
 var contents_wordbook = document.getElementById("contents_wordbook");
-var observer = new MutationObserver(mutations => {    
+var contents_cartoon = document.getElementById("contents_cartoon");
+var contents_paper = document.getElementById("contents_paper");
+
+var contents_wordbook_observer = new MutationObserver(mutations => {    
   if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
-    console.log('mutation activation detected');  
+    console.log('mutation wordbook activation detected');  
     console.log(document.getElementById('ts_quiz_kor').innerText);
     if (document.getElementById('ts_quiz_kor').innerText === "") {
       testquiz(1);
     }    
-  } else if ((mutations[0].oldValue.includes('active') === true) && (mutations[0].target.className.includes('active') === false)) {
-    console.log('mutation deactivation detected');
-  } else {
-    console.log('nothing');
-  };
+  } 
+});
+
+var contents_cartoon_observer = new MutationObserver(mutations => {    
+  if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
+    console.log('mutation cartoon activation detected');  
+    // console.log(document.getElementById('ts_quiz_kor').innerText);
+    // if (document.getElementById('ts_quiz_kor').innerText === "") {
+    //   testquiz(1);
+    // }    
+  } 
+});
+
+var contents_paper_observer = new MutationObserver(mutations => {    
+  if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
+    console.log('mutation paper activation detected');  
+    paper();
+  } 
 });
 
 var observer_config = {
@@ -46,7 +62,9 @@ var observer_config = {
 };
 
 // 감지 시작
-observer.observe(contents_wordbook, observer_config);
+contents_wordbook_observer.observe(contents_wordbook, observer_config);
+contents_cartoon_observer.observe(contents_cartoon, observer_config);
+contents_paper_observer.observe(contents_paper, observer_config);
 
 // 감지 종료
 // observer.disconnect();
@@ -1415,3 +1433,32 @@ function cartoon(){
     // <img src='${results.cartoon_calvin}'><img src='${results.cartoon_garfield}'>`;
   });
 }
+
+async function paper(){
+  console.log('paper start');
+  document.getElementById('today_paper').innerHTML = '';
+  fetch("/paper", {method : 'post'}).then((response)=>response.json()).then((results)=>{
+    console.log(results);
+    if (results.word.title !== '') {
+      document.getElementById('today_paper').innerHTML += `
+        <div class="paper_item">
+          <div class="paper_type"><span class="ft8 ftbb">Today's word</span></div>
+          <div class="paper_title"><span class="ft6 text_red ftbb" onclick="window.open('https://www.britannica.com/dictionary/eb/word-of-the-day');">${results.word.title}</span></div>
+          <div class="paper_subtitle"><span class="ft9 text_silver">${results.word.pronun}</span><span class="ft9 text_pink">${results.word.part}</span></div>
+          <div class="paper_detail">
+            <div class="paper_img">
+              <img src="${results.word.image_link}">
+              <span class="ft10">${results.word.image_title}</span>
+            </div>
+            <div class="paper_explain">
+              <span class="ft9 ftb">${results.word.definition}</span>
+              <ul>
+                <li><span class="ft10">${results.word.example}</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>  
+      `;
+    }
+  });
+};
