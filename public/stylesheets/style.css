@@ -10,6 +10,7 @@
     margin : 0;
     padding : 0;
     /*box-sizing : border-box;*/
+    
     }
 html {
     font-size : 62.5%;
@@ -523,16 +524,14 @@ ul {
               padding : 1rem;
               margin : 1rem auto 1rem auto; 
               border : 2px solid black;
-              border-radius: 7px;             
+              border-radius: 7px;                           
             }
             
             #today_paper img {
               max-width : 100%;
             }
 
-            .paper_type {
-              background-color: #071c2e;
-              color : white;
+            .paper_type {              
               text-align: center;              
             }
 

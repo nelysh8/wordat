@@ -212,8 +212,7 @@ app.post('/cartoon', function (req, res) {
     console.log($cartoon_img);
     return $cartoon_img;
   })
-  .then(result => {      
-    console.log(result);          
+  .then(result => {              
     links.cartoon_peanuts = result;
   });
 
@@ -233,8 +232,7 @@ app.post('/cartoon', function (req, res) {
     console.log($cartoon_img);
     return $cartoon_img;
   })
-  .then(result => {      
-    console.log(result);          
+  .then(result => {               
     links.cartoon_calvin = result;
   });
 
@@ -254,43 +252,50 @@ app.post('/cartoon', function (req, res) {
     console.log($cartoon_img);
     return $cartoon_img;
   })
-  .then(result => {      
-    console.log(result);          
+  .then(result => {                
     links.cartoon_garfield = result;
   });
 
   async function result() {
-    if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
-      console.log('s0 : ' + links);
+    var time_interval = 1.5;
+    if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '')) {
+      console.log('cartoon s0 : ');
+      console.log(links);
       res.send(links);
     } else {
       console.log(links);                    
-      await sleep(1);      
-      if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
-        console.log('s1 : ' + links);                    
+      await sleep(time_interval);      
+      if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '')) {
+        console.log('cartoon s1 : ');                    
+        console.log(links);
         res.send(links);
       } else {
-        await sleep(1);                          
-        if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
-          console.log('s2 : ' + links);                    
+        await sleep(time_interval);                          
+        if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '')) {
+          console.log('cartoon s2 : ');                    
+          console.log(links);
           res.send(links);
         } else {
-          await sleep(1);
-          if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
-            console.log('s3 : ' + links);                    
+          await sleep(time_interval);
+          if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '')) {
+            console.log('cartoon s3 : ');                    
+            console.log(links);
             res.send(links);
           } else {
-            await sleep(1);
-            if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
-              console.log('s4 : ' + links);                    
+            await sleep(time_interval);
+            if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '')) {
+              console.log('cartoon s4 : ');                    
+              console.log(links);
               res.send(links);
             } else {
-              await sleep(1);
-              if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
-                console.log('s5 : ' + links);                    
+              await sleep(time_interval);
+              if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '')) {
+                console.log('cartoon s5 : ');                    
+                console.log(links);
                 res.send(links);
               } else {
-                console.log('s5 : ' + links);                    
+                console.log('error cartoon s5 : ');                    
+                console.log(links);
                 res.send(links);
               }
             }
@@ -350,11 +355,7 @@ app.post('/paper', function (req, res) {
     links.word.definition = $content.find('div.midbs div:nth-child(1) div.midbt p').text();
     links.word.example = $content.find('div.midbs div:nth-child(1) div.vibs li.vi p').text();
     
-    console.log(links);
     return links;
-  })
-  .then(result => {      
-    console.log(result);               
   });
 
   // quote
@@ -377,17 +378,67 @@ app.post('/paper', function (req, res) {
     random_num = Math.floor(Math.random() * $content.length);
     console.log('quote number : ' + $content.length + 'random number : ' + random_num);
     const $quote_detail = $content.parent().find(`div:nth-child(${random_num}) div.quoteDetails`);
+    var quote_text_ep = $quote_detail.find('div.quoteText').text().trim().indexOf('\n');
     links.quote.image_link = $quote_detail.find('img').attr('src');
-    links.quote.quote_text = $quote_detail.find('div.quoteText').text();
-    links.quote.author = $quote_detail.find('span.authorOrTitle').text();   
-    console.log(links);
+    links.quote.quote_text = $quote_detail.find('div.quoteText').text().trim().substr(0,quote_text_ep-1);
+    links.quote.author = $quote_detail.find('span.authorOrTitle').text().trim();       
+
     return links;
-  })
-  .then(result => {      
-    console.log(result);               
   });
 
+  
+
+  async function result() {
+    var time_interval = 1.5;
+    if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+      console.log('paper s0 : ');
+      console.log(links);
+      res.send(links);
+    } else {
+      console.log(links);                    
+      await sleep(time_interval);      
+      if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+        console.log('paper s1 : ');                    
+        console.log(links);
+        res.send(links);
+      } else {
+        await sleep(time_interval);                          
+        if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+          console.log('paper s2 : ');                    
+          console.log(links);
+          res.send(links);
+        } else {
+          await sleep(time_interval);
+          if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+            console.log('paper s3 : ');                    
+            console.log(links);
+            res.send(links);
+          } else {
+            await sleep(time_interval);
+            if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+              console.log('paper s4 : ');                    
+              console.log(links);
+              res.send(links);
+            } else {
+              await sleep(time_interval);
+              if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+                console.log('paper s5 : ');                    
+                console.log(links);
+                res.send(links);
+              } else {
+                console.log('paper error s5 : ');                    
+                console.log(links);
+                res.send(links);
+              }
+            }
+          }
+        }        
+      }      
+    }  
+  }  
+  result();
 });
+
 
 // quote :: https://www.goodreads.com/quotes?page=1
 // 

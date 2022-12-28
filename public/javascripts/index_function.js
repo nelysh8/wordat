@@ -18,7 +18,10 @@ const second_3box_center = document.getElementById('second_3box_center');
 // Setting
 const selected_wordbook = '';
 
-window.onload = cartoon();
+window.onload = function(){
+  cartoon();
+  paper();
+};
 
 // Carousel 감지
 var contents_wordbook = document.getElementById("contents_wordbook");
@@ -48,7 +51,7 @@ var contents_cartoon_observer = new MutationObserver(mutations => {
 var contents_paper_observer = new MutationObserver(mutations => {    
   if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
     console.log('mutation paper activation detected');  
-    paper();
+    
   } 
 });
 
@@ -1442,7 +1445,7 @@ async function paper(){
     if (results.word.title !== '') {
       document.getElementById('today_paper').innerHTML += `
         <div class="paper_item">
-          <div class="paper_type"><span class="ft8 ftbb">Today's word</span></div>
+          <div class="paper_type" style="background-color: #071c2e; color : white;"><span class="ft8 ftbb">Today's word</span></div>
           <div class="paper_title"><span class="ft6 text_red ftbb" onclick="window.open('https://www.britannica.com/dictionary/eb/word-of-the-day');">${results.word.title}</span></div>
           <div class="paper_subtitle"><span class="ft9 text_silver">${results.word.pronun}</span><span class="ft9 text_pink">${results.word.part}</span></div>
           <div class="paper_detail">
@@ -1455,6 +1458,33 @@ async function paper(){
               <ul>
                 <li><span class="ft10">${results.word.example}</span></li>
               </ul>
+            </div>
+          </div>
+        </div>  
+      `;
+    }
+    if (results.quote.quote_text !== '') {
+      document.getElementById('today_paper').innerHTML += `
+        <div class="paper_item">
+          <div class="paper_type" style="background-color: #e8dbc9; color : #513c2d;"><span class="ft8 ftbb">Today's quote</span></div>          
+          <div class="paper_detail" onclick="window.open('https://www.goodreads.com/quotes');">            
+            <div class="paper_explain" id="quote_explain" style="overflow: auto;">`;
+      if ((results.quote.image_link !== undefined) && (results.quote.image_link !== '')){
+        console.log(results.quote.image_link);
+        document.getElementById('quote_explain').innerHTML += `
+              <div class="paper_img">
+                <img src="${results.quote.image_link}" style="float : left; height: 7rem; margin-right : 1rem;">              
+              </div>`;
+      }
+      document.getElementById('quote_explain').innerHTML += `              
+              <p styel="text-align : justify;"
+                <span class="ft9 ftb">${results.quote.quote_text}</span>
+              </p>
+              <p style="text-align : right;">
+                <span class="ft9" > - ${results.quote.author}</span>              
+              </p>              
+            `;
+      document.getElementById('today_paper').innerHTML += `
             </div>
           </div>
         </div>  
