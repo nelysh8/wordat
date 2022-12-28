@@ -317,6 +317,10 @@ ul {
 
       /* Upper_carousel */
 
+      .carousel.pointer-event {
+        touch-action: pan-y pinch-zoom;
+      }
+
       #Upper_carousel{
           width : 100%;
           height: 90%;
