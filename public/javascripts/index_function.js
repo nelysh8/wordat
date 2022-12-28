@@ -1391,7 +1391,7 @@ function cartoon(){
       document.getElementById('today_cartoon').innerHTML += `
         <div class="cartoon_item">
           <div class="cartoon_title"><span class="ft8 ftbb">Peanuts</span></div>
-          <div class="cartoon_image"><img src='${results.cartoon_peanuts}'></div>
+          <div class="cartoon_image"><img src='${results.cartoon_peanuts}' onclick="window.open('${results.cartoon_peanuts}');"></div>
         </div>  
       `;
     }
@@ -1399,7 +1399,7 @@ function cartoon(){
       document.getElementById('today_cartoon').innerHTML += `
         <div class="cartoon_item">
           <div class="cartoon_title"><span class="ft8 ftbb">Calvin and Hobbes</span></div>
-          <div class="cartoon_image"><img src='${results.cartoon_calvin}'></div>
+          <div class="cartoon_image"><img src='${results.cartoon_calvin}' onclick="window.open('${results.cartoon_calvin}');"></div>
         </div>  
       `;
     }
@@ -1407,7 +1407,7 @@ function cartoon(){
       document.getElementById('today_cartoon').innerHTML += `
         <div class="cartoon_item">
           <div class="cartoon_title"><span class="ft8 ftbb">Garfield</span></div>
-          <div class="cartoon_image"><img src='${results.cartoon_garfield}'></div>
+          <div class="cartoon_image"><img src='${results.cartoon_garfield}' onclick="window.open('${results.cartoon_garfield}');"></div>
         </div>  
       `;
     }
