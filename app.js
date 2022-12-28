@@ -183,18 +183,27 @@ app.post('/websearch_cambrg', function (req, res) {
 
 app.post('/cartoon', function (req, res) {  
   const axios = require("axios");
-  const cheerio = require("cheerio");
+  const cheerio = require("cheerio");  
   var moment = require('moment');  
   var today = moment().subtract(1, 'days');
+  var links = {
+    'cartoon_peanuts' : '',
+    'cartoon_calvin' : '',
+    'cartoon_garfield' : ''
+  };
+  function sleep(sec) {
+    return new Promise(resolve => setTimeout(resolve, sec * 1000));
+  } 
+
   console.log(today.format('YYYY/MM/DD'));
-  const getHtml = async () => {
+  const getHtml_1 = async () => {
       try {
         return await axios.get("https://www.gocomics.com/peanuts/" + today.format('YYYY/MM/DD'));
       } catch (error) {
         console.error(error);
       }
     };    
-  getHtml()
+  getHtml_1()
   .then(html => {      
     var cheerio = require('cheerio')
     var $ = cheerio.load(html.data);
@@ -205,8 +214,92 @@ app.post('/cartoon', function (req, res) {
   })
   .then(result => {      
     console.log(result);          
-    res.json(result);
+    links.cartoon_peanuts = result;
   });
+
+  const getHtml_2 = async () => {
+    try {
+      return await axios.get("https://www.gocomics.com/calvinandhobbes/" + today.format('YYYY/MM/DD'));
+    } catch (error) {
+      console.error(error);
+    }
+  };    
+  getHtml_2()
+  .then(html => {      
+    var cheerio = require('cheerio')
+    var $ = cheerio.load(html.data);
+    var $content = $('div.comic__image');    
+    const $cartoon_img = $content.find('img.img-fluid').attr('src');      
+    console.log($cartoon_img);
+    return $cartoon_img;
+  })
+  .then(result => {      
+    console.log(result);          
+    links.cartoon_calvin = result;
+  });
+
+  const getHtml_3 = async () => {
+    try {
+      return await axios.get("https://www.gocomics.com/garfield/" + today.format('YYYY/MM/DD'));
+    } catch (error) {
+      console.error(error);
+    }
+  };    
+  getHtml_3()
+  .then(html => {      
+    var cheerio = require('cheerio')
+    var $ = cheerio.load(html.data);
+    var $content = $('div.comic__image');    
+    const $cartoon_img = $content.find('img.img-fluid').attr('src');      
+    console.log($cartoon_img);
+    return $cartoon_img;
+  })
+  .then(result => {      
+    console.log(result);          
+    links.cartoon_garfield = result;
+  });
+
+  async function result() {
+    if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
+      console.log('s0 : ' + links);
+      res.send(links);
+    } else {
+      console.log(links);                    
+      await sleep(1);      
+      if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
+        console.log('s1 : ' + links);                    
+        res.send(links);
+      } else {
+        await sleep(1);                          
+        if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
+          console.log('s2 : ' + links);                    
+          res.send(links);
+        } else {
+          await sleep(1);
+          if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
+            console.log('s3 : ' + links);                    
+            res.send(links);
+          } else {
+            await sleep(1);
+            if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
+              console.log('s4 : ' + links);                    
+              res.send(links);
+            } else {
+              await sleep(1);
+              if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '') && (links.cartoon_garfield !== '')) {
+                console.log('s5 : ' + links);                    
+                res.send(links);
+              } else {
+                console.log('s5 : ' + links);                    
+                res.send(links);
+              }
+            }
+          }
+        }        
+      }      
+    }  
+  }  
+  result();
 });
         
 

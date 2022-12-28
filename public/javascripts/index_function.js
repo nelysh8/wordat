@@ -18,6 +18,8 @@ const second_3box_center = document.getElementById('second_3box_center');
 // Setting
 const selected_wordbook = '';
 
+window.onload = cartoon();
+
 // Carousel 감지
 var contents_wordbook = document.getElementById("contents_wordbook");
 var observer = new MutationObserver(mutations => {    
@@ -66,6 +68,27 @@ word_toolbar_input.addEventListener("keyup", e => {
     tranbtn_click('second_3box_center');
   }
 });
+
+// swipe
+
+$('.carousel').on('touchstart', function(event){
+  const xClick = event.originalEvent.touches[0].pageX;
+  $(this).one('touchmove', function(event){
+      const xMove = event.originalEvent.touches[0].pageX;
+      const sensitivityInPx = 10;
+
+      if( Math.floor(xClick - xMove) > sensitivityInPx ){
+          $(this).carousel('next');
+      }
+      else if( Math.floor(xClick - xMove) < -sensitivityInPx ){
+          $(this).carousel('prev');
+      }
+  });
+  $(this).on('touchend', function(){
+      $(this).off('touchmove');
+  });
+});
+
 
 // function youtube(){
 //   var iframe = document.getElementById('youtube');
@@ -1038,7 +1061,7 @@ function testquiz(hint){
       sql_query_json = {'sql_query' : sql_query};
       fetch("/wordbook/quiz", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sql_query_json)}).then((response)=>response.json()).then((results)=>{
         console.log(results);      
-        write_kor.innerHTML = `<span class="ft5 ftb">${results.KOR}</span><span class="ft5 ftb hidden_text" id="answer_sentence">${results.ENG}</span><span class="ft5 ftb hidden_text" id="answer_wordbook_title">${results.WORDBOOK_TITLE}</span><span class="ft5 ftb hidden_text" id="answer_word_id">${results.ID}</span>`;
+        write_kor.innerHTML = `<span class="ft6 ftb">${results.KOR}</span><span class="ft6 ftb hidden_text" id="answer_sentence">${results.ENG}</span><span class="ft6 ftb hidden_text" id="answer_wordbook_title">${results.WORDBOOK_TITLE}</span><span class="ft6 ftb hidden_text" id="answer_word_id">${results.ID}</span>`;
         write_eng.innerHTML = `<form action="#">`;
         eng_trim = results.ENG.replace(/ /gi, ' ');
         eng_parts = eng_trim.split(' ');  
@@ -1071,18 +1094,18 @@ function testquiz(hint){
             }         
             console.log(display_word);
             write_eng.innerHTML += `              
-              <span class="ft5 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>
-              <span class="ft5 ftb hidden_text" id="answer_text_${input_num}">${part.substr(hint,display_word.length-hint)}</span>
-              <span class="ft5 ftb hidden_text" id="answer_underbar_${input_num}">${display_word.substr(hint,display_word.length-hint)}</span>            
-              <span class="ft5 ftb" id="answer_vis_text_${part_num}">${display_word.substr(0,hint)}</span>
-              <input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="width:0; height:0;" placeholder="${display_word.substr(hint,display_word.length-hint)}" required><span class="ft5 ftb"> </span>`;             
+              <span class="ft6 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>
+              <span class="ft6 ftb hidden_text" id="answer_text_${input_num}">${part.substr(hint,display_word.length-hint)}</span>
+              <span class="ft6 ftb hidden_text" id="answer_underbar_${input_num}">${display_word.substr(hint,display_word.length-hint)}</span>            
+              <span class="ft6 ftb" id="answer_vis_text_${part_num}">${display_word.substr(0,hint)}</span>
+              <input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="width:0; height:0;" placeholder="${display_word.substr(hint,display_word.length-hint)}" required><span class="ft6 ftb"> </span>`;             
                       
 
             // var left_length = part.length-1;          
             // write_eng.innerHTML += `          
-            //   <span class="ft5 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
-            //   <span class="ft5 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
-            //   <span class="ft5 ftb">${part.substr(0,1)}</span><input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft5 ftb"> </span>`;             
+            //   <span class="ft6 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
+            //   <span class="ft6 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
+            //   <span class="ft6 ftb">${part.substr(0,1)}</span><input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft6 ftb"> </span>`;             
             // var part_text = document.getElementById(`part_text_${i}`);
             // var part_underbar = document.getElementById(`part_underbar_${i}`);
             // var quiz_input = document.getElementById(`quiz_input_${i}`);
@@ -1106,9 +1129,9 @@ function testquiz(hint){
           } else {
             input_num += 1;
             write_eng.innerHTML += `
-              <span class="ft5 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>              
-              <span class="ft5 ftb hidden_text" id="answer_text_${part_num}"></span><span class="ft5 ftb" id="answer_vis_text_${part_num}">${part.substr(0,hint)}</span><span class="ft5 ftb"> </span>
-              <input type="text" class="ft5 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="display:none;" placeholder="" required>`;             
+              <span class="ft6 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>              
+              <span class="ft6 ftb hidden_text" id="answer_text_${part_num}"></span><span class="ft6 ftb" id="answer_vis_text_${part_num}">${part.substr(0,hint)}</span><span class="ft6 ftb"> </span>
+              <input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="display:none;" placeholder="" required>`;             
           }                   
           i += 1;          
 
@@ -1135,10 +1158,10 @@ function testquiz(hint){
           }           
         }
         write_eng.innerHTML += `
-          <span class="ft5 ftb hidden_text" id="part_num" >${part_num}</span>
-          <span class="ft5 ftb hidden_text" id="input_num" >${input_num}</span>
-          <span class="ft5 ftb hidden_text" id="hint_num">${hint}</span>
-          <span class="ft5 ftb hidden_text" id="try_num">0</span>`
+          <span class="ft6 ftb hidden_text" id="part_num" >${part_num}</span>
+          <span class="ft6 ftb hidden_text" id="input_num" >${input_num}</span>
+          <span class="ft6 ftb hidden_text" id="hint_num">${hint}</span>
+          <span class="ft6 ftb hidden_text" id="try_num">0</span>`
         write_eng.innerHTML += `</form>`;                 
       })
     });
@@ -1154,7 +1177,7 @@ function testquiz(hint){
       var part_answer_vis_text = document.getElementById(`answer_vis_text_${part_i+1}`);      
       if (part_all.innerHTML.length > 1){              
         if (part_all.innerHTML.length === 2) {
-          part_answer_vis_text.innerHTML += '<span class="ft5 ftb"> </span>';
+          part_answer_vis_text.innerHTML += '<span class="ft6 ftb"> </span>';
         } else {
           part_answer.innerHTML = part_answer.innerHTML.substr(1,part_answer.innerHTML.length-1);
           part_answer_vis_text.innerHTML = part_all.innerHTML.substr(0,2);
@@ -1305,7 +1328,7 @@ async function submit_quiz_answer(){
     layer_contents.innerHTML = `
       <img src="/images/lets-dance-snoopy.gif"> 
       <div class="mainbody_layer_text">
-        <p><span class="text_red ft4 ftbb"> Correct! </span> </p>
+        <p><span class="text_red ft3 ftbb"> Correct! </span> </p>
         <p><span class="text_black ft_noto fr5 ftbb"> 정답입니다. </span></p>
       </div>`;    
     popup_main_layer(layer);    
@@ -1330,7 +1353,7 @@ async function submit_quiz_answer(){
     layer_contents.innerHTML = `
       <img src="/images/snoopy-sad.gif"> 
       <div class="mainbody_layer_text">
-        <p><span class="text_red ft4 ftbb"> incorrect! </span> </p>
+        <p><span class="text_red ft3 ftbb"> incorrect! </span> </p>
         <p><span class="text_black ft_noto fr5 ftbb"> ${input_num - check_value}곳만 다시 생각해보세요. </span></p>
       </div>`;
     
@@ -1361,7 +1384,34 @@ async function submit_quiz_answer(){
 
 function cartoon(){
   console.log('cartoon start');
+  document.getElementById('today_cartoon').innerHTML = '';
   fetch("/cartoon", {method : 'post'}).then((response)=>response.json()).then((results)=>{
-    document.getElementById('today_cartoon').innerHTML = `<img src='${results}'>`
+    console.log(results);
+    if (results.cartoon_peanuts !== '') {
+      document.getElementById('today_cartoon').innerHTML += `
+        <div class="cartoon_item">
+          <div class="cartoon_title"><span class="ft8 ftbb">Peanuts</span></div>
+          <div class="cartoon_image"><img src='${results.cartoon_peanuts}'></div>
+        </div>  
+      `;
+    }
+    if (results.cartoon_calvin !== '') {
+      document.getElementById('today_cartoon').innerHTML += `
+        <div class="cartoon_item">
+          <div class="cartoon_title"><span class="ft8 ftbb">Calvin and Hobbes</span></div>
+          <div class="cartoon_image"><img src='${results.cartoon_calvin}'></div>
+        </div>  
+      `;
+    }
+    if (results.cartoon_garfield !== '') {
+      document.getElementById('today_cartoon').innerHTML += `
+        <div class="cartoon_item">
+          <div class="cartoon_title"><span class="ft8 ftbb">Garfield</span></div>
+          <div class="cartoon_image"><img src='${results.cartoon_garfield}'></div>
+        </div>  
+      `;
+    }
+    // document.getElementById('today_cartoon').innerHTML = `
+    // <img src='${results.cartoon_calvin}'><img src='${results.cartoon_garfield}'>`;
   });
 }

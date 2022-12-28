@@ -140,6 +140,10 @@ ul {
   font-family: 'Noto Sans KR', sans-serif; 
 }
 
+.ft_underbar {
+  text-decoration-line: underline;
+}
+
 .modal-content {
   font-family: 'poppins', sans-serif;
 }
@@ -346,7 +350,8 @@ ul {
               padding : 0;                                  
             }
 
-            #today_short_quiz {                            
+            #today_short_quiz {
+              margin-top : 2rem;                            
               /* position: relative; */
               /* height: 100%; */
               /* width : 100%; */
@@ -356,7 +361,7 @@ ul {
             #today_short_quiz #ts_quiz_title {              
               width : 90%;
               padding : 1rem auto 1rem 2rem;              
-              margin : 1rem auto;
+              margin : 1rem auto 2rem auto;
               font-family: 'Noto Sans KR', sans-serif; 
                                           
             }
@@ -364,24 +369,40 @@ ul {
             #ts_quiz_title span {              
             }
 
+            #today_short_quiz #ts_quiz_wrap {
+              border : 3px solid firebrick;
+              border-radius: 20px;
+              width : 90%;
+              margin : auto;
+              background-color: rgb(255, 248, 220, 0.5);              
+            }
+
             #today_short_quiz #ts_quiz_kor {                  
               width : 90%;
               padding : 0.5rem;            
-              margin : 1.5rem;              
+              margin : 1rem;              
               /* margin : 3rem auto 3rem auto;   */
-              text-align:left;              
+              text-align:justify;              
               font-family: 'Noto Sans KR', sans-serif;                            
             }
 
             #today_short_quiz #ts_quiz_kor span {                  
-              background-color: #faa4c2
+              
+            }
+
+            #today_short_quiz #ts_quiz_kor .hidden_text {
+              position :absolute;
+              top : 25rem;
+              left : 15rem;
+              visibility: hidden;
+              z-index : -1;              
             }
 
             #today_short_quiz #ts_quiz_eng {                                
               width : 90%;
               padding : 0.5rem;            
-              margin : 1.5rem;  
-              text-align: left;
+              margin : 1rem;  
+              text-align:justify;              
               font-family: 'poppins', sans-serif; 
               vertical-align:text-bottom;
             }
@@ -395,12 +416,13 @@ ul {
 
             #today_short_quiz #ts_quiz_eng input {                                
               border : none;
-              border-radius: 5px;                            
+              border-radius: 5px;
+              background-color: #00000010;                                                               
             }
 
-            #today_short_quiz #ts_quiz_eng input:focus {                                
-              border : none;              
-              background-color: #00000020;              
+            #today_short_quiz #ts_quiz_eng input:focus {                                              
+              border : 2px solid firebrick;
+              background-color: white;
               outline: none;
             }
 
@@ -449,7 +471,24 @@ ul {
               background-color: firebrick !important;
               color : white !important;
             }
+/* cartoon */
+            .cartoon_box_title {
+              width : 90%;
+              padding : 1rem auto 1rem 2rem;              
+              margin : 1rem auto auto auto;              
+            }
 
+            .cartoon_box_link {
+              width : fit-content;
+              /* padding : 0rem 1rem 0rem auto;               */
+              margin : 0 1rem auto auto;              
+            }
+
+            .cartoon_item {
+              width : 90%;
+              margin : 1rem auto 1rem auto;              
+            }
+            
             #today_cartoon img {
               max-width : 100%;
             }
@@ -630,7 +669,7 @@ ul {
           max-height: 14rem;
 					/* ((scrollHeight/10)+0.4)rem; */					
           width: 85%;
-					border-radius: 20px ;
+					border-radius: 10px ;
 					border : 0.1rem solid #999;
 					outline : none;     
 					text-align : justify;
@@ -793,7 +832,7 @@ ul {
   overflow-y: scroll;
   background-color: white;  
   z-index : 4;
-  border-radius: 15px;
+  border-radius: 20px;
 
   /* 660~ i-phone se // 740~ galaxys8+ //  83% */
   /* 840~ i-phone12pro  85% */ 
@@ -951,7 +990,7 @@ ul {
   overflow-y: scroll;
   background-color: cornsilk;   
   z-index : 6;
-  border-radius: 15px;
+  border-radius: 20px;
   
   /* display : none;
   width : 100%;  
@@ -1101,7 +1140,7 @@ ul {
   overflow-y: scroll;
   background-color: white;   
   z-index : 8;
-  border-radius: 15px;
+  border-radius: 20px;
   
 
   /* display : none;
