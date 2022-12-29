@@ -1463,6 +1463,43 @@ async function paper(){
         </div>  
       `;
     }
+    if (results.urban.word_title !== '') {
+      var examples = results.urban.word_example.split('\n');
+      var example_line = '';
+      for (example of examples) {
+        example_line += `<li><span class="ft10">${results.urban.word_example}</span></li>`      
+      }
+      document.getElementById('today_paper').innerHTML += `
+        <div class="paper_item">
+          <div class="paper_type" style="background-color: #134fe5; color : #efff00;"><span class="ft8 ftbb">Today's slang</span></div>
+          <div class="paper_title"><span class="ft6 ftbb" style="color : #134fe5;" onclick="window.open('https://www.urbandictionary.com/define.php?term=${results.urban.word_title}');">${results.urban.word_title}</span></div>          
+          <div class="paper_detail">            
+            <div class="paper_explain">
+              <span class="ft9 ftb">${results.urban.word_meaning}</span>
+              <ul>
+                ${example_line}
+              </ul>
+            </div>
+          </div>
+        </div>  
+      `;
+    }
+    if (results.history.title !== '') {      
+      document.getElementById('today_paper').innerHTML += `
+        <div class="paper_item">
+          <div class="paper_type" style="background-color: #071c2e; color : white;"><span class="ft8 ftbb">On This Day</span></div>
+          <div class="paper_img" style="text-align: center; margin : 0.1rem auto 1rem auto;">
+            <img src="${results.history.image_link}" style="width : 100%;" onclick="window.open('https://www.britannica.com/on-this-day/${results.history.date}');">
+          </div>
+          <div class="paper_title"><span class="ft8 ftb" style="color : #134fe5;">${results.history.title}</span></div>          
+          <div class="paper_detail">            
+            <div class="paper_explain" style="margin-top : 0.5rem;">
+              <span class="ft9">${results.history.description}</span>
+            </div>
+          </div>
+        </div>  
+      `;
+    }
     if (results.quote.quote_text !== '') {
       document.getElementById('today_paper').innerHTML += `
         <div class="paper_item">

@@ -294,9 +294,23 @@ app.post('/cartoon', function (req, res) {
                 console.log(links);
                 res.send(links);
               } else {
-                console.log('error cartoon s5 : ');                    
-                console.log(links);
-                res.send(links);
+                await sleep(time_interval);
+                if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '')) {
+                  console.log('cartoon s6 : ');                    
+                  console.log(links);
+                  res.send(links);
+                } else {
+                  await sleep(time_interval);
+                  if ((links.cartoon_peanuts !== '') && (links.cartoon_calvin !== '')) {
+                    console.log('cartoon s7 : ');                    
+                    console.log(links);
+                    res.send(links);
+                  } else {
+                    console.log('error cartoon s7 : ');                    
+                    console.log(links);
+                    res.send(links);
+                  }
+                }
               }
             }
           }
@@ -312,7 +326,7 @@ app.post('/paper', function (req, res) {
   const cheerio = require("cheerio");  
   var moment = require('moment');  
   var today = moment().subtract(1, 'days');
-  var random_num;
+  var random_num, urban_random_num;
   var links = {
     'word' : {
       'title' : '',      
@@ -327,6 +341,17 @@ app.post('/paper', function (req, res) {
       'image_link' : '',
       'quote_text' : '',
       'author' : ''
+    },
+    'urban' : {
+      'word_title' : '',
+      'word_meaning' : '',
+      'word_example' : ''
+    },
+    'history' : {
+      'image_link' : '',
+      'title' : '',
+      'description' : '',
+      'date' : ''
     }
   };
   function sleep(sec) {
@@ -362,6 +387,7 @@ app.post('/paper', function (req, res) {
 
   random_num = Math.floor(Math.random() * 10);
   console.log('random page : ' + random_num);
+  
 
   const getHtml_2 = async () => {
     try {
@@ -386,42 +412,90 @@ app.post('/paper', function (req, res) {
     return links;
   });
 
+  // urban
   
+  urban_random_num = Math.floor(Math.random() * 861) + 1;
+  console.log('urban_random page : ' + urban_random_num);
+  
+  const getHtml_3 = async () => {
+    try {
+      return await axios.get("https://www.urbandictionary.com/?page="+urban_random_num);
+    } catch (error) {
+      console.error(error);
+    }
+  };    
+  getHtml_3()
+  .then(html => {
+    var cheerio = require('cheerio')
+    var $ = cheerio.load(html.data);
+    var $content = $('div.definition');  
+    urban_random_num = Math.floor(Math.random() * $content.length)+1;
+    console.log('word number : ' + $content.length + 'random number : ' + urban_random_num);
+    var $detail = $content.eq(urban_random_num-1);
+    // var $detail = $content.find(`div.definition:nth-of-type(${urban_random_num})`);
+    links.urban.word_title = $detail.find('a.word').text();
+    links.urban.word_meaning = $detail.find('div.meaning').text().trim();
+    links.urban.word_example = $detail.find('div.example').text().trim();
+
+    return links;
+  });
+
+  // history
+  console.log(today.add(1,'d').format('MMMM-DD'));
+  const getHtml_4 = async () => {
+    try {
+      return await axios.get("https://www.britannica.com/on-this-day/"+today.add(1,'d').format('MMMM-DD'));
+    } catch (error) {
+      console.error(error);
+    }
+  };    
+  getHtml_4()
+  .then(html => {
+    var cheerio = require('cheerio')
+    var $ = cheerio.load(html.data);
+    var $content = $('div.otd-featured-event');      
+    var $detail = $content.eq(0);
+  
+  links.history.image_link = $detail.find('div.card-media img').attr('src');
+  links.history.title = $detail.find('div.card-body div.title').text();
+  links.history.description = $detail.find('div.card-body div.description').text();
+  links.history.date = today.add(1,'d').format('MMMM-DD');
+  });
 
   async function result() {
-    var time_interval = 1.5;
-    if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+    var time_interval = 2.5;
+    if ((links.word.title !== '') && (links.quote.quote_text !== '') && (links.urban.word_title !== '') && (links.history.title !== '')) {
       console.log('paper s0 : ');
       console.log(links);
       res.send(links);
     } else {
       console.log(links);                    
       await sleep(time_interval);      
-      if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+      if ((links.word.title !== '') && (links.quote.quote_text !== '') && (links.urban.word_title !== '') && (links.history.title !== '')) {
         console.log('paper s1 : ');                    
         console.log(links);
         res.send(links);
       } else {
         await sleep(time_interval);                          
-        if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+        if ((links.word.title !== '') && (links.quote.quote_text !== '') && (links.urban.word_title !== '') && (links.history.title !== '')) {
           console.log('paper s2 : ');                    
           console.log(links);
           res.send(links);
         } else {
           await sleep(time_interval);
-          if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+          if ((links.word.title !== '') && (links.quote.quote_text !== '') && (links.urban.word_title !== '') && (links.history.title !== '')) {
             console.log('paper s3 : ');                    
             console.log(links);
             res.send(links);
           } else {
             await sleep(time_interval);
-            if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+            if ((links.word.title !== '') && (links.quote.quote_text !== '') && (links.urban.word_title !== '') && (links.history.title !== '')) {
               console.log('paper s4 : ');                    
               console.log(links);
               res.send(links);
             } else {
               await sleep(time_interval);
-              if ((links.word.title !== '') && (links.quote.quote_text !== '')) {
+              if ((links.word.title !== '') && (links.quote.quote_text !== '') && (links.urban.word_title !== '') && (links.history.title !== '')) {
                 console.log('paper s5 : ');                    
                 console.log(links);
                 res.send(links);
