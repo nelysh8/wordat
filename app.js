@@ -434,8 +434,8 @@ app.post('/paper', function (req, res) {
     var $detail = $content.eq(urban_random_num-1);
     // var $detail = $content.find(`div.definition:nth-of-type(${urban_random_num})`);
     links.urban.word_title = $detail.find('a.word').text();
-    links.urban.word_meaning = $detail.find('div.meaning').text().trim();
-    links.urban.word_example = $detail.find('div.example').text().trim();
+    links.urban.word_meaning = $detail.find('div.meaning').html().replace(/<br>/gi, '\n').replace(/<(\/a|a)([^>]*)>/gi,'');
+    links.urban.word_example = $detail.find('div.example').html().replace(/<br>/gi, '\n').replace(/<(\/a|a)([^>]*)>/gi,'');
 
     return links;
   });

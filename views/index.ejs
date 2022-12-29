@@ -320,26 +320,24 @@
 <!-- foot bar -->
 
   <div class="footbar animate__animated" id="footbar">
-    <div class="footbar_menu border animate__animated" onclick="click_pulse(this);">
-      <a href="/">
-        <ul>
-          <li><i class="fa-solid fa-house ft7 ftbb"></i></li>
-          <li><span class="ft10"> Home  </span></li>
-        </ul>
-      </a>
-    </div>        
-    <div class="footbar_menu border animate__animated" onclick="click_pulse(this);wordbook_reading('initial');">        
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close();">      
       <ul>
-        <li><i class="fa-solid fa-book ft7 ftbb"></i></li>
-        <li><span class="ft10"> Wordbook  </span></li>
+        <li><i class="fa-solid fa-house ft7 ftbb text_whiteoutline"></i></li>
+        <li><span class="ft10 text_gray"> Home  </span></li>
+      </ul>      
+    </div>        
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 2); wordbook_reading('initial');">        
+      <ul>
+        <li><i class="fa-solid fa-book ft7 ftbb text_whiteoutline"></i></li>
+        <li><span class="ft10 text_gray"> Wordbook  </span></li>
       </ul>
     </div>
     <div class="footbar_menu">
     </div>
-    <div class="footbar_menu border animate__animated">
+    <div class="footbar_menu animate__animated">
       <ul>
-        <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb"></i></li>
-        <li><span class="ft10"> back </span></li>
+        <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_whiteoutline"></i></li>
+        <li><span class="ft10 text_gray"> back </span></li>
       </ul>
     </div>
   </div>

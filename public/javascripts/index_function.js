@@ -706,7 +706,9 @@ function wordbook_open(){
 }
 
 function wordbook_close(){    
-  click_bounceoutdown(second_1box_center); 
+  if (second_1box_center.style.display !== 'none') {
+    click_bounceoutdown(second_1box_center); 
+  }  
   if (second_2box_center.style.display !== 'none') {
     click_bounceoutdown(second_2box_center);
   }           
@@ -1067,6 +1069,7 @@ function testquiz(hint){
   var eng_parts;
   var correct_answer;   
   var hint = hint;
+  console.log('hint_num : ' + hint);
   if (hint === 1) {
     // 테이블명 모두 받아와서 레코드 병합조회하는 쿼리문 만들기
     fetch("/wordbook/", {method : 'post'}).then((response)=>response.json()).then((results)=>{
@@ -1210,14 +1213,16 @@ function testquiz(hint){
       var answer_underbar = document.getElementById(`answer_underbar_${input_i+1}`);
       var quiz_input = document.getElementById(`quiz_input_${input_i+1}`);
       quiz_input.value= '';
-      if (answer_underbar.innerHTML.length > 1) {
+      console.log('answer_underbar : ' + answer_underbar);
+      if ((answer_underbar !== null) && (answer_underbar.innerHTML.length > 1)) {
         answer_underbar.innerHTML = answer_underbar.innerHTML.substr(1, answer_underbar.innerHTML.length-1);
         quiz_input.setAttribute('placeholder', `${answer_underbar.innerHTML}`)
       } else {
-        answer_underbar.innerHTML = '';
+        if (answer_underbar !==null ) {
+          answer_underbar.innerHTML = '';
+        }        
         quiz_input.setAttribute('style', 'display:none;');
-      }
-      console.log(answer_underbar.innerHTML);    
+      }      
     }
     document.getElementById('hint_num').innerHTML = hint;
     console.log(hint);
@@ -1464,10 +1469,13 @@ async function paper(){
       `;
     }
     if (results.urban.word_title !== '') {
-      var examples = results.urban.word_example.split('\n');
+      var examples = results.urban.word_example.split('\n\n');
       var example_line = '';
-      for (example of examples) {
-        example_line += `<li><span class="ft10">${results.urban.word_example}</span></li>`      
+      for (example of examples) {                
+        console.log(example);
+        if (example !== '') {
+          example_line += `<li><span class="ft10">${example.replace(/\n/gi, '<br>')}</span></li>`;
+        }        
       }
       document.getElementById('today_paper').innerHTML += `
         <div class="paper_item">
@@ -1475,7 +1483,7 @@ async function paper(){
           <div class="paper_title"><span class="ft6 ftbb" style="color : #134fe5;" onclick="window.open('https://www.urbandictionary.com/define.php?term=${results.urban.word_title}');">${results.urban.word_title}</span></div>          
           <div class="paper_detail">            
             <div class="paper_explain">
-              <span class="ft9 ftb">${results.urban.word_meaning}</span>
+              <span class="ft9 ftb">${results.urban.word_meaning.replace(/\n/gi, '<br>')}</span>
               <ul>
                 ${example_line}
               </ul>

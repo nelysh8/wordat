@@ -293,6 +293,24 @@
         document.getElementById('mainbody').style.marginBottom = '0';             
       }
 
+      async function click_footbar(obj, btn_number) {        
+        console.log('pulse detected : '+ obj.id);   
+        if (btn_number === 1) {
+          document.querySelector('i.fa-house').classList.remove('text_whiteoutline');
+          document.querySelector('i.fa-house:only-of-type').classList.remove('text_grey');
+          document.querySelector('i.fa-book').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-book:only-of-type').classList.add('text_grey');
+        } else if (btn_number === 2) {
+          document.querySelector('i.fa-book').classList.remove('text_whiteoutline');
+          document.querySelector('i.fa-book:only-of-type').classList.remove('text_grey');
+          document.querySelector('i.fa-house').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');
+        }
+        obj.classList.toggle('animate__pulse');              
+        await sleep(0.9); 
+        obj.classList.toggle('animate__pulse');
+      }        
+
       // long touch 함수
 
       let onlongtouch1, onlongtouch2  = false;
