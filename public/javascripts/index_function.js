@@ -21,6 +21,7 @@ const selected_wordbook = '';
 window.onload = function(){
   cartoon();
   paper();
+  ebook_list();
 };
 
 // Carousel 감지
@@ -110,6 +111,53 @@ $('.carousel').on('touchstart', function(event){
   });
 });
 
+// long touch 함수
+
+  let onlongtouch1, onlongtouch2  = false;
+  let timer1, timer2 = false;
+  let duration = 500;
+  function touchStart1(){
+    if (!timer1) {
+      timer1 = setTimeout(onlongtouch1, duration);       
+    }
+  }
+  function touchStart2(){
+    if (!timer2) {
+      timer2 = setTimeout(onlongtouch2, duration);       
+    }
+  }
+  function touchEnd1(){
+    if (timer1) {
+      clearTimeout(timer1)
+      timer1 = false;          
+    }        
+  }
+  function touchEnd2(){
+    if (timer2) {
+      clearTimeout(timer2)
+      timer2 = false;          
+    }             
+  }
+  onlongtouch1 = function(){      
+    console.log('long touch detected');
+    touch_icon_action(document.getElementById("msi_play_btn"));
+    document.getElementById("msi_play_btn").onclick = tts_pos('mainbox_center', 0.5);
+    document.getElementById("msi_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('mainbox_center', 1);");  
+  }
+  onlongtouch2 = function(){           
+    console.log('long touch detected');     
+    touch_icon_action(document.getElementById("word_toolbar_play_btn"))
+    document.getElementById("word_toolbar_play_btn").onclick = tts_pos('second_3box_center', 0.5);
+    document.getElementById("word_toolbar_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('second_3box_center', 1);");  
+  }      
+  document.addEventListener("DOMContentLoaded", function(){
+    document.getElementById("msi_play_btn").addEventListener("touchstart", touchStart1);
+    document.getElementById("msi_play_btn").addEventListener("touchend", touchEnd1);
+  })
+  document.addEventListener("DOMContentLoaded", function(){
+    document.getElementById("word_toolbar_play_btn").addEventListener("touchstart", touchStart2);
+    document.getElementById("word_toolbar_play_btn").addEventListener("touchend", touchEnd2);
+  })
 
 // function youtube(){
 //   var iframe = document.getElementById('youtube');
@@ -1537,3 +1585,29 @@ async function paper(){
     }
   });
 };
+
+function ebook_list(){
+  console.log('ebook_list start');
+  document.getElementById('today_ebook').innerHTML = '';
+  fetch("/ebook_list", {method : 'post'}).then((response)=>response.json()).then((results)=>{
+    console.log(results);
+    if ((results !== null) && (results[0].title !== '')) {          
+      for (result of results) {        
+        document.getElementById('today_ebook').innerHTML += `        
+          <div id="ebook_item" style="width : 90%; margin : auto; margin-top : 1rem; margin-bottom : 0rem; padding : 0.5rem; border-radius: 4px; overflow:auto;"> 
+            <div class="ebook_img" style="float:left; margin-right : 1rem;">
+              <img src="${result.image_link}" style="min-width : 5rem; max-width:6rem; min-height: 8rem; max-height:9rem;">          
+            </div>
+            <div class="ebook_title">
+              <span class="ft8 ftb" style="color:#a01f13;" onclick="window.open('https://www.britannica.com/dictionary/eb/word-of-the-day');">${result.title}</span>
+              <br>
+              <span class="ft9 text_black">${result.author}</span>              
+              <br>
+              <div class="badge text-wrap bg_firebrick ft10" style="margin : auto;">HIT : ${result.hit}</div>              
+            </div>          
+          </div>
+        `;
+      }      
+    }    
+  });
+}

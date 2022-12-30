@@ -300,62 +300,27 @@
           document.querySelector('i.fa-house:only-of-type').classList.remove('text_grey');
           document.querySelector('i.fa-book').classList.add('text_whiteoutline');
           document.querySelector('i.fa-book:only-of-type').classList.add('text_grey');
+          document.querySelector('i.fa-book-open').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-book-open:only-of-type').classList.add('text_grey');
         } else if (btn_number === 2) {
           document.querySelector('i.fa-book').classList.remove('text_whiteoutline');
           document.querySelector('i.fa-book:only-of-type').classList.remove('text_grey');
           document.querySelector('i.fa-house').classList.add('text_whiteoutline');
           document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');
+          document.querySelector('i.fa-book-open').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-book-open:only-of-type').classList.add('text_grey');
+        } else if (btn_number === 3) {
+          document.querySelector('i.fa-book-open').classList.remove('text_whiteoutline');
+          document.querySelector('i.fa-book-open:only-of-type').classList.remove('text_grey');
+          document.querySelector('i.fa-house').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');
+          document.querySelector('i.fa-book').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-book:only-of-type').classList.add('text_grey');
         }
-        obj.classList.toggle('animate__pulse');              
+        obj.classList.toggle('animate__zoomIn');              
         await sleep(0.9); 
-        obj.classList.toggle('animate__pulse');
-      }        
-
-      // long touch 함수
-
-      let onlongtouch1, onlongtouch2  = false;
-      let timer1, timer2 = false;
-      let duration = 300;
-      function touchStart1(){
-        if (!timer1) {
-          timer1 = setTimeout(onlongtouch1, duration);       
-        }
-      }
-      function touchStart2(){
-        if (!timer2) {
-          timer2 = setTimeout(onlongtouch2, duration);       
-        }
-      }
-      function touchEnd1(){
-        if (timer1) {
-          clearTimeout(timer1)
-          timer1 = false;          
-        }        
-      }
-      function touchEnd2(){
-        if (timer2) {
-          clearTimeout(timer2)
-          timer2 = false;          
-        }             
-      }
-      onlongtouch1 = function(){        
-        document.getElementById("msi_play_btn").onclick = tts_pos('mainbox_center', 0.5);
-        document.querySelector("#msi_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('mainbox_center', 1);");  
-      }
-      onlongtouch2 = function(){                
-        document.querySelector("#word_toolbar_play_btn").onclick = tts_pos('second_3box_center', 0.5);
-        document.querySelector("#word_toolbar_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('second_3box_center', 1);");  
-      }
-      
-
-      document.addEventListener("DOMContentLoaded", function(){
-        document.querySelector("#msi_play_btn").addEventListener("touchstart", touchStart1);
-        document.querySelector("#msi_play_btn").addEventListener("touchend", touchEnd1);
-      })
-      document.addEventListener("DOMContentLoaded", function(){
-        document.querySelector("#word_toolbar_play_btn").addEventListener("touchstart", touchStart2);
-        document.querySelector("#word_toolbar_play_btn").addEventListener("touchend", touchEnd2);
-      })
+        obj.classList.toggle('animate__zoomIn');
+      }              
 
       function popup_main_layer(obj) {        
         unvis(document.getElementById('Upper_carousel'));

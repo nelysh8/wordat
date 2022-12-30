@@ -72,6 +72,7 @@
               <button type="button" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
               <button type="button" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
               <button type="button" id="carousel_btn4" data-bs-target="#Upper_carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+              <button type="button" id="carousel_btn5" data-bs-target="#Upper_carousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
             </div>
             <div class="carousel-inner" id="carousel_contents">
               <div class="carousel-item" id="contents_wordbook">
@@ -114,6 +115,18 @@
                   </div>
                 </div>
               </div> 
+              <div class="carousel-item" id="contents_ebook">              
+                <div class="blank_sheet">
+                  <div class="ebook_box_title"><span class="ft3 ftbb">Today's E-Book</span></div>
+                  <div class="ebook_box_link">
+                    <span class="ft9 text_gray">see more at </span>
+                    <img src="/images/Project-Gutenberg-logo.png" style="width:5rem; margin-right:0.3rem; border-radius: 4px;" onclick="window.open('https://www.gutenberg.org/')">                    
+                  </div>
+                  <div class="today_ebook" id="today_ebook">                    
+
+                  </div>
+                </div>
+              </div> 
             </div>
             <div class="carousel-btn-line" id="carousel-btn-line">
               <div id="quiz_hint_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz((Number(document.getElementById('hint_num').innerHTML)) + 1);">
@@ -134,8 +147,6 @@
           </div>          
         </div>
         
-        
-      
         <div class="searchbar shadow-lg">
           <div class="searchbar_main">
             <textarea class="autosize ft8" id="main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
@@ -154,33 +165,33 @@
             <p id="quiz_sentence" class="ft5 ftbb"></p>
           </div>         -->
         
-        <div class="searchResult shadow-sm animate__animated" style="display: none" id="Sres_view" >        
-          <div class="Sres_view" name="Sres_view">
-            <ul>
-              <li class="Sres_ENG" >
-                  <p id="Sres_ENG" class="ft8 ftbb text_red"></p>
-              </li>
-              <li class="Sres_KOR">
-                  <p id="Sres_KOR" class="ft8 ftb text_green"></p>
-              </li>
-                  <li class="Sres_WORD">
-              <p id="Sres_WORD" class="ft8"> </p>
-                  </li>
-              <li class="Sres_option">            
-                
-              </li>          
-            </ul>
-          </div>              
+          <div class="searchResult shadow-sm animate__animated" style="display: none" id="Sres_view" >        
+            <div class="Sres_view" name="Sres_view">
+              <ul>
+                <li class="Sres_ENG" >
+                    <p id="Sres_ENG" class="ft8 ftbb text_red"></p>
+                </li>
+                <li class="Sres_KOR">
+                    <p id="Sres_KOR" class="ft8 ftb text_green"></p>
+                </li>
+                    <li class="Sres_WORD">
+                <p id="Sres_WORD" class="ft8"> </p>
+                    </li>
+                <li class="Sres_option">            
+                  
+                </li>          
+              </ul>
+            </div>              
+          </div>        
         </div>
-        
-      </div>
-      <div id="test_place">                    
-        <!-- <iframe src="https://www.youtube.com/embed/videoseries?list=PLJBo3iyb1U0dJU_vsEwdqBGH1ZArNPmt1" style="width:100%; height:100%;"></iframe>     -->
-        <!-- <iframe id="youtube" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLJBo3iyb1U0dJU_vsEwdqBGH1ZArNPmt1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <p id = "test_sub">
-          <h1> <button onclick="youtube();"> good day </button> </h1>
-        </p> -->
-      </div>
+
+        <div id="test_place">                    
+          <!-- <iframe src="https://www.youtube.com/embed/videoseries?list=PLJBo3iyb1U0dJU_vsEwdqBGH1ZArNPmt1" style="width:100%; height:100%;"></iframe>     -->
+          <!-- <iframe id="youtube" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLJBo3iyb1U0dJU_vsEwdqBGH1ZArNPmt1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <p id = "test_sub">
+            <h1> <button onclick="youtube();"> good day </button> </h1>
+          </p> -->
+        </div>
     </div>
         
       <!-- second_1box_center :my wordbook  -->
@@ -315,7 +326,8 @@
     <iframe src="#" id="link_view" name="link_view"></iframe>
     
   </div>   -->
-         
+
+  
 
 <!-- foot bar -->
 
@@ -323,21 +335,25 @@
     <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close();">      
       <ul>
         <li><i class="fa-solid fa-house ft7 ftbb text_whiteoutline"></i></li>
-        <li><span class="ft10 text_gray"> Home  </span></li>
+        <li><span class="ft10"> Home  </span></li>
       </ul>      
     </div>        
     <div class="footbar_menu animate__animated" onclick="click_footbar(this, 2); wordbook_reading('initial');">        
       <ul>
         <li><i class="fa-solid fa-book ft7 ftbb text_whiteoutline"></i></li>
-        <li><span class="ft10 text_gray"> Wordbook  </span></li>
+        <li><span class="ft10"> Wordbook  </span></li>
       </ul>
     </div>
-    <div class="footbar_menu">
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 3);">
+      <ul>
+        <li><i class="fa-solid fa-book-open ft7 ftbb text_whiteoutline"></i></li>
+        <li><span class="ft10"> Ebook  </span></li>
+      </ul>             
     </div>
     <div class="footbar_menu animate__animated">
       <ul>
         <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_whiteoutline"></i></li>
-        <li><span class="ft10 text_gray"> back </span></li>
+        <li><span class="ft10"> back </span></li>
       </ul>
     </div>
   </div>

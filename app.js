@@ -513,8 +513,74 @@ app.post('/paper', function (req, res) {
   result();
 });
 
+// ebook
 
-// quote :: https://www.goodreads.com/quotes?page=1
+app.post('/ebook_list', function (req, res) {  
+  const axios = require("axios");
+  const cheerio = require("cheerio");  
+  var moment = require('moment');  
+  var today = moment().subtract(1, 'days');
+  var random_num;
+  var links = [];
+  // {
+  //   'image_link' : '',
+  //   'title' : '',
+  //   'author' : '',
+  //   'hit' : ''
+  // };
+    
+  function sleep(sec) {
+    return new Promise(resolve => setTimeout(resolve, sec * 1000));
+  } 
+  random_num = 1 + (Math.floor(Math.random() * 4) * 25);
+  console.log('ebook-list random_num : ' + random_num);
+
+  const getHtml = async () => {
+      try {
+        return await axios.get("https://www.gutenberg.org/ebooks/search/?sort_order=downloads&start_index=" + random_num);
+      } catch (error) {
+        console.error(error);
+      }
+    };    
+  getHtml()
+  .then(html => {      
+    var cheerio = require('cheerio')
+    var $ = cheerio.load(html.data);
+    var $contents = $('li.booklink');   
+    console.log('ebook list_num : ' +$contents.length);
+    
+    for (var i = 0; i< $contents.length; i++) {      
+      links[i] = {
+        image_link : 'https://www.gutenberg.org/' + $contents.eq(i).find('img').attr('src'),
+        title : $contents.eq(i).find('span.title').text(),
+        author : $contents.eq(i).find('span.subtitle').text(),
+        hit : $contents.eq(i).find('span.extra').text().replace(' downloads', '')
+      }
+      // links.push(
+      //   `'image_link' : ${$contents.eq(i).find('img').attr('src')},
+      //   'title' : ${$contents.eq(i).find('span.title').text()},
+      //   'author' : ${$contents.eq(i).find('span.subtitle').text()},
+      //   'hit' : ${$contents.eq(i).find('span.extra').text().replace(' downloads', '')}`);      
+    }
+  //   const $title = $content.find('div.hw_m.box_sizing');
+  //   links.word.title = $title.find('div.hw_line span').text();    
+  //   links.word.pronun = $title.find('div.text_prons span.hpron_word').text();
+  //   links.word.part = $title.find('div.fl').text();
+  //   links.word.image_link = $content.find('div.wod_img_act img').attr('src');
+  //   links.word.image_title = $content.find('div.wod_img_tit').text();
+  //   links.word.definition = $content.find('div.midbs div:nth-child(1) div.midbt p').text();
+  //   links.word.example = $content.find('div.midbs div:nth-child(1) div.vibs li.vi p').text();
+    console.log(links);    
+    return links;
+  })
+  .then(results => {
+    if ((links[0].title !== null) && (links[0].title !== '')) {
+      res.send(links);
+    }
+  });
+});
+
+// https://www.gutenberg.org/ebooks/search/?sort_order=downloads&start_index=101
 // 
 
   
