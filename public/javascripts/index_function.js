@@ -21,13 +21,14 @@ const selected_wordbook = '';
 window.onload = function(){
   cartoon();
   paper();
-  ebook_list();
+  ebook_list(0);
 };
 
 // Carousel 감지
 var contents_wordbook = document.getElementById("contents_wordbook");
 var contents_cartoon = document.getElementById("contents_cartoon");
 var contents_paper = document.getElementById("contents_paper");
+var contents_ebook = document.getElementById("contents_ebook");
 
 var contents_wordbook_observer = new MutationObserver(mutations => {    
   if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
@@ -35,6 +36,14 @@ var contents_wordbook_observer = new MutationObserver(mutations => {
     console.log(document.getElementById('ts_quiz_kor').innerText);
     if (document.getElementById('ts_quiz_kor').innerText === "") {
       testquiz(1);
+      document.getElementById('carousel-btn-line').innerHTML =`
+              <div id="quiz_hint_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz((Number(document.getElementById('hint_num').innerHTML)) + 1);">
+                <div class="btn bg_green text_white ftb" >HINT</div>
+              </div>  
+              <div id="quiz_answer_btn" class="animate__animated" onclick="touch_icon_action(this); submit_quiz_answer();">
+                <div class="btn bg_firebrick text_white ftb" >ANSWER</div>
+              </div>  
+              `;
     }    
   } 
 });
@@ -56,6 +65,17 @@ var contents_paper_observer = new MutationObserver(mutations => {
   } 
 });
 
+var contents_ebook_observer = new MutationObserver(mutations => {    
+  if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
+    console.log('mutation ebook activation detected');  
+    document.getElementById('carousel-btn-line').innerHTML = `
+              <div id="quiz_hint_btn" class="animate__animated" onclick="touch_icon_action(this); ebook_list((Number(document.getElementById('ebook_view_num').innerHTML)) + 1);">
+                <i class="fa-solid fa-circle-arrow-right ft5 text_red"></i>
+              </div>                
+              `;
+  } 
+});
+
 var observer_config = {
   childList: false,	// 하위요소 감지
   attributes: true,	// 속성변경 감지
@@ -69,6 +89,7 @@ var observer_config = {
 contents_wordbook_observer.observe(contents_wordbook, observer_config);
 contents_cartoon_observer.observe(contents_cartoon, observer_config);
 contents_paper_observer.observe(contents_paper, observer_config);
+contents_ebook_observer.observe(contents_ebook, observer_config);
 
 // 감지 종료
 // observer.disconnect();
@@ -97,7 +118,7 @@ $('.carousel').on('touchstart', function(event){
   const xClick = event.originalEvent.touches[0].pageX;
   $(this).one('touchmove', function(event){
       const xMove = event.originalEvent.touches[0].pageX;
-      const sensitivityInPx = 10;
+      const sensitivityInPx = 15;
 
       if( Math.floor(xClick - xMove) > sensitivityInPx ){
           $(this).carousel('next');
@@ -1586,10 +1607,16 @@ async function paper(){
   });
 };
 
-function ebook_list(){
+function ebook_list(num){
   console.log('ebook_list start');
-  document.getElementById('today_ebook').innerHTML = '';
-  fetch("/ebook_list", {method : 'post'}).then((response)=>response.json()).then((results)=>{
+  document.getElementById('today_ebook').innerHTML = '';  
+  var view_num;
+  if (num > 39) {
+    view_num = {'view_num' : 39};
+  } else {
+    view_num = {'view_num' : num};
+  }
+  fetch("/ebook_list", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(view_num)}).then((response)=>response.json()).then((results)=>{
     console.log(results);
     if ((results !== null) && (results[0].title !== '')) {          
       for (result of results) {        
@@ -1599,15 +1626,18 @@ function ebook_list(){
               <img src="${result.image_link}" style="min-width : 5rem; max-width:6rem; min-height: 8rem; max-height:9rem;">          
             </div>
             <div class="ebook_title">
-              <span class="ft8 ftb" style="color:#a01f13;" onclick="window.open('https://www.britannica.com/dictionary/eb/word-of-the-day');">${result.title}</span>
+              <span class="ft8 ftb" style="color:#a01f13;" onclick="open_ebook(${result.ebook_link});">${result.title}</span>
               <br>
-              <span class="ft9 text_black">${result.author}</span>              
+              <span class="ft9 text_black">${result.author}</span>
               <br>
-              <div class="badge text-wrap bg_firebrick ft10" style="margin : auto;">HIT : ${result.hit}</div>              
+              <div class="badge text-wrap bg_firebrick ft10" style="margin : auto;">HIT : ${result.hit}</div>                            
             </div>          
           </div>
         `;
       }      
+      document.getElementById('today_ebook').innerHTML += `        
+          <span class="hidden_text" id="ebook_view_num">${num}</span>
+          `;
     }    
   });
 }

@@ -87,7 +87,7 @@
                   </div>                    
                 </div>
               </div>
-              <div class="carousel-item active" id="contents_start">            
+              <div class="carousel-item " id="contents_start">            
                 <div class="blank_sheet">
                   
                 </div>
@@ -115,7 +115,7 @@
                   </div>
                 </div>
               </div> 
-              <div class="carousel-item" id="contents_ebook">              
+              <div class="carousel-item active" id="contents_ebook">              
                 <div class="blank_sheet">
                   <div class="ebook_box_title"><span class="ft3 ftbb">Today's E-Book</span></div>
                   <div class="ebook_box_link">
@@ -129,12 +129,7 @@
               </div> 
             </div>
             <div class="carousel-btn-line" id="carousel-btn-line">
-              <div id="quiz_hint_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz((Number(document.getElementById('hint_num').innerHTML)) + 1);">
-                <div class="btn bg_green text_white ftb" >HINT</div>
-              </div>  
-              <div id="quiz_answer_btn" class="animate__animated" onclick="touch_icon_action(this); submit_quiz_answer();">
-                <div class="btn bg_firebrick text_white ftb" >ANSWER</div>
-              </div>  
+              
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#Upper_carousel" data-bs-slide="prev" style="display: none;">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -147,7 +142,7 @@
           </div>          
         </div>
         
-        <div class="searchbar shadow-lg">
+        <div class="searchbar shadow-lg animate__animated" id="searchbar" style="display:none;">
           <div class="searchbar_main">
             <textarea class="autosize ft8" id="main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
             <div id="msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('mainbox_center');touch_icon_action(this);"></i></div>
@@ -346,13 +341,19 @@
     </div>
     <div class="footbar_menu animate__animated" onclick="click_footbar(this, 3);">
       <ul>
+        <li><i class="fa-solid fa-star ft7 ftbb text_red text_whiteoutline"></i></li>
+        <li><span class="ft10"> Search  </span></li>
+      </ul>             
+    </div>
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4);">
+      <ul>
         <li><i class="fa-solid fa-book-open ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Ebook  </span></li>
       </ul>             
     </div>
     <div class="footbar_menu animate__animated">
       <ul>
-        <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_whiteoutline"></i></li>
+        <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_whiteoutline" onclick="click_footbar(this, 5);""></i></li>
         <li><span class="ft10"> back </span></li>
       </ul>
     </div>

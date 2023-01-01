@@ -520,7 +520,7 @@ app.post('/ebook_list', function (req, res) {
   const cheerio = require("cheerio");  
   var moment = require('moment');  
   var today = moment().subtract(1, 'days');
-  var random_num;
+  var view_num = 1 + req.body.view_num*25;
   var links = [];
   // {
   //   'image_link' : '',
@@ -528,16 +528,16 @@ app.post('/ebook_list', function (req, res) {
   //   'author' : '',
   //   'hit' : ''
   // };
-    
+  console.log('ebook view_num : ' + view_num);
   function sleep(sec) {
     return new Promise(resolve => setTimeout(resolve, sec * 1000));
   } 
-  random_num = 1 + (Math.floor(Math.random() * 4) * 25);
-  console.log('ebook-list random_num : ' + random_num);
+  // random_num = 1 + (Math.floor(Math.random() * 4) * 25);
+  // console.log('ebook-list random_num : ' + random_num);
 
   const getHtml = async () => {
       try {
-        return await axios.get("https://www.gutenberg.org/ebooks/search/?sort_order=downloads&start_index=" + random_num);
+        return await axios.get("https://www.gutenberg.org/ebooks/search/?sort_order=downloads&start_index=" + view_num);
       } catch (error) {
         console.error(error);
       }
@@ -550,7 +550,9 @@ app.post('/ebook_list', function (req, res) {
     console.log('ebook list_num : ' +$contents.length);
     
     for (var i = 0; i< $contents.length; i++) {      
+      var ebook_num = $contents.eq(i).find('a').attr('href').replace('/ebooks/','');
       links[i] = {
+        ebook_num : ebook_num,
         image_link : 'https://www.gutenberg.org/' + $contents.eq(i).find('img').attr('src'),
         title : $contents.eq(i).find('span.title').text(),
         author : $contents.eq(i).find('span.subtitle').text(),
@@ -580,6 +582,7 @@ app.post('/ebook_list', function (req, res) {
   });
 });
 
+// `https://www.gutenberg.org/cache/epub/${ebook_num}/pg${ebook_num}-images.html`,
 // https://www.gutenberg.org/ebooks/search/?sort_order=downloads&start_index=101
 // 
 
