@@ -1649,19 +1649,17 @@ function open_ebook(ebook_num){
 
   fetch("/open_ebook", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(ebook_num)}).then((response)=>response.json()).then((results)=>{
     console.log(results);
-    // console.log(results.chapter.length);    
-    
-    // for (chapt of results.chapter) {      
-    //   console.log(chapt.sentence.length);    
-    //   for (part of chapt.sentence) {        
-    //     for (chunk of part) {
-    //       contents += `<span class="ft8" onclick="touch_block_action(this); tts_any(this.innerText, 1)">${chunk} </span>`;
-    //       // console.log(chunk);
-    //     }
-    //     contents += '<br>';
-    //   }            
-    // }
-    // ebook_contents.innerHTML = contents;
+    for (chapt of results.chapter) {    
+      contents += `<span class="ft6 ftb">${chapt.title}</span><br>`;          
+      for (part of chapt.sentence) {            
+        for (chunk of part) {
+          contents += `<span class="ft8" onclick="touch_block_action(this); tts_any(this.innerText, 1)">${chunk} </span>`;
+          // console.log(chunk);
+        }
+        contents += '<br>';
+      }            
+    }
+    ebook_contents.innerHTML = contents;
   })
 }
 

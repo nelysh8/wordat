@@ -593,23 +593,11 @@ app.post('/open_ebook', function (req, res) {
   // const its = nlp.its;
   // const as = nlp.as;
   
-  var ebook_num = req.body.ebook_num;
-  // var ebook_entitle = {
-  //   'cover' : {
-  //     'img_link' : '',
-  //     'title' : '',
-  //     'author' : ''
-  //   },
-  //   'chapter' : [      
-  //   ]
-  // };  
-  // var ebook_chapter = [{
-  //   'num' : '',
-  //   'title' : ''
-  // }]
+  var ebook_num = req.body.ebook_num; 
   var ebook_entitle;
   var ebook_chapter = [];
   var ebook_part = [];
+  var test;
 
   console.log('ebook_num : ' + ebook_num);
 
@@ -629,38 +617,36 @@ app.post('/open_ebook', function (req, res) {
     console.log($fig.text(), $chapter.length);
 
     ebook_entitle = { 
-      'cover' : {
-        'img_link' : `https://www.gutenberg.org/cache/epub/${ebook_num}/${$fig.find('img').attr('src')}`,
-        'title' : $('h1').text(),
-        'author' : $('h2.no-break').text()
+      cover : {
+        img_link : `https://www.gutenberg.org/cache/epub/${ebook_num}/${$fig.find('img').attr('src')}`,
+        title : $('h1').text(),
+        author : $('h2.no-break').text()
       }
     };    
+    let i=0;
+    for (var chapter of $chapter) {                        
 
-    for (var i = 0; i< $chapter.length; i++) {                  
-      ebook_chapter[i] = {
-        'num' : (i + 1),
-        'title' : ($chapter.eq(i).find('h2').text()),        
-      };
+      var $ebook_contents_sentences = $chapter.eq(i).find('p');            
       
-      var $ebook_contents_sentences = $chapter.eq(i).find('p');      
-      
-      for (var j=0; j<$ebook_contents_sentences.length; j++){
-        console.log($ebook_contents_sentences.length);
-        ebook_part[j] = [];
-        var ebook_contents_sentence = $ebook_contents_sentences.eq(j).text().replace(/\n/gi, ' ');;
+      let j=0;
+      ebook_part = [];
+      for (sentence of $ebook_contents_sentences) {                        
+        var ebook_contents_sentence = $ebook_contents_sentences.eq(j).text().replace(/\n/gi, ' ');
         var doc = nlp(ebook_contents_sentence);     
         ebook_part[j] = doc.clauses().out('array');
-      }            
-      console.log(ebook_part);
-      ebook_chapter[i].sentence = ebook_part;
-      // console.log(ebook_chapter[i].sentence);      
-    }
-    // ebook_entitle.chapter = ebook_chapter;    
+        j += 1;
+      };
+      ebook_chapter[i] = {
+        num : (i + 1),
+        title : ($chapter.eq(i).find('h2').text()),
+        sentence : ebook_part
+      };            
+      i+=1;      
+    };
     
-    // console.log(ebook_entitle);    
-    // console.log(ebook_chapter);  
-
-    return ebook_chapter;
+    ebook_entitle.chapter = ebook_chapter;        
+    
+    return ebook_entitle;
   })
   .then(results => {
     res.send(results);
