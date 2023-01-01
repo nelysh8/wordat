@@ -1616,8 +1616,7 @@ function ebook_list(num){
   } else {
     view_num = {'view_num' : num};
   }
-  fetch("/ebook_list", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(view_num)}).then((response)=>response.json()).then((results)=>{
-    console.log(results);
+  fetch("/ebook_list", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(view_num)}).then((response)=>response.json()).then((results)=>{    
     if ((results !== null) && (results[0].title !== '')) {          
       for (result of results) {        
         document.getElementById('today_ebook').innerHTML += `        
@@ -1626,7 +1625,7 @@ function ebook_list(num){
               <img src="${result.image_link}" style="min-width : 5rem; max-width:6rem; min-height: 8rem; max-height:9rem;">          
             </div>
             <div class="ebook_title">
-              <span class="ft8 ftb" style="color:#a01f13;" onclick="open_ebook(${result.ebook_link});">${result.title}</span>
+              <span class="ft8 ftb" style="color:#a01f13;" onclick="open_ebook(${result.ebook_num});">${result.title}</span>
               <br>
               <span class="ft9 text_black">${result.author}</span>
               <br>
@@ -1641,3 +1640,36 @@ function ebook_list(num){
     }    
   });
 }
+
+function open_ebook(ebook_num){
+  third_2box_open();
+  var ebook_contents = document.getElementById('third_2box_contents');
+  var contents = ''
+  var ebook_num = {'ebook_num' : ebook_num};
+
+  fetch("/open_ebook", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(ebook_num)}).then((response)=>response.json()).then((results)=>{
+    console.log(results);
+    // console.log(results.chapter.length);    
+    
+    // for (chapt of results.chapter) {      
+    //   console.log(chapt.sentence.length);    
+    //   for (part of chapt.sentence) {        
+    //     for (chunk of part) {
+    //       contents += `<span class="ft8" onclick="touch_block_action(this); tts_any(this.innerText, 1)">${chunk} </span>`;
+    //       // console.log(chunk);
+    //     }
+    //     contents += '<br>';
+    //   }            
+    // }
+    // ebook_contents.innerHTML = contents;
+  })
+}
+
+function third_2box_open(){    
+  if (third_2box_center.style.display !== 'none') {
+    click_bouncein(third_2box_center);
+  } else {
+    click_bounceinup(third_2box_center);  
+  }    
+}
+  

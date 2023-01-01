@@ -582,7 +582,117 @@ app.post('/ebook_list', function (req, res) {
   });
 });
 
-// `https://www.gutenberg.org/cache/epub/${ebook_num}/pg${ebook_num}-images.html`,
+app.post('/open_ebook', function (req, res) {  
+  const axios = require("axios");
+  const cheerio = require("cheerio");  
+  var nlp = require('compromise');  
+  
+  // const winkNLP = require( 'wink-nlp' );
+  // const model = require( 'wink-eng-lite-web-model' );
+  // const nlp = winkNLP( model );
+  // const its = nlp.its;
+  // const as = nlp.as;
+  
+  var ebook_num = req.body.ebook_num;
+  // var ebook_entitle = {
+  //   'cover' : {
+  //     'img_link' : '',
+  //     'title' : '',
+  //     'author' : ''
+  //   },
+  //   'chapter' : [      
+  //   ]
+  // };  
+  // var ebook_chapter = [{
+  //   'num' : '',
+  //   'title' : ''
+  // }]
+  var ebook_entitle;
+  var ebook_chapter = [];
+  var ebook_part = [];
+
+  console.log('ebook_num : ' + ebook_num);
+
+  const getHtml = async () => {
+    try {
+      return await axios.get(`https://www.gutenberg.org/cache/epub/${ebook_num}/pg${ebook_num}-images.html`);
+    } catch (error) {
+      console.error(error);
+    }
+  };    
+
+  getHtml()
+  .then(html => {
+    var $ = cheerio.load(html.data);
+    var $fig = $('div.fig');
+    var $chapter = $('div.chapter');
+    console.log($fig.text(), $chapter.length);
+
+    ebook_entitle = { 
+      'cover' : {
+        'img_link' : `https://www.gutenberg.org/cache/epub/${ebook_num}/${$fig.find('img').attr('src')}`,
+        'title' : $('h1').text(),
+        'author' : $('h2.no-break').text()
+      }
+    };    
+
+    for (var i = 0; i< $chapter.length; i++) {                  
+      ebook_chapter[i] = {
+        'num' : (i + 1),
+        'title' : ($chapter.eq(i).find('h2').text()),        
+      };
+      
+      var $ebook_contents_sentences = $chapter.eq(i).find('p');      
+      
+      for (var j=0; j<$ebook_contents_sentences.length; j++){
+        console.log($ebook_contents_sentences.length);
+        ebook_part[j] = [];
+        var ebook_contents_sentence = $ebook_contents_sentences.eq(j).text().replace(/\n/gi, ' ');;
+        var doc = nlp(ebook_contents_sentence);     
+        ebook_part[j] = doc.clauses().out('array');
+      }            
+      console.log(ebook_part);
+      ebook_chapter[i].sentence = ebook_part;
+      // console.log(ebook_chapter[i].sentence);      
+    }
+    // ebook_entitle.chapter = ebook_chapter;    
+    
+    // console.log(ebook_entitle);    
+    // console.log(ebook_chapter);  
+
+    return ebook_chapter;
+  })
+  .then(results => {
+    res.send(results);
+  })
+})
+
+
+// whList[i] = {
+//   word : $head.find('div.di-title h2.headword span').text(),
+//   part : $head.find('span.pos').text(),         
+//   pronounce : $head.find('span.us').parent().find('span.ipa').text(),
+//   pronounce_link : $head.find('span.us source').attr('src')
+// };                
+
+// // console.log('hi : ' + $head.find('div.sense-block').length);
+
+// let j = 0;
+// ulList = [];
+
+// for (let meaningbox of $head.find('div.sense-block')) {
+//   const $meaningline = $head.find(`div.sense-block:nth-child(${j+1})`);          
+
+//   ulList[j] = {
+//         meaning_eng : $meaningline.find('div.ddef_d').text().trim(),                  
+//         meaning_kor : $meaningline.find('span.trans').text().trim(),
+//         example : [$meaningline.find('div.def-body div.examp:nth-child(2) span').text().trim(), $meaningline.find('div.def-body div.examp:nth-child(3) span').text().trim()]                
+//   };                    
+//   j += 1;        
+// };  
+
+
+// ,
 // https://www.gutenberg.org/ebooks/search/?sort_order=downloads&start_index=101
 // 
 

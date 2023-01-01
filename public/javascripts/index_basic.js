@@ -363,11 +363,11 @@
             document.getElementById('Upper_search_container').style.marginBottom = '1rem';            
 
             click_slideup(document.getElementById('searchbar'));            
-            document.getElementById('mainbody').scrollTop = document.getElementById('mainbody').scrollHeight;
+            // document.getElementsByClassName('carousel-item').scrollTop = document.getElementsByClassName('carousel-item').scrollHeight;
             
             
             // await sleep(0.1);
-            for (let i=0; i<13; i++) {
+            for (let i=0; i<20; i++) {
               document.getElementById('Upper_search_container').style.height = `${98-i}%`; 
               await sleep(0.01);
             }                                    
@@ -381,8 +381,8 @@
 
             click_slideoutdown(document.getElementById('searchbar'));
             // await sleep(0.1);
-            for (let i=0; i<13; i++) {
-              document.getElementById('Upper_search_container').style.height = `${86+i}%`; 
+            for (let i=0; i<20; i++) {
+              document.getElementById('Upper_search_container').style.height = `${79+i}%`; 
               await sleep(0.01);
             }                        
           }

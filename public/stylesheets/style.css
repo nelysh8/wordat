@@ -263,7 +263,7 @@ ul {
     display : block;
     position : absolute;
     width : 100%;    
-    min-height : 100%;
+    height : 100%;
     justify-content: space-between;  
     padding-bottom : 0.5rem;
     /* align-content:center;
@@ -288,7 +288,8 @@ ul {
         /* align-content:center; */
         /* align-items: center; */
         /* text-align: center;         */
-        border-radius : 20px;                    
+        border-radius : 20px;    
+        overflow-y: scroll;                
         z-index : 4;
     }
 
@@ -340,7 +341,7 @@ ul {
 
       #Upper_carousel{
           width : 100%;
-          height: 90%;
+          height: 98%;
           margin : 0;
           padding : 0;
           border-radius : 20px;   
@@ -1487,6 +1488,24 @@ ul {
                   border-color: coral;
                   padding-left : 5px;
               }
+
+  #third_2box_center {
+    display : none;
+    position : absolute;
+    width : 100%;      
+    height : auto;
+    top : 0;
+    bottom : 0;
+    /* min-height : 91%;  
+    max-height : 94%; */
+    margin : 4rem 0 0 0;
+    padding-top : 0.5rem;
+    overflow-y: scroll;
+    background-color: cornsilk;   
+    z-index : 6;
+    border-radius: 20px;
+  }
+                              
 
   #link_frame {
     display : none;
