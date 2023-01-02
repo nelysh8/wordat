@@ -53,7 +53,7 @@
         var target = '';
         var link_yarn, link_youglish, link_google = '';
 
-          // 'mainbox_center' // 'second_3box_center'
+          // 'mainbox_center' // 'second_3box_center' // 'third_1box_center' 
         if (req_pos === 'mainbox_center') {
           target = document.getElementById("main_search_input");
           link_yarn = document.getElementById('msi_link_yarn');
@@ -64,6 +64,11 @@
           link_yarn = document.getElementById('word_toolbar_link_yarn');
           link_youglish = document.getElementById('word_toolbar_link_youglish');
           link_google = document.getElementById('word_toolbar_link_google');
+        } else if (req_pos === 'third_1box_center') {
+          target = document.getElementById("t1_box_main_search_input");
+          link_yarn = document.getElementById('t1_box_msi_link_yarn');
+          link_youglish = document.getElementById('t1_box_msi_link_youglish');
+          link_google = document.getElementById('t1_box_msi_link_google');
         }
         target.value="";
         link_yarn.setAttribute('href', encodeURI('https://getyarn.io/'));
@@ -77,6 +82,8 @@
           click_fadeout(document.getElementById('Sres_view'));                      
         } else if (req_pos === 'second_3box_center') {
           click_fadeout(document.getElementById('word_toolbar_result'));
+        } else if (req_pos === 'third_1box_center') {
+          click_fadeout(document.getElementById('t1_box_Sres_view'));
         }
       }
 
@@ -299,34 +306,28 @@
         if (btn_number === 1) {
           document.querySelector('i.fa-house').classList.remove('text_whiteoutline');
           document.querySelector('i.fa-house:only-of-type').classList.remove('text_grey');
-          document.querySelector('i.fa-book').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-book:only-of-type').classList.add('text_grey');
-          document.querySelector('i.fa-star').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-star:only-of-type').classList.add('text_grey');
           document.querySelector('i.fa-book-open').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-book-open:only-of-type').classList.add('text_grey');
+          document.querySelector('i.fa-book-open:only-of-type').classList.add('text_grey');          
+          document.querySelector('i.fa-gear').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-gear:only-of-type').classList.add('text_grey');          
           document.querySelector('i.fa-arrow-rotate-left').classList.add('text_whiteoutline');
           document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.add('text_grey');
         } else if (btn_number === 2) {
-          document.querySelector('i.fa-book').classList.remove('text_whiteoutline');
-          document.querySelector('i.fa-book:only-of-type').classList.remove('text_grey');
-          document.querySelector('i.fa-house').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');
-          document.querySelector('i.fa-star').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-star:only-of-type').classList.add('text_grey');
-          document.querySelector('i.fa-book-open').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-book-open:only-of-type').classList.add('text_grey');
-          document.querySelector('i.fa-arrow-rotate-left').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.add('text_grey');
-        } else if (btn_number === 4) {
           document.querySelector('i.fa-book-open').classList.remove('text_whiteoutline');
           document.querySelector('i.fa-book-open:only-of-type').classList.remove('text_grey');
           document.querySelector('i.fa-house').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');          
+          document.querySelector('i.fa-gear').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-gear:only-of-type').classList.add('text_grey');          
+          document.querySelector('i.fa-arrow-rotate-left').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.add('text_grey');
+        } else if (btn_number === 4) {          
+          document.querySelector('i.fa-gear').classList.remove('text_whiteoutline');
+          document.querySelector('i.fa-gear:only-of-type').classList.remove('text_grey');     
+          document.querySelector('i.fa-house').classList.add('text_whiteoutline');
           document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');
-          document.querySelector('i.fa-book').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-book:only-of-type').classList.add('text_grey');
-          document.querySelector('i.fa-star').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-star:only-of-type').classList.add('text_grey');
+          document.querySelector('i.fa-book-open').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-book-open:only-of-type').classList.add('text_grey');          
           document.querySelector('i.fa-arrow-rotate-left').classList.add('text_whiteoutline');
           document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.add('text_grey');
         } else if (btn_number === 5) {
@@ -334,46 +335,85 @@
           document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.remove('text_grey');
           document.querySelector('i.fa-house').classList.add('text_whiteoutline');
           document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');
-          document.querySelector('i.fa-book').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-book:only-of-type').classList.add('text_grey');
-          document.querySelector('i.fa-star').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-star:only-of-type').classList.add('text_grey');
           document.querySelector('i.fa-book-open').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-book-open:only-of-type').classList.add('text_grey');
-        } 
-        
-        
-        if (btn_number === 3) {          
-          if (document.getElementById('searchbar').style.display === 'none') {
-            document.querySelector('i.fa-star').classList.remove('text_whiteoutline');
-            document.querySelector('i.fa-star:only-of-type').classList.remove('text_grey');
-            obj.classList.toggle('animate__zoomIn');              
-            document.getElementById('Upper_search_container').style.marginBottom = '1rem';            
-            document.getElementById('third_1box_center').style.marginBottom = '1rem'; 
+          document.querySelector('i.fa-book-open:only-of-type').classList.add('text_grey');          
+          document.querySelector('i.fa-gear').classList.add('text_whiteoutline');
+          document.querySelector('i.fa-gear:only-of-type').classList.add('text_grey'); 
 
-            click_slideup(document.getElementById('searchbar'));            
-            
-            for (let i=0; i<20; i++) {
-              document.getElementById('Upper_search_container').style.height = `${98-i}%`; 
-              document.getElementById('third_1box_center').style.height = `${100-(i*1.2)}%`; 
-              await sleep(0.01);
-            }                                    
-                        
-            obj.classList.toggle('animate__zoomIn');  
-          } else {
-            document.querySelector('i.fa-star').classList.add('text_whiteoutline');
-            document.querySelector('i.fa-star:only-of-type').classList.add('text_grey');
-            document.getElementById('Upper_search_container').style.marginBottom = '0rem';     
-            document.getElementById('third_1box_center').style.marginBottom = '0rem'; 
-
-            click_slideoutdown(document.getElementById('searchbar'));
-            // await sleep(0.1);
-            for (let i=0; i<20; i++) {
-              document.getElementById('Upper_search_container').style.height = `${79+i}%`; 
-              document.getElementById('third_1box_center').style.height = `${77.2+(i*1.2)}%`; 
-              await sleep(0.01);
-            }                        
+          if (second_3box_center.style.display !== 'none') {
+            word_close();
+          } else if (second_2box_center.style.display !== 'none') {
+            wordlist_close();
+          } else if (second_1box_center.style.display !== 'none') {
+            wordbook_close();
+          } else if (third_1box_center.style.display !== 'none') {
+            third_1box_close();
           }
+        }         
+        
+        if (btn_number === 3) {       
+          if (document.getElementById('second_3box_center').style.display !== 'none') {
+
+          } else if (document.getElementById('third_1box_center').style.display !== 'none') {            
+            if (document.getElementById('t1_box_searchbar').style.display === 'none') {
+              document.querySelector('i.fa-star').classList.remove('text_whiteoutline');
+              document.querySelector('i.fa-star:only-of-type').classList.remove('text_grey');
+              obj.classList.toggle('animate__zoomIn');                            
+              document.getElementById('t1_mainbox').style.marginBottom = '1rem'; 
+  
+              click_slideup(document.getElementById('t1_box_searchbar'));            
+              
+              for (let i=0; i<20; i++) {                
+                document.getElementById('t1_mainbox').style.height = `${98-i}%`;  
+                await sleep(0.01);
+              }                                    
+                          
+              obj.classList.toggle('animate__zoomIn');  
+            } else {
+              document.querySelector('i.fa-star').classList.add('text_whiteoutline');
+              document.querySelector('i.fa-star:only-of-type').classList.add('text_grey'); 
+              obj.classList.toggle('animate__zoomIn');              
+              document.getElementById('t1_mainbox').style.marginBottom = '0rem'; 
+  
+              click_slideoutdown(document.getElementById('t1_box_searchbar'));
+              // await sleep(0.1);
+              for (let i=0; i<20; i++) {                
+                document.getElementById('t1_mainbox').style.height = `${79+i}%`; 
+                await sleep(0.01);
+              }                        
+              obj.classList.toggle('animate__zoomIn'); 
+            }       
+          } else {
+            if (document.getElementById('searchbar').style.display === 'none') {
+              document.querySelector('i.fa-star').classList.remove('text_whiteoutline');
+              document.querySelector('i.fa-star:only-of-type').classList.remove('text_grey');
+              obj.classList.toggle('animate__zoomIn');              
+              document.getElementById('Upper_search_container').style.marginBottom = '1rem';                          
+  
+              click_slideup(document.getElementById('searchbar'));            
+              
+              for (let i=0; i<20; i++) {
+                document.getElementById('Upper_search_container').style.height = `${98-i}%`;                 
+                await sleep(0.01);
+              }                                    
+                          
+              obj.classList.toggle('animate__zoomIn');  
+            } else {
+              document.querySelector('i.fa-star').classList.add('text_whiteoutline');
+              document.querySelector('i.fa-star:only-of-type').classList.add('text_grey');
+              obj.classList.toggle('animate__zoomIn');  
+              document.getElementById('Upper_search_container').style.marginBottom = '0rem';                   
+  
+              click_slideoutdown(document.getElementById('searchbar'));
+              // await sleep(0.1);
+              for (let i=0; i<20; i++) {
+                document.getElementById('Upper_search_container').style.height = `${79+i}%`;                 
+                await sleep(0.01);
+              }    
+              obj.classList.toggle('animate__zoomIn');                      
+            }            
+          }         
+          
         } else {
           obj.classList.toggle('animate__zoomIn');              
           await sleep(0.9); 

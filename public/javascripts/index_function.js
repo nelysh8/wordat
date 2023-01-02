@@ -14,6 +14,7 @@ const second_1box_contents = document.getElementById('second_1box_contents');
 const second_2box_center = document.getElementById('second_2box_center');
 const second_2box_contents = document.getElementById('second_2box_contents');
 const second_3box_center = document.getElementById('second_3box_center');
+const third_1box_center = document.getElementById('third_1box_center');
 
 // Setting
 const selected_wordbook = '';
@@ -99,6 +100,8 @@ const Search_DOC = document.querySelector(".searchbar");
 Search_Input = Search_DOC.querySelector("textarea");
 const word_toolbar_doc = document.querySelector('.word_toolbar');
 word_toolbar_input = word_toolbar_doc.querySelector('textarea');
+const t1_box_Search_DOC = document.querySelector(".t1_box_searchbar");
+t1_box_Search_Input = t1_box_Search_DOC.querySelector("textarea");
 
 Search_Input.addEventListener("keyup", e => {    
     if (e.keyCode === 13 && e.shiftKey && e.target.value){        
@@ -111,6 +114,14 @@ word_toolbar_input.addEventListener("keyup", e => {
     tranbtn_click('second_3box_center');
   }
 });
+
+t1_box_Search_Input.addEventListener("keyup", e => {    
+  if (e.keyCode === 13 && e.shiftKey && e.target.value){        
+    tranbtn_click('third_1box_center');
+  }
+});
+
+
 
 // swipe
 
@@ -134,8 +145,8 @@ $('.carousel').on('touchstart', function(event){
 
 // long touch 함수
 
-  let onlongtouch1, onlongtouch2  = false;
-  let timer1, timer2 = false;
+  let onlongtouch1, onlongtouch2, onlongtouch3  = false;
+  let timer1, timer2, timer3 = false;
   let duration = 500;
   function touchStart1(){
     if (!timer1) {
@@ -145,6 +156,11 @@ $('.carousel').on('touchstart', function(event){
   function touchStart2(){
     if (!timer2) {
       timer2 = setTimeout(onlongtouch2, duration);       
+    }
+  }
+  function touchStart3(){
+    if (!timer3) {
+      timer3 = setTimeout(onlongtouch3, duration);       
     }
   }
   function touchEnd1(){
@@ -159,6 +175,12 @@ $('.carousel').on('touchstart', function(event){
       timer2 = false;          
     }             
   }
+  function touchEnd3(){
+    if (timer3) {
+      clearTimeout(timer3)
+      timer3 = false;          
+    }             
+  }
   onlongtouch1 = function(){      
     console.log('long touch detected');
     touch_icon_action(document.getElementById("msi_play_btn"));
@@ -171,6 +193,12 @@ $('.carousel').on('touchstart', function(event){
     document.getElementById("word_toolbar_play_btn").onclick = tts_pos('second_3box_center', 0.5);
     document.getElementById("word_toolbar_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('second_3box_center', 1);");  
   }      
+  onlongtouch3 = function(){           
+    console.log('long touch detected');     
+    touch_icon_action(document.getElementById("t1_box_msi_play_btn"))
+    document.getElementById("t1_box_msi_play_btn").onclick = tts_pos('third_1box_center', 0.5);
+    document.getElementById("t1_box_msi_play_btn").setAttribute("onclick", "touch_icon_action(this); tts_pos('third_1box_center', 1);");  
+  }      
   document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("msi_play_btn").addEventListener("touchstart", touchStart1);
     document.getElementById("msi_play_btn").addEventListener("touchend", touchEnd1);
@@ -178,6 +206,10 @@ $('.carousel').on('touchstart', function(event){
   document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("word_toolbar_play_btn").addEventListener("touchstart", touchStart2);
     document.getElementById("word_toolbar_play_btn").addEventListener("touchend", touchEnd2);
+  })
+  document.addEventListener("DOMContentLoaded", function(){
+    document.getElementById("t1_box_msi_play_btn").addEventListener("touchstart", touchStart1);
+    document.getElementById("t1_box_msi_play_btn").addEventListener("touchend", touchEnd1);
   })
 
 // function youtube(){
@@ -242,7 +274,12 @@ function tranbtn_click(position){
     doc_kor = document.getElementById('wtrv_KOR');
     Input_target = document.getElementById('word_toolbar_input');
     view_target = document.getElementById('word_toolbar_result');
-  }
+  } else if (req_pos === 'third_1box_center') {
+    doc_eng = document.getElementById('t1_box_Sres_ENG');
+    doc_kor = document.getElementById('t1_box_Sres_KOR');
+    Input_target = document.getElementById('t1_box_main_search_input');
+    view_target = document.getElementById('t1_box_Sres_view');
+  } 
 
   doc_eng.innerHTML = '';
   doc_kor.innerHTML = '';
@@ -277,6 +314,26 @@ function tranbtn_click(position){
       engs_org = Input_target.value;
       trans_papago(req_pos,engs_org);   
       doc_eng.innerHTML = `<span> ${Input_target.value} </span>`;   
+    } else if (req_pos === 'third_1box_center'){  // T1박스 -> 영어 : 그대로 처리 / 한글 : 번역              
+      engs_org = Input_target.value.replace(/\n$/,'');
+      engs_spl = Input_target.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');              
+      engs_res = '';
+      function TEST_add(engs_spl){
+        for (let words of engs_spl){            
+          if (words === '___') {
+            engs_res += `<br>`;
+          } else {                                
+            words_encode = encodeURIComponent(words).replace(/'/g, '%27');    
+            engs_res += `<span onclick="touch_block_action(this); window.open('https://dictionary.cambridge.org/dictionary/english-korean/${words_encode}');">${words}</span> `;
+            
+            // engs_res += `<span onclick="touch_block_action(this); Cambrg_search('${words_encode}');">${words}</span> `;
+          }              
+        }
+        doc_eng.innerHTML += engs_res;
+        re_popup();             
+      }
+      TEST_add(engs_spl);    
+      trans_papago(req_pos,engs_org);         
     }
   }
   click_fadein(view_target);
@@ -351,8 +408,7 @@ function trans_papago(position, SENTC){
       link_youglish.setAttribute('href', `${url_youglish}`);
       link_google.setAttribute('href', `${url_google}`);
     });
-  }
-  else if (req_pos === 'second_3box_center') {    // S3 박스 ->
+  } else if (req_pos === 'second_3box_center') {    // S3 박스 ->
     view_target = document.getElementById('word_toolbar_result'); 
     link_yarn = document.getElementById('word_toolbar_link_yarn');
     link_youglish = document.getElementById('word_toolbar_link_youglish');
@@ -391,6 +447,61 @@ function trans_papago(position, SENTC){
       link_youglish.setAttribute('href', `${url_youglish}`);
       link_google.setAttribute('href', `${url_google}`);
     });    
+  } else if (req_pos === 'third_1box_center') {    // t1 박스 ->
+    view_target = document.getElementById('t1_box_Sres_view');
+    link_yarn = document.getElementById('t1_box_msi_link_yarn');
+    link_youglish = document.getElementById('t1_box_msi_link_youglish');
+    link_google = document.getElementById('t1_box_msi_link_google');    
+    if (kor_check.test(SENTC)) {
+      TEXT = {'source' : 'ko', 'target' : 'en', 'word' : SENTC};
+      patch_target = document.getElementById('t1_box_Sres_KOR');
+      write_target = document.getElementById('t1_box_Sres_ENG');                   
+      write_target_id = 'ENG';
+    } else {      
+      TEXT = {'source' : 'en', 'target' : 'ko', 'word' : SENTC};            
+      patch_target = document.getElementById('t1_box_Sres_ENG')
+      write_target = document.getElementById('t1_box_Sres_KOR');                   
+      write_target_id = 'KOR';
+    };
+    fetch("/translate", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(TEXT)}).then((response)=>response.json()).then((result)=>{           
+      if (write_target_id === 'ENG') { // 한글입력의 경우 -> 한글: 기처리 / 영어 : 번역 후 처리
+        engs_org = result.message.result.translatedText; 
+        console.log('============' + result.message.result.translatedText);
+        engs_spl = engs_org.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');
+        engs_res = '';    
+    
+        function TEST_add(engs_spl){
+          for (let words of engs_spl){               
+            if (words === '___') {
+              engs_res += `<br>`;
+            } else {           
+              words_encode = encodeURIComponent(words).replace(/'/g, '%27');      
+              engs_res += `<span onclick="touch_block_action(this); window.open('https://dictionary.cambridge.org/dictionary/english-korean/${words_encode}');">${words}</span> `;
+            }                             
+          }
+          write_target.innerHTML += engs_res;          
+          re_popup();               
+        }            
+        TEST_add(engs_spl);        
+        
+        // engs_org = engs_org.replace(/'/g, '%27');
+      } else if (write_target_id === 'KOR') {     // 영어입력의 경우 -> 영어 : 기처리 / 한글 : 번역           
+        write_target.innerText = result.message.result.translatedText; 
+        engs_org = patch_target.innerText;
+        // engs_org = engs_org.replace(/'/g, '%27');
+      }
+      url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org).replace(/'/g, '%27');      
+      url_youglish = 'https://youglish.com/pronounce/' + encodeURIComponent(engs_org).replace(/'/g, '%27') + '/english?';
+      url_google = 'https://www.google.com/search?q="' + encodeURIComponent(engs_org).replace(/'/g, '%27') +'"';
+
+      console.log(encodeURIComponent(engs_org), encodeURIComponent(engs_org).replace(/'/g, '%27'));
+      console.log(engs_org);
+      console.log(url_yarn);
+
+      link_yarn.setAttribute('href', `${url_yarn}`);      
+      link_youglish.setAttribute('href', `${url_youglish}`);
+      link_google.setAttribute('href', `${url_google}`);
+    }); 
   }  
 }
     
@@ -418,7 +529,12 @@ function trans_papago(position, SENTC){
       input_value = document.getElementById('word_toolbar_input').value;
       det_value = input_value.replace(/ /gi,'').replace(/\n/gi,'');
       res_value = document.getElementById('wtrv_ENG').innerText;
+    } else if (req_pos === 'third_1box_center') {
+      input_value = document.getElementById('t1_box_main_search_input').value;
+      det_value = input_value.replace(/ /gi,'').replace(/\n/gi,'');
+      res_value = document.getElementById('t1_box_Sres_ENG').innerText;
     }
+
     // input_value 확인(빈칸 or 한국 => res_value / ! input_value )
     if ((det_value === '') || (kor_check.test(input_value))) {
       if (res_value !== '') {
@@ -701,6 +817,34 @@ function modal1_openbtn_click(position) {
     
     document.getElementById("toggle_row").style.display = 'none';
   }
+
+  else if (req_pos === 'third_1box_center') {
+    console.log('mainbox modal1 starting');
+    wim_title.innerText = 'Add words to the wordbook';                
+    document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('third_1box_center')");
+    document.getElementById("toggle_row").style.display = 'block';    
+
+    document.getElementById("wim_input_eng").value = document.getElementById('t1_box_Sres_ENG').innerText;
+    document.getElementById("wim_input_kor").value = document.getElementById('t1_box_Sres_KOR').innerText;    
+      
+    fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{              
+      console.log('dropdown creating');
+      
+      for (let result of results){
+        dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result.Tables_in_oq4p2dxa5zpnk9gu}</a></li>`;
+      };
+      dropdown_menu.innerHTML = dropdown_list;   
+      console.log(results.length, selected_wordbook);
+      if ((selected_wordbook === '') && (results.length === 0)) {        
+        dropdown_button.innerText = 'create' ;
+        // selected_wordbook !!!!!! 워드북 만드는 화면으로
+      } else if ((selected_wordbook === '') && (results.length === 1)) {
+        dropdown_button.innerText = results[0].Tables_in_oq4p2dxa5zpnk9gu;
+      } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (results.includes(pre_selected_wordbook))){              
+        dropdown_button.innerText = pre_selected_wordbook;      
+      } 
+    });      
+  } 
 }
 
 function dropdown_wordbooklist_click(obj){
@@ -754,7 +898,17 @@ function wim_submit_btn_click(position){
       console.log(results);        
     });
     word_reading(document.getElementById('s3_word_id').innerText,'');  
-  }
+  } else if (req_pos === 'third_1box_center'){
+    console.log(req_pos + ': wim_submit_btn_click start');
+    var word = {
+      'wordbook_title' : document.getElementById('wim_dropdown_btn').innerText, 
+      'eng' : document.getElementById('wim_input_eng').value, 
+      'kor' : document.getElementById('wim_input_kor').value
+    };
+    fetch("/wordbook/word/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
+      console.log(results);        
+    });
+  } 
 }
 
 
@@ -765,26 +919,7 @@ function wim_submit_btn_click(position){
 
     // open / close
 
-function wordbook_open(){      
-  // await click_fadeoutdown(mainbox_center);    
-  if (second_1box_center.style.display !== 'none') {
-    click_bouncein(second_1box_center);
-  } else {
-    click_bounceinup(second_1box_center);  
-  }  
-}
 
-function wordbook_close(){    
-  if (second_1box_center.style.display !== 'none') {
-    click_bounceoutdown(second_1box_center); 
-  }  
-  if (second_2box_center.style.display !== 'none') {
-    click_bounceoutdown(second_2box_center);
-  }           
-  if (second_3box_center.style.display !== 'none') {
-    click_bounceoutdown(second_3box_center);
-  }           
-}
 
     // read
 
@@ -879,22 +1014,7 @@ async function edit_wordbook_click(number){
 
     // open, close 
 
-function wordlist_open(){    
-  if (second_2box_center.style.display !== 'none') {
-    click_bouncein(second_2box_center);
-  } else {
-    click_bounceinup(second_2box_center);  
-  }    
-}
 
-function wordlist_close(){
-  // click_fadein(second_1box_contents);
-  wordbook_reading('');
-  click_bounceoutdown(second_2box_center); 
-  if (second_3box_center.style.display !== 'none') {
-    click_bounceoutdown(second_3box_center);
-  }    
-}
 
     // read
 
@@ -923,16 +1043,16 @@ function wordlist_reading(number, title, time){
       console.log('1111');
       console.log(examples);      
       add_contents_html += `
-      <div class="wordlist_wrap shadow-sm">
-        <div class="wordlist_main">
-          <div class="wordlist_text animate__animated wordlist_id_${result.ID}" onclick="touch_block_action(document.getElementById('wordlist_eng_${result.ID}')); word_reading(${result.ID},'initial');">                    
-            <div id="wordlist_eng_${result.ID}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
-            <div id="wordlist_kor_${result.ID}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
-          </div>        
-          <div class="wordlist_option animate__animated" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}" onclick="touch_icon_action(this);">
-            <i class="fa-solid fa-list-check ft7 ftb text_red collapse_btn"></i>
-          </div>
-        </div>`;
+        <div class="wordlist_wrap shadow-sm">
+          <div class="wordlist_main">
+            <div class="wordlist_text animate__animated wordlist_id_${result.ID}" onclick="touch_block_action(document.getElementById('wordlist_eng_${result.ID}')); word_reading(${result.ID},'initial');">                    
+              <div id="wordlist_eng_${result.ID}" class="wordlist_eng ft8 ftb"> <span> ${result.ENG} </span></div>
+              <div id="wordlist_kor_${result.ID}" class="wordlist_kor ft8 ftb"> <span> ${result.KOR} </span></div>
+            </div>        
+            <div class="wordlist_option animate__animated" data-bs-toggle="collapse" data-bs-target="#wordlist_example_${result.ID}" aria-expanded="false" aria-controls="wordlist_example_${result.ID}" onclick="touch_icon_action(this);">
+              <i class="fa-solid fa-list-check ft7 ftb text_red collapse_btn"></i>
+            </div>
+          </div>`;
       if (examples !== null) {
         j = 0;
         add_contents_html += `
@@ -943,13 +1063,19 @@ function wordlist_reading(number, title, time){
           add_contents_html += `<li id="wordlist_${result.ID}_example_${j}">${example.ENG}<br>${example.KOR}</li>`;
           j +=1 ;
         }
-        add_contents_html += `</ul>
-              </div>        
-            </div>
-          </div>`;
+        add_contents_html += `
+              </ul>
+              <div class="wordlist_toolbar" style="display : flex; width : 30%; margin-left : 70%;">          
+                <div style="display : block; padding : 1rem; margin-left : 0.5rem;"><i class="fa-solid fa-pen ft5 ftb text_green animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="touch_icon_action(this); modal1_openbtn_click('second_2box_center');"></i></div>                              
+                <div style="display : block; padding : 1rem; margin-left : 0.5rem;"><i class="fa-solid fa-trash-can ft5 ftb text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="touch_icon_action(this); modal1_openbtn_click('second_2box_center');"></i></div>                            
+              </div>
+            </div>        
+          </div>`;        
       };      
-    add_contents_html += `</div>
-        </div>`;
+    add_contents_html += `          
+        </div>
+      </div>
+    </div>`;
     };
     document.getElementById('wordlist_list').innerHTML = add_contents_html;
     if (time === 'initial') {
@@ -973,20 +1099,7 @@ function wordlist_reading(number, title, time){
 
     // open, close
 
-function word_open(){
-  console.log('word_open start');  
-  if (second_3box_center.style.display !== 'none') {
-    click_bouncein(second_3box_center);
-  } else {
-    click_bounceinup(second_3box_center);  
-  }   
-}
 
-function word_close(){
-  // click_fadein(second_2box_contents);
-  wordlist_reading('', document.getElementById('s2_wordbook_title').innerText,'');
-  click_bounceoutdown(second_3box_center); 
-}
 
 
     // reading
@@ -1683,17 +1796,95 @@ function open_ebook(ebook_num){
   })
 }
 
-function third_1box_open(){    
-  if (third_1box_center.style.display !== 'none') {
-    click_bouncein(third_1box_center);
+async function wordbook_open(){      
+  // await click_fadeoutdown(mainbox_center);    
+  if (second_1box_center.style.display !== 'none') {
+    click_bouncein(second_1box_center);
+    document.querySelector('i.fa-star').classList.add('text_whiteoutline');
+    document.querySelector('i.fa-star:only-of-type').classList.add('text_grey');
+    await sleep(0.5);
+    hidden(mainbox_center);
+    hidden(third_1box_center);
   } else {
-    click_bounceinup(third_1box_center);  
+    click_bounceinup(second_1box_center);  
+    await sleep(0.5);
+    hidden(mainbox_center);
+    hidden(third_1box_center);
+  }  
+}
+
+function wordbook_close(){    
+  if (second_1box_center.style.display !== 'none') {
+    click_bounceoutdown(second_1box_center);     
+    visible(mainbox_center);
+  }  
+  if (second_2box_center.style.display !== 'none') {
+    click_bounceoutdown(second_2box_center);
+  }           
+  if (second_3box_center.style.display !== 'none') {
+    click_bounceoutdown(second_3box_center);
+  }           
+}
+
+function wordlist_open(){    
+  if (second_2box_center.style.display !== 'none') {
+    click_bouncein(second_2box_center);
+  } else {
+    click_bounceinup(second_2box_center);  
   }    
 }
 
-function third_1box_close(){
+function wordlist_close(){
+  // click_fadein(second_1box_contents);
+  wordbook_reading('');
+  click_bounceoutdown(second_2box_center); 
+  if (second_3box_center.style.display !== 'none') {
+    click_bounceoutdown(second_3box_center);
+  }    
+}
+
+function word_open(){
+  console.log('word_open start');  
+  if (second_3box_center.style.display !== 'none') {
+    click_bouncein(second_3box_center);
+  } else {
+    click_bounceinup(second_3box_center);  
+  }   
+}
+
+function word_close(){
+  // click_fadein(second_2box_contents);
+  wordlist_reading('', document.getElementById('s2_wordbook_title').innerText,'');
+  click_bounceoutdown(second_3box_center); 
+}
+
+async function third_1box_open(){    
+  if (third_1box_center.style.display !== 'none') {
+    click_bouncein(third_1box_center);
+    document.querySelector('i.fa-star').classList.add('text_whiteoutline');
+    document.querySelector('i.fa-star:only-of-type').classList.add('text_grey');
+    await sleep(0.5);
+    hidden(mainbox_center);
+    hidden(second_1box_center);
+    hidden(second_2box_center);
+    hidden(second_3box_center);
+  } else {
+    click_bounceinup(third_1box_center);      
+    await sleep(0.5);
+    hidden(mainbox_center);
+    hidden(second_1box_center);
+    hidden(second_2box_center);
+    hidden(second_3box_center);
+  }    
+}
+
+async function third_1box_close(){
   if (third_1box_center.style.display !== 'none') {
     click_bounceoutdown(third_1box_center); 
+    document.querySelector('i.fa-star').classList.add('text_whiteoutline');
+    document.querySelector('i.fa-star:only-of-type').classList.add('text_grey');
+    await sleep(0.5);
+    visible(mainbox_center);
   }    
 }
   

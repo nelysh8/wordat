@@ -43,6 +43,41 @@ body {
 }
 
 /* font */
+.ft1_9 {
+  font-size: 4.6rem ;
+}
+
+.ft1_8 {
+  font-size: 4.4rem ;
+}
+
+.ft1_7 {
+  font-size: 4.2rem ;
+}
+
+.ft1_6 {
+  font-size: 4rem ;
+}
+
+.ft1_5 {
+  font-size: 3.8rem ;
+}
+
+.ft1_4 {
+  font-size: 3.6rem ;
+}
+
+.ft1_3 {
+  font-size: 3.4rem ;
+}
+
+.ft1_2 {
+  font-size: 3.2rem ;
+}
+
+.ft1_1 {
+  font-size: 3rem ;
+}
 
 .ft1 {
     font-size : 2.8rem;
@@ -745,14 +780,14 @@ ul {
 .searchbar {
     display : none;
     /* display : block; */
-    align-content:center;
+    /* align-content:center;
     align-items: center;
     text-align: center;
     vertical-align: middle;
     width : 95%;
     border-radius : 20px;    
     margin : 0 auto 0 auto;
-    padding : 1rem 0 1rem 0;
+    padding : 1rem 0 1rem 0; */
     
     
     align-content:center;
@@ -763,6 +798,7 @@ ul {
     border-radius : 20px;    
     margin : 0 auto 0 auto;
     padding : 1rem 0 1rem 0;
+    overflow-y: scroll;
 }
 
     .searchbar_main {
@@ -1490,22 +1526,182 @@ ul {
               }
 
   .third_1box_center {
-    display : none;
+    display : block;
     position : absolute;
-    width : 91.4%;    
+    width : 100%;    
     height : 100%;
-
-    margin-left : 4.3%;
-    margin-right : 4.3%;  
-    padding : 0.5rem 2rem 0.5rem 2rem;  
+    justify-content: space-between;  
+    /* padding-bottom : 1rem; */
+    /* align-content:center;
+    align-items: center;
+    text-align: center; */            
+    margin-left : auto;
+    margin-right : auto;    
     overflow-y: scroll;
-    background-color: white;  
-    z-index : 4;
-    border-radius: 20px;
+    z-index : 2;
   }
 
     .ebook_read_title {
 
+    }
+
+    .t1_mainbox {
+      display : flex;
+        
+        /* height : 44rem; */
+        /* height : 55rem; */
+        height : 98%;
+        width : 95%;
+        margin-left:auto; margin-right: auto;
+        /* padding : 1.5rem; */
+        /* margin-bottom: 0rem; */
+        /* align-content:center; */
+        /* align-items: center; */
+        /* text-align: center;         */
+        border-radius : 20px;    
+        overflow-y: scroll;                
+        z-index : 4;               
+    }
+    
+    .t1_mainbox::-webkit-scrollbar {
+      display: none;
+    }
+
+    #third_1box_contents {
+      
+        width : 92%;
+        height: 95%;
+        margin : 1.5rem;
+        padding : 0;
+        
+        overflow-y: scroll;     
+    
+    }
+
+    #third_1box_contents::-webkit-scrollbar {
+      display: none;
+    }
+
+    .t1_box_searchbar {
+      display : none;
+      align-content:center;
+      align-items: center;
+      text-align: center;
+      vertical-align: middle;
+      margin : 0 auto 0 auto;
+      padding : 1rem 0 1rem 0;
+      width : 95%;
+      border-radius : 20px;          
+      overflow-y: scroll;
+    }
+
+      
+  
+      .searchbar_main {
+          display : flex;
+          position : relative;
+          width : 90%;
+          margin : auto;
+          margin-bottom : 0.8rem;
+          align-content: space-between;
+          vertical-align: middle;
+          border-radius: 7px ;
+          
+      }
+  
+        #t1_box_main_search_input {    					
+            height : 3.6rem;
+            max-height: 14rem;
+            /* ((scrollHeight/10)+0.4)rem; */					
+            width: 85%;
+            border-radius: 10px ;
+            border : 0.1rem solid #999;
+            outline : none;     
+            text-align : justify;
+            padding : 0.5rem 2.8rem 0.5rem 1rem; 
+            overflow-y:scroll;   
+        }
+  
+        #t1_box_main_search_input:focus {
+            border: 2px solid firebrick;
+        }
+  
+        #t1_box_msi_icon_x {        
+          position : absolute;
+          align-items: center;
+          left : 77%;          
+          height : 3.6rem;
+          font-size : 2.5rem;          
+          
+            
+            /* top : 61%; */
+            /* transform: translateY(-50%);     */
+            /* height : 3.6rem; */
+                      
+            /* margin-bottom : 1rem; */ 					
+        }
+        
+        #t1_box_msi_icon_trans {
+          display : flex;			        
+          align-items: center;	
+          margin-left : 0.6rem;
+          font-size : 3.3rem;				
+          padding : 0;
+          height : 3.6rem;				
+        }			
+  
+      .searchbar_items {
+          display : flex;
+          width : 95%;
+          padding : 0.5rem;
+          border-radius: 20px ;
+          margin : auto auto auto auto;				
+          text-align :justify;
+          text-align-last: justify;
+          align-content: space-between;
+          vertical-align: middle;    
+      }
+  
+        .searchbar_items a {				
+          margin : auto;
+          /* align-content:center;
+          vertical-align: middle; */
+        }
+      
+        .searchbar_items .tts {				
+            margin : auto;
+            /* align-content:center;
+            vertical-align: middle; */
+        }
+  
+        .searchbar_items i {        				
+          font-size : 25px;
+          margin : auto;				
+          /* margin-bottom : 1rem; */
+          /* padding : 0.5rem;     */
+          /* z-index : 0; */
+        }
+      
+      .searchResult {
+        display : block;        
+        align-content:center;
+        align-items: center;			
+        vertical-align: middle;    
+        width : 90%;
+        margin : 1rem auto auto auto;
+        padding : 1rem 0.5rem 1rem 0.5rem;
+        background-color: cornsilk;
+        border-radius : 20px;   			       
+      }
+        
+      .result_view {
+        display : flex;
+        height : 33rem;
+        width : 85%;    
+        margin : auto;
+        /* margin-bottom : 10px; */
+        align-content: space-between;
+        vertical-align: middle;
     }
                               
 

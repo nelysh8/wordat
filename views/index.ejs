@@ -87,9 +87,12 @@
                   </div>                    
                 </div>
               </div>
-              <div class="carousel-item " id="contents_start">            
-                <div class="blank_sheet">
-                  
+              <div class="carousel-item active" id="contents_start">            
+                <div class="blank_sheet" style="background-color: rgb(6, 24, 75);">
+                  <div style="width : fit-content; margin : 20rem auto auto auto; ">
+                    <i class="fa-regular fa-snowflake ft1_9 text_white"></i><span class="ft1_9 ftb text_white"> Word</span><span class="ft1_9 ftbb text_white">AT </span><i class="fa-solid fa-tree ft1_9 ftb text_white"></i> <br>
+                    <span class="ft1 ftb text_cornsilk">Swipe Left/Right</span>
+                  </div>
                 </div>
               </div>
               <div class="carousel-item" id="contents_cartoon">            
@@ -115,7 +118,7 @@
                   </div>
                 </div>
               </div> 
-              <div class="carousel-item active" id="contents_ebook">              
+              <div class="carousel-item" id="contents_ebook">              
                 <div class="blank_sheet">
                   <div class="ebook_box_title"><span class="ft3 ftbb">EBooks</span></div>
                   <div class="ebook_box_link">
@@ -208,17 +211,17 @@
           -->
         </div>
       </div>
-      <div class="popup_tool animate__animated" id="s1_popup_tool">
+      <!-- <div class="popup_tool animate__animated" id="s1_popup_tool"> -->
         <!-- <div class="popup_icon_top animate__animated">
           <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick="click_bounce(this);"></i>                              
         </div>         
         <div class="popup_icon_bottom animate__animated">
           <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); wordbook_close();"></i>
         </div>   -->
-        <div class="popup_icon_middle" onclick="popup_tool('second_1box_center');">
+        <!-- <div class="popup_icon_middle" onclick="popup_tool('second_1box_center');">
           <i class="fa-solid fa-fan ft3 ftbb text_blue animate__animated"></i>
-        </div>        
-      </div>
+        </div>         -->
+      <!-- </div> -->
     </div>
       
     
@@ -233,17 +236,17 @@
           <!-- example start -->                                        
         </div>
       </div> 
-      <div class="popup_tool animate__animated" id="s2_popup_tool">
+      <!-- <div class="popup_tool animate__animated" id="s2_popup_tool"> -->
         <!-- <div class="popup_icon_top animate__animated">
           <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="modal1_openbtn_click('second_2box_center'); click_bounce(this);"></i>                              
         </div>         
         <div class="popup_icon_bottom animate__animated">
           <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); wordlist_close();"></i>
         </div>   -->
-        <div class="popup_icon_middle" onclick="popup_tool('second_2box_center');">
+        <!-- <div class="popup_icon_middle" onclick="popup_tool('second_2box_center');">
           <i class="fa-solid fa-fan ft3 ftbb text_blue animate__animated"></i>
-        </div>        
-      </div>      
+        </div>         -->
+      <!-- </div>       -->
     </div>
   <!-- Second-2box-center end -->
 
@@ -296,27 +299,61 @@
           </div>              
         </div>  
       </div>
-      <div class="popup_tool animate__animated" id="s3_popup_tool">
+      <!-- <div class="popup_tool animate__animated" id="s3_popup_tool"> -->
         <!-- <div class="popup_icon_top animate__animated">
           <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="modal1_openbtn_click('second_3box_center'); click_bounce(this);"></i>                              
         </div>         
         <div class="popup_icon_bottom animate__animated">
           <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); word_close();"></i>
         </div>   -->
-        <div class="popup_icon_middle" onclick="popup_tool('second_3box_center');">
+        <!-- <div class="popup_icon_middle" onclick="popup_tool('second_3box_center');">
           <i class="fa-solid fa-fan ft3 ftbb text_blue animate__animated"></i>
-        </div>        
-      </div> 
+        </div>         -->
+      <!-- </div>  -->
     </div>   
 
     <!-- third_1box_center -->
     <div class="container-fluid third_1box_center animate__animated" id="third_1box_center" style="display:none;">
-      <div class="ebook_headline" id="ebook_headline">
-        <div class="title" id="t2_ebook_title"><span class="ft6 ftb text_pink">  </span></div>                
-      </div>
-      <div class="contents" id="third_1box_contents">
+      <div class="t1_mainbox shadow-lg" id="t1_mainbox">
+        <div class="ebook_headline" id="ebook_headline">
+          <div class="title" id="t1_ebook_title"><span class="ft6 ftb text_pink">  </span></div>                
+        </div>
+        <div class="contents" id="third_1box_contents">
         
-      </div>       
+        </div>
+      </div>  
+      <div class="t1_box_searchbar shadow-lg animate__animated" id="t1_box_searchbar" style="display:none;">
+        <div class="searchbar_main">
+          <textarea class="autosize ft8" id="t1_box_main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+          <div id="t1_box_msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('third_1box_center');touch_icon_action(this);"></i></div>
+          <div id="t1_box_msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="touch_icon_action(this); tranbtn_click('third_1box_center');"></i></div>
+        </div>
+        <div class="searchbar_items">          
+          <a id="t1_box_msi_link_yarn" href="https://getyarn.io/" target="_blank"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="touch_icon_action(this);"/></a>
+          <a id="t1_box_msi_link_youglish" href="https://youglish.com/" target="_blank"> <img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="touch_icon_action(this);"/></a>
+          <a id="t1_box_msi_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>          
+          <i id="t1_box_msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="touch_icon_action(this); tts_pos('third_1box_center', 1);" ></i>          
+          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="touch_icon_action(this); modal1_openbtn_click('third_1box_center');"></i>                    
+        </div>  
+        <div class="searchResult shadow-sm animate__animated" style="display: none" id="t1_box_Sres_view" >        
+          <div class="Sres_view" name="t1_box_Sres_view">
+            <ul>
+              <li class="Sres_ENG" >
+                  <p id="t1_box_Sres_ENG" class="ft8 ftbb text_red"></p>
+              </li>
+              <li class="Sres_KOR">
+                  <p id="t1_box_Sres_KOR" class="ft8 ftb text_green"></p>
+              </li>
+              <li class="Sres_WORD">
+                <p id="t1_box_Sres_WORD" class="ft8"> </p>
+              </li>
+              <li class="Sres_option">            
+                
+              </li>          
+            </ul>
+          </div>              
+        </div>        
+      </div>   
     </div>
 
     <!-- layer -->
@@ -340,31 +377,31 @@
     <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close(); third_1box_close();">      
       <ul>
         <li><i class="fa-solid fa-house ft7 ftbb text_whiteoutline"></i></li>
-        <li><span class="ft10"> Home  </span></li>
+        <li><span class="ft10"> Home </span></li>
       </ul>      
     </div>        
     <div class="footbar_menu animate__animated" onclick="click_footbar(this, 2); wordbook_reading('initial');">        
       <ul>
-        <li><i class="fa-solid fa-book ft7 ftbb text_whiteoutline"></i></li>
-        <li><span class="ft10"> Wordbook  </span></li>
+        <li><i class="fa-solid fa-book-open ft7 ftbb text_whiteoutline"></i></li>
+        <li><span class="ft10"> Wordbook </span></li>
       </ul>
     </div>
     <div class="footbar_menu animate__animated" onclick="click_footbar(this, 3);">
       <ul>
-        <li><i class="fa-solid fa-star ft7 ftbb text_red text_whiteoutline"></i></li>
-        <li><span class="ft10"> Search  </span></li>
+        <li><i class="fa-solid fa-star ft7 ftbb text_red text_whiteoutline" id="footbar_star"></i></li>
+        <li><span class="ft10"> Search </span></li>
       </ul>             
     </div>
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4); third_1box_open();">
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4);">
       <ul>
-        <li><i class="fa-solid fa-book-open ft7 ftbb text_whiteoutline"></i></li>
-        <li><span class="ft10"> Ebook  </span></li>
+        <li><i class="fa-solid fa-gear ft7 ftbb text_whiteoutline"></i></li>
+        <li><span class="ft10"> Setting </span></li>
       </ul>             
     </div>
     <div class="footbar_menu animate__animated">
       <ul>
         <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_whiteoutline" onclick="click_footbar(this, 5);""></i></li>
-        <li><span class="ft10"> back </span></li>
+        <li><span class="ft10"> Back </span></li>
       </ul>
     </div>
   </div>
