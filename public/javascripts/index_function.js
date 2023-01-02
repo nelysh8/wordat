@@ -1169,7 +1169,7 @@ function s2_box_click(){
 
 
 // <!-- popover -->
-    
+    // 
 
       var popover = new bootstrap.Popover(element, {
         popperConfig: function (defaultBsPopperConfig) {
