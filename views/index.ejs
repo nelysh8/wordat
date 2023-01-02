@@ -117,7 +117,7 @@
               </div> 
               <div class="carousel-item active" id="contents_ebook">              
                 <div class="blank_sheet">
-                  <div class="ebook_box_title"><span class="ft3 ftbb">Today's E-Book</span></div>
+                  <div class="ebook_box_title"><span class="ft3 ftbb">EBooks</span></div>
                   <div class="ebook_box_link">
                     <span class="ft9 text_gray">see more at </span>
                     <img src="/images/Project-Gutenberg-logo.png" style="width:5rem; margin-right:0.3rem; border-radius: 4px;" onclick="window.open('https://www.gutenberg.org/')">                    
@@ -309,12 +309,12 @@
       </div> 
     </div>   
 
-    <!-- third_2box_center -->
-    <div class="container-fluid third_2box_center animate__animated" id="third_2box_center" style="display:none;">
+    <!-- third_1box_center -->
+    <div class="container-fluid third_1box_center animate__animated" id="third_1box_center" style="display:none;">
       <div class="ebook_headline" id="ebook_headline">
         <div class="title" id="t2_ebook_title"><span class="ft6 ftb text_pink">  </span></div>                
       </div>
-      <div class="contents" id="third_2box_contents">
+      <div class="contents" id="third_1box_contents">
         
       </div>       
     </div>
@@ -337,7 +337,7 @@
 <!-- foot bar -->
 
   <div class="footbar animate__animated" id="footbar">
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close();">      
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close(); third_1box_close();">      
       <ul>
         <li><i class="fa-solid fa-house ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Home  </span></li>
@@ -355,7 +355,7 @@
         <li><span class="ft10"> Search  </span></li>
       </ul>             
     </div>
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4);">
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4); third_1box_open();">
       <ul>
         <li><i class="fa-solid fa-book-open ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Ebook  </span></li>

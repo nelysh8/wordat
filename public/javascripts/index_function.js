@@ -1619,10 +1619,11 @@ function ebook_list(num){
   fetch("/ebook_list", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(view_num)}).then((response)=>response.json()).then((results)=>{    
     if ((results !== null) && (results[0].title !== '')) {          
       for (result of results) {        
+        // console.log(result);
         document.getElementById('today_ebook').innerHTML += `        
           <div id="ebook_item" style="width : 90%; margin : auto; margin-top : 1rem; margin-bottom : 0rem; padding : 0.5rem; border-radius: 4px; overflow:auto;"> 
             <div class="ebook_img" style="float:left; margin-right : 1rem;">
-              <img src="${result.image_link}" style="min-width : 5rem; max-width:6rem; min-height: 8rem; max-height:9rem;">          
+              <img src="${result.image_link}" onclick="window.open('https://www.gutenberg.org/cache/epub/${result.ebook_num}/pg${result.ebook_num}-images.html');" style="min-width : 5rem; max-width:6rem; min-height: 8rem; max-height:9rem;">          
             </div>
             <div class="ebook_title">
               <span class="ft8 ftb" style="color:#a01f13;" onclick="open_ebook(${result.ebook_num});">${result.title}</span>
@@ -1642,32 +1643,57 @@ function ebook_list(num){
 }
 
 function open_ebook(ebook_num){
-  third_2box_open();
-  var ebook_contents = document.getElementById('third_2box_contents');
+  third_1box_open();
+  var ebook_contents = document.getElementById('third_1box_contents');
   var contents = ''
   var ebook_num = {'ebook_num' : ebook_num};
 
   fetch("/open_ebook", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(ebook_num)}).then((response)=>response.json()).then((results)=>{
     console.log(results);
-    for (chapt of results.chapter) {    
-      contents += `<span class="ft6 ftb">${chapt.title}</span><br>`;          
-      for (part of chapt.sentence) {            
-        for (chunk of part) {
-          contents += `<span class="ft8" onclick="touch_block_action(this); tts_any(this.innerText, 1)">${chunk} </span>`;
-          // console.log(chunk);
-        }
-        contents += '<br>';
-      }            
+    if (results.chapter.sentence !== 'error') {
+      contents += `
+        <div class="ebook_read_title ft_noto" style="display:flex; margin-bottom : 5rem;"> 
+          <img src='${results.cover.img_link}' style='width:50%; margin-right : 1rem;'>
+          <div style="margin-top : auto; margin-bottom : auto;"
+            <p class="ft4 ftbb">${results.cover.title}</p>
+            <p class="ft5 ftbb" style="text-align : right">-${results.cover.author}</p>        
+          </div>
+        </div>
+        `;
+      
+      for (chapt of results.chapter) {    
+        contents += `
+        <div style="text-align : center; margin : 2rem auto 2rem auto">
+          <span class="ft7 ftb ft_noto" style="line-height : 180%;">${chapt.title}</span><br>
+        </div>`;    
+              
+        for (part of chapt.sentence) {            
+          for (chunk of part) {
+            contents += `<span class="ft8 ft_noto" onclick="touch_block_action(this); tts_any(this.innerText, 1)">${chunk} </span>`;
+            // console.log(chunk);
+          }
+          contents += `<br>`;
+        }            
+      }
+      ebook_contents.innerHTML = contents;
+    } else {
+      contents += `<span class="ft6 ftb ft_noto">failure(use a link of gutenberg by clicking a picture of the book)</span><br>`;          
+      ebook_contents.innerHTML = contents;
     }
-    ebook_contents.innerHTML = contents;
   })
 }
 
-function third_2box_open(){    
-  if (third_2box_center.style.display !== 'none') {
-    click_bouncein(third_2box_center);
+function third_1box_open(){    
+  if (third_1box_center.style.display !== 'none') {
+    click_bouncein(third_1box_center);
   } else {
-    click_bounceinup(third_2box_center);  
+    click_bounceinup(third_1box_center);  
+  }    
+}
+
+function third_1box_close(){
+  if (third_1box_center.style.display !== 'none') {
+    click_bounceoutdown(third_1box_center); 
   }    
 }
   

@@ -557,21 +557,8 @@ app.post('/ebook_list', function (req, res) {
         title : $contents.eq(i).find('span.title').text(),
         author : $contents.eq(i).find('span.subtitle').text(),
         hit : $contents.eq(i).find('span.extra').text().replace(' downloads', '')
-      }
-      // links.push(
-      //   `'image_link' : ${$contents.eq(i).find('img').attr('src')},
-      //   'title' : ${$contents.eq(i).find('span.title').text()},
-      //   'author' : ${$contents.eq(i).find('span.subtitle').text()},
-      //   'hit' : ${$contents.eq(i).find('span.extra').text().replace(' downloads', '')}`);      
+      }      
     }
-  //   const $title = $content.find('div.hw_m.box_sizing');
-  //   links.word.title = $title.find('div.hw_line span').text();    
-  //   links.word.pronun = $title.find('div.text_prons span.hpron_word').text();
-  //   links.word.part = $title.find('div.fl').text();
-  //   links.word.image_link = $content.find('div.wod_img_act img').attr('src');
-  //   links.word.image_title = $content.find('div.wod_img_tit').text();
-  //   links.word.definition = $content.find('div.midbs div:nth-child(1) div.midbt p').text();
-  //   links.word.example = $content.find('div.midbs div:nth-child(1) div.vibs li.vi p').text();
     console.log(links);    
     return links;
   })
@@ -612,116 +599,95 @@ app.post('/open_ebook', function (req, res) {
   getHtml()
   .then(html => {
     var $ = cheerio.load(html.data);
-    var $fig = $('div.fig');
-    var $chapter = $('div.chapter');
-    console.log($fig.text(), $chapter.length);
+    var $fig;
+    var $chapter;
+    var title_img, title_name, title_author;
+
+    // ebook information
+    $fig = $('div.fig');
+    if ($fig.length !== 0) {      
+      title_img = `https://www.gutenberg.org/cache/epub/${ebook_num}/${$fig.find('img').attr('src')}`;      
+    } else {
+      $fig = $('img:nth-child(1)');
+      title_img = `https://www.gutenberg.org/cache/epub/${ebook_num}/${$fig.attr('src')}`;
+    }
+    title_name = $('#pg-machine-header p:nth-child(1)').text().replace('Title: ', '');    
+    title_author = $('#pg-machine-header p:nth-child(2)').text();
+    if (title_author.includes('Author') === false) {
+      title_author = $('#pg-machine-header p:nth-child(3)').text().replace('Author: ', '');
+    } else {
+      title_author = title_author.replace('Author: ', '');
+    }
 
     ebook_entitle = { 
       cover : {
-        img_link : `https://www.gutenberg.org/cache/epub/${ebook_num}/${$fig.find('img').attr('src')}`,
-        title : $('h1').text(),
-        author : $('h2.no-break').text()
+        img_link : title_img,
+        title : title_name,
+        author : title_author
       }
     };    
-    let i=0;
-    for (var chapter of $chapter) {                        
 
-      var $ebook_contents_sentences = $chapter.eq(i).find('p');            
+    // chapter information
+    $chapter = $('div.chapter');
+    if ($chapter.length !== 0) {      
+      console.log('we are here?');    
       
-      let j=0;
-      ebook_part = [];
-      for (sentence of $ebook_contents_sentences) {                        
-        var ebook_contents_sentence = $ebook_contents_sentences.eq(j).text().replace(/\n/gi, ' ');
-        var doc = nlp(ebook_contents_sentence);     
-        ebook_part[j] = doc.clauses().out('array');
-        j += 1;
+      let i=0;
+      for (var chapter of $chapter) {                        
+        var $ebook_contents_sentences = $chapter.eq(i).find('p');            
+        let j=0;
+        ebook_part = [];
+        for (sentence of $ebook_contents_sentences) {                        
+          var ebook_contents_sentence = $ebook_contents_sentences.eq(j).text().replace(/\n/gi, ' ');
+          var doc = nlp(ebook_contents_sentence);     
+          ebook_part[j] = doc.clauses().out('array');
+          j += 1;
+        };
+        ebook_chapter[i] = {
+          num : (i + 1),
+          title : ($chapter.eq(i).find('h2').text()),
+          sentence : ebook_part
+        };            
+        i+=1;      
       };
-      ebook_chapter[i] = {
-        num : (i + 1),
-        title : ($chapter.eq(i).find('h2').text()),
-        sentence : ebook_part
+      ebook_entitle.chapter = ebook_chapter;        
+      return ebook_entitle;
+
+    } else {
+      var $chapter_div = $('table > tbody > tr');
+      console.log('we are here');
+      console.log($chapter_div.length);
+      
+      var chapter_id = [];
+
+      var i = 1;
+      for (var chapter_div of $chapter_div) {
+        var temp_id = $chapter_div.parent().find(`tr:nth-child(${i}) a.pginternal`).attr('href');          
+        if ((temp_id !== undefined) && (temp_id.includes('.') === false)) {
+          chapter_id.push(temp_id.replace('#',''));
+        }        
+        i += 1;
+      }
+
+      ebook_chapter = {
+        num : '',
+        title : '',
+        sentence : 'error'
       };            
-      i+=1;      
-    };
-    
-    ebook_entitle.chapter = ebook_chapter;        
-    
-    return ebook_entitle;
+      
+      ebook_entitle.chapter = ebook_chapter;        
+      return ebook_entitle;
+
+    }
+  // body > table:nth-child(43) > tbody > tr:nth-child(1) > td:nth-child(3) > a
   })
   .then(results => {
-    res.send(results);
+    res.send(results);    
   })
 })
 
 
-// whList[i] = {
-//   word : $head.find('div.di-title h2.headword span').text(),
-//   part : $head.find('span.pos').text(),         
-//   pronounce : $head.find('span.us').parent().find('span.ipa').text(),
-//   pronounce_link : $head.find('span.us source').attr('src')
-// };                
 
-// // console.log('hi : ' + $head.find('div.sense-block').length);
-
-// let j = 0;
-// ulList = [];
-
-// for (let meaningbox of $head.find('div.sense-block')) {
-//   const $meaningline = $head.find(`div.sense-block:nth-child(${j+1})`);          
-
-//   ulList[j] = {
-//         meaning_eng : $meaningline.find('div.ddef_d').text().trim(),                  
-//         meaning_kor : $meaningline.find('span.trans').text().trim(),
-//         example : [$meaningline.find('div.def-body div.examp:nth-child(2) span').text().trim(), $meaningline.find('div.def-body div.examp:nth-child(3) span').text().trim()]                
-//   };                    
-//   j += 1;        
-// };  
-
-
-// ,
-// https://www.gutenberg.org/ebooks/search/?sort_order=downloads&start_index=101
-// 
-
-  
-
-    //     whList[i] = {
-    //       word : $head.find('div.di-title h2.headword span').text(),
-    //       part : $head.find('span.pos').text(),         
-    //       pronounce : $head.find('span.us').parent().find('span.ipa').text(),
-    //       pronounce_link : $head.find('span.us source').attr('src')
-    //     };                
-
-    //     // console.log('hi : ' + $head.find('div.sense-block').length);
-        
-    //     let j = 0;
-    //     ulList = [];
-
-    //     for (let meaningbox of $head.find('div.sense-block')) {
-    //       const $meaningline = $head.find(`div.sense-block:nth-child(${j+1})`);          
-
-    //       ulList[j] = {
-    //             meaning_eng : $meaningline.find('div.ddef_d').text().trim(),                  
-    //             meaning_kor : $meaningline.find('span.trans').text().trim(),
-    //             example : [$meaningline.find('div.def-body div.examp:nth-child(2) span').text().trim(), $meaningline.find('div.def-body div.examp:nth-child(3) span').text().trim()]                
-    //       };                    
-    //       j += 1;        
-    //     };  
-        
-    //     // console.log(ulList);
-    //     whList[i].meanings = ulList; 
-    //     // console.log('-------------WL-----------------' + whList);
-    //     i += 1;
-    //   };
-    //   // console.log('next : ' + $wordhead.find('div.entry-body__el').html());     
-    // const data = whList;    
-    // return data;
-    // })
-
-//   .then(result => {      
-//     // console.log(result);          
-//     res.json(result);
-//   });
-// });
 
 
 

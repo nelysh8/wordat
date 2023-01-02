@@ -1489,22 +1489,24 @@ ul {
                   padding-left : 5px;
               }
 
-  #third_2box_center {
+  .third_1box_center {
     display : none;
     position : absolute;
-    width : 100%;      
-    height : auto;
-    top : 0;
-    bottom : 0;
-    /* min-height : 91%;  
-    max-height : 94%; */
-    margin : 4rem 0 0 0;
-    padding-top : 0.5rem;
+    width : 91.4%;    
+    height : 100%;
+
+    margin-left : 4.3%;
+    margin-right : 4.3%;  
+    padding : 0.5rem 2rem 0.5rem 2rem;  
     overflow-y: scroll;
-    background-color: cornsilk;   
-    z-index : 6;
+    background-color: white;  
+    z-index : 4;
     border-radius: 20px;
   }
+
+    .ebook_read_title {
+
+    }
                               
 
   #link_frame {
