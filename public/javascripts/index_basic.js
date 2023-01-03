@@ -173,7 +173,7 @@
 
       async function click_fadeout(obj) {        
         obj.classList.toggle('animate__fadeOut');      
-        await sleep(0.9); 
+        await sleep(0.3); 
         hidden(obj);
         obj.classList.toggle('animate__fadeOut');
       }              
@@ -292,8 +292,13 @@
         click_slideup(document.getElementById('footbar'));
         document.getElementById('footbar').style.display = 'flex';
         document.getElementById('mainbody').style.marginBottom = '6rem';             
+      }           
 
-        
+      async function late_footbar_vis() {        
+        await sleep(0.3);
+        click_slideup(document.getElementById('footbar'));
+        document.getElementById('footbar').style.display = 'flex';
+        document.getElementById('mainbody').style.marginBottom = '6rem';             
       }           
 
       function footbar_dis() {        

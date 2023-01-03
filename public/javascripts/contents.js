@@ -1,8 +1,8 @@
 function cartoon(){
-    console.log('cartoon start');
-    document.getElementById('today_cartoon').innerHTML = '';
+    console.log('cartoon start');    
     fetch("/cartoon", {method : 'post'}).then((response)=>response.json()).then((results)=>{
       console.log(results);
+      document.getElementById('today_cartoon').innerHTML = '';
       if (results.cartoon_peanuts !== '') {
         document.getElementById('today_cartoon').innerHTML += `
           <div class="cartoon_item">
@@ -34,9 +34,10 @@ function cartoon(){
   
   async function paper(){
     console.log('paper start');
-    document.getElementById('today_paper').innerHTML = '';
+    
     fetch("/paper", {method : 'post'}).then((response)=>response.json()).then((results)=>{
       console.log(results);
+      document.getElementById('today_paper').innerHTML = '';
       if (results.word.title !== '') {
         document.getElementById('today_paper').innerHTML += `
           <div class="paper_item">

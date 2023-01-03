@@ -20,10 +20,24 @@ const third_1box_center = document.getElementById('third_1box_center');
 const selected_wordbook = '';
 
 window.onload = function(){
+  document.getElementById('loading_layer').style.display = 'none';
   cartoon();
   paper();
   ebook_list(0);
+
 };
+
+// iphone 확대저지
+
+if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i)) {
+  var viewportmeta = document.querySelector('meta[name="viewport"]');
+  if (viewportmeta) {
+      viewportmeta.content = 'width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0';
+      document.body.addEventListener('gesturestart', function () {
+          viewportmeta.content = 'width=device-width, minimum-scale=0.25, maximum-scale=1.6';
+      }, false);
+  }
+}
 
 // Carousel 감지
 var contents_wordbook = document.getElementById("contents_wordbook");
@@ -70,7 +84,7 @@ var contents_ebook_observer = new MutationObserver(mutations => {
   if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
     console.log('mutation ebook activation detected');  
     document.getElementById('carousel-btn-line').innerHTML = `
-              <div id="quiz_hint_btn" class="animate__animated" onclick="touch_icon_action(this); ebook_list((Number(document.getElementById('ebook_view_num').innerHTML)) + 1);">
+              <div id="carousel_bottom_btn" class="animate__animated" onclick="touch_icon_action(this); ebook_list((Number(document.getElementById('ebook_view_num').innerHTML)) + 1);">
                 <i class="fa-solid fa-circle-arrow-right ft5 text_red"></i>
               </div>                
               `;
@@ -94,6 +108,26 @@ contents_ebook_observer.observe(contents_ebook, observer_config);
 
 // 감지 종료
 // observer.disconnect();
+
+// swipe
+
+$('.carousel').on('touchstart', function(event){
+  const xClick = event.originalEvent.touches[0].pageX;
+  $(this).one('touchmove', function(event){
+      const xMove = event.originalEvent.touches[0].pageX;
+      const sensitivityInPx = 10;
+
+      if( Math.floor(xClick - xMove) > sensitivityInPx ){
+          $(this).carousel('next');
+      }
+      else if( Math.floor(xClick - xMove) < -sensitivityInPx ){
+          $(this).carousel('prev');
+      }
+  });
+  $(this).on('touchend', function(){
+      $(this).off('touchmove');
+  });
+});
 
 // input detection
 const Search_DOC = document.querySelector(".searchbar");
@@ -119,26 +153,6 @@ t1_box_Search_Input.addEventListener("keyup", e => {
   if (e.keyCode === 13 && e.shiftKey && e.target.value){        
     tranbtn_click('third_1box_center');
   }
-});
-
-// swipe
-
-$('.carousel').on('touchstart', function(event){
-  const xClick = event.originalEvent.touches[0].pageX;
-  $(this).one('touchmove', function(event){
-      const xMove = event.originalEvent.touches[0].pageX;
-      const sensitivityInPx = 15;
-
-      if( Math.floor(xClick - xMove) > sensitivityInPx ){
-          $(this).carousel('next');
-      }
-      else if( Math.floor(xClick - xMove) < -sensitivityInPx ){
-          $(this).carousel('prev');
-      }
-  });
-  $(this).on('touchend', function(){
-      $(this).off('touchmove');
-  });
 });
 
 // long touch 함수

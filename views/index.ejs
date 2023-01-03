@@ -22,7 +22,7 @@
     <script src="https://kit.fontawesome.com/ac68d7a452.js" crossorigin="anonymous"></script>    
 
     <link rel="stylesheet" href="/stylesheets/style.css">        
-    <script src="/javascripts/index_basic.js"></script>
+    <script src="/javascripts/index_basic.js"></script>    
     
   </head>
 
@@ -78,6 +78,17 @@
               <div class="carousel-item" id="contents_wordbook">
                 <div id="today_short_quiz">
                   <div id="ts_quiz_title"><span class="ft5 ftbb text_green ft_underbar">기억하시나요? 이 표현들.</span></div>
+                  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1092619034576489"
+                      crossorigin="anonymous"></script>
+                  <ins class="adsbygoogle"
+                      style="display:block"
+                      data-ad-format="fluid"
+                      data-ad-layout-key="-hz-6-f-62+fy"
+                      data-ad-client="ca-pub-1092619034576489"
+                      data-ad-slot="2390361632"></ins>
+                  <script>
+                      (adsbygoogle = window.adsbygoogle || []).push({});
+                  </script>
                   <div id="ts_quiz_wrap">
                     <div id="ts_quiz_kor"><span class="ft6 ftb"></span></div>
                     <div id="ts_quiz_eng"><span class="ft6 ftb"></span></div>
@@ -95,11 +106,12 @@
                   </div>
                 </div>
               </div>
-              <div class="carousel-item" id="contents_cartoon">            
+              <div class="carousel-item active" id="contents_cartoon">            
                 <div class="blank_sheet">
                   <div class="cartoon_box_title"><span class="ft3 ftbb">Today's Cartoon</span></div>
                   <div class="cartoon_box_link"><span class="ft9 text_gray">see more at </span><img src="/images/GoComics_Logo.webp" style="width:5rem" onclick="window.open('https://www.gocomics.com/')"></div>
                   <div class="today_cartoon" id="today_cartoon">                                                           
+                    <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_5nLqa4.json"  background="transparent"  speed="1"  style="width: 30%; margin : auto;"  loop  autoplay></lottie-player>
 
                   </div>
                 </div>
@@ -113,12 +125,13 @@
                     <img src="/images/Urban_Dictionary_logo.svg.png" style="width:5rem; border-radius:4px; margin-right:0.3rem;" onclick="window.open('https://www.urbandictionary.com/')">
                     <img src="/images/Goodreads_logo_-_SuperTinyIcons.svg.png" style="width:1.7rem; margin-right:0.3rem;" onclick="window.open('https://www.goodreads.com/')">
                   </div>
-                  <div class="today_paper" id="today_paper">                                                           
+                  <div class="today_paper" id="today_paper">   
+                    <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_5nLqa4.json"  background="transparent"  speed="1"  style="width: 30%; margin : auto;"  loop  autoplay></lottie-player>
 
                   </div>
                 </div>
               </div> 
-              <div class="carousel-item active" id="contents_ebook">              
+              <div class="carousel-item" id="contents_ebook">              
                 <div class="blank_sheet">
                   <div class="ebook_box_title"><span class="ft3 ftbb">EBooks</span></div>
                   <div class="ebook_box_link">
@@ -126,7 +139,7 @@
                     <img src="/images/Project-Gutenberg-logo.png" style="width:5rem; margin-right:0.3rem; border-radius: 4px;" onclick="window.open('https://www.gutenberg.org/')">                    
                   </div>
                   <div class="today_ebook" id="today_ebook">                    
-                    <lottie-player id="ts_quiz_loading" src="https://assets8.lottiefiles.com/packages/lf20_5nLqa4.json"  background="transparent"  speed="1"  style="width: 30%; margin : auto;"  loop  autoplay></lottie-player>
+                    <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_5nLqa4.json"  background="transparent"  speed="1"  style="width: 30%; margin : auto;"  loop  autoplay></lottie-player>
 
                   </div>
                 </div>
@@ -148,7 +161,7 @@
         
         <div class="searchbar shadow-lg animate__animated" id="searchbar" style="display:none;">
           <div class="searchbar_main">
-            <textarea class="autosize ft8" id="main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+            <textarea class="autosize ft8" id="main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
             <div id="msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('mainbox_center');touch_icon_action(this);"></i></div>
             <div id="msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="touch_icon_action(this); tranbtn_click('mainbox_center');"></i></div>
           </div>
@@ -274,7 +287,7 @@
       </div>      
       <div class="word_toolbar shadow-sm">              
         <div class="word_toolbar_main">
-          <textarea class="autosize ft8" id="word_toolbar_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+          <textarea class="autosize ft8" id="word_toolbar_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
           <div id="word_toolbar_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('second_3box_center');touch_icon_action(this);"></i></div>
           <div id="word_toolbar_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="touch_icon_action(this); tranbtn_click('second_3box_center');"></i></div>                
         </div>
@@ -328,7 +341,7 @@
       </div>  
       <div class="t1_box_searchbar shadow-lg animate__animated" id="t1_box_searchbar" style="display:none;">
         <div class="searchbar_main">
-          <textarea class="autosize ft8" id="t1_box_main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+          <textarea class="autosize ft8" id="t1_box_main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
           <div id="t1_box_msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('third_1box_center');touch_icon_action(this);"></i></div>
           <div id="t1_box_msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="touch_icon_action(this); tranbtn_click('third_1box_center');"></i></div>
         </div>
@@ -360,9 +373,9 @@
       </div>   
     </div>
     <!-- loading_layer -->
-    <!-- <div class="container-fluid loading_layer animate__animated" id="loading_layer" style="">
-    
-    </div> -->
+    <div class="container-fluid loading_layer animate__animated" id="loading_layer">
+      <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_5nLqa4.json"  background="transparent"  speed="1"  style="width: 30%; margin : auto;"  loop  autoplay></lottie-player>
+    </div>
 
 
     <!-- layer -->
@@ -371,12 +384,13 @@
   
   
 
-  <!-- <div id="link_frame" class="animate__animated" style="display:block;">
-  
-    <div id="lf_close_btn" class="animate__animated" onclick="touch_icon_action(this); click_slideoutdown(document.getElementById('link_frame'));"><i class="fa-solid fa-rectangle-xmark text_red ft1 ftbb"></i></div>
-    <iframe src="#" id="link_view" name="link_view"></iframe>
+  <!-- <div id="link_frame" class="animate__animated" style="display:block;"> -->
     
-  </div>   -->
+    
+    <!-- <div id="lf_close_btn" class="animate__animated" onclick="touch_icon_action(this); click_slideoutdown(document.getElementById('link_frame'));"><i class="fa-solid fa-rectangle-xmark text_red ft1 ftbb"></i></div>
+    <iframe src="#" id="link_view" name="link_view"></iframe> -->
+    
+  <!-- </div>   -->
 
   
 
@@ -564,6 +578,7 @@
   <script src="/javascripts/tts.js"></script> 
   <script src="/javascripts/trans.js"></script> 
   <script src="/javascripts/contents.js"></script> 
+  
   <!-- <script type="module" src="/javascripts/open_ebook.js"></script>  -->
   
   
