@@ -408,7 +408,8 @@ ul {
             }
 
             #today_short_quiz {
-              margin-top : 2rem;                            
+              margin-top : 2rem; 
+              min-height : 80%;                           
               /* position: relative; */
               /* height: 100%; */
               /* width : 100%; */
@@ -416,7 +417,7 @@ ul {
             }
 
             #today_short_quiz #ts_quiz_title {              
-              width : 90%;
+              width : 90%;              
               padding : 1rem auto 1rem 2rem;              
               margin : 1rem auto 2rem auto;
               font-family: 'Noto Sans KR', sans-serif; 
@@ -430,16 +431,17 @@ ul {
               border : 3px solid firebrick;
               border-radius: 20px;
               width : 90%;
+              min-height : 10rem;
               margin : auto;
               background-color: rgb(255, 248, 220, 0.5);              
             }
 
-            #today_short_quiz #ts_quiz_kor {                  
-              width : 90%;
+            #today_short_quiz #ts_quiz_kor {                                              
+              width : 90%;              
               padding : 0.5rem;            
               margin : 1rem;              
               /* margin : 3rem auto 3rem auto;   */
-              text-align:justify;              
+              text-align:left;             
               font-family: 'Noto Sans KR', sans-serif;                            
             }
 
@@ -455,11 +457,11 @@ ul {
               z-index : -1;              
             }
 
-            #today_short_quiz #ts_quiz_eng {                                
-              width : 90%;
+            #today_short_quiz #ts_quiz_eng {                                              
+              width : 90%;              
               padding : 0.5rem;            
               margin : 1rem;  
-              text-align:justify;              
+              text-align:left;
               font-family: 'poppins', sans-serif; 
               vertical-align:text-bottom;
             }

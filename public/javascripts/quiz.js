@@ -1,6 +1,11 @@
 function testquiz(hint){
+    document.getElementById('ts_quiz_wrap').innerHTML += `<lottie-player id="ts_quiz_loading" src="https://assets8.lottiefiles.com/packages/lf20_5nLqa4.json"  background="transparent"  speed="1"  style="width: 30%; margin : auto; margin-top : 2rem;"  loop  autoplay></lottie-player>`;
     var write_kor = document.getElementById('ts_quiz_kor');
     var write_eng = document.getElementById('ts_quiz_eng');
+    // write_kor.style.display = 'none';
+    // write_eng.style.display = 'none';
+
+
     var eng_parts;
     var correct_answer;   
     var hint = hint;
@@ -18,10 +23,16 @@ function testquiz(hint){
         console.log(sql_query);
         // 만든 쿼리문으로 레코드 병합조회하기
         sql_query_json = {'sql_query' : sql_query};
+
+
         fetch("/wordbook/quiz", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sql_query_json)}).then((response)=>response.json()).then((results)=>{
+          document.getElementById('ts_quiz_loading').remove();
+        //   write_kor.style.display = 'block';
+        //   write_eng.style.display = 'block';
+
           console.log(results);      
           write_kor.innerHTML = `<span class="ft6 ftb">${results.KOR}</span><span class="ft6 ftb hidden_text" id="answer_sentence">${results.ENG}</span><span class="ft6 ftb hidden_text" id="answer_wordbook_title">${results.WORDBOOK_TITLE}</span><span class="ft6 ftb hidden_text" id="answer_word_id">${results.ID}</span>`;
-          write_eng.innerHTML = `<form action="#">`;
+        //   write_eng.innerHTML = `<form action="#">`;
           eng_trim = results.ENG.replace(/ /gi, ' ');
           eng_parts = eng_trim.split(' ');  
           console.log(eng_parts);
@@ -29,76 +40,101 @@ function testquiz(hint){
           var input_num = 0;
           var part_num = 0;
           write_eng.innerHTML = '';          
-          for (part of eng_parts) {          
-            var trim_word_start, trim_word_strpt;
-            var display_word = '';        
-            var regex = /[.?',!"-$+;/=]/;      
-            
+          for (part of eng_parts) {                      
             part_num += 1;  
-            if (part.length > hint) {
-              input_num += 1;
-              trim_word_start = part.replace(/[.?',!"-$+;/=]/gi, '').substr(0,1);          
-              trim_word_strpt = part.indexOf(trim_word_start);                     
-              for (let j = 0; j<part.length; j++) {
+
+            var display_word = '';        // word 전체를 __'___. 형태로 변경 -> 아래 -> a__'____. 형태로 변경
+            var trim_word_start, trim_word_strpt; // word 전체에서 '. 등을 제외한 첫자를 확인
+            var regex = /[.?',!"-$+;/=]/;      
+
+            for (let j = 0; j<part.length; j++) {
                 if (regex.test(part.substr(j,1))) {                            
-                  display_word += part.substr(j,1);
+                    display_word += part.substr(j,1);
                 } else {                            
-                  display_word += '_';              
+                    display_word += '_';              
                 }
-              }          
-              if (trim_word_strpt === 0) {
-                display_word = part.substr(0,hint) + display_word.substr(hint,part.length-hint);
-              } else {
-                display_word = display_word.substr(0,trim_word_strpt) + part.substr(trim_word_strpt, hint) + display_word.substr(trim_word_strpt + hint, part.length - (trim_word_strpt+hint) );
-              }         
-              console.log(display_word);
+            }          
+
+            trim_word_start = part.replace(/[.?',!"-$+;/=]/gi, '').substr(0,hint);          
+            trim_word_strpt = part.replace(/[.?',!"-$+;/=]/gi, '').indexOf(trim_word_start) + trim_word_start.length;                     
+
+            var include_det = part.substr(0, trim_word_strpt).length - part.substr(0, trim_word_strpt).replace(/[.?',!"-$+;/=]/gi, '').length;
+
+            if (include_det > 0) {
+                trim_word_strpt += include_det 
+            }                        
+            
+            if (part.length > trim_word_strpt) {
+                console.log('남은 철자를 보여줍니다');
+              input_num += 1;
+              
+              display_word = part.substr(0, trim_word_strpt) + display_word.substr(trim_word_strpt,part.length-trim_word_strpt);
+
+            //   if (trim_word_strpt === ) {
+            //     display_word = part.substr(0,hint) + display_word.substr(hint,part.length-hint);
+            //   } else {
+            //     display_word = display_word.substr(0,trim_word_strpt) + part.substr(trim_word_strpt, hint) + display_word.substr(trim_word_strpt + hint, part.length - (trim_word_strpt+hint) );
+            //   }         
+
+              console.log('display_word : ' + display_word);
+            //   write_eng.innerHTML += `바보`;   
+            //   console.log(write_eng.innerHTML);
+
               write_eng.innerHTML += `              
                 <span class="ft6 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>
-                <span class="ft6 ftb hidden_text" id="answer_text_${input_num}">${part.substr(hint,display_word.length-hint)}</span>
-                <span class="ft6 ftb hidden_text" id="answer_underbar_${input_num}">${display_word.substr(hint,display_word.length-hint)}</span>            
-                <span class="ft6 ftb" id="answer_vis_text_${part_num}">${display_word.substr(0,hint)}</span>
-                <input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="width:0; height:0;" placeholder="${display_word.substr(hint,display_word.length-hint)}" required><span class="ft6 ftb"> </span>`;             
+                <span class="ft6 ftb hidden_text" id="answer_text_${input_num}">${part.substr(trim_word_strpt,display_word.length-trim_word_strpt)}</span>
+                <span class="ft6 ftb hidden_text" id="answer_underbar_${input_num}">${display_word.substr(trim_word_strpt,display_word.length-trim_word_strpt)}</span>            
+                <span class="ft6 ftb" id="answer_vis_text_${part_num}">${display_word.substr(0,trim_word_strpt)}</span>
+                <input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="width:0; height:0;" placeholder="${display_word.substr(trim_word_strpt,display_word.length-trim_word_strpt)}" required><span class="ft6 ftb"> </span>`;             
+                console.log('남은 철자를 입력했습니다');
+                
                         
   
-              // var left_length = part.length-1;          
-              // write_eng.innerHTML += `          
-              //   <span class="ft6 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
-              //   <span class="ft6 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
-              //   <span class="ft6 ftb">${part.substr(0,1)}</span><input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft6 ftb"> </span>`;             
-              // var part_text = document.getElementById(`part_text_${i}`);
-              // var part_underbar = document.getElementById(`part_underbar_${i}`);
-              // var quiz_input = document.getElementById(`quiz_input_${i}`);
-              // var script = document.createElement('script');
-              // script.async = true;   
-              // script.text = `
-              //   var quiz_input_detector_${i} = document.getElementById('quiz_input_${i}');
-              //   quiz_input_detector_${i}.addEventListener("keyup", e => {
-              //     console.log(e);
-              //   });
-              // `;
-              // document.body.appendChild(script);
-              // console.log(quiz_input.style);
-              // console.log((part_text.clientHeight) + "px");
-              // console.log((part_text.clientWidth) + "px");
-              // quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
-              // quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
-              // quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
-              // quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";      
+            //   var left_length = part.length-1;          
+            //   write_eng.innerHTML += `          
+            //     <span class="ft6 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
+            //     <span class="ft6 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
+            //     <span class="ft6 ftb">${part.substr(0,1)}</span><input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft6 ftb"> </span>`;             
+            //   var part_text = document.getElementById(`part_text_${i}`);
+            //   var part_underbar = document.getElementById(`part_underbar_${i}`);
+            //   var quiz_input = document.getElementById(`quiz_input_${i}`);
+            //   var script = document.createElement('script');
+            //   script.async = true;   
+            //   script.text = `
+            //     var quiz_input_detector_${i} = document.getElementById('quiz_input_${i}');
+            //     quiz_input_detector_${i}.addEventListener("keyup", e => {
+            //       console.log(e);
+            //     });
+            //   `;
+            //   document.body.appendChild(script);
+            //   console.log(quiz_input.style);
+            //   console.log((part_text.clientHeight) + "px");
+            //   console.log((part_text.clientWidth) + "px");
+            //   quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
+            //   quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
+            //   quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
+            //   quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";      
                 
             } else {
               input_num += 1;
+              console.log('다 보여줬습니다');
               write_eng.innerHTML += `
                 <span class="ft6 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>              
-                <span class="ft6 ftb hidden_text" id="answer_text_${part_num}"></span><span class="ft6 ftb" id="answer_vis_text_${part_num}">${part.substr(0,hint)}</span><span class="ft6 ftb"> </span>
+                <span class="ft6 ftb hidden_text" id="answer_text_${input_num}"></span>
+                <span class="ft6 ftb hidden_text" id="answer_underbar_${input_num}"></span>            
+                <span class="ft6 ftb" id="answer_vis_text_${part_num}">${part}</span><span class="ft6 ftb"> </span>
                 <input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="display:none;" placeholder="" required>`;             
             }                   
             i += 1;          
   
-            var part_text = document.getElementById(`answer_text_${input_num}`);
-            var part_underbar = document.getElementById(`answer_underbar_${input_num}`);
+            var part_text = document.getElementById(`answer_text_${input_num}`); // 기입해야할 원문
+            var part_underbar = document.getElementById(`answer_underbar_${input_num}`); // 기입해야할 원문의 __ 변환문
             var quiz_input = document.getElementById(`quiz_input_${input_num}`);              
+
+            console.log(`id : ${input_num} / ${part_num}`);
+            console.log(`기입해야할 원문 : ${part_text.innerHTML}`, `기입해야할 언더바 : ${part_underbar.innerHTML}`);
             
-            console.log(part_text.innerHTML);  
+            
             if (part_text.innerHTML === '') {
               console.log("part_text '' : " +part_text.innerHTML);
               quiz_input.style.maxHeight = 0;           

@@ -116,10 +116,8 @@ router.post('/word/add/', function (req, res, next) {
     var word_korean = req.body.kor;
     console.log(word_korean);
     var data = [wordbook_title, word_english, word_korean, '[]'];
-    console.log(wordbook_title + ' ---- ' + data);
-    let now = new Date();
-    let time = `${now.getFullYear()}${now.getMonth()+1}${now.getDate()}`;
-    console.log(time);
+    console.log(wordbook_title + ' ---- ' + data);        
+    var time = today.format('YYYYMMDD');
 
     var sql = `INSERT INTO ${wordbook_title} (WORDBOOK_TITLE, ENG, KOR, EXAMPLE, SAVEDATE, LOADDATE, QUIZ_DATE) VALUE (?,?,?,?,${time}, ${time}, ${time})`;
     conn.query(sql, data, function(err, results){
@@ -236,8 +234,7 @@ router.post('/quiz', async function (req, res, next) {
 });
     
 router.post('/quiz_result', async function (req, res, next) {
-    let now = new Date();
-    let time = `${now.getFullYear()}${now.getMonth()+1}${now.getDate()}`;
+    var time = today.format('YYYYMMDD');
 
     var wordbook_title = req.body.wordbook_title;
     var word_id = req.body.word_id;
