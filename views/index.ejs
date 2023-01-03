@@ -225,15 +225,16 @@
         <div class="g_id_signin"
           data-type="standard"
           data-size="large"
-          data-theme="outline"
+          data-theme="filled_blue"
           data-text="sign_in_with"
           data-shape="rectangular"
-          data-logo_alignment="left">
+          data-logo_alignment="center"
+          data-width="100">
         </div>  
         <button type="button" onclick="signout()">Sign Out</button>
         <script>
           function signout() {
-            gapi.suth2.getAuthInstance().disconnect();
+            google.accounts.id.disableAutoSelect();
           }
         </script>
         <!-- data-login_uri="https://your.domain/your_login_endpoint" -->
