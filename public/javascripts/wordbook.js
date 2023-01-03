@@ -1,5 +1,6 @@
-function wordbook_reading(time){        
-    fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results));
+function wordbook_reading(time){          
+  
+  fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results));
     function add_result(datas){
       let add_html = '';
       let i = 0;
@@ -22,7 +23,7 @@ function wordbook_reading(time){
       };
       
       var doc = document.getElementById("wordbook_list");
-      doc.innerHTML = add_html;    
+      // doc.innerHTML = add_html;    
     }
     if (time === 'initial'){
       wordbook_open();
