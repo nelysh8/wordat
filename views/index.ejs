@@ -221,7 +221,7 @@
           data-client_id="53798976072-32cc457i8sr4megufkabg0tco8770btq.apps.googleusercontent.com"
           data-login_uri=""          
           data-auto_prompt="false"
-          data-callback="handleToken">
+          data-native_callback="login_cb();">
         </div>
         <div class="g_id_signin"
           data-type="standard"
@@ -236,7 +236,11 @@
         <script>
           function signout() {
             // native_callback();
+            console.log('logout');
             google.accounts.id.disableAutoSelect();
+          }
+          function login_cb() {
+            console.log('login');
           }
         </script>
         <!-- data-login_uri="https://your.domain/your_login_endpoint" -->
