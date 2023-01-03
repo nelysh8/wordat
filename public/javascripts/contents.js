@@ -163,11 +163,11 @@ function cartoon(){
     });
   }
 
-  function open_ebook(ebook_num){    
-    
+  function open_ebook(ebook_num){        
     var ebook_contents = document.getElementById('third_1box_contents');
     var contents = ''
     var ebook_num = {'ebook_num' : ebook_num};
+    var chunks = [];    
 
     ebook_contents.innerHTML = `<lottie-player src="https://assets4.lottiefiles.com/private_files/lf30_P60IO4.json" background="transparent"  speed="1"  style="width: 50%; margin : auto;"  loop  autoplay></lottie-player>`;
     third_1box_open();
@@ -175,7 +175,7 @@ function cartoon(){
   
     fetch("/open_ebook", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(ebook_num)}).then((response)=>response.json()).then((results)=>{
       console.log(results);
-      if (results.chapter.num !== 'error') {
+      if (results.chapter.num !== 'error') {        
         contents += `
           <div class="ebook_read_title ft_noto" style="display:flex; margin-bottom : 5rem;"> 
             <img src='${results.cover.img_link}' style='width:50%; margin-right : 1rem;'>
@@ -192,8 +192,11 @@ function cartoon(){
             <span class="ft7 ftb ft_noto" style="line-height : 180%;">${chapt.title}</span><br>
           </div>`;    
                 
-          for (part of chapt.sentence) {            
-            for (chunk of part) {
+          for (part of chapt.sentence) {             
+            chunks = [];
+            var doc = nlp(part);     
+            chunks = doc.clauses().out('array');                        
+            for (chunk of chunks) {
               contents += `<span class="ft8 ft_noto" onclick="touch_block_action(this); tts_any(this.innerText, 1)">${chunk} </span>`;
               // console.log(chunk);
             }

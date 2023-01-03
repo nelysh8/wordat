@@ -639,8 +639,9 @@ app.post('/open_ebook', function (req, res) {
         ebook_part = [];
         for (sentence of $ebook_contents_sentences) {                        
           var ebook_contents_sentence = $ebook_contents_sentences.eq(j).text().replace(/\n/gi, ' ');
-          var doc = nlp(ebook_contents_sentence);     
-          ebook_part[j] = doc.clauses().out('array');
+          // var doc = nlp(ebook_contents_sentence);     
+          // ebook_part[j] = doc.clauses().out('array');
+          ebook_part[j] = ebook_contents_sentence;
           j += 1;
         };
         ebook_chapter[i] = {
