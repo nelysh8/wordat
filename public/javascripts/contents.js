@@ -169,8 +169,9 @@ function cartoon(){
     var contents = ''
     var ebook_num = {'ebook_num' : ebook_num};
 
-    ebook_contents.innerHTML = '';
+    ebook_contents.innerHTML = `<lottie-player src="https://assets4.lottiefiles.com/private_files/lf30_P60IO4.json" background="transparent"  speed="1"  style="width: 50%; margin : auto;"  loop  autoplay></lottie-player>`;
     third_1box_open();
+
   
     fetch("/open_ebook", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(ebook_num)}).then((response)=>response.json()).then((results)=>{
       console.log(results);
