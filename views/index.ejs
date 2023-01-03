@@ -216,24 +216,26 @@
       </div>
       <div class="contents animate__animated" id="second_1box_contents">
         <div id="wordbook_list" class="wordbook_list">
-          <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
         <div id="g_id_onload"
           data-client_id="53798976072-32cc457i8sr4megufkabg0tco8770btq.apps.googleusercontent.com"
           data-login_uri=""          
-          data-auto_prompt="false">
+          data-auto_prompt="false"
+          data-callback="handleToken">
         </div>
         <div class="g_id_signin"
           data-type="standard"
           data-size="large"
           data-theme="filled_blue"
-          data-text="sign_in_with"
+          data-text="sign_in"
           data-shape="rectangular"
-          data-logo_alignment="center"
+          data-logo_alignment="left"
           data-width="100">
         </div>  
         <button type="button" onclick="signout()">Sign Out</button>
         <script>
           function signout() {
+            // native_callback();
             google.accounts.id.disableAutoSelect();
           }
         </script>
