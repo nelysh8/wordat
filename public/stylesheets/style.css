@@ -591,25 +591,37 @@ ul {
             }
 
 /* ebook */
+            .blank_sheet {              
+              width : 100%;
+              height : 100%;
+              margin : 0;
+              padding : 0;                                  
+            }
+
             .ebook_box_title {
-              width : 90%;
+              width : 90%;              
               padding : 1rem auto 1rem 2rem;              
               margin : 1rem auto auto auto;              
             }
 
             .ebook_box_link {
-              width : fit-content;
+              width : fit-content;              
               /* padding : 0rem 1rem 0rem auto;               */
               margin : 0 1rem auto auto;                            
               
             }
 
             .ebook_item {
-              width : 90%;
+              width : 88%;
               padding : 1rem;
               margin : 1rem auto 1rem auto; 
               border : 2px solid black;
               border-radius: 7px;                           
+            }
+
+            #today_ebook {
+              width : 100%;
+              height : 86%;
             }
             
             #today_ebook img {
@@ -1755,6 +1767,23 @@ ul {
         align-content: space-between;
         vertical-align: middle;
     }
+
+  /* #loading_layer {
+      display : flex;
+      background-color: white;
+      /* height : 44rem; */
+      /* height : 55rem; */
+      height : 98%;
+      width : 95%;
+      margin-left:auto; margin-right: auto;
+      /* margin-bottom: 0rem; */
+      /* align-content:center; */
+      /* align-items: center; */
+      /* text-align: center;         */
+      border-radius : 20px;    
+      overflow-y: scroll;                
+      z-index : 10;
+  } */
                               
 
   #link_frame {

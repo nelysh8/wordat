@@ -637,13 +637,14 @@ app.post('/open_ebook', function (req, res) {
         var $ebook_contents_sentences = $chapter.eq(i).find('p');            
         let j=0;
         ebook_part = [];
-        for (sentence of $ebook_contents_sentences) {                        
-          var ebook_contents_sentence = $ebook_contents_sentences.eq(j).text().replace(/\n/gi, ' ');
+        ebook_part = $ebook_contents_sentences.text().replace(/\n/gi, ' ');
+        // for (sentence of $ebook_contents_sentences) {                        
+          // var ebook_contents_sentence = $ebook_contents_sentences.eq(j).text().replace(/\n/gi, ' ');
           // var doc = nlp(ebook_contents_sentence);     
           // ebook_part[j] = doc.clauses().out('array');
-          ebook_part[j] = ebook_contents_sentence;
-          j += 1;
-        };
+          // ebook_part[j] = ebook_contents_sentence;
+          // j += 1;
+        // };
         ebook_chapter[i] = {
           num : (i + 1),
           title : ($chapter.eq(i).find('h2').text()),

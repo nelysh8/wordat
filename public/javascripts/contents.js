@@ -129,8 +129,9 @@ function cartoon(){
   };
   
   function ebook_list(num){
-    console.log('ebook_list start');
-    document.getElementById('today_ebook').innerHTML = '';  
+    console.log('ebook_list start');    
+    
+    var ebook_list = '';
     var view_num;
     if (num > 39) {
       view_num = {'view_num' : 39};
@@ -141,7 +142,7 @@ function cartoon(){
       if ((results !== null) && (results[0].title !== '')) {          
         for (result of results) {        
           // console.log(result);
-          document.getElementById('today_ebook').innerHTML += `        
+          ebook_list += `        
             <div id="ebook_item" style="width : 90%; margin : auto; margin-top : 1rem; margin-bottom : 0rem; padding : 0.5rem; border-radius: 4px; overflow:auto;"> 
               <div class="ebook_img" style="float:left; margin-right : 1rem;">
                 <img src="${result.image_link}" onclick="window.open('https://www.gutenberg.org/cache/epub/${result.ebook_num}/pg${result.ebook_num}-images.html');" style="min-width : 5rem; max-width:6rem; min-height: 8rem; max-height:9rem;">          
@@ -156,62 +157,63 @@ function cartoon(){
             </div>
           `;
         }      
-        document.getElementById('today_ebook').innerHTML += `        
+        ebook_list += `        
             <span class="hidden_text" id="ebook_view_num">${num}</span>
             `;
       }    
+      document.getElementById('today_ebook').innerHTML = ebook_list;
     });
   }
 
   function open_ebook(ebook_num){        
     var ebook_contents = document.getElementById('third_1box_contents');
     var contents = ''
-    var ebook_num = {'ebook_num' : ebook_num};
-    var chunks = [];    
+    var ebook_num = {'ebook_num' : ebook_num};    
+    // var chunks = [];    
 
     ebook_contents.innerHTML = `<lottie-player src="https://assets4.lottiefiles.com/private_files/lf30_P60IO4.json" background="transparent"  speed="1"  style="width: 50%; margin : auto;"  loop  autoplay></lottie-player>`;
     third_1box_open();
 
   
-    fetch("/open_ebook", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(ebook_num)}).then((response)=>response.json()).then((results)=>{
-      console.log(results);
-      if (results.chapter.num !== 'error') {        
-        contents += `
-          <div class="ebook_read_title ft_noto" style="display:flex; margin-bottom : 5rem;"> 
-            <img src='${results.cover.img_link}' style='width:50%; margin-right : 1rem;'>
-            <div style="margin-top : auto; margin-bottom : auto;"
-              <p class="ft4 ftbb">${results.cover.title}</p>
-              <p class="ft5 ftbb" style="text-align : right">-${results.cover.author}</p>        
-            </div>
-          </div>
-          `;
+    // fetch("/open_ebook", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(ebook_num)}).then((response)=>response.json()).then((results)=>{
+    //   console.log(results);
+    //   if (results.chapter.num !== 'error') {        
+    //     contents += `
+    //       <div class="ebook_read_title ft_noto" style="display:flex; margin-bottom : 5rem;"> 
+    //         <img src='${results.cover.img_link}' style='width:50%; margin-right : 1rem;'>
+    //         <div style="margin-top : auto; margin-bottom : auto;"
+    //           <p class="ft4 ftbb">${results.cover.title}</p>
+    //           <p class="ft5 ftbb" style="text-align : right">-${results.cover.author}</p>        
+    //         </div>
+    //       </div>
+    //       `;
         
-        for (chapt of results.chapter) {    
-          contents += `
-          <div style="text-align : center; margin : 2rem auto 2rem auto">
-            <span class="ft7 ftb ft_noto" style="line-height : 180%;">${chapt.title}</span><br>
-          </div>`;    
+    //     for (chapt of results.chapter) {    
+    //       contents += `
+    //       <div style="text-align : center; margin : 2rem auto 2rem auto">
+    //         <span class="ft7 ftb ft_noto" style="line-height : 180%;">${chapt.title}</span><br>
+    //       </div>`;    
                 
-          for (part of chapt.sentence) {             
-            chunks = [];
-            var doc = nlp(part);     
-            chunks = doc.clauses().out('array');                        
-            for (chunk of chunks) {
-              contents += `<span class="ft8 ft_noto" onclick="touch_block_action(this); tts_any(this.innerText, 1)">${chunk} </span>`;
-              // console.log(chunk);
-            }
-            contents += `<br>`;
-          }            
-        }
-        ebook_contents.innerHTML = contents;
-      } else {
+    //       for (part of chapt.sentence) {             
+    //         chunks = [];
+    //         var doc = nlp(part);     
+    //         chunks = doc.clauses().out('array');                        
+    //         for (chunk of chunks) {
+    //           contents += `<span class="ft8 ft_noto" onclick="touch_block_action(this); tts_any(this.innerText, 1)">${chunk} </span>`;
+    //           // console.log(chunk);
+    //         }
+    //         contents += `<br>`;
+    //       }            
+    //     }
+    //     ebook_contents.innerHTML = contents;
+    //   } else {
         contents += `        
             <div class="div_linked_book">
-                <iframe id="linked_ebook" src="${results.chapter.link}" seamless></iframe>        
+                <iframe id="linked_ebook" src="https://www.gutenberg.org/cache/epub/${ebook_num.ebook_num}/pg${ebook_num.ebook_num}-images.html" seamless></iframe>        
             </div>
         `;          
         // https://www.wikipedia.org/wiki/Vincent_van_Gogh
         ebook_contents.innerHTML = contents;
       }
-    })
-  }
+  //   })
+  // }
