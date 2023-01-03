@@ -660,19 +660,20 @@ app.post('/open_ebook', function (req, res) {
       
       var chapter_id = [];
 
-      var i = 1;
-      for (var chapter_div of $chapter_div) {
-        var temp_id = $chapter_div.parent().find(`tr:nth-child(${i}) a.pginternal`).attr('href');          
-        if ((temp_id !== undefined) && (temp_id.includes('.') === false)) {
-          chapter_id.push(temp_id.replace('#',''));
-        }        
-        i += 1;
-      }
+      // var i = 1;
+      // for (var chapter_div of $chapter_div) {
+      //   var temp_id = $chapter_div.parent().find(`tr:nth-child(${i}) a.pginternal`).attr('href');          
+      //   if ((temp_id !== undefined) && (temp_id.includes('.') === false)) {
+      //     chapter_id.push(temp_id.replace('#',''));
+      //   }        
+      //   i += 1;
+      // }
 
       ebook_chapter = {
-        num : '',
+        num : 'error',
         title : '',
-        sentence : 'error'
+        sentence : '',
+        link : `https://www.gutenberg.org/cache/epub/${ebook_num}/pg${ebook_num}-images.html`
       };            
       
       ebook_entitle.chapter = ebook_chapter;        

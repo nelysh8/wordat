@@ -128,6 +128,37 @@ router.post('/word/add/', function (req, res, next) {
     });    
 });
 
+// WORD REMOVE
+
+router.post('/word/remove/', function (req, res, next) {        
+    console.log('remove word');
+    var wordbook_title = req.body.wordbook_title;    
+    var word_id = req.body.word_id;           
+    
+    var sql = `DELETE FROM ${wordbook_title} WHERE id = ${word_id}`;
+    conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);        
+        res.json(results);
+    });   
+});
+
+// WORD EDIT
+
+router.post('/word/edit/', function (req, res, next) {        
+    console.log('edit word');
+    var wordbook_title = req.body.wordbook_title;    
+    var word_id = req.body.word_id;           
+    var word_eng = req.body.word_eng;           
+    var word_kor = req.body.word_kor;           
+    
+    var sql = `UPDATE ${wordbook_title} SET ENG = '${word_eng}', KOR = '${word_kor}' WHERE ID = ${word_id};`;
+    console.log(sql);
+    conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);        
+        res.json(results);
+    });   
+});
+
 // EXAMPLE ADD
 
 router.post('/exam/add/', function (req, res, next) {        

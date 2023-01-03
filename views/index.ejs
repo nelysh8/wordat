@@ -87,7 +87,7 @@
                   </div>                    
                 </div>
               </div>
-              <div class="carousel-item active" id="contents_start">            
+              <div class="carousel-item" id="contents_start">            
                 <div class="blank_sheet" style="background-color: rgb(6, 24, 75);">
                   <div style="width : fit-content; margin : 20rem auto auto auto; ">
                     <i class="fa-regular fa-snowflake ft1_9 text_white"></i><span class="ft1_9 ftb text_white"> Word</span><span class="ft1_9 ftbb text_white">AT </span><i class="fa-solid fa-tree ft1_9 ftb text_white"></i> <br>
@@ -118,7 +118,7 @@
                   </div>
                 </div>
               </div> 
-              <div class="carousel-item" id="contents_ebook">              
+              <div class="carousel-item active" id="contents_ebook">              
                 <div class="blank_sheet">
                   <div class="ebook_box_title"><span class="ft3 ftbb">EBooks</span></div>
                   <div class="ebook_box_link">
@@ -210,6 +210,9 @@
           </div>                  
           -->
         </div>
+      </div>
+      <div id="second_1box_bottom_line" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal">
+        <span> 새로운 단어장을 추가해보세요 </span>
       </div>
       <!-- <div class="popup_tool animate__animated" id="s1_popup_tool"> -->
         <!-- <div class="popup_icon_top animate__animated">
@@ -485,27 +488,73 @@
     </div>
   </div> 
 </div>
+<!-- 1-3 edit modal -->
+<div id="edit_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">                
+              <span class="ft5 ftbb" id="edit_modal_title">Edit wordbook</span>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <div class="modal-body">                                                              
+                  <div class="input-group mb-3" id="edit_wb_title_div" style="display : none;">
+                      <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > TITLE </span>
+                      <input type="text" name="edit_wordbook_title" id="edit_wb_title_text" class="form-control ft8" placeholder="Input a Wordbook Title">                                
+                  </div>
+                  <div class="input-group mb-3" id="edit_wd_eng_div" style="display : none;">
+                      <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
+                      <input type="text" name="edit_wordbook_title" id="edit_wd_eng_text" class="form-control ft8" placeholder="Input a English Sentence">                                
+                  </div>
+                  <div class="input-group mb-3" id="edit_wd_kor_div" style="display : none;">
+                      <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > KOR </span>
+                      <input type="text" name="edit_wordbook_title" id="edit_wd_kor_text" class="form-control ft8" placeholder="Input it's meaning">                                
+                  </div>
+                  <div class="input-group mb-3" id="edit_ex_eng_div" style="display : none;">
+                      <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
+                      <input type="text" name="edit_wordbook_title" id="edit_ex_eng_text" class="form-control ft8" placeholder="Input a English Sentence">                                
+                  </div>                        
+                  <div class="input-group mb-3" id="edit_ex_kor_div" style="display : none;">
+                      <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > KOR </span>
+                      <input type="text" name="edit_wordbook_title" id="edit_ex_kor_text" class="form-control ft8" placeholder="Input it's meaning">                                
+                  </div>                                            
+                  <div class="modal-footer">                        
+                      <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" id="edit_btn" data-bs-dismiss="modal" onclick="edit_wordbook_click(${i});"> CONFIRM </button>
+                      <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+                  </div>                    
+              </div>                
+          </div>
+      </div> 
+  </div>
+</div>    
+                                                                                                       
+
+
 <!-- 2-1 Remove confirm modal -->
-<div class="modal fade" id="wb_remove_confirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="remove_confirm" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">                              
       <div class="modal-body">
-        정말 삭제하시겠습니까?
+        <span id="confirm_text" class="ft5 ftbb">정말 삭제하시겠습니까?</span>
       </div>
-      <div class="modal-footer">
-        <button id="remove_btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="remove_wordbook_click(${i});">CONFIRM</button>
+      <div class="modal-footer" style="border:none;">
+        <button id="remove_btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="remove_modal1_openbtn_click();">CONFIRM</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                                
       </div>
     </div>
   </div>
 </div>
 
-
   <!-- script -->
 
 
   <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
   <script src="/javascripts/index_function.js"></script> 
+  <script src="/javascripts/modal.js"></script> 
+  <script src="/javascripts/wordbook.js"></script> 
+  <script src="/javascripts/open_close.js"></script> 
+  <script src="/javascripts/quiz.js"></script> 
+  <script src="/javascripts/tts.js"></script> 
+  <script src="/javascripts/trans.js"></script> 
+  <script src="/javascripts/contents.js"></script> 
   
     
     
