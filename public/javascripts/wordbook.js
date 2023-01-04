@@ -23,7 +23,7 @@ function wordbook_reading(time){
       };
       
       var doc = document.getElementById("wordbook_list");
-      // doc.innerHTML = add_html;    
+      doc.innerHTML = add_html;    
     }
     if (time === 'initial'){
       wordbook_open();
