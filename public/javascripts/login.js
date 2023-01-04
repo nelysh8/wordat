@@ -30,10 +30,15 @@ console.log(document.cookie);
 
 // SDK 초기화 여부를 판단합니다.
 console.log(Kakao.isInitialized());
+var access_token = JSON.parse(document.getElementById('token').innerText).access_token;
+
+
+console.log(`token : ${access_token}`);
 
 function kakaoLogin() {  
+  
   Kakao.Auth.authorize({
-    redirectUri: 'http://localhost:3000',
+    redirectUri: 'http://localhost:3000/kakaoLogin',
   });
 }
 
@@ -41,24 +46,24 @@ function kakaoLogin() {
 
 
   function displayToken() {
-    console.log(getCookie('authorize-access-token'));
-    // console.log('displayToken start');
-    // var token = getCookie('authorize-access-token');
+    console.log(getCookie(access_token));
+    console.log('displayToken start');
+    var token = getCookie(access_token);
     
-    // if(token) {
-    //   Kakao.Auth.setAccessToken(token);
-    //   console.log('here?');
-    //   Kakao.Auth.getStatusInfo()      
-    //     .then(function(res) {
-    //       if (res.status === 'connected') {
-    //         document.getElementById('token-result').innerText
-    //           = 'login success, token: ' + Kakao.Auth.getAccessToken();
-    //       }
-    //     })
-    //     .catch(function(err) {
-    //       Kakao.Auth.setAccessToken(null);
-    //     });
-    // }
+    if(token) {
+      Kakao.Auth.setAccessToken(token);
+      console.log('here?');
+      Kakao.Auth.getStatusInfo()      
+        .then(function(res) {
+          if (res.status === 'connected') {
+            document.getElementById('token-result').innerText
+              = 'login success, token: ' + Kakao.Auth.getAccessToken();
+          }
+        })
+        .catch(function(err) {
+          Kakao.Auth.setAccessToken(null);
+        });
+    }
   }
 
   function getCookie(name) {
@@ -68,6 +73,7 @@ function kakaoLogin() {
 
 
 function kakaoState() {  
+  
   Kakao.API.request({
     url: '/v2/user/me',
   })
@@ -97,6 +103,7 @@ function kakaoState() {
   // })
 
 function kakaoLogout() {  //로그아웃  
+    
     Kakao.Auth.logout()
       .then(function() {
         alert('logout ok\naccess token -> ' + Kakao.Auth.getAccessToken());
@@ -114,6 +121,7 @@ function deleteCookie() {
 
 
 function kakaoSignout() { //탈퇴하기
+  
   Kakao.API.request({
     url: '/v1/user/unlink',
   })

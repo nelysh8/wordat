@@ -559,7 +559,7 @@ app.post('/ebook_list', function (req, res) {
         hit : $contents.eq(i).find('span.extra').text().replace(' downloads', '')
       }      
     }
-    console.log(links);    
+    // console.log(links);    
     return links;
   })
   .then(results => {
@@ -689,7 +689,48 @@ app.post('/open_ebook', function (req, res) {
   })
 })
 
+app.get('/kakaoLogin', function (req, res, next) {
+  console.log('login redirect start..');
+  // console.log(req.query.code);
+  // console.log(req);
 
+  var access_token;
+
+  var request = require('request');
+  var options = {
+    url: 'https://kauth.kakao.com/oauth/token',
+    form: { 'grant_type': 'authorization_code', 
+            'client_id': '4a243bdf6ed7b9e9014e0ce7753e8779', 
+            'redirect_uri': 'http://localhost:3000/kakaoLogin',
+            'code' : req.query.code
+          },
+    headers: { 'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'}
+  };
+  
+
+  request.post(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+      // res.end(body);
+      console.log('-----------------------------');      
+      console.log(body);    
+      console.log('-----------------------------');
+      access_token = body;
+      res.render('index', {token : access_token });     
+      // res.send(body);
+      
+    } else {
+      res.status(response.statusCode).end();
+      console.log('error = ' + response.statusCode);
+    }
+  });
+  console.log('==================================');      
+  console.log(access_token);
+  console.log('==================================');      
+     
+  
+  // token: 'access_token'
+});
 
 
 
