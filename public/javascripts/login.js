@@ -26,24 +26,102 @@
 
 // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해야 합니다.
 Kakao.init('70b5e00ed4e683299d6fd180066954fb');
+console.log(document.cookie);
 
 // SDK 초기화 여부를 판단합니다.
 console.log(Kakao.isInitialized());
 
 function kakaoLogin() {  
-  // Kakao.Auth.authorize({
-  window.Kakao.Auth.login({
-    scope : 'profile_nickname, account_email',
-    success : function(authObj) {
-      console.log(authObj);
-      window.Kakao.API.request({
-        url : '/v2/user/me',
-        success : res => {
-          const kakao_account = res.kakao_account;
-          console.log(kakao_account);
-        }
-      })
-    }
+  Kakao.Auth.authorize({
+    redirectUri: 'http://localhost:3000',
+  });
+}
+
+
+
+
+  function displayToken() {
+    console.log(getCookie('authorize-access-token'));
+    // console.log('displayToken start');
+    // var token = getCookie('authorize-access-token');
+    
+    // if(token) {
+    //   Kakao.Auth.setAccessToken(token);
+    //   console.log('here?');
+    //   Kakao.Auth.getStatusInfo()      
+    //     .then(function(res) {
+    //       if (res.status === 'connected') {
+    //         document.getElementById('token-result').innerText
+    //           = 'login success, token: ' + Kakao.Auth.getAccessToken();
+    //       }
+    //     })
+    //     .catch(function(err) {
+    //       Kakao.Auth.setAccessToken(null);
+    //     });
+    // }
+  }
+
+  function getCookie(name) {
+    var parts = document.cookie.split(name + '=');
+    if (parts.length === 2) { return parts[1].split(';')[0]; }
+  }
+
+
+function kakaoState() {  
+  Kakao.API.request({
+    url: '/v2/user/me',
   })
+  .then(function(res) {
+    alert(JSON.stringify(res));
+  })
+  .catch(function(err) {
+    alert(
+      'failed to request user information: ' + JSON.stringify(err)
+    );
+  });
+}
+  
+  
+  // window.Kakao.Auth.login({
+  //   scope : 'profile_nickname, account_email',
+  //   success : function(authObj) {
+  //     console.log(authObj);
+  //     window.Kakao.API.request({
+  //       url : '/v2/user/me',
+  //       success : res => {
+  //         const kakao_account = res.kakao_account;
+  //         console.log(kakao_account);
+  //       }
+  //     })
+  //   }
+  // })
+
+function kakaoLogout() {  //로그아웃  
+    Kakao.Auth.logout()
+      .then(function() {
+        alert('logout ok\naccess token -> ' + Kakao.Auth.getAccessToken());
+        deleteCookie();
+      })
+      .catch(function() {
+        alert('Not logged in');
+      });
+}
+
+// 아래는 데모를 위한 UI 코드입니다.
+function deleteCookie() {
+  document.cookie = 'authorize-access-token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+
+function kakaoSignout() { //탈퇴하기
+  Kakao.API.request({
+    url: '/v1/user/unlink',
+  })
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 }
 

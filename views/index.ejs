@@ -23,7 +23,9 @@
 
     <link rel="stylesheet" href="/stylesheets/style.css">        
     <script src="/javascripts/index_basic.js"></script>    
-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <!-- <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> -->
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+  integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1092619034576489"
      crossorigin="anonymous"></script>
@@ -417,8 +419,11 @@
     <!-- loading_layer -->
     <div class="container-fluid loading_layer animate__animated" id="test_layer">      
       <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 50%;"></a>
-      
-      
+      <button type="button" onclick="displayToken();">displayToken</button>
+      <button type="button" onclick="kakaoState();">State</button>
+      <button type="button" onclick="kakaoLogout();">Logout</button>
+      <button type="button" onclick="kakaoSignout();">Signout</button>
+      <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
       <div id="buttonDiv" style="text-align: center;"></div>
     </div>
     <div class="container-fluid loading_layer animate__animated" id="loading_layer">
