@@ -23,7 +23,8 @@
 
     <link rel="stylesheet" href="/stylesheets/style.css">        
     <script src="/javascripts/index_basic.js"></script>    
-
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1092619034576489"
      crossorigin="anonymous"></script>
 
@@ -32,6 +33,8 @@
   </head>
 
   <body>
+    
+    
 <!-- 
   1. nav bar
   2. main body
@@ -47,7 +50,8 @@
   3. foot bar
 
  -->
- <div id="g_id_onload" data-client_id="53798976072-32cc457i8sr4megufkabg0tco8770btq.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
+ 
+ <!-- <div id="g_id_onload" data-client_id="53798976072-32cc457i8sr4megufkabg0tco8770btq.apps.googleusercontent.com" data-callback="handleCredentialResponse" data-login_uri="http://localhost:3000" data-auto_prompt="true"></div> -->
 
 
     <!-- 1. nav bar -->
@@ -412,6 +416,7 @@
     
     <!-- loading_layer -->
     <!-- <div class="container-fluid loading_layer animate__animated" id="test_layer">      
+      <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 50%;"></a>
       
       
       <div id="buttonDiv" style="text-align: center;"></div>
@@ -623,11 +628,11 @@
   <script src="/javascripts/trans.js"></script> 
   <script src="/javascripts/contents.js"></script> 
   <script src="/javascripts/login.js"></script> 
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
   
   
    
-  <!-- <script type="module" src="/javascripts/open_ebook.js"></script>  -->
+
   
   
     

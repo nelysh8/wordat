@@ -49,17 +49,30 @@ var contents_wordbook_observer = new MutationObserver(mutations => {
   if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
     console.log('mutation wordbook activation detected');  
     console.log(document.getElementById('ts_quiz_kor').innerText);
-    if (document.getElementById('ts_quiz_kor').innerText === "") {
-      testquiz(1);
-      document.getElementById('carousel-btn-line').innerHTML =`
-              <div id="quiz_hint_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz((Number(document.getElementById('hint_num').innerHTML)) + 1);">
-                <div class="btn bg_green text_white ftb" >HINT</div>
-              </div>  
-              <div id="quiz_answer_btn" class="animate__animated" onclick="touch_icon_action(this); submit_quiz_answer();">
-                <div class="btn bg_firebrick text_white ftb" >ANSWER</div>
-              </div>  
-              `;
-    }    
+
+    window.Kakao.API.request({
+      url : '/v2/user/me',
+      success : res => {
+        const kakao_account = res.kakao_account;
+        console.log(kakao_account);
+        if (kakao_account.email == '') {
+          kakaoLogin();
+        } else {
+          console.log(`${kakao_account.email}님 환영합니다`);
+          if (document.getElementById('ts_quiz_kor').innerText === "") {
+            testquiz(1);
+            document.getElementById('carousel-btn-line').innerHTML =`
+                    <div id="quiz_hint_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz((Number(document.getElementById('hint_num').innerHTML)) + 1);">
+                      <div class="btn bg_green text_white ftb" >HINT</div>
+                    </div>  
+                    <div id="quiz_answer_btn" class="animate__animated" onclick="touch_icon_action(this); submit_quiz_answer();">
+                      <div class="btn bg_firebrick text_white ftb" >ANSWER</div>
+                    </div>  
+                    `;
+          }    
+        }
+      }
+    })
   } 
 });
 
