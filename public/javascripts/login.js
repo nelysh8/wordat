@@ -32,6 +32,23 @@ console.log(`cookies : ${document.cookie}`);
 console.log(Kakao.isInitialized());
 // var access_token = JSON.parse(document.getElementById('token').innerText).access_token;
 
+var token = getCookie('authorize-access-token');    
+if(token) {
+  Kakao.Auth.setAccessToken(token);      
+  Kakao.API.request({
+    url: '/v2/user/me',
+  })
+  .then(function(res) {    
+    console.log(res.properties.nickname);
+  })
+  .catch(function(err) {
+    Kakao.Auth.setAccessToken(null);
+    alert(
+      'failed to request user information: ' + JSON.stringify(err)
+    );
+  });
+} 
+
 
 // console.log(`token : ${access_token}`);
 

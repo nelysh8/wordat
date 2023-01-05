@@ -722,22 +722,7 @@ app.get('/kakaoLogin', function (req, res, next) {
       
       // res.clearCookie('key');
       res.clearCookie('authorize-access-token');
-      res.cookie('authorize-access-token', access_token);
-
-      var req_client_inf = {
-        url : 'https://kapi.kakao.com/v2/user/me',
-        form: { 'Authorization': `Bearer ${access_token}` },
-        headers: { 'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'}         
-      }
-      
-      request.post(req_client_inf, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          console.log(`infomation : ${JSON.stringify(response)}`);
-        } else {
-          res.status(response.statusCode).end();
-          console.log('error = ' + response.statusCode);
-        }
-      })
+      res.cookie('authorize-access-token', access_token);   
 
       res.render('index');     
       // res.send(body);
@@ -750,10 +735,22 @@ app.get('/kakaoLogin', function (req, res, next) {
   
 });
 
+// var request_info = require('request');
 
+//       request_info.post(req_client_info, function (error, response, body) {
+//         if (!error && response.statusCode == 200) {
+//           console.log(`infomation : ${JSON.stringify(response)}`);
+//         } else {
+//           res.status(response.statusCode).end();
+//           console.log('error = ' + response.statusCode);
+//         }
+//       })
 
-
-
+// var req_client_info = {
+//   url : 'https://kapi.kakao.com/v2/user/me',
+//   form: { 'Authorization': `Bearer ${access_token}` },
+//   headers: { 'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'}         
+// }
 // google tts 내부용
 /*
 app.post('/google_tts', function (req, res) {
