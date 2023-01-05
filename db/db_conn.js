@@ -12,6 +12,17 @@ module.exports = function(){
                 password: config.password,
                 database: config.database,
                 multipleStatements : config.multipleStatements
+            })            
+        },
+        
+        client: function (database) {
+            return mysql.createConnection({
+                host: config.host,
+                port: config.port,
+                user: config.user,
+                password: config.password,
+                database: database,
+                multipleStatements : config.multipleStatements
             })
         }
     }

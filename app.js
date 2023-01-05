@@ -691,7 +691,9 @@ app.post('/open_ebook', function (req, res) {
 
 app.get('/kakaoLogin', function (req, res, next) {
   console.log('login redirect start..');
+  console.log(`req.params : ${JSON.stringify(req.query)}`);
   // console.log(req.query.code);
+  // ${JSON.stringify(req)}
   // console.log(req);
 
   var access_token;
@@ -713,10 +715,31 @@ app.get('/kakaoLogin', function (req, res, next) {
       // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
       // res.end(body);
       console.log('-----------------------------');      
-      console.log(body);    
+      console.log(JSON.parse(body));    
+      access_token = JSON.parse(body).access_token;
+      console.log(access_token);    
       console.log('-----------------------------');
-      access_token = body;
-      res.render('index', {token : access_token });     
+      
+      // res.clearCookie('key');
+      res.clearCookie('authorize-access-token');
+      res.cookie('authorize-access-token', access_token);
+
+      var req_client_inf = {
+        url : 'https://kapi.kakao.com/v2/user/me',
+        form: { 'Authorization': `Bearer ${access_token}` },
+        headers: { 'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'}         
+      }
+      
+      request.post(req_client_inf, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          console.log(`infomation : ${JSON.stringify(response)}`);
+        } else {
+          res.status(response.statusCode).end();
+          console.log('error = ' + response.statusCode);
+        }
+      })
+
+      res.render('index');     
       // res.send(body);
       
     } else {
@@ -724,12 +747,7 @@ app.get('/kakaoLogin', function (req, res, next) {
       console.log('error = ' + response.statusCode);
     }
   });
-  console.log('==================================');      
-  console.log(access_token);
-  console.log('==================================');      
-     
   
-  // token: 'access_token'
 });
 
 

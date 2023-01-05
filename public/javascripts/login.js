@@ -26,14 +26,14 @@
 
 // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해야 합니다.
 Kakao.init('70b5e00ed4e683299d6fd180066954fb');
-console.log(document.cookie);
+console.log(`cookies : ${document.cookie}`);
 
 // SDK 초기화 여부를 판단합니다.
 console.log(Kakao.isInitialized());
-var access_token = JSON.parse(document.getElementById('token').innerText).access_token;
+// var access_token = JSON.parse(document.getElementById('token').innerText).access_token;
 
 
-console.log(`token : ${access_token}`);
+// console.log(`token : ${access_token}`);
 
 function kakaoLogin() {  
   
@@ -46,23 +46,25 @@ function kakaoLogin() {
 
 
   function displayToken() {
-    console.log(getCookie(access_token));
+    // console.log(getCookie('authorize-access-token'));
     console.log('displayToken start');
-    var token = getCookie(access_token);
+    var token = getCookie('authorize-access-token');
     
     if(token) {
-      Kakao.Auth.setAccessToken(token);
-      console.log('here?');
+      Kakao.Auth.setAccessToken(token);      
       Kakao.Auth.getStatusInfo()      
         .then(function(res) {
           if (res.status === 'connected') {
             document.getElementById('token-result').innerText
               = 'login success, token: ' + Kakao.Auth.getAccessToken();
-          }
+          } 
         })
         .catch(function(err) {
           Kakao.Auth.setAccessToken(null);
         });
+    } else {
+      document.getElementById('token-result').innerText
+        = 'login out, token: ' + Kakao.Auth.getAccessToken();
     }
   }
 

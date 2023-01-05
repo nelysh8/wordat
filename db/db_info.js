@@ -13,7 +13,15 @@ module.exports = (function (){
             port:'3306',
             user:'kfw13xciyjo8ris6',
             password:'t8vcnh6mahh491kx',
-            database:'oq4p2dxa5zpnk9gu',
+            database: '',
+            multipleStatements : true
+        },
+        client : {
+            host:'y6aj3qju8efqj0w1.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+            port:'3306',
+            user:'kfw13xciyjo8ris6',
+            password:'t8vcnh6mahh491kx',
+            database: '',
             multipleStatements : true
         },
         staging : {
@@ -33,3 +41,4 @@ module.exports = (function (){
     }
 })();
 
+// database:'oq4p2dxa5zpnk9gu',

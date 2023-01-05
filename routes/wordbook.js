@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var mysql_odbc = require('../db/db_conn')();
-var conn = mysql_odbc.init();
+// var conn = mysql_odbc.client('oq4p2dxa5zpnk9gu');
+// var conn = mysql_odbc.init();
+var conn = mysql_odbc.client('oq4p2dxa5zpnk9gu');
 var moment = require('moment');
 var today = moment();
 
