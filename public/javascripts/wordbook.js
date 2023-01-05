@@ -1,21 +1,24 @@
 function wordbook_reading(time){          
-  
+  var token = getCookie('authorize-access-token');
+  var det_login_value = det_login(token);
+  console.log(det_login_value);
+
   fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results));
     function add_result(datas){
+      var table_name = `Tables_in_${getCookie("client_email_chg").replace(/%24/gi, '$')}`;            
       let add_html = '';
       let i = 0;
-      for (let data of datas){
-        console.log(data.Tables_in_oq4p2dxa5zpnk9gu);
+      for (let data of datas){        
         add_html += `<div class="wordbook_wrap shadow-sm">
                         <div class="wordbook_text" onclick="touch_block_action(document.getElementById('wordbook_title_span_${i}')); wordlist_reading(${i},'','initial');">                                          
-                          <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb animate__animated"><span id="wordbook_title_span_${i}" name="wordbook_title">${data.Tables_in_oq4p2dxa5zpnk9gu}</span></div>                        
+                          <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb animate__animated"><span id="wordbook_title_span_${i}" name="wordbook_title">${data[table_name]}</span></div>                        
                           <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                                              
                         </div>                      
                         <div class="wordbook_option">
-                          <i class="fa-solid fa-pen ft7 ftb text_green" data-bs-toggle="modal" data-bs-target="#edit_modal" onclick="edit_modal1_openbtn_click('second_1box_center', '${data.Tables_in_oq4p2dxa5zpnk9gu}');"></i>                                                   
+                          <i class="fa-solid fa-pen ft7 ftb text_green" data-bs-toggle="modal" data-bs-target="#edit_modal" onclick="edit_modal1_openbtn_click('second_1box_center', '${data[table_name]}');"></i>                                                   
                         </div>
                         <div class="wordbook_option">
-                          <i class="fa-solid fa-trash-can ft7 ftb text_red" data-bs-toggle="modal" data-bs-target="#remove_confirm" onclick="remove_modal1_openbtn_click('second_1box_center', '${data.Tables_in_oq4p2dxa5zpnk9gu}');"> </i>
+                          <i class="fa-solid fa-trash-can ft7 ftb text_red" data-bs-toggle="modal" data-bs-target="#remove_confirm" onclick="remove_modal1_openbtn_click('second_1box_center', '${data[table_name]}');"> </i>
                         </div>                      
                       </div>                  
                     </div>`;                  

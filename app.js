@@ -3,6 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+// my db
+var mysql_odbc = require('./db/db_conn')();
+var conn = mysql_odbc.init();
+var auth_conn = mysql_odbc.auth(); // 회원관리 db
+var root_conn = mysql_odbc.root(); // 루트 db
+var client_conn;   // = mysql_odbc.client(); 로그인 회원 db
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -689,51 +696,103 @@ app.post('/open_ebook', function (req, res) {
   })
 })
 
-app.get('/kakaoLogin', function (req, res, next) {
+app.get('/kakaoLogin', function (req, res, err) {
   console.log('login redirect start..');
+  console.log('========================')
   console.log(`req.params : ${JSON.stringify(req.query)}`);
-  // console.log(req.query.code);
-  // ${JSON.stringify(req)}
-  // console.log(req);
+  console.log(`req.params : ${JSON.stringify(req.query.error)}`);
+  if (req.query.error == null) {
+    // console.log(req.query.code);
+    // ${JSON.stringify(req)}
+    // console.log(req);
 
-  var access_token;
+    var access_token;
 
-  var request = require('request');
-  var options = {
-    url: 'https://kauth.kakao.com/oauth/token',
-    form: { 'grant_type': 'authorization_code', 
-            'client_id': '4a243bdf6ed7b9e9014e0ce7753e8779', 
-            'redirect_uri': 'http://localhost:3000/kakaoLogin',
-            'code' : req.query.code
-          },
-    headers: { 'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'}
-  };
-  
+    var request = require('request');
+    var options = {
+      url: 'https://kauth.kakao.com/oauth/token',
+      form: { 'grant_type': 'authorization_code', 
+              'client_id': '4a243bdf6ed7b9e9014e0ce7753e8779', 
+              'redirect_uri': 'http://localhost:3000/kakaoLogin',
+              'code' : req.query.code
+            },
+      headers: { 'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'}
+    };
+    
 
-  request.post(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-      // res.end(body);
-      console.log('-----------------------------');      
-      console.log(JSON.parse(body));    
-      access_token = JSON.parse(body).access_token;
-      console.log(access_token);    
-      console.log('-----------------------------');
-      
-      // res.clearCookie('key');
-      res.clearCookie('authorize-access-token');
-      res.cookie('authorize-access-token', access_token);   
+    request.post(options, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+        // res.end(body);
+        console.log('-----------------------------');      
+        // console.log(JSON.parse(body));    
+        access_token = JSON.parse(body).access_token;
+        console.log(access_token);    
+        console.log('-----------------------------');
+        
+        // res.clearCookie('key');
+        res.clearCookie('authorize-access-token');
+        res.cookie('authorize-access-token', access_token);   
 
-      res.render('index');     
-      // res.send(body);
-      
-    } else {
-      res.status(response.statusCode).end();
-      console.log('error = ' + response.statusCode);
-    }
-  });
-  
+        res.render('index');     
+        // res.send(body);
+        
+      } else {
+        res.status(response.statusCode).end();
+        console.log('error = ' + response.statusCode);      
+      }
+    });
+  } else {
+    console.log('error : ' + req.query.error);
+    res.render('index');    
+  }
 });
+
+app.post('/kakaoLogin/signup', function (req, res, next) {
+  var results_msg = [];
+  var client_email = req.body.nickname
+  var client_email_chg = req.body.nickname.replace('@','$at$').replace('.','$dot$');
+
+  console.log('signup process starts');
+  console.log(client_email);
+  
+  res.clearCookie('client_email');  
+  res.cookie('client_email', client_email);    
+  res.clearCookie('client_email_chg');  
+  res.cookie('client_email_chg', client_email_chg);    
+
+  var sql = `SELECT * FROM client_list WHERE email = '${client_email}'`;
+  auth_conn.query(sql, function(err, results){
+    if (err) console.err("err:" + err);
+    console.log('resresult : ' + results);
+    console.log('resleng : ' + results.length);
+    if (results.length === 0) {
+      console.log('새 회원입니다');
+      console.log(client_email_chg);
+      var signup_sql = `
+        INSERT INTO client_list (email, signup_date, signin_date, signin_num) VALUE ('${client_email}', '20230105', '20230105', 1);        
+        SELECT * FROM client_list;
+      `;      
+      var create_database_sql = `
+        CREATE DATABASE ${client_email_chg};        
+        SHOW DATABASES;
+      `;
+      // '${req.body.nickname.replace('@','$at$')}'
+      auth_conn.query(signup_sql, function(err, results){
+        results_msg.push(results);
+        root_conn.query(create_database_sql, function(err, results){
+          results_msg.push(results);
+          res.json(results_msg);      
+        });
+      });
+    } else {
+      console.log('기존 회원입니다');
+      results_msg.push(results);
+      res.json(results_msg);
+    }
+  })  
+});
+
 
 // var request_info = require('request');
 

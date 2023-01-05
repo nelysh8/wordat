@@ -1,15 +1,19 @@
 var express = require('express');
 var router = express.Router();
+var cookieParser = require('cookie-parser');
 var mysql_odbc = require('../db/db_conn')();
 // var conn = mysql_odbc.client('oq4p2dxa5zpnk9gu');
 // var conn = mysql_odbc.init();
-var conn = mysql_odbc.client('oq4p2dxa5zpnk9gu');
+var conn = mysql_odbc.init();
+var auth_conn = mysql_odbc.auth(); // 회원관리 db
+var client_conn;   // = mysql_odbc.client(); 로그인 회원 db
+
 var moment = require('moment');
 var today = moment();
 
 // WORDBOOK List
 
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res, next) {    
     var sql = "SHOW tables";
     conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);
@@ -23,10 +27,14 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
+    console.log(req.cookies.client_email_chg);
+    var client_email_chg = req.cookies.client_email_chg;    
+    client_conn = mysql_odbc.client(client_email_chg);    
+
     var sql = "SHOW tables";
     console.log(sql);
-    conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);        
+    client_conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);                
         res.json(results);
     });
 });
@@ -35,11 +43,14 @@ router.post('/', function (req, res, next) {
 
  // 식별번호, 영어문장, 한글문장, [{예문1 영어, 예문1 한글, 저장시각, 로드시각, 로드횟수}, 저장시각, 로드시각, 로드횟수]
 
-router.post('/add', function (req, res, next) {    
+router.post('/add', function (req, res, next) {        
+    var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+
     var newlist_name = (req.body.title).replace(/ /gi, '_');        
     var sql = "CREATE TABLE " + newlist_name + " (ID INT(11) NOT NULL AUTO_INCREMENT, WORDBOOK_TITLE TEXT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_RESULT INT(11) NOT NULL DEFAULT '0', QUIZ_DATE DATETIME NOT NULL, PRIMARY KEY(ID))";
     console.log(sql);
-    conn.query(sql, function(err, results){
+    client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
         res.json(results);
     });
@@ -48,11 +59,14 @@ router.post('/add', function (req, res, next) {
 // WORDBOOK DELETE
 
 router.post('/remove', function (req, res, next) {    
+    var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+
     console.log('remove wordbook_title');
     var wordbook_title = req.body.title;
     var sql = "DROP TABLE " + wordbook_title;
     console.log(sql);
-    conn.query(sql, function(err, results){
+    client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
         res.json(results);
     });
@@ -61,12 +75,15 @@ router.post('/remove', function (req, res, next) {
 // WORDBOOK EDIT
 
 router.post('/edit', function (req, res, next) {
+    var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+
     console.log('edit wordbook_title');    
     var wordbook_oldtitle = req.body.oldtitle;
     var wordbook_newtitle = req.body.newtitle;
     var sql = "ALTER TABLE " + wordbook_oldtitle + " RENAME " + wordbook_newtitle;
     console.log(sql);
-    conn.query(sql, function(err, results){
+    client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
         res.json(results);
     });
@@ -75,13 +92,16 @@ router.post('/edit', function (req, res, next) {
 
 // WORDLIST
 
-router.post('/wordlist', function (req, res, next) {    
+router.post('/wordlist', function (req, res, next) {   
+    var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+
     var wordbook_title = req.body.title;        
     console.log(wordbook_title);
     var sql = `SELECT * FROM ${wordbook_title}`;
     // var sql = "SELECT * FROM " + wordbook_title + " WHERE P_ID=0";
     console.log(sql);
-    conn.query(sql, function(err, results){
+    client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);
         res.json(results);        
     });
@@ -89,7 +109,10 @@ router.post('/wordlist', function (req, res, next) {
 
 // WORD
 
-router.post('/word', function (req, res, next) {    
+router.post('/word', function (req, res, next) {   
+    var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+
     console.log(req.body);
     var wordbook_title = req.body.wordbook_title;    
     var word_id = req.body.word_id;
@@ -102,7 +125,7 @@ router.post('/word', function (req, res, next) {
     // var sql = "SELECT * FROM " + wordbook_title + " WHERE P_ID=0";
     //  
     console.log(sql);
-    conn.query(sql, function(err, results){
+    client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
         res.json(results[1]);        
     });
@@ -111,6 +134,9 @@ router.post('/word', function (req, res, next) {
 // WORD ADD
 
 router.post('/word/add/', function (req, res, next) {        
+    var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+
     var wordbook_title = req.body.wordbook_title;
     console.log(wordbook_title);
     var word_english = req.body.eng;
@@ -122,7 +148,7 @@ router.post('/word/add/', function (req, res, next) {
     var time = today.format('YYYYMMDD');
 
     var sql = `INSERT INTO ${wordbook_title} (WORDBOOK_TITLE, ENG, KOR, EXAMPLE, SAVEDATE, LOADDATE, QUIZ_DATE) VALUE (?,?,?,?,${time}, ${time}, ${time})`;
-    conn.query(sql, data, function(err, results){
+    client_conn.query(sql, data, function(err, results){
         if (err) console.err("err:" + err);
         res.json(results);   
     });    
@@ -131,12 +157,15 @@ router.post('/word/add/', function (req, res, next) {
 // WORD REMOVE
 
 router.post('/word/remove/', function (req, res, next) {        
+    var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+
     console.log('remove word');
     var wordbook_title = req.body.wordbook_title;    
     var word_id = req.body.word_id;           
     
     var sql = `DELETE FROM ${wordbook_title} WHERE id = ${word_id}`;
-    conn.query(sql, function(err, results){
+    client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
         res.json(results);
     });   
@@ -144,7 +173,10 @@ router.post('/word/remove/', function (req, res, next) {
 
 // WORD EDIT
 
-router.post('/word/edit/', function (req, res, next) {        
+router.post('/word/edit/', function (req, res, next) {    
+    var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+    
     console.log('edit word');
     var wordbook_title = req.body.wordbook_title;    
     var word_id = req.body.word_id;           
@@ -153,7 +185,7 @@ router.post('/word/edit/', function (req, res, next) {
     
     var sql = `UPDATE ${wordbook_title} SET ENG = '${word_eng}', KOR = '${word_kor}' WHERE ID = ${word_id};`;
     console.log(sql);
-    conn.query(sql, function(err, results){
+    client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
         res.json(results);
     });   
@@ -162,6 +194,9 @@ router.post('/word/edit/', function (req, res, next) {
 // EXAMPLE ADD
 
 router.post('/exam/add/', function (req, res, next) {        
+    var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+
     console.log('exam add start');
     var wordbook_title = req.body.wordbook_title;        
     var word_id = req.body.word_id;        
@@ -176,7 +211,7 @@ router.post('/exam/add/', function (req, res, next) {
     // value add //            
         var sql = `UPDATE ${wordbook_title} SET EXAMPLE = JSON_ARRAY_APPEND(EXAMPLE, '$', CAST('${example}' AS JSON)) WHERE ID = ${word_id}`;
     console.log(sql);
-    conn.query(sql, function(err, results){
+    client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);
         res.json(results);   
     });
@@ -185,13 +220,16 @@ router.post('/exam/add/', function (req, res, next) {
 // Quiz search
 
 router.post('/quiz', async function (req, res, next) {
-	var sql = req.body.sql_query;
+	var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+
+    var sql = req.body.sql_query;
 	var filtered_results;
 	var ranged_results;
 	var target_result;
 	var random_num;
 
-	conn.query(sql, function(err, results){
+	client_conn.query(sql, function(err, results){
 		if (err) console.err("err:" + err);
 		if (results.length === 0) {  // 총 문장수가 0개
 			res.send(0);
@@ -236,6 +274,9 @@ router.post('/quiz', async function (req, res, next) {
 });
     
 router.post('/quiz_result', async function (req, res, next) {
+    var client_email_chg = req.cookies.client_email_chg;
+    client_conn = mysql_odbc.client(client_email_chg);
+
     var time = today.format('YYYYMMDD');
 
     var wordbook_title = req.body.wordbook_title;
@@ -246,7 +287,7 @@ router.post('/quiz_result', async function (req, res, next) {
     var sql = `UPDATE ${wordbook_title} SET QUIZ_NUM = QUIZ_NUM + ${quiz_num}, QUIZ_RESULT = QUIZ_RESULT + ${quiz_result}, QUIZ_DATE = ${time} WHERE ID = ${word_id};`;
     console.log(sql);
 
-    conn.query(sql, function(err, results){
+    client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);
         res.json(results);   
     });

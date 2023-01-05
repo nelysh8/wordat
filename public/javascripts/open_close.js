@@ -1,6 +1,6 @@
  
   async function wordbook_open(){      
-    // await click_fadeoutdown(mainbox_center);    
+    // await click_fadeoutdown(mainbox_center);  
     if (second_1box_center.style.display !== 'none') {
       click_bouncein(second_1box_center);
       document.querySelector('i.fa-star').classList.add('text_whiteoutline');

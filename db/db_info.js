@@ -16,11 +16,11 @@ module.exports = (function (){
             database: '',
             multipleStatements : true
         },
-        client : {
-            host:'y6aj3qju8efqj0w1.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+        aws : {
+            host:'wordat.cqsirssbl4rq.ap-northeast-2.rds.amazonaws.com',
             port:'3306',
-            user:'kfw13xciyjo8ris6',
-            password:'t8vcnh6mahh491kx',
+            user:'nelysh8',
+            password:'#1rain0401',
             database: '',
             multipleStatements : true
         },

@@ -2,6 +2,8 @@
 
 function modal1_openbtn_click(position) {
     console.log('modal1_openbtn_click start');
+    var table_name = `Tables_in_${getCookie("client_email_chg").replace(/%24/gi, '$')}`;
+
     var req_pos = position;  
     var wim_title = document.getElementById('wim_title');
     var dropdown_list = '';
@@ -25,7 +27,7 @@ function modal1_openbtn_click(position) {
         console.log('dropdown creating');
         
         for (let result of results){
-          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result.Tables_in_oq4p2dxa5zpnk9gu}</a></li>`;
+          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result[table_name]}</a></li>`;
         };
         dropdown_menu.innerHTML = dropdown_list;   
         console.log(results.length, selected_wordbook);
@@ -33,7 +35,7 @@ function modal1_openbtn_click(position) {
           dropdown_button.innerText = 'create' ;
           // selected_wordbook !!!!!! 워드북 만드는 화면으로
         } else if ((selected_wordbook === '') && (results.length === 1)) {
-          dropdown_button.innerText = results[0].Tables_in_oq4p2dxa5zpnk9gu;
+          dropdown_button.innerText = results[0][table_name];
         } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (results.includes(pre_selected_wordbook))){              
           dropdown_button.innerText = pre_selected_wordbook;      
         } 
@@ -53,9 +55,9 @@ function modal1_openbtn_click(position) {
         i=0;
         j=0;
         for (let result of results){
-          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result.Tables_in_oq4p2dxa5zpnk9gu}</a></li>`;
-          if (selected_wordbook === result.Tables_in_oq4p2dxa5zpnk9gu) { i+=1;};
-          if (pre_selected_wordbook === result.Tables_in_oq4p2dxa5zpnk9gu) {j+=1;};
+          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result[table_name]}</a></li>`;
+          if (selected_wordbook === result[table_name]) { i+=1;};
+          if (pre_selected_wordbook === result[table_name]) {j+=1;};
         };
         dropdown_menu.innerHTML = dropdown_list;         
         
@@ -63,7 +65,7 @@ function modal1_openbtn_click(position) {
           console.log('this?');
           dropdown_button.innerText = selected_wordbook;          
         } else if ((selected_wordbook === '') && (results.length === 1)) {
-          dropdown_button.innerText = results[0].Tables_in_oq4p2dxa5zpnk9gu;
+          dropdown_button.innerText = results[0][table_name];
         } else if ((pre_selected_wordbook !== '') && (results.length > 0) && (j>0)) {
           dropdown_button.innerText = pre_selected_wordbook;      
         };
@@ -96,7 +98,7 @@ function modal1_openbtn_click(position) {
         console.log('dropdown creating');
         
         for (let result of results){
-          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result.Tables_in_oq4p2dxa5zpnk9gu}</a></li>`;
+          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result[table_name]}</a></li>`;
         };
         dropdown_menu.innerHTML = dropdown_list;   
         console.log(results.length, selected_wordbook);
@@ -104,7 +106,7 @@ function modal1_openbtn_click(position) {
           dropdown_button.innerText = 'create' ;
           // selected_wordbook !!!!!! 워드북 만드는 화면으로
         } else if ((selected_wordbook === '') && (results.length === 1)) {
-          dropdown_button.innerText = results[0].Tables_in_oq4p2dxa5zpnk9gu;
+          dropdown_button.innerText = results[0][table_name];
         } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (results.includes(pre_selected_wordbook))){              
           dropdown_button.innerText = pre_selected_wordbook;      
         } 
