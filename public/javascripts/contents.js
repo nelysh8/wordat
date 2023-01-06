@@ -172,9 +172,24 @@ function cartoon(){
     var ebook_num = {'ebook_num' : ebook_num};    
     // var chunks = [];    
 
-    ebook_contents.innerHTML = `<lottie-player src="https://assets4.lottiefiles.com/private_files/lf30_P60IO4.json" background="transparent"  speed="1"  style="width: 50%; margin : auto;"  loop  autoplay></lottie-player>`;
+    ebook_contents.innerHTML = `
+      <lottie-player id="ebook_lottie" src="https://assets4.lottiefiles.com/private_files/lf30_P60IO4.json" background="transparent"  speed="1"  style="width: 50%; margin : auto;"  loop  autoplay></lottie-player>
+      <div id="div_linked_ebook" style="display:none;">
+        <iframe id="linked_ebook" src="#" seamless ></iframe>
+      </div>
+      `;
     third_1box_open();
-
+    var div_ebook = document.getElementById(div_linked_book);
+    var iframe_ebook = document.getElementById(linked_ebook);
+    var ebook_lottie = document.getElementById(ebook_lottie);
+    iframe_ebook.onload = function(){
+      div_ebook.style.display = "block";  
+      ebook_lottie.remove();            
+    };
+    iframe_ebook.src = `https://www.gutenberg.org/cache/epub/${ebook_num.ebook_num}/pg${ebook_num.ebook_num}-images.html`;
+    
+    
+    
   
     // fetch("/open_ebook", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(ebook_num)}).then((response)=>response.json()).then((results)=>{
     //   console.log(results);
@@ -209,9 +224,7 @@ function cartoon(){
     //     ebook_contents.innerHTML = contents;
     //   } else {
         contents += `        
-            <div class="div_linked_book">
-                <iframe id="linked_ebook" src="https://www.gutenberg.org/cache/epub/${ebook_num.ebook_num}/pg${ebook_num.ebook_num}-images.html" seamless></iframe>        
-            </div>
+            
         `;          
         // https://www.wikipedia.org/wiki/Vincent_van_Gogh
         ebook_contents.innerHTML = contents;

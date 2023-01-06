@@ -330,7 +330,16 @@ ul {
         border-radius : 20px;    
         /* overflow-y: scroll;                 */
         z-index : 4;
+        animation-name: ex;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
     }
+
+    @keyframes ex {
+      from {height: 98%;}
+      to {height: 79%;}
+    }
+    
 
       /* mainbody_layer */
 
@@ -1627,6 +1636,9 @@ ul {
         border-radius : 20px;    
         overflow-y: scroll;                
         z-index : 4;               
+        animation-name: ex;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
     }
     
     .t1_mainbox::-webkit-scrollbar {
@@ -1648,7 +1660,7 @@ ul {
       display: none;
     }
 
-    .div_linked_book {
+    #div_linked_ebook {
       position: relative;
       width : 100%;
       height : 100%;
@@ -1680,11 +1692,11 @@ ul {
         
       }
 
-      @media screen and (-webkit-min-device-pixel-ratio:0) {
+      /* @media screen and (-webkit-min-device-pixel-ratio:0) {
         #linked_ebook {
           /* zoom: 1; */
-        }
-      }
+        /* }
+      } */
 
       #linked_ebook::-webkit-scrollbar {
         display: none;
