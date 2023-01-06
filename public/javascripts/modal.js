@@ -2,7 +2,7 @@
 
 function modal1_openbtn_click(position) {
     console.log('modal1_openbtn_click start');
-    var table_name = `Tables_in_${getCookie("client_email_chg").replace(/%24/gi, '$')}`;
+    var table_name = `Tables_in_${getCookie("client_ID").replace(/%24/gi, '$')}`;
 
     var req_pos = position;  
     var wim_title = document.getElementById('wim_title');
@@ -27,7 +27,7 @@ function modal1_openbtn_click(position) {
         console.log('dropdown creating');
         
         for (let result of results){
-          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result[table_name]}</a></li>`;
+          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result[table_name])}</a></li>`;
         };
         dropdown_menu.innerHTML = dropdown_list;   
         console.log(results.length, selected_wordbook);
@@ -35,8 +35,8 @@ function modal1_openbtn_click(position) {
           dropdown_button.innerText = 'create' ;
           // selected_wordbook !!!!!! 워드북 만드는 화면으로
         } else if ((selected_wordbook === '') && (results.length === 1)) {
-          dropdown_button.innerText = results[0][table_name];
-        } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (results.includes(pre_selected_wordbook))){              
+          dropdown_button.innerText = table_name_recover(results[0][table_name]);
+        } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (table_name_recover(results).includes(pre_selected_wordbook))){              
           dropdown_button.innerText = pre_selected_wordbook;      
         } 
       });      
@@ -55,9 +55,9 @@ function modal1_openbtn_click(position) {
         i=0;
         j=0;
         for (let result of results){
-          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result[table_name]}</a></li>`;
-          if (selected_wordbook === result[table_name]) { i+=1;};
-          if (pre_selected_wordbook === result[table_name]) {j+=1;};
+          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result[table_name])}</a></li>`;
+          if (selected_wordbook === table_name_recover(result[table_name])) { i+=1;};
+          if (pre_selected_wordbook === table_name_recover(result[table_name])) {j+=1;};
         };
         dropdown_menu.innerHTML = dropdown_list;         
         
@@ -98,7 +98,7 @@ function modal1_openbtn_click(position) {
         console.log('dropdown creating');
         
         for (let result of results){
-          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${result[table_name]}</a></li>`;
+          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result[table_name])}</a></li>`;
         };
         dropdown_menu.innerHTML = dropdown_list;   
         console.log(results.length, selected_wordbook);
@@ -131,7 +131,7 @@ function modal1_openbtn_click(position) {
     if (req_pos === 'mainbox_center'){
       console.log(req_pos + ': wim_submit_btn_click start');
       var word = {
-        'wordbook_title' : document.getElementById('wim_dropdown_btn').innerText, 
+        'wordbook_title' : table_name_trim(document.getElementById('wim_dropdown_btn').innerText), 
         'eng' : document.getElementById('wim_input_eng').value, 
         'kor' : document.getElementById('wim_input_kor').value
       };
@@ -141,21 +141,21 @@ function modal1_openbtn_click(position) {
     } else if (req_pos === 'second_2box_center'){
       console.log(req_pos + 'wim_submit_btn_click start');
       var word = {
-        'wordbook_title' : document.getElementById('wim_dropdown_btn').innerText, 
+        'wordbook_title' : table_name_trim(document.getElementById('wim_dropdown_btn').innerText), 
         'eng' : document.getElementById('wim_input_eng').value, 
         'kor' : document.getElementById('wim_input_kor').value
       };
       fetch("/wordbook/word/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
         console.log(results);        
       });
-      wordlist_reading('',word.wordbook_title,'');
+      wordlist_reading('',table_name_recover(word.wordbook_title),'');
     } else if (req_pos === 'second_3box_center'){
       console.log(req_pos + 'wim_submit_btn_click start');
       let exam_eng = document.getElementById('wim_input_eng').value.replace(/'/gi, "''"); //mysql에서 문자 안의 '는 ''로 찍어줘야 함
       console.log(exam_eng);
   
       var word = {
-        'wordbook_title' : document.getElementById('s2_wordbook_title').innerText,
+        'wordbook_title' : table_name_trim(document.getElementById('s2_wordbook_title').innerText),
         'word_id' : document.getElementById('s3_word_id').innerText,
         'exam_eng' : exam_eng, 
         'exam_kor' : document.getElementById('wim_input_kor').value
@@ -164,11 +164,11 @@ function modal1_openbtn_click(position) {
       fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
         console.log(results);        
       });
-      word_reading(document.getElementById('s3_word_id').innerText,'');  
+      word_reading(table_name_recover(document.getElementById('s3_word_id').innerText),'');  
     } else if (req_pos === 'third_1box_center'){
       console.log(req_pos + ': wim_submit_btn_click start');
       var word = {
-        'wordbook_title' : document.getElementById('wim_dropdown_btn').innerText, 
+        'wordbook_title' : table_name_trim(document.getElementById('wim_dropdown_btn').innerText), 
         'eng' : document.getElementById('wim_input_eng').value, 
         'kor' : document.getElementById('wim_input_kor').value
       };
@@ -301,7 +301,7 @@ function modal1_openbtn_click(position) {
     var ex_id = exam_id;
     
     if (req_pos === 'second_1box_center'){
-      var post_text = {oldtitle : wb_title, newtitle : document.getElementById('edit_wb_title_text').value};      
+      var post_text = {oldtitle : table_name_trim(wb_title), newtitle : table_name_trim(document.getElementById('edit_wb_title_text').value)};      
       await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(post_text)}).then((response)=>response.json()).then((results)=>{
         console.log(results);
       })
@@ -309,7 +309,7 @@ function modal1_openbtn_click(position) {
     }
     
     else if (req_pos === 'second_2box_center'){
-      var post_text = {wordbook_title : wb_title, word_id : wd_id, word_eng : document.getElementById("edit_wd_eng_text").value, word_kor : document.getElementById("edit_wd_kor_text").value};      
+      var post_text = {wordbook_title : table_name_trim(wb_title), word_id : wd_id, word_eng : document.getElementById("edit_wd_eng_text").value, word_kor : document.getElementById("edit_wd_kor_text").value};      
       console.log(document.getElementById("edit_wd_eng_text").value, document.getElementById("edit_wd_kor_text").value);
       await fetch("/wordbook/word/edit/", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(post_text)}).then((response)=>response.json()).then((results)=>{
         console.log(results);

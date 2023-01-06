@@ -106,7 +106,8 @@ function det_login(token, type) {  //로그인 판별자
 function kakaoLogin() { 
    
   Kakao.Auth.authorize({
-    redirectUri: 'http://localhost:3000/kakaoLogin',
+    redirectUri: 'https://my.word-at.fun/kakaoLogin',
+    // redirectUri: 'http://localhost:3000/kakaoLogin',
   });
 }
 

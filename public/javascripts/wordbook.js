@@ -66,11 +66,11 @@ async function wordbook_reading(time){
     })      
 }
   
-  function remove_wordbook_num(num){
-    var wordbook_num = num;
-    console.log(wordbook_num);
-    document.getElementById('remove_btn').setAttribute("onclick", `remove_wordbook_click(${wordbook_num});`);
-  }
+  // function remove_wordbook_num(num){
+  //   var wordbook_num = num;
+  //   console.log(wordbook_num);
+  //   document.getElementById('remove_btn').setAttribute("onclick", `remove_wordbook_click(${wordbook_num});`);
+  // }
   
       // functions
   
@@ -85,17 +85,17 @@ async function wordbook_reading(time){
   }
   
   
-  async function edit_wordbook_click(number){
-    console.log('edit wordbook detected');
-    var old_title = document.getElementById(`wordbook_title_${number}`).innerText;
-    var new_title = document.getElementById(`edit_wordbook_title_${number}`).value;
-    let wordbook_title = {oldtitle : old_title, newtitle : new_title };
-    console.log(wordbook_title);
-    await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
-      console.log(results);
-    })
-    wordbook_reading('');
-  }
+  // async function edit_wordbook_click(number){
+  //   console.log('edit wordbook detected');
+  //   var old_title = table_name_trim(document.getElementById(`wordbook_title_${number}`).innerText);
+  //   var new_title = table_name_trim(document.getElementById(`edit_wordbook_title_${number}`).value);
+  //   let wordbook_title = {oldtitle : old_title, newtitle : new_title };
+  //   console.log(wordbook_title);
+  //   await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
+  //     console.log(results);
+  //   })
+  //   wordbook_reading('');
+  // }
   
     // Wordlist - 2box
   
@@ -195,7 +195,7 @@ async function wordbook_reading(time){
   function word_reading(ID_number, time){  
     console.log('word_reading start');
     second_2box_center.scrollTop = 0;
-    let wordbook_title = document.getElementById('s2_wordbook_title').innerText;
+    let wordbook_title = table_name_trim(document.getElementById('s2_wordbook_title').innerText);
     let word_id = ID_number;
     console.log('elements : ' + wordbook_title, word_id);
     
