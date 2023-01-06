@@ -40,53 +40,52 @@ var token = getCookie('authorize-access-token');    // 가입/로그인(인가 �
 var determinant = det_login(token, 'confirm');
 console.log(determinant);
 
-function det_login(token, type) {  //로그인 판별자  
-  var type = type;
-  if (token !== null) {
-    if(token) {
-      Kakao.Auth.setAccessToken(token); 
-      console.log('det_login_1 start?');      
-      Kakao.API.request({
-        url: '/v2/user/me',
-      })
-      .then(function(res) {            
-        console.log(res);                
-        var req_value = {'id' : 'kakao_' + res.id};
-        console.log('det_login_2 start?');      
-        fetch("/kakaoLogin/signup", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((results)=>{    
-          console.log(results);          
+function det_login(token, typeA) {  //로그인 판별자  
+  return new Promise((resolve, reject)=>{
+    var type = typeA;
+    if (token !== null) {
+      if(token) {
+        Kakao.Auth.setAccessToken(token); 
+        console.log('det_login_1 start?');      
+        Kakao.API.request({
+          url: '/v2/user/me',
         })
-        .then(()=>{
-          console.log('det_login end');      
-          return;
-        });                     
-      })
-      .catch(function(err) { // 앱 연결이 끊긴 상태
-        Kakao.Auth.setAccessToken(null);        
-        console.log('로그인 안된 상태(앱 연결이 끊긴 상태)');        
-        console.log('det_login_3 confirm success');   
-        if (type === 'execute') {          
-          kakaoLogin();                    
-          console.log('det_login_3 exe success'); 
-          return;     
-        } else {
-
-        }
-      });
-    } 
-  } else {
-    console.log('로그인 안된 상태(access token : null)');    
-    console.log('det_login_4 confirm success');      
-    if (type === 'execute') {      
-      kakaoLogin();            
-      console.log('det_login_4 exe success');      
-      return;
+        .then(function(res) {            
+          console.log(res);                
+          var req_value = {'id' : 'kakao_' + res.id};
+          console.log('det_login_2 start?');      
+          fetch("/kakaoLogin/signup", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((results)=>{    
+            console.log(results);          
+            resolve('로그인/후처리 완료');
+          })          
+        })
+        .catch(function(err) { // 앱 연결이 끊긴 상태                    
+          Kakao.Auth.setAccessToken(null);        
+          console.log('로그인 안된 상태(앱 연결이 끊긴 상태)');        
+          console.log('det_login_3 confirm success');   
+          if (type === 'execute') {          
+            reject('로그인 기능 실행필요');
+            kakaoLogin();                    
+            console.log('det_login_3 exe success');             
+          } else {
+            resolve('앱 연결안됨 확인');
+          }
+        });
+      } 
     } else {
-
+      console.log('로그인 안된 상태(access token : null)');    
+      console.log('det_login_4 confirm success');      
+      if (type === 'execute') {      
+        reject('로그인 기능 실행필요');
+        kakaoLogin();            
+        console.log('det_login_4 exe success');              
+      } else {
+        resolve('로그인 안됨 확인');
+      }    
     }    
-  }    
-  
+  })
 }
+  
 
 
 

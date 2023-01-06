@@ -22,19 +22,13 @@ function table_name_recover(table_name) {
 
 //
 
-async function wordbook_reading(time){          
+function wordbook_reading(time){          
   var token = getCookie('authorize-access-token');
   console.log('promise start');      
-  det_login(token, 'execute');
-  await sleep(1);
-  // var promise = new Promise((resolve,reject)=>{
-  //   det_login(token, 'execute');
-  //   console.log('promise start');      
-  //   resolve();
-  // });
-  
-  // promise.then(()=>{
+  det_login(token, 'execute')
+  .then((data)=>{    
     console.log('promise/then start');      
+    console.log(data);
     fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{
       var table_name = `Tables_in_${getCookie("client_ID")}`;            
       let add_html = '';
@@ -64,6 +58,20 @@ async function wordbook_reading(time){
         wordbook_open();
       }
     })      
+  })
+  .catch((data)=>{
+    console.log('promise error');
+    console.log(data);
+  })
+  // await sleep(1);
+  // var promise = new Promise((resolve,reject)=>{
+  //   det_login(token, 'execute');
+  //   console.log('promise start');      
+  //   resolve();
+  // });
+  
+  // promise.then(()=>{
+    
 }
   
   // function remove_wordbook_num(num){
