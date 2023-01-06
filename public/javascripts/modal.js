@@ -212,7 +212,7 @@ function modal1_openbtn_click(position) {
   async function remove_btn_click(position, wordbook_title, word_id, exam_id){
     console.log('remove_btn_click detected');
     var req_pos = position;  
-    var wb_title = wordbook_title;
+    var wb_title = table_name_trim(wordbook_title);
     var wd_id = word_id;  
     var ex_id = exam_id;  
   

@@ -1,37 +1,70 @@
-function wordbook_reading(time){          
-  var token = getCookie('authorize-access-token');
-  var det_login_value = det_login(token);
-  console.log(det_login_value);
+// 테이블 이름 정리/복구
+function table_name_trim(table_name) {
+  var table_name = table_name
+    .trim()
+    .replace(/ /gi, '$_$')
+    .replace(/\./gi, '$dot$')
+    .replace(/\!/gi, '$exc$')
+    .replace(/\#/gi, '$sp$')
+    .replace(/\&/gi, '$aa$');
+  return table_name;
+}
 
-  fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>add_result(results));
-    function add_result(datas){
-      var table_name = `Tables_in_${getCookie("client_email_chg").replace(/%24/gi, '$')}`;            
+function table_name_recover(table_name) {
+  var table_name = table_name    
+    .replace(/\$\_\$/gi, ' ')
+    .replace(/\$dot\$/gi, '.')
+    .replace(/\$exc\$/gi, '!')
+    .replace(/\$sp\$/gi, '#')
+    .replace(/\$aa\$/gi, '&');
+  return table_name;
+}
+
+//
+
+async function wordbook_reading(time){          
+  var token = getCookie('authorize-access-token');
+  console.log('promise start');      
+  det_login(token, 'execute');
+  await sleep(1);
+  // var promise = new Promise((resolve,reject)=>{
+  //   det_login(token, 'execute');
+  //   console.log('promise start');      
+  //   resolve();
+  // });
+  
+  // promise.then(()=>{
+    console.log('promise/then start');      
+    fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{
+      var table_name = `Tables_in_${getCookie("client_ID")}`;            
       let add_html = '';
       let i = 0;
-      for (let data of datas){        
+      for (let data of results){        
         add_html += `<div class="wordbook_wrap shadow-sm">
                         <div class="wordbook_text" onclick="touch_block_action(document.getElementById('wordbook_title_span_${i}')); wordlist_reading(${i},'','initial');">                                          
-                          <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb animate__animated"><span id="wordbook_title_span_${i}" name="wordbook_title">${data[table_name]}</span></div>                        
+                          <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb animate__animated"><span id="wordbook_title_span_${i}" name="wordbook_title">${table_name_recover(data[table_name])}</span></div>                        
                           <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                                              
                         </div>                      
                         <div class="wordbook_option">
-                          <i class="fa-solid fa-pen ft7 ftb text_green" data-bs-toggle="modal" data-bs-target="#edit_modal" onclick="edit_modal1_openbtn_click('second_1box_center', '${data[table_name]}');"></i>                                                   
+                          <i class="fa-solid fa-pen ft7 ftb text_green" data-bs-toggle="modal" data-bs-target="#edit_modal" onclick="edit_modal1_openbtn_click('second_1box_center', '${table_name_recover(data[table_name])}');"></i>                                                   
                         </div>
                         <div class="wordbook_option">
-                          <i class="fa-solid fa-trash-can ft7 ftb text_red" data-bs-toggle="modal" data-bs-target="#remove_confirm" onclick="remove_modal1_openbtn_click('second_1box_center', '${data[table_name]}');"> </i>
+                          <i class="fa-solid fa-trash-can ft7 ftb text_red" data-bs-toggle="modal" data-bs-target="#remove_confirm" onclick="remove_modal1_openbtn_click('second_1box_center', '${table_name_recover(data[table_name])}');"> </i>
                         </div>                      
                       </div>                  
                     </div>`;                  
         i += 1;
       };
-      
       var doc = document.getElementById("wordbook_list");
       doc.innerHTML = add_html;    
-    }
-    if (time === 'initial'){
-      wordbook_open();
-    }
-  }
+      return 'next';
+    })
+    .then(()=>{
+      if (time === 'initial'){
+        wordbook_open();
+      }
+    })      
+}
   
   function remove_wordbook_num(num){
     var wordbook_num = num;
@@ -42,7 +75,8 @@ function wordbook_reading(time){
       // functions
   
   async function add_wordbook_click(){
-    var wordbook_title = {title : document.getElementById('add_wordbook_title').value};
+    var title_name = table_name_trim(document.getElementById('add_wordbook_title').value);
+    var wordbook_title = {title : title_name};
     console.log(wordbook_title);
     await fetch("/wordbook/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
       console.log(results);        
@@ -53,7 +87,9 @@ function wordbook_reading(time){
   
   async function edit_wordbook_click(number){
     console.log('edit wordbook detected');
-    let wordbook_title = {oldtitle : document.getElementById(`wordbook_title_${number}`).innerText, newtitle : document.getElementById(`edit_wordbook_title_${number}`).value};
+    var old_title = document.getElementById(`wordbook_title_${number}`).innerText;
+    var new_title = document.getElementById(`edit_wordbook_title_${number}`).value;
+    let wordbook_title = {oldtitle : old_title, newtitle : new_title };
     console.log(wordbook_title);
     await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
       console.log(results);
@@ -205,15 +241,15 @@ function wordbook_reading(time){
     }
   };
 
-  async function edit_wordbook_click(number){
-    console.log('edit wordbook detected');
-    let wordbook_title = {oldtitle : document.getElementById(`wordbook_title_${number}`).innerText, newtitle : document.getElementById(`edit_wordbook_title_${number}`).value};
-    console.log(wordbook_title);
-    await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
-      console.log(results);
-    })
-    wordbook_reading('');
-  }
+  // async function edit_wordbook_click(number){
+  //   console.log('edit wordbook detected');
+  //   let wordbook_title = {oldtitle : document.getElementById(`wordbook_title_${number}`).innerText, newtitle : document.getElementById(`edit_wordbook_title_${number}`).value};
+  //   console.log(wordbook_title);
+  //   await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
+  //     console.log(results);
+  //   })
+  //   wordbook_reading('');
+  // }
   
   function s1_box_click(){
     hidden(second_2box_center);

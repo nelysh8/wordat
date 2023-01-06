@@ -27,9 +27,9 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    console.log(req.cookies.client_email_chg);
-    var client_email_chg = req.cookies.client_email_chg;    
-    client_conn = mysql_odbc.client(client_email_chg);    
+    console.log(req.cookies.client_ID);
+    var client_ID = req.cookies.client_ID;    
+    client_conn = mysql_odbc.client(client_ID);    
 
     var sql = "SHOW tables";
     console.log(sql);
@@ -44,11 +44,12 @@ router.post('/', function (req, res, next) {
  // 식별번호, 영어문장, 한글문장, [{예문1 영어, 예문1 한글, 저장시각, 로드시각, 로드횟수}, 저장시각, 로드시각, 로드횟수]
 
 router.post('/add', function (req, res, next) {        
-    var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
 
-    var newlist_name = (req.body.title).replace(/ /gi, '_');        
-    var sql = "CREATE TABLE " + newlist_name + " (ID INT(11) NOT NULL AUTO_INCREMENT, WORDBOOK_TITLE TEXT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_RESULT INT(11) NOT NULL DEFAULT '0', QUIZ_DATE DATETIME NOT NULL, PRIMARY KEY(ID))";
+    var newlist_name = (req.body.title)
+
+    var sql = `CREATE TABLE ${newlist_name} (ID INT(11) NOT NULL AUTO_INCREMENT, WORDBOOK_TITLE TEXT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_RESULT INT(11) NOT NULL DEFAULT '0', QUIZ_DATE DATETIME NOT NULL, PRIMARY KEY(ID))`;
     console.log(sql);
     client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
@@ -59,8 +60,8 @@ router.post('/add', function (req, res, next) {
 // WORDBOOK DELETE
 
 router.post('/remove', function (req, res, next) {    
-    var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
 
     console.log('remove wordbook_title');
     var wordbook_title = req.body.title;
@@ -75,8 +76,8 @@ router.post('/remove', function (req, res, next) {
 // WORDBOOK EDIT
 
 router.post('/edit', function (req, res, next) {
-    var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
 
     console.log('edit wordbook_title');    
     var wordbook_oldtitle = req.body.oldtitle;
@@ -93,8 +94,8 @@ router.post('/edit', function (req, res, next) {
 // WORDLIST
 
 router.post('/wordlist', function (req, res, next) {   
-    var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
 
     var wordbook_title = req.body.title;        
     console.log(wordbook_title);
@@ -110,8 +111,8 @@ router.post('/wordlist', function (req, res, next) {
 // WORD
 
 router.post('/word', function (req, res, next) {   
-    var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
 
     console.log(req.body);
     var wordbook_title = req.body.wordbook_title;    
@@ -134,8 +135,8 @@ router.post('/word', function (req, res, next) {
 // WORD ADD
 
 router.post('/word/add/', function (req, res, next) {        
-    var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
 
     var wordbook_title = req.body.wordbook_title;
     console.log(wordbook_title);
@@ -157,8 +158,8 @@ router.post('/word/add/', function (req, res, next) {
 // WORD REMOVE
 
 router.post('/word/remove/', function (req, res, next) {        
-    var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
 
     console.log('remove word');
     var wordbook_title = req.body.wordbook_title;    
@@ -174,8 +175,8 @@ router.post('/word/remove/', function (req, res, next) {
 // WORD EDIT
 
 router.post('/word/edit/', function (req, res, next) {    
-    var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
     
     console.log('edit word');
     var wordbook_title = req.body.wordbook_title;    
@@ -194,8 +195,8 @@ router.post('/word/edit/', function (req, res, next) {
 // EXAMPLE ADD
 
 router.post('/exam/add/', function (req, res, next) {        
-    var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
 
     console.log('exam add start');
     var wordbook_title = req.body.wordbook_title;        
@@ -220,8 +221,8 @@ router.post('/exam/add/', function (req, res, next) {
 // Quiz search
 
 router.post('/quiz', async function (req, res, next) {
-	var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+	var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
 
     var sql = req.body.sql_query;
 	var filtered_results;
@@ -274,8 +275,8 @@ router.post('/quiz', async function (req, res, next) {
 });
     
 router.post('/quiz_result', async function (req, res, next) {
-    var client_email_chg = req.cookies.client_email_chg;
-    client_conn = mysql_odbc.client(client_email_chg);
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
 
     var time = today.format('YYYYMMDD');
 

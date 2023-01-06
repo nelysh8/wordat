@@ -10,6 +10,10 @@ var auth_conn = mysql_odbc.auth(); // 회원관리 db
 var root_conn = mysql_odbc.root(); // 루트 db
 var client_conn;   // = mysql_odbc.client(); 로그인 회원 db
 
+var moment = require('moment');
+var today = moment();
+
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -701,7 +705,7 @@ app.get('/kakaoLogin', function (req, res, err) {
   console.log('========================')
   console.log(`req.params : ${JSON.stringify(req.query)}`);
   console.log(`req.params : ${JSON.stringify(req.query.error)}`);
-  if (req.query.error == null) {
+  // if (req.query.error == null) {
     // console.log(req.query.code);
     // ${JSON.stringify(req)}
     // console.log(req);
@@ -719,6 +723,7 @@ app.get('/kakaoLogin', function (req, res, err) {
       headers: { 'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'}
     };
     
+    console.log(options);
 
     request.post(options, function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -742,39 +747,40 @@ app.get('/kakaoLogin', function (req, res, err) {
         console.log('error = ' + response.statusCode);      
       }
     });
-  } else {
-    console.log('error : ' + req.query.error);
-    res.render('index');    
-  }
+  // } else {
+  //   console.log('error : ' + req.query.error);
+  //   res.render('index');    
+  // }
 });
 
 app.post('/kakaoLogin/signup', function (req, res, next) {
   var results_msg = [];
-  var client_email = req.body.nickname
-  var client_email_chg = req.body.nickname.replace('@','$at$').replace('.','$dot$');
+  var client_ID = req.body.id
+  var client_ID_chg = client_ID.replace('@','$at$').replace('.','$dot$');
+  var time = today.format('YYYYMMDD');
 
   console.log('signup process starts');
-  console.log(client_email);
+  console.log(client_ID);
   
-  res.clearCookie('client_email');  
-  res.cookie('client_email', client_email);    
-  res.clearCookie('client_email_chg');  
-  res.cookie('client_email_chg', client_email_chg);    
+  res.clearCookie('client_ID');  
+  res.cookie('client_ID', client_ID);    
+  res.clearCookie('client_ID_chg');  
+  res.cookie('client_ID_chg', client_ID_chg);    
 
-  var sql = `SELECT * FROM client_list WHERE email = '${client_email}'`;
+  var sql = `SELECT * FROM client_list WHERE client_ID = '${client_ID}'`;
   auth_conn.query(sql, function(err, results){
     if (err) console.err("err:" + err);
     console.log('resresult : ' + results);
     console.log('resleng : ' + results.length);
     if (results.length === 0) {
       console.log('새 회원입니다');
-      console.log(client_email_chg);
+      console.log(client_ID_chg);
       var signup_sql = `
-        INSERT INTO client_list (email, signup_date, signin_date, signin_num) VALUE ('${client_email}', '20230105', '20230105', 1);        
+        INSERT INTO client_list (client_ID, signup_date, signin_date, signin_num) VALUE ('${client_ID}', '${time}', '${time}', 1);        
         SELECT * FROM client_list;
       `;      
       var create_database_sql = `
-        CREATE DATABASE ${client_email_chg};        
+        CREATE DATABASE ${client_ID};        
         SHOW DATABASES;
       `;
       // '${req.body.nickname.replace('@','$at$')}'
@@ -787,8 +793,11 @@ app.post('/kakaoLogin/signup', function (req, res, next) {
       });
     } else {
       console.log('기존 회원입니다');
-      results_msg.push(results);
-      res.json(results_msg);
+      var signin_sql = `UPDATE client_list} SET signin_date = '${time}', signin_num = signin_num + 1 WHERE client_ID = '${client_ID}'`;
+      root_conn.query(signin_sql, function(err, results){
+        results_msg.push(results);
+        res.json(results_msg);      
+      });
     }
   })  
 });

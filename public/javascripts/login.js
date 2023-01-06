@@ -36,11 +36,75 @@ console.log(Kakao.isInitialized());
 // var access_token = JSON.parse(document.getElementById('token').innerText).access_token;
 
 var token = getCookie('authorize-access-token');    // 가입/로그인(인가 후 access token 판별)
-var det_login_value = det_login(token);
-console.log(det_login_value);
-// console.log(`token : ${access_token}`);
 
-function kakaoLogin() {  
+var determinant = det_login(token, 'confirm');
+console.log(determinant);
+
+function det_login(token, type) {  //로그인 판별자  
+  var type = type;
+  if (token !== null) {
+    if(token) {
+      Kakao.Auth.setAccessToken(token); 
+      console.log('det_login_1 start?');      
+      Kakao.API.request({
+        url: '/v2/user/me',
+      })
+      .then(function(res) {            
+        console.log(res);                
+        var req_value = {'id' : 'kakao_' + res.id};
+        console.log('det_login_2 start?');      
+        fetch("/kakaoLogin/signup", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((results)=>{    
+          console.log(results);          
+        })
+        .then(()=>{
+          console.log('det_login end');      
+          return;
+        });                     
+      })
+      .catch(function(err) { // 앱 연결이 끊긴 상태
+        Kakao.Auth.setAccessToken(null);        
+        console.log('로그인 안된 상태(앱 연결이 끊긴 상태)');        
+        console.log('det_login_3 confirm success');   
+        if (type === 'execute') {          
+          kakaoLogin();                    
+          console.log('det_login_3 exe success'); 
+          return;     
+        } else {
+
+        }
+      });
+    } 
+  } else {
+    console.log('로그인 안된 상태(access token : null)');    
+    console.log('det_login_4 confirm success');      
+    if (type === 'execute') {      
+      kakaoLogin();            
+      console.log('det_login_4 exe success');      
+      return;
+    } else {
+
+    }    
+  }    
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function kakaoLogin() { 
+   
   Kakao.Auth.authorize({
     redirectUri: 'http://localhost:3000/kakaoLogin',
   });
@@ -116,48 +180,7 @@ function kakaoSignout() { //탈퇴하기;연결끊기;
   });
 }
 
-function det_login(token) {  //로그인 판별자
-  alert(token);
-  if (token !== null) {
-    if(token) {
-      Kakao.Auth.setAccessToken(token); 
-      console.log('여기 통과?');
-      Kakao.API.request({
-        url: '/v2/user/me',
-      })
-      .then(function(res) {    
-        return res.properties.nickname;
-        // console.log(res.properties.nickname);
-        // var req_value = {'nickname' : res.properties.nickname};
-        // fetch("/kakaoLogin/signup", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((results)=>{    
-        //   console.log(results);
-        // });
-      })
-      .catch(function(err) { // 앱 연결이 끊긴 상태
-        Kakao.Auth.setAccessToken(null);
-        return 'sign out';
-        // alert('로그인 안된 상태(앱 연결이 끊긴 상태)');
-        // kakaoLogin();
-        // alert(
-        //   'failed to request user information: ' + JSON.stringify(err)
-        // );
-      });
-    } 
-  } else {
-    console.log('로그인 안된 상태(access token : null)');
-    return 'log out';
-    // kakaoLogin();
-  }  
-}
-
-function delete_all_cookie() {
-  deleteCookie('authorize-access-token');
-  deleteCookie('nickname');
-  deleteCookie('client_email');
-  deleteCookie('client_email_chg');
-}
-
-// function det_login(token) {  //로그인 판별자
+// function exe_login(token) {  //로그인 판별자
 //   alert(token);
 //   if (token !== null) {
 //     if(token) {
@@ -167,23 +190,32 @@ function delete_all_cookie() {
 //         url: '/v2/user/me',
 //       })
 //       .then(function(res) {    
-//         console.log(res.properties.nickname);
-//         var req_value = {'nickname' : res.properties.nickname};
+//         // return res.properties.email;
+//         console.log(res);
+//         var req_value = {'id' : 'kakao_' + res.id};
 //         fetch("/kakaoLogin/signup", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((results)=>{    
 //           console.log(results);
 //         });
 //       })
 //       .catch(function(err) { // 앱 연결이 끊긴 상태
 //         Kakao.Auth.setAccessToken(null);
+//         return 'sign out';
 //         alert('로그인 안된 상태(앱 연결이 끊긴 상태)');
 //         kakaoLogin();
-//         // alert(
-//         //   'failed to request user information: ' + JSON.stringify(err)
-//         // );
+//         alert(
+//           'failed to request user information: ' + JSON.stringify(err)
+//         );
 //       });
 //     } 
 //   } else {
 //     console.log('로그인 안된 상태(access token : null)');
+//     return 'log out';
 //     kakaoLogin();
 //   }  
 // }
+
+function delete_all_cookie() {
+  deleteCookie('authorize-access-token');  
+  deleteCookie('client_ID');
+  deleteCookie('client_ID_chg');
+}
