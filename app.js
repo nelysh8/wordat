@@ -705,10 +705,10 @@ app.get('/kakaoLogin', function (req, res, err) {
   console.log('========================')
   console.log(`req.params : ${JSON.stringify(req.query)}`);
   console.log(`req.params : ${JSON.stringify(req.query.error)}`);
-  // if (req.query.error == null) {
-    // console.log(req.query.code);
+  if (req.query.error == null) {
+    console.log(req.query.code);
     // ${JSON.stringify(req)}
-    // console.log(req);
+    console.log(req);
 
     var access_token;
 
@@ -739,7 +739,7 @@ app.get('/kakaoLogin', function (req, res, err) {
         res.clearCookie('authorize-access-token');
         res.cookie('authorize-access-token', access_token);   
 
-        res.render('index');     
+        res.redirect('/');
         // res.send(body);
         
       } else {
@@ -747,10 +747,11 @@ app.get('/kakaoLogin', function (req, res, err) {
         console.log('error = ' + response.statusCode);      
       }
     });
-  // } else {
-  //   console.log('error : ' + req.query.error);
-  //   res.render('index');    
-  // }
+  } else {
+    console.log('error : ' + req.query.error);
+    res.redirect('/');
+  }
+     
 });
 
 app.post('/kakaoLogin/signup', function (req, res, next) {

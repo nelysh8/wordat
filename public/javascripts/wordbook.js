@@ -108,20 +108,21 @@ async function wordbook_reading(time){
   function wordlist_reading(number, title, time){    
     // second_1box_center.style.position = 'relative';
     // second_2box_center.style.position ='absolute';  
+    var title_name = table_name_trim(title);
     console.log('wordlist_reading start');
-    console.log('elements : ' + number, title);
+    console.log('elements : ' + number, title_name);
     let wordbook_title = '';
     if (number === '') {
-      wordbook_title = {title : title};
+      wordbook_title = {title : title_name};
     } else {
-      wordbook_title = {title : document.getElementById(`wordbook_title_${number}`).innerText};
+      wordbook_title = {title : table_name_trim(document.getElementById(`wordbook_title_${number}`).innerText)};
     }  
     fetch("/wordbook/wordlist", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
       console.log(results);
       let add_head_html = '';
       let add_contents_html = '';    
       add_head_html = `
-          <div class="title" id="s2_wordbook_title" onclick="s2_box_click();"><span class="ft5 ftb"> ${wordbook_title.title} </span></div>
+          <div class="title" id="s2_wordbook_title" onclick="s2_box_click();"><span class="ft5 ftb"> ${table_name_recover(wordbook_title.title)} </span></div>
           `;
         document.getElementById('wordlist_headline').innerHTML = add_head_html;                  
   
