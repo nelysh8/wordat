@@ -115,7 +115,7 @@ function det_login(token, typeA) {  //로그인 판별자
         console.log('로그인 안된 상태(access token : null)');    
         
         
-        reject('로그인 기능 실행필요');  
+        
         var login_layer_title = document.getElementById('login_layer_title');
         var login_layer_contents = document.getElementById('login_layer_contents');
         var login_layer_contents_button = document.getElementById('login_layer_contents_button');    
@@ -126,7 +126,14 @@ function det_login(token, typeA) {  //로그인 판별자
         
         
         
-        login_layer_title.innerHTML = '';
+        login_layer_title.innerHTML = `
+        로그인 안된 상태 <br>
+        <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
+        <button type="button" onclick="displayToken();">displayToken</button>
+        <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
+        <button type="button" onclick="kakaoLogout();">Logout</button>
+        <button type="button" onclick="kakaoSignout();">Signout</button>
+        `;
         login_layer_contents.innerHTML = `     
           <div class="login_layer_contents_user" id="login_layer_contents_user">
             <div class="login_layer_contents_user_image" id="login_layer_contents_user_image">
@@ -141,6 +148,7 @@ function det_login(token, typeA) {  //로그인 판별자
           `;
           
         open_loginbar();   
+        reject('로그인 기능 실행필요');  
         // var loginbar = document.getElementById('login_layer');  
         // if (loginbar.style.display !== 'block') {
           // click_slideup(loginbar);
