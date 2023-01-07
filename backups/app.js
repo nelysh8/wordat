@@ -717,8 +717,8 @@ app.get('/kakaoLogin', function (req, res, err) {
       url: 'https://kauth.kakao.com/oauth/token',
       form: { 'grant_type': 'authorization_code', 
               'client_id': '4a243bdf6ed7b9e9014e0ce7753e8779', 
-              'redirect_uri': 'https://my.word-at.fun/kakaoLogin',
-              // 'redirect_uri': 'http://localhost:3000/kakaoLogin',
+              // 'redirect_uri': 'https://my.word-at.fun/kakaoLogin',
+              'redirect_uri': 'http://localhost:3000/kakaoLogin',
               'code' : req.query.code
             },
       headers: { 'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'}
@@ -807,16 +807,7 @@ app.post('/kakaoLogin/signup', function (req, res, next) {
   })  
 });
 
-app.post('/kakaoLogin/unsub', function (req, res, next) {
-  var client_ID = req.body.id  
-  var sql = `
-    DROP DATABASE ${client_ID};
-    DELETE FROM auth.client_list WHERE client_ID = '${client_ID}';
-  `;
-  root_conn.query(sql, function(err, results){    
-    res.json(results);      
-  });
-})
+
 // var request_info = require('request');
 
 //       request_info.post(req_client_info, function (error, response, body) {

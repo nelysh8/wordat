@@ -17,6 +17,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap" rel="stylesheet">    
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&display=swap" rel="stylesheet">
+    
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
@@ -27,12 +29,20 @@
     <link rel="stylesheet" href="/stylesheets/style.css">        
     <script src="/javascripts/index_basic.js"></script>    
     
+    
+    
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1092619034576489"
      crossorigin="anonymous"></script>
+
+    
     
   </head>
 
   <body>
+    
+    
+    
+    
 <!-- 
   1. nav bar
   2. main body
@@ -220,7 +230,11 @@
         </div>
 
         <div id="test_place">                    
-          
+          <!-- <iframe src="https://www.youtube.com/embed/videoseries?list=PLJBo3iyb1U0dJU_vsEwdqBGH1ZArNPmt1" style="width:100%; height:100%;"></iframe>     -->
+          <!-- <iframe id="youtube" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLJBo3iyb1U0dJU_vsEwdqBGH1ZArNPmt1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <p id = "test_sub">
+            <h1> <button onclick="youtube();"> good day </button> </h1>
+          </p> -->
         </div>
     </div>
         
@@ -231,13 +245,52 @@
       </div>
       <div class="contents animate__animated" id="second_1box_contents">
         <div id="wordbook_list" class="wordbook_list">
+          <!-- google login -->
           
+          <!-- <div id="g_id_onload"
+            data-client_id="53798976072-32cc457i8sr4megufkabg0tco8770btq.apps.googleusercontent.com"
+            data-login_uri="http://localhost:3000"
+            data-callback="handleCredentialResponse"
+            data-auto_prompt="false">
+          </div>
+          <div class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="outline"
+            data-text="signin_with"
+            data-shape="rectangular"            
+            data-logo_alignment="left">
+          </div> -->
+          
+          
+          
+        <!-- data-login_uri="https://your.domain/your_login_endpoint" -->
+<!--           example
+          <div class="wordbook_wrap shadow-sm">
+            <div class="wordbook_text">                    
+              <div id="wordbook_name" class="wordbook_name ft8 ftb text_purple"> <span>내단어장 </span></div>
+              <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                        
+            </div>
+            <div class="wordbook_option"><i class="fa-solid fa-pen ft7 ftb text_green" onclick="wordbook_reading();"></i></div>
+            <div class="wordbook_option"><i class="fa-solid fa-trash-can ft7 ftb text_red"></i></div>                      
+          </div>                  
+          -->
         </div>
       </div>
       <div id="second_1box_bottom_line" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" style="text-align:center;">
         <span class="ft_noto ft7 ftb text_red shadow-sm animate__animated animate__flash" style="padding : 1rem; border-radius : 10%; background-color:#fff8dc50;" onclick="zoomin(this);"> 새로운 단어장을 추가해보세요. </span>
       </div>
-      
+      <!-- <div class="popup_tool animate__animated" id="s1_popup_tool"> -->
+        <!-- <div class="popup_icon_top animate__animated">
+          <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" onclick="click_bounce(this);"></i>                              
+        </div>         
+        <div class="popup_icon_bottom animate__animated">
+          <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); wordbook_close();"></i>
+        </div>   -->
+        <!-- <div class="popup_icon_middle" onclick="popup_tool('second_1box_center');">
+          <i class="fa-solid fa-fan ft3 ftbb text_blue animate__animated"></i>
+        </div>         -->
+      <!-- </div> -->
     </div>
       
     
@@ -252,7 +305,17 @@
           <!-- example start -->                                        
         </div>
       </div> 
-      
+      <!-- <div class="popup_tool animate__animated" id="s2_popup_tool"> -->
+        <!-- <div class="popup_icon_top animate__animated">
+          <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="modal1_openbtn_click('second_2box_center'); click_bounce(this);"></i>                              
+        </div>         
+        <div class="popup_icon_bottom animate__animated">
+          <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); wordlist_close();"></i>
+        </div>   -->
+        <!-- <div class="popup_icon_middle" onclick="popup_tool('second_2box_center');">
+          <i class="fa-solid fa-fan ft3 ftbb text_blue animate__animated"></i>
+        </div>         -->
+      <!-- </div>       -->
     </div>
   <!-- Second-2box-center end -->
 
@@ -305,7 +368,17 @@
           </div>              
         </div>  
       </div>
-      
+      <!-- <div class="popup_tool animate__animated" id="s3_popup_tool"> -->
+        <!-- <div class="popup_icon_top animate__animated">
+          <i class="fa-solid fa-file-circle-plus ft3 ftbb text_green animate__animated" data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="modal1_openbtn_click('second_3box_center'); click_bounce(this);"></i>                              
+        </div>         
+        <div class="popup_icon_bottom animate__animated">
+          <i class="fa-solid fa-arrow-rotate-left ft3 ftbb text_red animate__animated" onclick="click_bounce(this); word_close();"></i>
+        </div>   -->
+        <!-- <div class="popup_icon_middle" onclick="popup_tool('second_3box_center');">
+          <i class="fa-solid fa-fan ft3 ftbb text_blue animate__animated"></i>
+        </div>         -->
+      <!-- </div>  -->
     </div>   
 
     <!-- third_1box_center -->
@@ -373,10 +446,20 @@
           </div>
         </div>
         <div class="login_layer_contents_button" id="login_layer_contents_button">
-
+<!-- <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
+        <button type="button" onclick="displayToken();">displayToken</button>
+        <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
+        <button type="button" onclick="kakaoLogout();">Logout</button>
+        <button type="button" onclick="kakaoSignout();">Signout</button> -->
         </div>        
       </div>
-
+      <!-- <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
+      <button type="button" onclick="displayToken();">displayToken</button>
+      <button type="button" onclick="kakaoState();">State</button>
+      <button type="button" onclick="kakaoLogout();">Logout</button>
+      <button type="button" onclick="kakaoSignout();">Signout</button>
+      <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
+      <div id="buttonDiv" style="text-align: center;"></div> -->
     </div>
 
     <!-- loading_layer -->
@@ -384,10 +467,23 @@
       <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_5nLqa4.json"  background="transparent"  speed="1"  style="width: 30%; margin : auto;"  loop  autoplay></lottie-player>
     </div>
 
+    <!-- data-login_uri="https://your.domain/your_login_endpoint"> -->
     <!-- layer -->
     
   </div>      
   
+  
+
+  <!-- <div id="link_frame" class="animate__animated" style="display:block;"> -->
+    
+    
+    <!-- <div id="lf_close_btn" class="animate__animated" onclick="touch_icon_action(this); click_slideoutdown(document.getElementById('link_frame'));"><i class="fa-solid fa-rectangle-xmark text_red ft1 ftbb"></i></div>
+    <iframe src="#" id="link_view" name="link_view"></iframe> -->
+    
+  <!-- </div>   -->
+
+  
+
 <!-- foot bar -->
 
   <div class="footbar animate__animated" id="footbar">
@@ -566,22 +662,6 @@
       </div>
       <div class="modal-footer" style="border:none;">
         <button id="remove_btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="remove_modal1_openbtn_click();">CONFIRM</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                                
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 2-2 탈퇴 confirm modal -->
-<div id="unsub_confirm" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">                              
-      <div class="modal-body">
-        <p style="border-radius: 10px; padding : 0.5rem 1rem 0.5rem 1rem; background-color: #b22222; color:white;"><span id="unsub_confirm_text" class="ft5 ftbb ft_noto">WordAT에서 탈퇴합니다.</span></p>
-        <p style="margin-left : 1.5rem; margin-right : 1.5rem; text-align: justify;"><span class="ft8 ft_underbar ft_noto">서버에 저장된 카카오톡 회원식별번호 및 단어장 모두 삭제됩니다.</span></p>
-      </div>
-      <div class="modal-footer" style="border:none;">
-        <button id="unsub_btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="unsub();">CONFIRM</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                                
       </div>
     </div>

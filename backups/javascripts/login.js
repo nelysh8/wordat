@@ -1,3 +1,29 @@
+// function handleCredentialResponse(response) {
+//   // decodeJwtResponse() is a custom function defined by you
+//   // to decode the credential response.
+//   const responsePayload = parseJwt(response.credential);
+
+//   console.log("ID: " + responsePayload.sub);
+//   console.log('Full Name: ' + responsePayload.name);
+//   console.log('Given Name: ' + responsePayload.given_name);
+//   console.log('Family Name: ' + responsePayload.family_name);
+//   console.log("Image URL: " + responsePayload.picture);
+//   console.log("Email: " + responsePayload.email);   
+//   // gapi.load('client:auth2', ()=>{});
+//   // GoogleAuth = gapi.auth2.getAuthInstance();
+// };
+
+// function parseJwt (token) {
+//   var base64Url = token.split('.')[1];
+//   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+//   var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+//       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+//   }).join(''));
+
+//   return JSON.parse(jsonPayload);
+// };
+
+
 
 // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해야 합니다.
 Kakao.init('70b5e00ed4e683299d6fd180066954fb');
@@ -60,16 +86,77 @@ function det_login(token, typeA) {  //로그인 판별자
                 </ul>
               </div>
               <div class="animate__animated" style="margin : auto;">
-                <ul class="animate__animated" style="text-align:center; padding : auto; margin-bottom : 0%; border-left : 1px solid gray;" data-bs-toggle="modal" data-bs-target="#unsub_confirm" onclick="zoomin(this); kakaobye();">
+                <ul class="animate__animated" style="text-align:center; padding : auto; margin-bottom : 0%; border-left : 1px solid gray;" onclick="zoomin(this); kakaobye();">
                   <li><i class="fa-solid fa-eraser text_red ft6 ftbb"></i></li>
                   <li><span class="ft10"> 탈퇴 </span></li>
                 </ul>                             
               </div>                                                    
             </div>            
             `;
+
+
           zoomin(user_image_layer);              
+
           console.log('det_login_2 start?');      
           fetch("/kakaoLogin/signup", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((results)=>{    
+            console.log(results);         
+            
+            
+            
+            
+        
+         
+  
+        
+        
+        
+            // login_layer_title.innerHTML = `            
+            // <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
+            // <button type="button" onclick="displayToken();">displayToken</button>
+            // <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
+            // <button type="button" onclick="kakaoLogout();">Logout</button>
+            // <button type="button" onclick="kakaoSignout();">Signout</button>
+            // `;
+            // login_layer_contents.innerHTML = `     
+            //   <div class="login_layer_contents_user" id="login_layer_contents_user">
+            //     <div class="login_layer_contents_user_image" id="login_layer_contents_user_image">
+            //       <i class="fa-solid fa-user ft3"></i> 
+
+            //     </div>
+            //     <div class="login_layer_contents_user_info" id="login_layer_contents_user_info">
+
+            //     </div>
+            //   </div>
+            //   <div class="login_layer_contents_button" id="login_layer_contents_button">
+      
+            //   </div>
+            //   `;
+          
+        
+        
+        
+            console.log('det_login_4 confirm success');  
+                // `<div style="display:flex;">          
+                //   <div style="width:10%;">
+                //     <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 100%;">
+                //   </div>
+                //   <div style="width:89%; text-align: center; margin-left:1%; padding-top:1.5%; background-color: #ffe812;">
+                //     <span class="ft_noto ft8" style="display: inline-block;" onclick="kakaoLogin();">카카오톡 앱 연결을 진행합니다.</span>
+                //   </div>            
+                // </div>
+                // `;
+          
+          // console.log('det_login_4 exe success');              
+          // if (type === 'execute') {      
+          //   reject('로그인 기능 실행필요');
+          //   kakaoLogin();            
+          //   console.log('det_login_4 exe success');              
+          // } else {
+          //   resolve('로그인 안됨 확인');
+          // }  
+
+
+
             resolve('로그인/후처리 완료');
           })          
         })
@@ -98,7 +185,14 @@ function det_login(token, typeA) {  //로그인 판별자
             `;          
           console.log('det_login_3 exe success');             
           open_loginbar();  
-          reject('로그인 기능 실행필요');          
+          reject('로그인 기능 실행필요');
+          // if (type === 'execute') {          
+          //   reject('로그인 기능 실행필요');
+          //   kakaoLogin();                    
+          //   console.log('det_login_3 exe success');             
+          // } else {
+          //   resolve('앱 연결안됨 확인');
+          // }
         });
       } else {                
         Kakao.Auth.setAccessToken(null);        
@@ -132,8 +226,8 @@ function det_login(token, typeA) {  //로그인 판별자
   
 function kakaoLogin() {    
   Kakao.Auth.authorize({
-    redirectUri: 'https://my.word-at.fun/kakaoLogin',
-    // redirectUri: 'http://localhost:3000/kakaoLogin',
+    // redirectUri: 'https://my.word-at.fun/kakaoLogin',
+    redirectUri: 'http://localhost:3000/kakaoLogin',
   });
 }
 
@@ -202,8 +296,7 @@ function kakaoSignout() { //탈퇴하기;연결끊기;
     url: '/v1/user/unlink',
   })
   .then(function(response) {
-    console.log(response);
-    window.location.href = '/';
+    console.log(response);    
     // alert(document.cookie);
   })
   .catch(function(error) {
@@ -216,16 +309,4 @@ function delete_all_cookie() {
   deleteCookie('authorize-access-token');  
   deleteCookie('client_ID');
   deleteCookie('client_ID_chg');
-}
-
-function unsub() {
-  var client_ID = getCookie('client_ID');
-  var req_value = {'id' : client_ID};
-  fetch("/kakaoLogin/unsub", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((results)=>{    
-    console.log(results);
-    alert('모든 정보를 삭제했습니다.');
-    document.cookie = 'authorize-access-token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    delete_all_cookie();
-    window.location.href = '/';
-  })          
 }
