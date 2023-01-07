@@ -785,7 +785,8 @@ app.post('/kakaoLogin/signup', function (req, res, next) {
         CREATE DATABASE ${client_ID};        
         SHOW DATABASES;
         CREATE TABLE ${client_ID}.단어장 LIKE auth.단어장;
-        INSERT INTO ${client_ID}.단어장 SELECT * FROM auth.단어장;        
+        INSERT INTO ${client_ID}.단어장 SELECT * FROM auth.단어장;
+        UPDATE ${client_ID}.단어장 SET client_ID = '${client_ID}';        
       `;
       // '${req.body.nickname.replace('@','$at$')}'
       auth_conn.query(signup_sql, function(err, results){

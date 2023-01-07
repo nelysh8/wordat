@@ -239,10 +239,11 @@ function modal1_openbtn_click(position) {
 
   // edit modal
   
-  function edit_modal1_openbtn_click(position, wordbook_title, word_id, word_eng, word_kor, exam_id, exam_eng, exam_kor) {
+  function edit_modal1_openbtn_click(position, wordbook_title, hashtag, word_id, word_eng, word_kor, exam_id, exam_eng, exam_kor) {
     console.log('edit_modal1_openbtn_click start');
     var req_pos = position;  
     var wb_title = wordbook_title;
+    var wb_hashtag = hashtag;
     var wd_id = word_id;
     var wd_eng = word_eng;
     var wd_kor = word_kor;
@@ -256,22 +257,31 @@ function modal1_openbtn_click(position) {
       title_text.innerText = `Edit Wordbook Title`;      
       document.getElementById("edit_wb_title_div").style.display = '';
       document.getElementById("edit_wb_title_text").placeholder = wb_title;
+      document.getElementById("edit_wb_title_text").value = wb_title;
+      document.getElementById("edit_wb_hashtag_div").style.display = '';
+      document.getElementById("edit_wb_hashtag_text").placeholder = wb_hashtag;
+      document.getElementById("edit_wb_hashtag_text").value = wb_hashtag;
+
       document.getElementById("edit_wd_eng_div").style.display = 'none';
       document.getElementById("edit_wd_kor_div").style.display = 'none';
       document.getElementById("edit_ex_eng_div").style.display = 'none';
-      document.getElementById("edit_ex_kor_div").style.display = 'none';      
+      document.getElementById("edit_ex_kor_div").style.display = 'none';            
       
       document.getElementById("edit_btn").setAttribute('onclick', `edit_btn_click('${req_pos}', '${wb_title}');`);     
+      document.getElementById('edit_btn_hidden').innerText = `edit_btn_click('${req_pos}', '${wb_title}');`;        
     } 
     
     else if (req_pos === 'second_2box_center'){
       console.log('second_2box edit_modal1 starting');
       title_text.innerText = `Edit Word`;
       document.getElementById("edit_wb_title_div").style.display = 'none';
+      document.getElementById("edit_wb_hashtag_div").style.display = 'none';
       document.getElementById("edit_wd_eng_div").style.display = '';
       document.getElementById("edit_wd_eng_text").placeholder = wd_eng;
+      document.getElementById("edit_wd_eng_text").value = wd_eng;
       document.getElementById("edit_wd_kor_div").style.display = '';
       document.getElementById("edit_wd_kor_text").placeholder = wd_kor;
+      document.getElementById("edit_wd_kor_text").value = wd_kor;
       document.getElementById("edit_ex_eng_div").style.display = 'none';
       document.getElementById("edit_ex_kor_div").style.display = 'none';
 
@@ -282,12 +292,15 @@ function modal1_openbtn_click(position) {
       console.log('second_3box edit_modal1 starting');
       title_text.innerText = `Edit Example`;        
       document.getElementById("edit_wb_title_div").style.display = 'none';
+      document.getElementById("edit_wb_hashtag_div").style.display = 'none';
       document.getElementById("edit_wd_eng_div").style.display = 'none';
       document.getElementById("edit_wd_kor_div").style.display = 'none';
       document.getElementById("edit_ex_eng_div").style.display = '';
       document.getElementById("edit_ex_eng_text").placeholder = ex_eng;
+      document.getElementById("edit_ex_eng_text").value = ex_eng;
       document.getElementById("edit_ex_kor_div").style.display = '';
       document.getElementById("edit_ex_kor_text").placeholder = ex_kor;
+      document.getElementById("edit_ex_kor_text").value = ex_kor;
 
       document.getElementById("edit_btn").setAttribute('onclick', `edit_btn_click('${req_pos}', '${wb_title}', '${wd_id}', '${ex_id}');`);    
     }
@@ -297,11 +310,12 @@ function modal1_openbtn_click(position) {
     console.log('edit_btn_click detected');
     var req_pos = position;  
     var wb_title = wordbook_title;
+    var wb_hashtag = document.getElementById("edit_wb_hashtag_text").value;
     var wd_id = word_id;    
     var ex_id = exam_id;
     
     if (req_pos === 'second_1box_center'){
-      var post_text = {oldtitle : table_name_trim(wb_title), newtitle : table_name_trim(document.getElementById('edit_wb_title_text').value)};      
+      var post_text = {oldtitle : table_name_trim(wb_title), newtitle : table_name_trim(document.getElementById('edit_wb_title_text').value), hashtag : wb_hashtag};      
       await fetch("/wordbook/edit", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(post_text)}).then((response)=>response.json()).then((results)=>{
         console.log(results);
       })

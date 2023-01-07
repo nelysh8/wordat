@@ -42,10 +42,12 @@ router.post('/', function (req, res, next) {
     var client_ID = req.cookies.client_ID;    
     client_conn = mysql_odbc.client(client_ID);    
 
-    var sql = "SHOW tables";
+    var sql = `SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${client_ID}';`;
+    // var sql = "SHOW tables";
     console.log(sql);
     client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);                
+        console.log(results);
         res.json(results);
     });
 });
@@ -59,8 +61,9 @@ router.post('/add', function (req, res, next) {
     client_conn = mysql_odbc.client(client_ID);
 
     var newlist_name = (req.body.title)
+    var hashtag = req.body.hashtag;
 
-    var sql = `CREATE TABLE ${newlist_name} (ID INT(11) NOT NULL AUTO_INCREMENT, client_ID TEXT, WORDBOOK_TITLE TEXT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_RESULT INT(11) NOT NULL DEFAULT '0', QUIZ_DATE DATETIME NOT NULL, PRIMARY KEY(ID))`;
+    var sql = `CREATE TABLE ${newlist_name} (ID INT(11) NOT NULL AUTO_INCREMENT, client_ID TEXT, WORDBOOK_TITLE TEXT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_RESULT INT(11) NOT NULL DEFAULT '0', QUIZ_DATE DATETIME NOT NULL, PRIMARY KEY(ID)) COMMENT '${hashtag}';`;
     console.log(sql);
     client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
@@ -93,7 +96,9 @@ router.post('/edit', function (req, res, next) {
     console.log('edit wordbook_title');    
     var wordbook_oldtitle = req.body.oldtitle;
     var wordbook_newtitle = req.body.newtitle;
+    var hashtag = req.body.hashtag;
     var sql = `
+        ALTER TABLE ${wordbook_oldtitle} COMMENT '${hashtag}';
         ALTER TABLE ${wordbook_oldtitle} RENAME ${wordbook_newtitle};
         UPDATE ${wordbook_newtitle} SET WORDBOOK_TITLE = '${table_name_recover(wordbook_newtitle)}';
     `;

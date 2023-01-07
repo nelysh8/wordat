@@ -318,13 +318,26 @@ ul {
   /* margin-bottom : 6rem;  */
   /* padding-bottom : 0rem;    */
   
-  margin-top : auto;
+  margin-top : 15%;
   margin-bottom : auto;
   margin-left : auto;
   margin-right : auto;    
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   z-index : 0;
-}
+  /* animation-name: main-up; */
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+  }
+
+  @keyframes mainbody-up {
+  from {min-height: 92%;}
+  to {min-height: 84%;}
+  }
+  @keyframes mainbody-down {
+  from {min-height: 84%;}
+  to {min-height: 92%;}
+  }
+
 
 /* 2. mainbox */    
 
@@ -370,8 +383,8 @@ ul {
       to {height: 79%;}
     }
     @keyframes main-down {
-      from {height: 98%;}
-      to {height: 79%;}
+      from {height: 79%;}
+      to {height: 98%;}
     }
     
 
@@ -389,6 +402,7 @@ ul {
         background-color: #00000020;
         border-radius : 20px;  
         z-index : 10;        
+        color : #fff8dc
       }
 
       .mainbody_layer .mainbody_layer_contents {                                          
@@ -1453,6 +1467,22 @@ ul {
                     border-radius: 50px;
             }             
 
+            #second_3box_center .contents {
+              height : 92%;
+              overflow-y: scroll;
+              /* animation-name: main-up; */
+                animation-duration: 0.25s;
+                animation-fill-mode: forwards;
+            }
+
+            @keyframes s3-up {
+              from {height: 92%;}
+              to {height: 65%;}
+            }
+            @keyframes s3-down {
+              from {height: 65%;}
+              to {height: 92%;}
+            }
 
             #second_3box_center .contents .word_view {
 
@@ -1460,6 +1490,7 @@ ul {
 
             #second_3box_center .contents .word_view .word_view_1 {                            
               width : 85%;
+              
               margin : auto;
               border-radius: 0.5rem;
               border :0.1rem solid #768689;
@@ -1510,7 +1541,7 @@ ul {
               width : 95%;
               border-radius : 20px;    
               margin : 0 auto 0 auto;
-              padding : 1rem 0 1rem 0;              
+              padding : 1rem 0 1rem 0;                            
             }            
           
               .word_toolbar_main {
@@ -1910,12 +1941,19 @@ ul {
     z-index : 10;    
   }                           
 
+  #login_layer_contents_user{
+    display : flex;    
+  }
+
+  #login_layer_contents_user .user_image_layer{
+    width : 20%;
+    margin-bottom : 10px;
+  }
+
   #login_layer_contents_user_image {        
-    height : 3.5rem;
-    width : 3.5rem;
-    margin : auto;
-    margin-top : 10%;
-    margin-bottom : 10%;  
+    height : 5rem;
+    width : 5rem;
+    margin : auto;    
     text-align : center;    
     
     background-color: cornsilk;  
@@ -1923,10 +1961,8 @@ ul {
     border-radius: 50%;  
   }
   
-  
   #login_layer_contents_user_image i {    
-    color :gray;  
-  
+    color :gray;    
   }
   
   #login_layer_contents_user_image img {
@@ -1934,13 +1970,17 @@ ul {
   }
 
   #login_layer_contents_user_info {
-
+    margin-left : 2rem;
   }
+
+
 
   #login_layer_contents_button {
     border-top : 2px solid #00000020;
     padding-top : 10px;
   }
+
+
 
   #link_frame {
     display : none;

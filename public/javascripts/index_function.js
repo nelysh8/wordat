@@ -159,6 +159,15 @@ word_toolbar_input = word_toolbar_doc.querySelector('textarea');
 const t1_box_Search_DOC = document.querySelector(".t1_box_searchbar");
 t1_box_Search_Input = t1_box_Search_DOC.querySelector("textarea");
 
+wordbook_input_btn = document.getElementById('wordbook_input_btn');
+add_wordbook_title = document.getElementById('add_wordbook_title');
+wordbook_input_exp = document.getElementById('wordbook_input_exp');
+
+edit_wb_title_text = document.getElementById('edit_wb_title_text');
+edit_wb_input_exp = document.getElementById('edit_wb_input_exp');
+edit_btn = document.getElementById('edit_btn');
+edit_wb_hashtag_text = document.getElementById('edit_wb_hashtag_text')
+
 Search_Input.addEventListener("keyup", e => {    
     if (e.keyCode === 13 && e.shiftKey && e.target.value){        
       tranbtn_click('mainbox_center');
@@ -176,6 +185,66 @@ t1_box_Search_Input.addEventListener("keyup", e => {
     tranbtn_click('third_1box_center');
   }
 });
+
+add_wordbook_title.addEventListener('keyup', () => {
+  console.log('add_wordbook_title keyup detected');
+  var input_text = add_wordbook_title.value;
+  if (input_text.replace(/ /gi, '') === '') {
+    wordbook_input_exp.innerText = '단어장 이름을 입력해주세요.';        
+    wordbook_input_btn.setAttribute('data-bs-dismiss', ''); 
+    wordbook_input_btn.setAttribute('onclick', '');
+  } 
+  else if ((isNaN(input_text.replace(/ /gi, ''))) === false ) {
+    wordbook_input_exp.innerText = '숫자 외에 문자도 입력해주세요.';    
+    wordbook_input_btn.setAttribute('data-bs-dismiss', '');
+    wordbook_input_btn.setAttribute('onclick', '');
+  }
+  else if (input_text.length !== input_text.replace(/[`~@$%^*()_|+\-=?;:'",<>\{\}\[\]\\]/gim, '').length){
+    wordbook_input_exp.innerText = '특수문자는 [" ", ".", "!", "#", "&", "/"] 외에는 입력할 수 없어요.';    
+    wordbook_input_btn.setAttribute('data-bs-dismiss', '');
+    wordbook_input_btn.setAttribute('onclick', '');
+  }
+  else if (table_name_trim(input_text).length > 50) {
+    wordbook_input_exp.innerText = '단어장 이름이 조금 길어요.';    
+    wordbook_input_btn.setAttribute('data-bs-dismiss', '');
+    wordbook_input_btn.setAttribute('onclick', '');
+  }
+  else {
+    wordbook_input_exp.innerText = '';
+    wordbook_input_btn.setAttribute('data-bs-dismiss', 'modal');
+    wordbook_input_btn.setAttribute('onclick', 'add_wordbook_click()');
+  }
+})
+
+edit_wb_title_text.addEventListener('keyup', () => {
+  console.log('edit_wb_title_text keyup detected');
+  var input_text = edit_wb_title_text.value;
+  if (input_text.replace(/ /gi, '') === '') {
+    edit_wb_input_exp.innerText = '단어장 이름을 입력해주세요.';        
+    edit_btn.setAttribute('data-bs-dismiss', ''); 
+    edit_btn.setAttribute('onclick', '');
+  } 
+  else if ((isNaN(input_text.replace(/ /gi, ''))) === false ) {
+    edit_wb_input_exp.innerText = '숫자 외에 문자도 입력해주세요.';    
+    edit_btn.setAttribute('data-bs-dismiss', '');
+    edit_btn.setAttribute('onclick', '');
+  }
+  else if (input_text.length !== input_text.replace(/[`~@$%^*()_|+\-=?;:'",<>\{\}\[\]\\]/gim, '').length){
+    edit_wb_input_exp.innerText = '특수문자는 [" ", ".", "!", "#", "&", "/"] 외에는 입력할 수 없어요.';    
+    edit_btn.setAttribute('data-bs-dismiss', '');
+    edit_btn.setAttribute('onclick', '');
+  }
+  else if (table_name_trim(input_text).length > 50) {
+    edit_wb_input_exp.innerText = '단어장 이름이 조금 길어요.';    
+    edit_btn.setAttribute('data-bs-dismiss', '');
+    edit_btn.setAttribute('onclick', '');
+  }
+  else {
+    edit_wb_input_exp.innerText = '';
+    edit_btn.setAttribute('data-bs-dismiss', 'modal');
+    edit_btn.setAttribute('onclick', `${document.getElementById('edit_btn_hidden').innerText}`);
+  }
+})
 
 // long touch 함수
 

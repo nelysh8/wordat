@@ -277,8 +277,8 @@
           -->
         </div>
       </div>
-      <div id="second_1box_bottom_line" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal">
-        <span> 새로운 단어장을 추가해보세요 </span>
+      <div id="second_1box_bottom_line" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" style="text-align:center;">
+        <span class="ft_noto ft7 ftb text_red shadow-sm animate__animated animate__flash" style="padding : 1rem; border-radius : 10%; background-color:#fff8dc50;" onclick="zoomin(this);"> 새로운 단어장을 추가해보세요. </span>
       </div>
       <!-- <div class="popup_tool animate__animated" id="s1_popup_tool"> -->
         <!-- <div class="popup_icon_top animate__animated">
@@ -337,8 +337,8 @@
           </div>
         </div>
       </div>      
-      <div class="word_toolbar shadow-sm">              
-        <div class="word_toolbar_main">
+      <div class="word_toolbar shadow-sm" id="word_toolbar" style="display:none;">              
+        <div class="word_toolbar_main shadow-sm">
           <textarea class="autosize ft8" id="word_toolbar_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
           <div id="word_toolbar_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('second_3box_center');touch_icon_action(this);"></i></div>
           <div id="word_toolbar_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="touch_icon_action(this); tranbtn_click('second_3box_center');"></i></div>                
@@ -432,19 +432,26 @@
     <!-- login_layer -->
     <div class="container-fluid login_layer shadow-sm animate__animated" id="login_layer" style="display : none;">      
       <div class="login_layer_title" id="login_layer_title">
-        <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
-        <button type="button" onclick="displayToken();">displayToken</button>
-        <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
-        <button type="button" onclick="kakaoLogout();">Logout</button>
-        <button type="button" onclick="kakaoSignout();">Signout</button>
+
       </div>
       <div class="login_layer_contents" id="login_layer_contents">
-        <div class="login_layer_contents_user" id="login_layer_contents_user" style="display:none;">
-          
-          <div class="login_layer_contents_button" id="login_layer_contents_button">
+        <div class="login_layer_contents_user" id="login_layer_contents_user">
+          <div class="user_image_layer">
+            <div class="login_layer_contents_user_image" id="login_layer_contents_user_image" style="display:none;">
+
+            </div> 
+          </div>
+          <div class="login_layer_contents_user_info" id="login_layer_contents_user_info">
 
           </div>
         </div>
+        <div class="login_layer_contents_button" id="login_layer_contents_button">
+<!-- <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
+        <button type="button" onclick="displayToken();">displayToken</button>
+        <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
+        <button type="button" onclick="kakaoLogout();">Logout</button>
+        <button type="button" onclick="kakaoSignout();">Signout</button> -->
+        </div>        
       </div>
       <!-- <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
       <button type="button" onclick="displayToken();">displayToken</button>
@@ -579,12 +586,19 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>                                                                               
       <div class="modal-body">                                          
-        <div class="input-group mb-3">
+        <div class="input-group mb-3" style="margin-bottom : 0.5rem">
           <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > TITLE </span>
-          <input type="text" name="add_wordbook_title" id="add_wordbook_title" class="form-control ft8" placeholder="Input a Wordbook Title"> 
-        </div>                                      
+          <input type="text" name="add_wordbook_title" id="add_wordbook_title" class="form-control ft8" placeholder="Input a Wordbook Title">                    
+        </div>
+        <div class="input-group mb-3" style="margin-bottom : 2rem">
+          <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > #TAG </span>
+          <input type="text" name="add_wordbook_title" id="add_wordbook_hashtag" class="form-control ft8" placeholder="Input a It's Comment">                    
+        </div>                        
+        <div class="input-group mb-3">
+          <span class="ft10 ft_noto" id="wordbook_input_exp" style="margin-left : 1rem;"></span>
+        </div>              
         <div class="modal-footer">                        
-          <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="add_wordbook_click();"> ADD </button>
+          <button type="submit" id="wordbook_input_btn" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="" style="background-color: firebrick ! Important; color : cornsilk ! Important;"> ADD </button>
           <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
         </div>                    
       </div>                
@@ -599,10 +613,17 @@
               <span class="ft5 ftbb" id="edit_modal_title">Edit wordbook</span>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               <div class="modal-body">                                                              
-                  <div class="input-group mb-3" id="edit_wb_title_div" style="display : none;">
+                  <div class="input-group mb-3" id="edit_wb_title_div" style="display : none; margin-bottom : 0.5rem;">
                       <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > TITLE </span>
                       <input type="text" name="edit_wordbook_title" id="edit_wb_title_text" class="form-control ft8" placeholder="Input a Wordbook Title">                                
                   </div>
+                  <div class="input-group mb-3" id="edit_wb_hashtag_div" style="display : none; margin-bottom : 0.2rem">
+                    <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > #TAG </span>
+                    <input type="text" name="edit_wordbook_title" id="edit_wb_hashtag_text" class="form-control ft8" placeholder="Input a It's Comment">                                
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="ft10 ft_noto" id="edit_wb_input_exp" style="margin-left : 1rem;"></span>
+                  </div>              
                   <div class="input-group mb-3" id="edit_wd_eng_div" style="display : none;">
                       <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
                       <input type="text" name="edit_wordbook_title" id="edit_wd_eng_text" class="form-control ft8" placeholder="Input a English Sentence">                                
@@ -620,7 +641,8 @@
                       <input type="text" name="edit_wordbook_title" id="edit_ex_kor_text" class="form-control ft8" placeholder="Input it's meaning">                                
                   </div>                                            
                   <div class="modal-footer">                        
-                      <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" id="edit_btn" data-bs-dismiss="modal" onclick="edit_wordbook_click(${i});"> CONFIRM </button>
+                      <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" id="edit_btn" data-bs-dismiss="modal" style="background-color: firebrick ! Important; color : cornsilk ! Important;" onclick=""> CONFIRM </button>
+                      <span style="display:none;" id="edit_btn_hidden"></span>
                       <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
                   </div>                    
               </div>                

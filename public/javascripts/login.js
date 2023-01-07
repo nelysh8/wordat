@@ -58,16 +58,105 @@ function det_login(token, typeA) {  //로그인 판별자
           console.log(res);                
           var req_value = {'id' : 'kakao_' + res.id};
           var user_image_link = res.properties.thumbnail_image;          
+          var user_nickname = res.properties.nickname;
+          var user_email = res.kakao_account.email;
           var user_image_layer = document.getElementById('user_image');
+          var login_layer_contents_user_image = document.getElementById('login_layer_contents_user_image');
+          var login_layer_contents_user_info = document.getElementById('login_layer_contents_user_info');
+          var login_layer_contents_button = document.getElementById('login_layer_contents_button');    
 
           user_image_layer.innerHTML = ``;
           user_image_layer.style.backgroundImage = `url(${user_image_link})`;
-          user_image_layer.style.backgroundSize = 'cover';      
+          user_image_layer.style.backgroundSize = 'cover';
+          login_layer_contents_user_image.style.backgroundImage = `url(${user_image_link})`;  
+          login_layer_contents_user_image.style.backgroundSize = 'cover';    
+          login_layer_contents_user_image.style.display = 'block';
+
+          login_layer_contents_user_info.innerHTML = `
+              <span class="ft_noto ft7" style="text-align:left;">${user_nickname}</span><br>
+              <span class="ft_noto ft9 text_gray" style="text-align:justify;">${user_email}</span>             
+            `;
+          login_layer_contents_button.innerHTML = `
+            <div style="display:flex; width:100%; height:100%;">
+              <div style="width:50%;"></div>                  
+              <div class="animate__animated" style="margin : auto;">        
+                <ul class="animate__animated" style="text-align:center; padding : auto; margin-bottom : 0%;" onclick="zoomin(this); kakaoSignout();">
+                  <li><i class="fa-solid fa-right-from-bracket text_red ft6 ftbb"></i>                  
+                  <li><span class="ft10"> 로그아웃 </span></li>
+                </ul>
+              </div>
+              <div class="animate__animated" style="margin : auto;">
+                <ul class="animate__animated" style="text-align:center; padding : auto; margin-bottom : 0%; border-left : 1px solid gray;" onclick="zoomin(this); kakaobye();">
+                  <li><i class="fa-solid fa-eraser text_red ft6 ftbb"></i></li>
+                  <li><span class="ft10"> 탈퇴 </span></li>
+                </ul>                             
+              </div>                                                    
+            </div>            
+            `;
+
+
           zoomin(user_image_layer);              
 
           console.log('det_login_2 start?');      
           fetch("/kakaoLogin/signup", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((results)=>{    
-            console.log(results);          
+            console.log(results);         
+            
+            
+            
+            
+        
+         
+  
+        
+        
+        
+            // login_layer_title.innerHTML = `            
+            // <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
+            // <button type="button" onclick="displayToken();">displayToken</button>
+            // <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
+            // <button type="button" onclick="kakaoLogout();">Logout</button>
+            // <button type="button" onclick="kakaoSignout();">Signout</button>
+            // `;
+            // login_layer_contents.innerHTML = `     
+            //   <div class="login_layer_contents_user" id="login_layer_contents_user">
+            //     <div class="login_layer_contents_user_image" id="login_layer_contents_user_image">
+            //       <i class="fa-solid fa-user ft3"></i> 
+
+            //     </div>
+            //     <div class="login_layer_contents_user_info" id="login_layer_contents_user_info">
+
+            //     </div>
+            //   </div>
+            //   <div class="login_layer_contents_button" id="login_layer_contents_button">
+      
+            //   </div>
+            //   `;
+          
+        
+        
+        
+            console.log('det_login_4 confirm success');  
+                // `<div style="display:flex;">          
+                //   <div style="width:10%;">
+                //     <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 100%;">
+                //   </div>
+                //   <div style="width:89%; text-align: center; margin-left:1%; padding-top:1.5%; background-color: #ffe812;">
+                //     <span class="ft_noto ft8" style="display: inline-block;" onclick="kakaoLogin();">카카오톡 앱 연결을 진행합니다.</span>
+                //   </div>            
+                // </div>
+                // `;
+          
+          // console.log('det_login_4 exe success');              
+          // if (type === 'execute') {      
+          //   reject('로그인 기능 실행필요');
+          //   kakaoLogin();            
+          //   console.log('det_login_4 exe success');              
+          // } else {
+          //   resolve('로그인 안됨 확인');
+          // }  
+
+
+
             resolve('로그인/후처리 완료');
           })          
         })
@@ -75,19 +164,14 @@ function det_login(token, typeA) {  //로그인 판별자
           Kakao.Auth.setAccessToken(null);        
           console.log('로그인 안된 상태(앱 연결이 끊긴 상태)');        
           console.log('det_login_3 confirm success');   
-          var login_layer_title = document.getElementById('login_layer_title');
-          var login_layer_contents = document.getElementById('login_layer_contents');
-          var login_layer_contents_button = document.getElementById('login_layer_contents_button');    
-          
-          
+          var login_layer_title = document.getElementById('login_layer_title');          
+          var login_layer_contents_button = document.getElementById('login_layer_contents_button');
+          var login_layer_contents_user_image = document.getElementById('login_layer_contents_user_image');    
+
+          login_layer_contents_user_image.style.display = "none";
           login_layer_title.innerHTML = `
             <p><span class="ft_noto ft7" style="text-align:left;">카카오톡으로 앱을 연결해주세요.</span></p>
-            <p><span class="ft_noto ft9 text_gray" style="text-align:justify;">카카오톡 회원식별번호 외에 이메일, 프로필사진은 보관하지 않고, 회원식별번호는 앱 연결을 해제하면 삭제됩니다.</span></p>
-            <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
-            <button type="button" onclick="displayToken();">displayToken</button>
-        <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
-        <button type="button" onclick="kakaoLogout();">Logout</button>
-        <button type="button" onclick="kakaoSignout();">Signout</button>
+            <p><span class="ft_noto ft9 text_gray" style="text-align:justify;">카카오톡 회원식별번호 외에 이메일, 프로필사진은 보관하지 않고, 회원식별번호는 앱 연결을 해제하면 삭제됩니다.</span></p>            
             `;
           login_layer_contents_button.innerHTML = `            
             <div style="display:flex;">          
@@ -110,70 +194,33 @@ function det_login(token, typeA) {  //로그인 판별자
           //   resolve('앱 연결안됨 확인');
           // }
         });
-      } else {
-        // alert('토큰이 없습니다');      
+      } else {                
+        Kakao.Auth.setAccessToken(null);        
         console.log('로그인 안된 상태(access token : null)');    
         
-        
-        
         var login_layer_title = document.getElementById('login_layer_title');
-        var login_layer_contents = document.getElementById('login_layer_contents');
         var login_layer_contents_button = document.getElementById('login_layer_contents_button');    
-        var user_image_layer = document.getElementById('user_image');
-        
-         
-  
-        
-        
-        
+        var login_layer_contents_user_image = document.getElementById('login_layer_contents_user_image');    
+
+        login_layer_contents_user_image.style.display = "none";
         login_layer_title.innerHTML = `
-        로그인 안된 상태 <br>
-        <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
-        <button type="button" onclick="displayToken();">displayToken</button>
-        <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
-        <button type="button" onclick="kakaoLogout();">Logout</button>
-        <button type="button" onclick="kakaoSignout();">Signout</button>
-        `;
-        login_layer_contents.innerHTML = `     
-          <div class="login_layer_contents_user" id="login_layer_contents_user">
-            <div class="login_layer_contents_user_image" id="login_layer_contents_user_image">
-              <i class="fa-solid fa-user ft3"></i> 
+          <p><span class="ft_noto ft7" style="text-align:left;">카카오톡으로 앱을 연결해주세요.</span></p>
+          <p><span class="ft_noto ft9 text_gray" style="text-align:justify;">카카오톡 회원식별번호 외에 이메일, 프로필사진은 보관하지 않고, 회원식별번호는 앱 연결을 해제하면 삭제됩니다.</span></p>          
+            `;
+        login_layer_contents_button.innerHTML = `            
+          <div style="display:flex;">          
+            <div style="width:10%;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 100%;">
             </div>
-            <div class="login_layer_contents_user_info" id="login_layer_contents_user_info">
-            </div>
+            <div style="width:89%; text-align: center; margin-left:1%; padding-top:1.5%; background-color: #ffe812;">
+              <span class="ft_noto ft8" style="display: inline-block;" onclick="kakaoLogin();">카카오톡 앱 연결을 진행합니다.</span>
+            </div>            
           </div>
-          <div class="login_layer_contents_button" id="login_layer_contents_button">
-  
-          </div>
-          `;
-          
-        open_loginbar();   
-        reject('로그인 기능 실행필요');  
-        // var loginbar = document.getElementById('login_layer');  
-        // if (loginbar.style.display !== 'block') {
-          // click_slideup(loginbar);
-        // }     
-          console.log('det_login_4 confirm success');  
-              // `<div style="display:flex;">          
-              //   <div style="width:10%;">
-              //     <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 100%;">
-              //   </div>
-              //   <div style="width:89%; text-align: center; margin-left:1%; padding-top:1.5%; background-color: #ffe812;">
-              //     <span class="ft_noto ft8" style="display: inline-block;" onclick="kakaoLogin();">카카오톡 앱 연결을 진행합니다.</span>
-              //   </div>            
-              // </div>
-              // `;
-        
-        // console.log('det_login_4 exe success');              
-        // if (type === 'execute') {      
-        //   reject('로그인 기능 실행필요');
-        //   kakaoLogin();            
-        //   console.log('det_login_4 exe success');              
-        // } else {
-        //   resolve('로그인 안됨 확인');
-        // }  
-      }
-    // }    
+          `;          
+        console.log('det_login_4 confirm success');             
+        open_loginbar();  
+        reject('로그인 기능 실행필요');        
+      }       
   })
 }
   
@@ -250,11 +297,11 @@ function kakaoSignout() { //탈퇴하기;연결끊기;
   })
   .then(function(response) {
     console.log(response);    
-    alert(document.cookie);
+    // alert(document.cookie);
   })
   .catch(function(error) {
     console.log(error);
-    alert(document.cookie);
+    // alert(document.cookie);
   });
 }
 

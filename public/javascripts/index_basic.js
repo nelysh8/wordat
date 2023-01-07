@@ -298,19 +298,24 @@
       function footbar_vis() {        
         click_slideup(document.getElementById('footbar'));
         document.getElementById('footbar').style.display = 'flex';
-        document.getElementById('mainbody').style.marginBottom = '6rem';             
+        document.getElementById('mainbody').style.animationName = 'mainbody-up';
+        // document.getElementById('mainbody').style.marginBottom = '6rem';             
       }           
 
       async function late_footbar_vis() {        
         await sleep(0.3);
         click_slideup(document.getElementById('footbar'));
         document.getElementById('footbar').style.display = 'flex';
-        document.getElementById('mainbody').style.marginBottom = '6rem';             
+        document.getElementById('mainbody').style.animationName = 'mainbody-up';
+        // document.getElementById('mainbody').style.marginBottom = '6rem';             
+        
       }           
 
-      function footbar_dis() {        
+      async function footbar_dis() {      
+        await sleep(0.3);  
         click_slideoutdown(document.getElementById('footbar'));   
-        document.getElementById('mainbody').style.marginBottom = '0';             
+        document.getElementById('mainbody').style.animationName = 'mainbody-down';
+        // document.getElementById('mainbody').style.marginBottom = '6rem';                              
       }
 
       async function click_footbar(obj, btn_number) {        
@@ -365,6 +370,27 @@
         
         if (btn_number === 3) {       
           if (document.getElementById('second_3box_center').style.display !== 'none') {
+            if (document.getElementById('word_toolbar').style.display === 'none') {
+              document.querySelector('i.fa-star').classList.remove('text_whiteoutline');
+              document.querySelector('i.fa-star:only-of-type').classList.remove('text_grey');
+              obj.classList.toggle('animate__zoomIn');                            
+              document.getElementById('second_3box_contents').style.marginBottom = '1rem'; 
+
+              document.getElementById('second_3box_contents').style.animationName = 's3-up';
+              click_slideup(document.getElementById('word_toolbar'));            
+                          
+              obj.classList.toggle('animate__zoomIn');  
+            } else {
+              document.querySelector('i.fa-star').classList.add('text_whiteoutline');
+              document.querySelector('i.fa-star:only-of-type').classList.add('text_grey'); 
+              obj.classList.toggle('animate__zoomIn');              
+              document.getElementById('second_3box_contents').style.marginBottom = '0rem'; 
+
+              document.getElementById('second_3box_contents').style.animationName = 't1-down';
+              click_slideoutdown(document.getElementById('word_toolbar'));
+
+              obj.classList.toggle('animate__zoomIn'); 
+            }       
 
           } else if (document.getElementById('third_1box_center').style.display !== 'none') {            
             if (document.getElementById('t1_box_searchbar').style.display === 'none') {
@@ -388,13 +414,14 @@
 
               obj.classList.toggle('animate__zoomIn'); 
             }       
+
           } else {
             if (document.getElementById('searchbar').style.display === 'none') {
               document.querySelector('i.fa-star').classList.remove('text_whiteoutline');
               document.querySelector('i.fa-star:only-of-type').classList.remove('text_grey');
               obj.classList.toggle('animate__zoomIn');              
-              document.getElementById('Upper_search_container').style.marginBottom = '1rem';   
-              
+              document.getElementById('Upper_search_container').style.marginBottom = '1rem';
+
               document.getElementById('Upper_search_container').style.animationName = 'main-up';                       
               click_slideup(document.getElementById('searchbar'));            
                           

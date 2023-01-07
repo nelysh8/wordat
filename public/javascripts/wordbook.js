@@ -32,20 +32,22 @@ function wordbook_reading(time){
     console.log('promise/then start');      
     console.log(data);
     fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{
+      console.log(results);
+      console.log(results[0].TABLE_NAME);
       var table_name = `Tables_in_${getCookie("client_ID")}`;            
       let add_html = '';
       let i = 0;
       for (let data of results){        
         add_html += `<div class="wordbook_wrap shadow-sm">
                         <div class="wordbook_text" onclick="touch_block_action(document.getElementById('wordbook_title_span_${i}')); wordlist_reading(${i},'','initial');">                                          
-                          <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb animate__animated"><span id="wordbook_title_span_${i}" name="wordbook_title">${table_name_recover(data[table_name])}</span></div>                        
-                          <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray"> <span>#오늘도즐거워 #람쥐귀여워 </span></div>                                                              
+                          <div id="wordbook_title_${i}" class="wordbook_title ft8 ftb animate__animated"><span id="wordbook_title_span_${i}" name="wordbook_title">${table_name_recover(data.TABLE_NAME)}</span></div>                        
+                          <div id="wordbook_hashtag" class="wordbook_hashtag ft10 text_gray">${data.TABLE_COMMENT}<span></span></div>                                                              
                         </div>                      
                         <div class="wordbook_option">
-                          <i class="fa-solid fa-pen ft7 ftb text_green" data-bs-toggle="modal" data-bs-target="#edit_modal" onclick="edit_modal1_openbtn_click('second_1box_center', '${table_name_recover(data[table_name])}');"></i>                                                   
+                          <i class="fa-solid fa-pen ft7 ftb text_green" data-bs-toggle="modal" data-bs-target="#edit_modal" onclick="edit_modal1_openbtn_click('second_1box_center', '${table_name_recover(data.TABLE_NAME)}', '${data.TABLE_COMMENT}');"></i>                                                   
                         </div>
                         <div class="wordbook_option">
-                          <i class="fa-solid fa-trash-can ft7 ftb text_red" data-bs-toggle="modal" data-bs-target="#remove_confirm" onclick="remove_modal1_openbtn_click('second_1box_center', '${table_name_recover(data[table_name])}');"> </i>
+                          <i class="fa-solid fa-trash-can ft7 ftb text_red" data-bs-toggle="modal" data-bs-target="#remove_confirm" onclick="remove_modal1_openbtn_click('second_1box_center', '${table_name_recover(data.TABLE_NAME)}');"> </i>
                         </div>                      
                       </div>                  
                     </div>`;                  
@@ -86,7 +88,8 @@ function wordbook_reading(time){
   
   async function add_wordbook_click(){
     var title_name = table_name_trim(document.getElementById('add_wordbook_title').value);
-    var wordbook_title = {title : title_name};
+    var wordbook_hashtag = document.getElementById('add_wordbook_hashtag').value;
+    var wordbook_title = {title : title_name, hashtag : wordbook_hashtag};
     console.log(wordbook_title);
     await fetch("/wordbook/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(wordbook_title)}).then((response)=>response.json()).then((results)=>{
       console.log(results);        
