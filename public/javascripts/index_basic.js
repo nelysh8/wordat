@@ -122,7 +122,7 @@
         hidden(obj);
         obj.classList.toggle('animate__bounceOut');                
       }
-      animate__bounceOut
+
 
       async function click_bounceinup(obj) {                
         console.log('animate__bounceInUp detected : '+ obj.id);        
@@ -428,6 +428,22 @@
         await click_bounceout(obj); 
         onvis(document.getElementById('Upper_carousel'));
       }
+      
+      function open_loginbar(){
+        var loginbar = document.getElementById('login_layer');  
+        if (loginbar.style.display !== 'block') {
+          click_slideup(loginbar);
+        }        
+      }
+      
+      function close_loginbar(){
+        var loginbar = document.getElementById('login_layer');                  
+        if (loginbar.style.display !== 'none') {
+          click_slideoutdown(loginbar);
+        }
+      }
+
+      
       
       
 

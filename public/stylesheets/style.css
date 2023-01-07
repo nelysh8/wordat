@@ -282,26 +282,27 @@ ul {
   margin : auto;
 }
 
-.navbar_icon .user_layer {
-  height : 90%;
-  width : 60%;
+.navbar_icon .user_image {        
+  height : 3.5rem;
+  width : 3.5rem;
   margin : auto;
-  margin-top : 5%;
-  margin-bottom : 5%;
-  text-align : center;  
-  padding : 0.5rem; 
+  margin-top : 10%;
+  margin-bottom : 10%;  
+  text-align : center;    
   
-  background-color: #ddfaff;  
-  border : 1px solid dodgerblue;
-  border-radius: 50%;
+  background-color: cornsilk;  
+  border : 3px solid gray;
+  border-radius: 50%;  
 }
 
-.navbar_icon i {
-  color :dodgerblue;
+
+.navbar_icon i {    
+  color :gray;  
+
 }
 
 .navbar_icon img {
-  object-fit: contain
+  object-fit: contain;
 }
 
 /* 2. mainbody */
@@ -1891,21 +1892,55 @@ ul {
     z-index : 10;
   } 
   
-  #test_layer {      
-    display : block;
+  #login_layer {      
+    display : none;
     position : absolute;
-    width : 91%;    
-    height : 10%;
+    width : 91.25%;    
+    min-height : 20%;    
     bottom : 0%;
-    background-color: #00000020;
+    background-color: white;
     justify-content: space-between;  
-    padding : 1rem;
-    margin-bottom : 1rem;
+    padding : 1rem 2rem 1rem 2rem;
+    margin-bottom : 1.5rem;    
+    border : 1px solid #00000020;
+    
     border-radius: 10px;    
-    margin-left : 4.5%;
-    margin-right : 4.5%;        
+    margin-left : 4.4%;
+    margin-right : 4.4%;        
     z-index : 10;    
   }                           
+
+  #login_layer_contents_user_image {        
+    height : 3.5rem;
+    width : 3.5rem;
+    margin : auto;
+    margin-top : 10%;
+    margin-bottom : 10%;  
+    text-align : center;    
+    
+    background-color: cornsilk;  
+    border : 3px solid gray;
+    border-radius: 50%;  
+  }
+  
+  
+  #login_layer_contents_user_image i {    
+    color :gray;  
+  
+  }
+  
+  #login_layer_contents_user_image img {
+    object-fit: contain;
+  }
+
+  #login_layer_contents_user_info {
+
+  }
+
+  #login_layer_contents_button {
+    border-top : 2px solid #00000020;
+    padding-top : 10px;
+  }
 
   #link_frame {
     display : none;

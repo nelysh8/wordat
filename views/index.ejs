@@ -4,6 +4,11 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-Frame-Options" content="deny" />    
+
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+  integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+    <script src="/javascripts/cookie.js"></script> 
+    <script src="/javascripts/login.js"></script> 
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
@@ -23,9 +28,8 @@
 
     <link rel="stylesheet" href="/stylesheets/style.css">        
     <script src="/javascripts/index_basic.js"></script>    
-    <!-- <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> -->
-    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
-  integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+    
+    
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1092619034576489"
      crossorigin="anonymous"></script>
@@ -35,6 +39,8 @@
   </head>
 
   <body>
+    
+    
     
     
 <!-- 
@@ -64,10 +70,11 @@
       </div>
       <div class="navbar_menu">
       </div>
-      <div class="navbar_icon">
-        <div class="user_layer animate__animated" id="user_image">
-          <i class="fa-regular fa-user ft3"></i>        
-        </div>
+      <div class="navbar_icon">        
+        <div class="user_image animate__animated" id="user_image" onclick="zoomin(this); open_loginbar();">
+          <i class="fa-solid fa-user ft3" id="user_icon"></i> 
+          <!-- <i class="fa-solid fa-user"></i>        -->
+        </div>        
       </div>
     </div>       
     
@@ -422,15 +429,30 @@
       </div>   
     </div>
     
-    <!-- Test_layer -->
-    <div class="container-fluid testing_layer shadow-sm animate__animated" id="test_layer">      
-      <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
+    <!-- login_layer -->
+    <div class="container-fluid login_layer shadow-sm animate__animated" id="login_layer" style="display : none;">      
+      <div class="login_layer_title" id="login_layer_title">
+        <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
+        <button type="button" onclick="displayToken();">displayToken</button>
+        <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
+        <button type="button" onclick="kakaoLogout();">Logout</button>
+        <button type="button" onclick="kakaoSignout();">Signout</button>
+      </div>
+      <div class="login_layer_contents" id="login_layer_contents">
+        <div class="login_layer_contents_user" id="login_layer_contents_user" style="display:block;">
+          
+          <div class="login_layer_contents_button" id="login_layer_contents_button">
+
+          </div>
+        </div>
+      </div>
+      <!-- <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
       <button type="button" onclick="displayToken();">displayToken</button>
       <button type="button" onclick="kakaoState();">State</button>
       <button type="button" onclick="kakaoLogout();">Logout</button>
       <button type="button" onclick="kakaoSignout();">Signout</button>
       <div id="token-result">jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</div>
-      <div id="buttonDiv" style="text-align: center;"></div>
+      <div id="buttonDiv" style="text-align: center;"></div> -->
     </div>
 
     <!-- loading_layer -->
@@ -631,7 +653,7 @@
   <script src="https://unpkg.com/compromise"></script>
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>  
   
-  <script src="/javascripts/cookie.js"></script> 
+  <!-- <script src="/javascripts/cookie.js"></script>  -->
 
   <script src="/javascripts/index_function.js"></script> 
   <script src="/javascripts/modal.js"></script> 
@@ -641,7 +663,7 @@
   <script src="/javascripts/tts.js"></script> 
   <script src="/javascripts/trans.js"></script> 
   <script src="/javascripts/contents.js"></script> 
-  <script src="/javascripts/login.js"></script> 
+  
   
   
   

@@ -21,6 +21,7 @@ const selected_wordbook = '';
 
 window.onload = function(){
   document.getElementById('loading_layer').style.display = 'none';
+  det_login(token, 'confirm');
   cartoon();
   paper();
   ebook_list(0);
@@ -140,6 +141,14 @@ $('.carousel').on('touchstart', function(event){
   $(this).on('touchend', function(){
       $(this).off('touchmove');
   });
+});
+
+document.addEventListener('click', function(e) {
+  var container1 = document.getElementById('login_layer');
+  var container2 = document.getElementById('user_image');
+  if ((!container1.contains(e.target)) && (!container2.contains(e.target))) {    
+    close_loginbar();      
+  }
 });
 
 // input detection
