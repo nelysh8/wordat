@@ -53,6 +53,13 @@ function det_login(token, typeA) {  //로그인 판별자
         .then(function(res) {            
           console.log(res);                
           var req_value = {'id' : 'kakao_' + res.id};
+          var user_image_link = res.properties.thumbnail_image;
+          var user_image_layer = document.getElementById('user_image');
+          user_image_layer.innerHTML = ``;
+          user_image_layer.style.backgroundImage = `url(${user_image_link})`;
+          user_image_layer.style.backgroundSize = 'cover';      
+          zoomin(user_image_layer);              
+
           console.log('det_login_2 start?');      
           fetch("/kakaoLogin/signup", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((results)=>{    
             console.log(results);          
@@ -105,8 +112,8 @@ function det_login(token, typeA) {  //로그인 판별자
 function kakaoLogin() { 
    
   Kakao.Auth.authorize({
-    redirectUri: 'https://my.word-at.fun/kakaoLogin',
-    // redirectUri: 'http://localhost:3000/kakaoLogin',
+    // redirectUri: 'https://my.word-at.fun/kakaoLogin',
+    redirectUri: 'http://localhost:3000/kakaoLogin',
   });
 }
 

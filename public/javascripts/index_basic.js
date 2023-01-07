@@ -235,6 +235,13 @@
         obj.setAttribute('style', 'background-color : none;  border-radius : none; padding : auto;');
         obj.classList.toggle('animate__zoomIn');
       }
+
+      async function zoomin(obj) {        
+        console.log('touch_action detected : '+ obj.id);        
+        obj.classList.toggle('animate__zoomIn');      
+        await sleep(0.3);         
+        obj.classList.toggle('animate__zoomIn');
+      }
       
 
 
@@ -365,13 +372,9 @@
               document.querySelector('i.fa-star:only-of-type').classList.remove('text_grey');
               obj.classList.toggle('animate__zoomIn');                            
               document.getElementById('t1_mainbox').style.marginBottom = '1rem'; 
-  
+
+              document.getElementById('t1_mainbox').style.animationName = 't1-up';
               click_slideup(document.getElementById('t1_box_searchbar'));            
-              
-              for (let i=0; i<20; i++) {                
-                document.getElementById('t1_mainbox').style.height = `${98-i}%`;  
-                await sleep(0.01);
-              }                                    
                           
               obj.classList.toggle('animate__zoomIn');  
             } else {
@@ -379,13 +382,10 @@
               document.querySelector('i.fa-star:only-of-type').classList.add('text_grey'); 
               obj.classList.toggle('animate__zoomIn');              
               document.getElementById('t1_mainbox').style.marginBottom = '0rem'; 
-  
+
+              document.getElementById('t1_mainbox').style.animationName = 't1-down';
               click_slideoutdown(document.getElementById('t1_box_searchbar'));
-              // await sleep(0.1);
-              for (let i=0; i<20; i++) {                
-                document.getElementById('t1_mainbox').style.height = `${79+i}%`; 
-                await sleep(0.01);
-              }                        
+
               obj.classList.toggle('animate__zoomIn'); 
             }       
           } else {
@@ -393,14 +393,10 @@
               document.querySelector('i.fa-star').classList.remove('text_whiteoutline');
               document.querySelector('i.fa-star:only-of-type').classList.remove('text_grey');
               obj.classList.toggle('animate__zoomIn');              
-              document.getElementById('Upper_search_container').style.marginBottom = '1rem';                          
-  
-              click_slideup(document.getElementById('searchbar'));            
+              document.getElementById('Upper_search_container').style.marginBottom = '1rem';   
               
-              for (let i=0; i<20; i++) {
-                document.getElementById('Upper_search_container').style.height = `${98-i}%`;                 
-                await sleep(0.01);
-              }                                    
+              document.getElementById('Upper_search_container').style.animationName = 'main-up';                       
+              click_slideup(document.getElementById('searchbar'));            
                           
               obj.classList.toggle('animate__zoomIn');  
             } else {
@@ -409,12 +405,9 @@
               obj.classList.toggle('animate__zoomIn');  
               document.getElementById('Upper_search_container').style.marginBottom = '0rem';                   
   
+              document.getElementById('Upper_search_container').style.animationName = 'main-down';                   
               click_slideoutdown(document.getElementById('searchbar'));
-              // await sleep(0.1);
-              for (let i=0; i<20; i++) {
-                document.getElementById('Upper_search_container').style.height = `${79+i}%`;                 
-                await sleep(0.01);
-              }    
+              
               obj.classList.toggle('animate__zoomIn');                      
             }            
           }         

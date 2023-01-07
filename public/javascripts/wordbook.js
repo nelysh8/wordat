@@ -3,20 +3,22 @@ function table_name_trim(table_name) {
   var table_name = table_name
     .trim()
     .replace(/ /gi, '$_$')
-    .replace(/\./gi, '$dot$')
-    .replace(/\!/gi, '$exc$')
-    .replace(/\#/gi, '$sp$')
-    .replace(/\&/gi, '$aa$');
+    .replace(/\./gi, '$d$')
+    .replace(/\!/gi, '$e$')
+    .replace(/\#/gi, '$s$')
+    .replace(/\&/gi, '$a$')
+    .replace(/\//gi, '$w$');
   return table_name;
 }
 
 function table_name_recover(table_name) {
   var table_name = table_name    
     .replace(/\$\_\$/gi, ' ')
-    .replace(/\$dot\$/gi, '.')
-    .replace(/\$exc\$/gi, '!')
-    .replace(/\$sp\$/gi, '#')
-    .replace(/\$aa\$/gi, '&');
+    .replace(/\$d\$/gi, '.')
+    .replace(/\$e\$/gi, '!')
+    .replace(/\$s\$/gi, '#')
+    .replace(/\$a\$/gi, '&')
+    .replace(/\$w\$/gi, '/');
   return table_name;
 }
 

@@ -58,13 +58,16 @@
     <!-- 1. nav bar -->
 
     <div class="navbar shadow-sm">
-      <div class="navbar_logo">
+      <div class="navbar_logo">        
         <i class="fa-solid fa-tree text_green ft5 ftbb"></i>
         <a href="/"> <span class="ft5 ftb"> WordAT </span> </a>
       </div>
       <div class="navbar_menu">
       </div>
       <div class="navbar_icon">
+        <div class="user_layer animate__animated" id="user_image">
+          <i class="fa-regular fa-user ft3"></i>        
+        </div>
       </div>
     </div>       
     
@@ -378,7 +381,11 @@
           <div class="title" id="t1_ebook_title"><span class="ft6 ftb text_pink">  </span></div>                
         </div>
         <div class="contents" id="third_1box_contents">
-        
+          <lottie-player id="ebook_lottie" src="https://assets4.lottiefiles.com/private_files/lf30_P60IO4.json" background="transparent"  speed="1"  style="width: 50%; margin : auto;"  loop  autoplay></lottie-player>
+          <div id="div_linked_ebook" style="display:none;">
+            <iframe id="linked_ebook" onload="onload_ebook();" src="#" seamless ></iframe>
+          </div>
+
         </div>
       </div>  
       <div class="t1_box_searchbar shadow-lg animate__animated" id="t1_box_searchbar" style="display:none;">
@@ -416,7 +423,7 @@
     </div>
     
     <!-- Test_layer -->
-    <div class="container-fluid testing_layer animate__animated" id="test_layer">      
+    <div class="container-fluid testing_layer shadow-sm animate__animated" id="test_layer">      
       <a href="javascript:kakaoLogin();"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" style="width : 10%;"></a>
       <button type="button" onclick="displayToken();">displayToken</button>
       <button type="button" onclick="kakaoState();">State</button>

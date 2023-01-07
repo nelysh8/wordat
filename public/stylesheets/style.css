@@ -243,7 +243,7 @@ ul {
 /* 1. navbar */
 
 .navbar {
-    display: block;
+    display: flex;
     position : fixed;
     width : 100%;
     height : 5rem;
@@ -251,28 +251,57 @@ ul {
     align-items: center;
     background-color: cornsilk;
     vertical-align: middle;
-    padding : 1rem;
+    padding : 0rem;
     z-index: 100;
     font-family : 'Rubik Gemstones', sans-serif;
     /*padding : 10px 0px 10px 0px;*/
 }
 .navbar_logo {  
   padding : auto;
+  padding-left : 5%;
   margin : auto;
-  width : 100%;
-  height : 90%;
+  width : 80%;  
 }
 
-.navbar a {
+.navbar_logo a {
     color: firebrick;    
 }
 
-.navbar i {
+.navbar_logo i {
     
 }
-.navbar span {
+.navbar_logo span {
   
-  letter-spacing : 0.2rem;
+  letter-spacing : 0.3rem;
+}
+
+.navbar_icon {
+  height : 100%;
+  width : 20%;
+  /* padding : auto; */
+  margin : auto;
+}
+
+.navbar_icon .user_layer {
+  height : 90%;
+  width : 60%;
+  margin : auto;
+  margin-top : 5%;
+  margin-bottom : 5%;
+  text-align : center;  
+  padding : 0.5rem; 
+  
+  background-color: #ddfaff;  
+  border : 1px solid dodgerblue;
+  border-radius: 50%;
+}
+
+.navbar_icon i {
+  color :dodgerblue;
+}
+
+.navbar_icon img {
+  object-fit: contain
 }
 
 /* 2. mainbody */
@@ -330,12 +359,16 @@ ul {
         border-radius : 20px;    
         /* overflow-y: scroll;                 */
         z-index : 4;
-        animation-name: ex;
-        animation-duration: 1s;
-        animation-iteration-count: infinite;
+        /* animation-name: main-up; */
+        animation-duration: 0.25s;
+        animation-fill-mode: forwards;
     }
 
-    @keyframes ex {
+    @keyframes main-up {
+      from {height: 98%;}
+      to {height: 79%;}
+    }
+    @keyframes main-down {
       from {height: 98%;}
       to {height: 79%;}
     }
@@ -1636,9 +1669,19 @@ ul {
         border-radius : 20px;    
         overflow-y: scroll;                
         z-index : 4;               
-        animation-name: ex;
-        animation-duration: 1s;
-        animation-iteration-count: infinite;
+        /* animation-name: t1-ex; */
+        animation-duration: 0.25s;
+        animation-fill-mode: forwards;
+        /* animation-iteration-count: infinite; */
+    }
+    
+    @keyframes t1-up {
+      from {height: 98%;}
+      to {height: 79%;}
+    }
+    @keyframes t1-down {
+      from {height: 79%;}
+      to {height: 98%;}
     }
     
     .t1_mainbox::-webkit-scrollbar {
@@ -1847,24 +1890,22 @@ ul {
     overflow-y: scroll;
     z-index : 10;
   } 
+  
   #test_layer {      
     display : block;
     position : absolute;
-    width : 100%;    
-    height : 15%;
-    bottom : 30%;
-    background-color: white;
+    width : 91%;    
+    height : 10%;
+    bottom : 0%;
+    background-color: #00000020;
     justify-content: space-between;  
-    padding-bottom : 0.5rem;
-    /* align-content:center;
-    align-items: center;
-    text-align: center; */            
-    margin-left : auto;
-    margin-right : auto;    
-    overflow-y: scroll;
-    z-index : 10;
-  } 
-                              
+    padding : 1rem;
+    margin-bottom : 1rem;
+    border-radius: 10px;    
+    margin-left : 4.5%;
+    margin-right : 4.5%;        
+    z-index : 10;    
+  }                           
 
   #link_frame {
     display : none;

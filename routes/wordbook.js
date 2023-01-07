@@ -11,6 +11,17 @@ var client_conn;   // = mysql_odbc.client(); 로그인 회원 db
 var moment = require('moment');
 var today = moment();
 
+function table_name_recover(table_name) {
+    var table_name = table_name    
+      .replace(/\$\_\$/gi, ' ')
+      .replace(/\$d\$/gi, '.')
+      .replace(/\$e\$/gi, '!')
+      .replace(/\$s\$/gi, '#')
+      .replace(/\$a\$/gi, '&')
+      .replace(/\$w\$/gi, '/');
+    return table_name;
+}
+
 // WORDBOOK List
 
 router.get('/', function (req, res, next) {    
@@ -49,7 +60,7 @@ router.post('/add', function (req, res, next) {
 
     var newlist_name = (req.body.title)
 
-    var sql = `CREATE TABLE ${newlist_name} (ID INT(11) NOT NULL AUTO_INCREMENT, WORDBOOK_TITLE TEXT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_RESULT INT(11) NOT NULL DEFAULT '0', QUIZ_DATE DATETIME NOT NULL, PRIMARY KEY(ID))`;
+    var sql = `CREATE TABLE ${newlist_name} (ID INT(11) NOT NULL AUTO_INCREMENT, client_ID TEXT, WORDBOOK_TITLE TEXT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_RESULT INT(11) NOT NULL DEFAULT '0', QUIZ_DATE DATETIME NOT NULL, PRIMARY KEY(ID))`;
     console.log(sql);
     client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
@@ -82,7 +93,10 @@ router.post('/edit', function (req, res, next) {
     console.log('edit wordbook_title');    
     var wordbook_oldtitle = req.body.oldtitle;
     var wordbook_newtitle = req.body.newtitle;
-    var sql = "ALTER TABLE " + wordbook_oldtitle + " RENAME " + wordbook_newtitle;
+    var sql = `
+        ALTER TABLE ${wordbook_oldtitle} RENAME ${wordbook_newtitle};
+        UPDATE ${wordbook_newtitle} SET WORDBOOK_TITLE = '${table_name_recover(wordbook_newtitle)}';
+    `;
     console.log(sql);
     client_conn.query(sql, function(err, results){
         if (err) console.err("err:" + err);        
@@ -144,11 +158,11 @@ router.post('/word/add/', function (req, res, next) {
     console.log(word_english);
     var word_korean = req.body.kor;
     console.log(word_korean);
-    var data = [wordbook_title, word_english, word_korean, '[]'];
+    var data = [client_ID, wordbook_title, word_english, word_korean, '[]'];
     console.log(wordbook_title + ' ---- ' + data);        
     var time = today.format('YYYYMMDD');
 
-    var sql = `INSERT INTO ${wordbook_title} (WORDBOOK_TITLE, ENG, KOR, EXAMPLE, SAVEDATE, LOADDATE, QUIZ_DATE) VALUE (?,?,?,?,${time}, ${time}, ${time})`;
+    var sql = `INSERT INTO ${wordbook_title} (client_ID, WORDBOOK_TITLE, ENG, KOR, EXAMPLE, SAVEDATE, LOADDATE, QUIZ_DATE) VALUE (?,?,?,?,?,${time}, ${time}, ${time})`;
     client_conn.query(sql, data, function(err, results){
         if (err) console.err("err:" + err);
         res.json(results);   

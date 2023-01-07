@@ -169,24 +169,15 @@ function cartoon(){
   function open_ebook(ebook_num){        
     var ebook_contents = document.getElementById('third_1box_contents');
     var contents = ''
-    var ebook_num = {'ebook_num' : ebook_num};    
-    // var chunks = [];    
-
-    ebook_contents.innerHTML = `
-      <lottie-player id="ebook_lottie" src="https://assets4.lottiefiles.com/private_files/lf30_P60IO4.json" background="transparent"  speed="1"  style="width: 50%; margin : auto;"  loop  autoplay></lottie-player>
-      <div id="div_linked_ebook" style="display:none;">
-        <iframe id="linked_ebook" src="#" seamless ></iframe>
-      </div>
-      `;
-    third_1box_open();
-    var div_ebook = document.getElementById(div_linked_book);
-    var iframe_ebook = document.getElementById(linked_ebook);
-    var ebook_lottie = document.getElementById(ebook_lottie);
-    iframe_ebook.onload = function(){
-      div_ebook.style.display = "block";  
-      ebook_lottie.remove();            
-    };
+    var ebook_num = {'ebook_num' : ebook_num};            
+    var iframe_ebook = document.getElementById('linked_ebook');
     iframe_ebook.src = `https://www.gutenberg.org/cache/epub/${ebook_num.ebook_num}/pg${ebook_num.ebook_num}-images.html`;
+    third_1box_open();
+
+    // var chunks = [];       
+    
+    
+    // iframe_ebook.src = ``;
     
     
     
@@ -223,11 +214,15 @@ function cartoon(){
     //     }
     //     ebook_contents.innerHTML = contents;
     //   } else {
-        contents += `        
-            
-        `;          
-        // https://www.wikipedia.org/wiki/Vincent_van_Gogh
-        ebook_contents.innerHTML = contents;
+        
+        // https://www.wikipedia.org/wiki/Vincent_van_Gogh        
       }
   //   })
   // }
+
+  function onload_ebook(){
+    var div_ebook = document.getElementById('div_linked_ebook');
+    var ebook_lottie = document.getElementById('ebook_lottie');    
+    ebook_lottie.remove();            
+    div_ebook.style.display = "block";
+  };
