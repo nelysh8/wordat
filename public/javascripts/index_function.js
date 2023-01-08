@@ -40,6 +40,27 @@ if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i)) 
   }
 }
 
+// swipe
+
+$('.carousel').on('touchstart', function(event){
+  const xClick = event.originalEvent.touches[0].pageX;
+  $(this).one('touchmove', function(event){
+      const xMove = event.originalEvent.touches[0].pageX;
+      const sensitivityInPx = 5;
+
+      if( Math.floor(xClick - xMove) > sensitivityInPx ){
+          $(this).carousel('next');
+      }
+      else if( Math.floor(xClick - xMove) < -sensitivityInPx ){
+          $(this).carousel('prev');
+      }
+  });
+  $(this).on('touchend', function(){
+      $(this).off('touchmove');
+  });
+});
+
+
 // Carousel 감지
 var contents_wordbook = document.getElementById("contents_wordbook");
 var contents_cartoon = document.getElementById("contents_cartoon");
@@ -113,25 +134,7 @@ contents_start_observer.observe(contents_start, observer_config);
 // 감지 종료
 // observer.disconnect();
 
-// swipe
 
-$('.carousel').on('touchstart', function(event){
-  const xClick = event.originalEvent.touches[0].pageX;
-  $(this).one('touchmove', function(event){
-      const xMove = event.originalEvent.touches[0].pageX;
-      const sensitivityInPx = 10;
-
-      if( Math.floor(xClick - xMove) > sensitivityInPx ){
-          $(this).carousel('next');
-      }
-      else if( Math.floor(xClick - xMove) < -sensitivityInPx ){
-          $(this).carousel('prev');
-      }
-  });
-  $(this).on('touchend', function(){
-      $(this).off('touchmove');
-  });
-});
 
 document.addEventListener('click', function(e) {
   var container1 = document.getElementById('login_layer');
