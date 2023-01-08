@@ -2236,6 +2236,9 @@ ul {
   text-align-last: auto;
 }
 
+#wim_dropdown_btn {
+  background-color: firebrick !important;
+}
 
 
 
