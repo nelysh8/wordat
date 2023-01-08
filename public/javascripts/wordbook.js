@@ -7,7 +7,8 @@ function table_name_trim(table_name) {
     .replace(/\!/gi, '$e$')
     .replace(/\#/gi, '$s$')
     .replace(/\&/gi, '$a$')
-    .replace(/\//gi, '$w$');
+    .replace(/\//gi, '$w$')
+    .replace(/\'/gi, '$u$');
   return table_name;
 }
 
@@ -18,7 +19,8 @@ function table_name_recover(table_name) {
     .replace(/\$e\$/gi, '!')
     .replace(/\$s\$/gi, '#')
     .replace(/\$a\$/gi, '&')
-    .replace(/\$w\$/gi, '/');
+    .replace(/\$w\$/gi, '/')
+    .replace(/\$u\$/gi, "'");
   return table_name;
 }
 
@@ -32,8 +34,8 @@ function wordbook_reading(time){
     console.log('promise/then start');      
     console.log(data);
     fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{
-      console.log(results);
-      console.log(results[0].TABLE_NAME);
+      // console.log(results);
+      // console.log(results[0].TABLE_NAME);
       var table_name = `Tables_in_${getCookie("client_ID")}`;            
       let add_html = '';
       let i = 0;
@@ -167,8 +169,8 @@ function wordbook_reading(time){
           add_contents_html += `
                 </ul>
                 <div class="wordlist_toolbar" style="display : flex; width : 30%; margin-left : 70%;">          
-                  <div style="display : block; padding : 1rem; margin-left : 0.5rem;"><i class="fa-solid fa-pen ft5 ftb text_green animate__animated " data-bs-toggle="modal" data-bs-target="#edit_modal" onclick="touch_icon_action(this); edit_modal1_openbtn_click('second_2box_center', '${wordbook_title.title}', '${result.ID}', '${result.ENG}', '${result.KOR}');"></i></div>                              
-                  <div style="display : block; padding : 1rem; margin-left : 0.5rem;"><i class="fa-solid fa-trash-can ft5 ftb text_red animate__animated " data-bs-toggle="modal" data-bs-target="#remove_confirm" onclick="touch_icon_action(this); remove_modal1_openbtn_click('second_2box_center', '${wordbook_title.title}', '${result.ID}', '${result.ENG}');"></i></div>                            
+                  <div style="display : block; padding : 1.3rem; margin: auto;"><i class="fa-solid fa-pen ft5 ftb text_green animate__animated " data-bs-toggle="modal" data-bs-target="#edit_modal" onclick="touch_icon_action(this); edit_modal1_openbtn_click('second_2box_center', '${wordbook_title.title}', '','${result.ID}', '${result.ENG}', '${result.KOR}');"></i></div>                              
+                  <div style="display : block; padding : 1.3rem; margin : auto;"><i class="fa-solid fa-trash-can ft5 ftb text_red animate__animated " data-bs-toggle="modal" data-bs-target="#remove_confirm" onclick="touch_icon_action(this); remove_modal1_openbtn_click('second_2box_center', '${wordbook_title.title}', '${result.ID}', '${result.ENG}');"></i></div>                            
                 </div>
               </div>        
             </div>`;        
@@ -230,20 +232,27 @@ function wordbook_reading(time){
         </ul>`;
       // 예문부분 #example_list    
       let example_html = ``;
+      let example_json = [];
       let j = 0;
       if (results[0].EXAMPLE !== null) {
         let examples = JSON.parse(results[0].EXAMPLE);            
         for (example of examples){       
+          example_json.push(`{"ENG" : "${example.ENG.replace(/'/gi, "''")}", "KOR" : "${example.KOR.replace(/'/gi, "''")}"}`);
           example_html += `
-            <li id="wordbtn_example_${j}" onclick="touch_block_action(document.getElementById('wordbtn_example_${j}_eng')); tts_any(document.getElementById('wordbtn_example_${j}_eng').innerText, 1);">
-              <span id="wordbtn_example_${j}_eng" class="animate__animated"> ${example.ENG} </span>
+            <li id="wordbtn_example_${j}">
+              <div class="animate__animated exam_edit_icon">
+                <i class="fa-solid fa-pen ft7 ftb text_green" data-bs-toggle="modal" data-bs-target="#edit_modal" onclick="zoomin(this); edit_modal1_openbtn_click('second_3box_center', '${word.wordbook_title}', '', '${word.word_id}', '', '', '${j}', '${example.ENG.replace(/'/gi, "$u$")}', '${example.KOR.replace(/'/gi, "$u$")}');"></i>
+                <i class="fa-solid fa-trash-can ft7 ftb text_red" data-bs-toggle="modal" data-bs-target="#remove_confirm" onclick="zoomin(this); remove_modal1_openbtn_click('second_3box_center', '${word.wordbook_title}', '${word.word_id}', '', '${j}', '${example.ENG.replace(/'/gi, "$u$")}');"></i>
+              </div>  
+              <span id="wordbtn_example_${j}_eng" class="animate__animated" onclick="touch_block_action(this); tts_any(this.innerText, 1);">${example.ENG}</span>
               <br>
-              <span>${example.KOR}</span>
+              <span>${example.KOR}</span>                           
             </li>`;    
           j += 1;    
-        }
+        }        
+        console.log(example_json);
       };
-      
+      document.getElementById('example_json').innerText = `[${example_json}]`;
       document.getElementById('word_view1').innerHTML = word_title_html;
       document.getElementById('example_list').innerHTML = example_html; 
       if (results[0].EXAMPLE !== null){

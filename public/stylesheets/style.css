@@ -1352,6 +1352,7 @@ ul {
               padding : 0.5rem 1rem 0.5rem 1rem;							
               text-align : left;
               border-radius: 5px;
+              word-break: break-all;
             }
 
             #second_2box_center .wordlist_wrap .wordlist_main {
@@ -1498,7 +1499,8 @@ ul {
             }
 
             #second_3box_center .contents .word_view {
-
+              margin-top : 1rem;
+              height: 95%;              
             }
 
             #second_3box_center .contents .word_view .word_view_1 {                            
@@ -1518,6 +1520,7 @@ ul {
             #second_3box_center .contents .word_view_1 ul li{
               text-align : left;
               align-items: center;
+              
             }
 
             #second_3box_center .contents .word_view_1 ul li .word_title_collase_icon {              
@@ -1527,14 +1530,14 @@ ul {
             }
 
             #second_3box_center .contents .word_view .word_view_2 {                            
-              width : 85%;
+              width : 85%;              
               margin : auto;
               border-radius: 0.5rem;
             }
 
             #second_3box_center .contents .word_view_2 ul {
               margin : auto;
-              height : 15rem;
+              /* height : 15rem; */
               overflow : scroll;
               padding : 0.5rem 0.5rem 0.5rem 2rem;                                      
             }
@@ -1542,8 +1545,20 @@ ul {
             #second_3box_center .contents .word_view_2 ul li {
               list-style : disc outside none;
               text-align : left;
+              margin-top : 0.5rem;
+              margin-bottom : 0.5rem;
+              border-bottom : 1px solid gray;
             }
 
+            #example_list .exam_edit_icon {
+              float : right;                            
+              padding : 0.5rem;
+              margin-top : 0;
+            }
+
+            #example_list .exam_edit_icon i {
+              padding : 0.5rem;              
+            }
 
             .word_toolbar {
               display : block;    
@@ -1992,6 +2007,94 @@ ul {
   #login_layer_contents_button {
     border-top : 2px solid #00000020;
     padding-top : 10px;
+  }
+
+  #config_layer {      
+    display : none;
+    position : absolute;
+    width : 91.25%;    
+    min-height : 83%;    
+    bottom : 0%;
+    background-color: white;
+    justify-content: space-between;  
+    padding : 1rem 2rem 1rem 2rem;
+    margin-bottom : 1.5rem;    
+    border : 1px solid #00000020;
+    
+    border-radius: 10px;    
+    margin-left : 4.4%;
+    margin-right : 4.4%;        
+    z-index : 10;    
+  }   
+
+  #config_layer_contents_user{
+    display : flex;    
+    margin-bottom : 1rem;
+  }
+
+  #config_layer_contents_user .user_image_layer{
+    width : 20%;
+    margin-bottom : 10px;    
+  }
+
+  #config_layer_contents_user_image {        
+    height : 5rem;
+    width : 5rem;
+    margin : auto;    
+    text-align : center;    
+    
+    background-color: cornsilk;  
+    border : 3px solid gray;
+    border-radius: 50%;      
+    
+  }
+  
+  #config_layer_contents_user_image i {    
+    color :gray;    
+  }
+  
+  #config_layer_contents_user_image img {
+    object-fit: contain;
+  }
+
+  #config_layer_contents_user_info {
+    margin-left : 2rem;
+  }
+
+  #config_layer_contents_button {
+    border-top : 2px solid #00000020;
+    padding-top : 10px;
+    padding-bottom : 10px;
+  }
+
+  #config_layer_details {
+    border-top : 2px solid #00000020;
+    padding-top : 10px;
+    padding-bottom : 10px;
+  }
+
+  #config_layer_details .config_dictionary {
+    padding-top : 10px;
+    padding-bottom : 10px;    
+    margin-bottom : 30px;
+  }
+
+  #config_layer_details .config_tts_default {
+    padding-top : 10px;
+    padding-bottom : 10px;
+  }
+
+  #config_layer_details .config_tts_slow {
+    padding-top : 10px;
+    padding-bottom : 10px;
+  }
+
+  .config_layer_bottom_button {
+    margin-top : 30px;
+    border-top : 2px solid #00000020;
+    padding-top : 10px;
+    padding-bottom : 10px;
+    border-bottom : 2px solid #00000020;
   }
 
 

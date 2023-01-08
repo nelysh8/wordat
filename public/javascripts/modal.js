@@ -2,7 +2,8 @@
 
 function modal1_openbtn_click(position) {
     console.log('modal1_openbtn_click start');
-    var table_name = `Tables_in_${getCookie("client_ID").replace(/%24/gi, '$')}`;
+    var client_ID = getCookie("client_ID");
+    var table_name = `Tables_in_${getCookie("client_ID")}`;
 
     var req_pos = position;  
     var wim_title = document.getElementById('wim_title');
@@ -10,108 +11,164 @@ function modal1_openbtn_click(position) {
     var dropdown_menu = document.getElementById("wim_dropdown_wordbook");
     var dropdown_button = document.getElementById("wim_dropdown_btn");  
     var selected_wordbook = dropdown_button.innerText;  
-    var pre_selected_wordbook = document.getElementById("pre_selected_wordbook").innerText;
+    var pre_selected_wordbook = getCookie("pre_selected_wordbook");
     
     var word_id = '';
-  
-    if (req_pos === 'mainbox_center') {
-      console.log('mainbox modal1 starting');
-      wim_title.innerText = 'Add words to the wordbook';                
-      document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('mainbox_center')");
-      document.getElementById("toggle_row").style.display = 'block';    
-  
-      document.getElementById("wim_input_eng").value = document.getElementById('Sres_ENG').innerText;
-      document.getElementById("wim_input_kor").value = document.getElementById('Sres_KOR').innerText;    
-        
-      fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{              
-        console.log('dropdown creating');
-        
-        for (let result of results){
-          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result[table_name])}</a></li>`;
-        };
-        dropdown_menu.innerHTML = dropdown_list;   
-        console.log(results.length, selected_wordbook);
-        if ((selected_wordbook === '') && (results.length === 0)) {        
-          dropdown_button.innerText = 'create' ;
-          // selected_wordbook !!!!!! 워드북 만드는 화면으로
-        } else if ((selected_wordbook === '') && (results.length === 1)) {
-          dropdown_button.innerText = table_name_recover(results[0][table_name]);
-        } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (table_name_recover(results).includes(pre_selected_wordbook))){              
-          dropdown_button.innerText = pre_selected_wordbook;      
-        } 
-      });      
-    } 
-    else if (req_pos === 'second_2box_center'){
-      console.log('second_2box modal1 starting');
-      wim_title.innerText = 'Add words to the wordbook';    
-      selected_wordbook = document.getElementById('s2_wordbook_title').innerText;
-      console.log(selected_wordbook);
-      document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('second_2box_center');"); 
-      document.getElementById("toggle_row").style.display = 'block';
-  
-      fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{              
-        console.log('dropdown creating');
-        console.log(results);
-        i=0;
-        j=0;
-        for (let result of results){
-          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result[table_name])}</a></li>`;
-          if (selected_wordbook === table_name_recover(result[table_name])) { i+=1;};
-          if (pre_selected_wordbook === table_name_recover(result[table_name])) {j+=1;};
-        };
-        dropdown_menu.innerHTML = dropdown_list;         
-        
-        if ((selected_wordbook !== '') && (i > 0)) {
-          console.log('this?');
-          dropdown_button.innerText = selected_wordbook;          
-        } else if ((selected_wordbook === '') && (results.length === 1)) {
-          dropdown_button.innerText = results[0][table_name];
-        } else if ((pre_selected_wordbook !== '') && (results.length > 0) && (j>0)) {
-          dropdown_button.innerText = pre_selected_wordbook;      
-        };
-      });
-    } 
+
+    var token = getCookie('authorize-access-token');    
+    det_login(token, 'execute')
+    .then((data)=>{    
+
+      if (req_pos === 'mainbox_center') {
+        console.log('mainbox modal1 starting');
+        wim_title.innerText = 'Add words to the wordbook';                
+        document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('mainbox_center')");
+        document.getElementById("toggle_row").style.display = 'block';    
     
-    else if (req_pos === 'second_3box_center'){
-      console.log('second_3box modal1 starting');
-      wim_title.innerText = 'Add examples to the word';
-      selected_wordbook = document.getElementById('s2_wordbook_title').innerText;
-      word_id = document.getElementById('s3_word_id').innerText;
-      document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('second_3box_center');")
-  
-      document.getElementById("wim_input_eng").value = document.getElementById('wtrv_ENG').innerText;
-      document.getElementById("wim_input_kor").value = document.getElementById('wtrv_KOR').innerText;    
+        document.getElementById("wim_input_eng").value = document.getElementById('Sres_ENG').innerText;
+        document.getElementById("wim_input_kor").value = document.getElementById('Sres_KOR').innerText;    
+          
+        fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{              
+          console.log('dropdown creating');
+          var table_list = [];
+          
+          for (let result of results){
+            dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result.TABLE_NAME)}</a></li>`;
+            table_list.push(table_name_recover(result.TABLE_NAME));
+          };
+          dropdown_menu.innerHTML = dropdown_list;   
+          console.log(results.length, selected_wordbook);
+          if ((selected_wordbook === '') && (results.length === 0)) {                  
+            // alert("단어장이 없습니다.");            
+            document.getElementById('info_alert_contents_title').innerText = '단어장이 없습니다.';
+            document.getElementById('info_alert_contents_explain').innerText = '단어장부터 만들어보세요.';
+            document.getElementById('info_alert_btn').onclick= function(){
+              zoomin(this); 
+              document.getElementById('second_1box_bottom_line').click();
+            };            
+            document.getElementById('call_info_alert_modal').click();          
+          } else if ((selected_wordbook === '') && (results.length === 1)) {
+            dropdown_button.innerText = table_name_recover(results[0].TABLE_NAME);
+            setCookie('pre_selected_wordbook', dropdown_button.innerText);
+          } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (table_list.includes(pre_selected_wordbook))){              
+            dropdown_button.innerText = pre_selected_wordbook;      
+            setCookie('pre_selected_wordbook', dropdown_button.innerText);
+          } 
+        });     
+
+      } 
+      else if (req_pos === 'second_2box_center'){
+        console.log('second_2box modal1 starting');
+        wim_title.innerText = 'Add words to the wordbook';    
+        selected_wordbook = document.getElementById('s2_wordbook_title').innerText;
+        console.log(selected_wordbook);
+        document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('second_2box_center');"); 
+        document.getElementById("toggle_row").style.display = 'block';
+    
+        fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{              
+          console.log('dropdown creating');
+          var table_list = [];
+          
+          for (let result of results){
+            dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result.TABLE_NAME)}</a></li>`;
+            table_list.push(table_name_recover(result.TABLE_NAME));
+          };
+          dropdown_menu.innerHTML = dropdown_list;   
+          console.log(results.length, selected_wordbook);
+          if ((selected_wordbook === '') && (results.length === 0)) {                  
+            // alert("단어장이 없습니다.");            
+            document.getElementById('info_alert_contents_title').innerText = '단어장이 없습니다.';
+            document.getElementById('info_alert_contents_explain').innerText = '단어장부터 만들어보세요.';
+            document.getElementById('info_alert_btn').onclick= function(){
+              zoomin(this); 
+              document.getElementById('second_1box_bottom_line').click();
+            };            
+            document.getElementById('call_info_alert_modal').click();          
+          } else if ((selected_wordbook === '') && (results.length === 1)) {
+            dropdown_button.innerText = table_name_recover(results[0].TABLE_NAME);
+            setCookie('pre_selected_wordbook', dropdown_button.innerText);
+          } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (table_list.includes(pre_selected_wordbook))){              
+            dropdown_button.innerText = pre_selected_wordbook;      
+            setCookie('pre_selected_wordbook', dropdown_button.innerText);
+          } 
+          // console.log('dropdown creating');
+          // console.log(results);
+          // i=0;
+          // j=0;
+          // for (let result of results){
+          //   dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result.TABLE_NAME)}</a></li>`;
+          //   if (selected_wordbook === table_name_recover(result.TABLE_NAME)) { i+=1;};
+          //   if (pre_selected_wordbook === table_name_recover(result.TABLE_NAME)) {j+=1;};
+          // };
+          // dropdown_menu.innerHTML = dropdown_list;         
+          
+          // if ((selected_wordbook !== '') && (i > 0)) {
+          //   console.log('this?');
+          //   dropdown_button.innerText = selected_wordbook;          
+          // } else if ((selected_wordbook === '') && (results.length === 1)) {
+          //   dropdown_button.innerText = results[0].TABLE_NAME;
+          // } else if ((pre_selected_wordbook !== '') && (results.length > 0) && (j>0)) {
+          //   dropdown_button.innerText = pre_selected_wordbook;      
+          // };
+        });
+      } 
       
-      document.getElementById("toggle_row").style.display = 'none';
-    }
-  
-    else if (req_pos === 'third_1box_center') {
-      console.log('mainbox modal1 starting');
-      wim_title.innerText = 'Add words to the wordbook';                
-      document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('third_1box_center')");
-      document.getElementById("toggle_row").style.display = 'block';    
-  
-      document.getElementById("wim_input_eng").value = document.getElementById('t1_box_Sres_ENG').innerText;
-      document.getElementById("wim_input_kor").value = document.getElementById('t1_box_Sres_KOR').innerText;    
+      else if (req_pos === 'second_3box_center'){
+        console.log('second_3box modal1 starting');
+        wim_title.innerText = 'Add examples to the word';
+        selected_wordbook = document.getElementById('s2_wordbook_title').innerText;
+        word_id = document.getElementById('s3_word_id').innerText;
+        document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('second_3box_center');")
+    
+        document.getElementById("wim_input_eng").value = document.getElementById('wtrv_ENG').innerText;
+        document.getElementById("wim_input_kor").value = document.getElementById('wtrv_KOR').innerText;    
         
-      fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{              
-        console.log('dropdown creating');
-        
-        for (let result of results){
-          dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result[table_name])}</a></li>`;
-        };
-        dropdown_menu.innerHTML = dropdown_list;   
-        console.log(results.length, selected_wordbook);
-        if ((selected_wordbook === '') && (results.length === 0)) {        
-          dropdown_button.innerText = 'create' ;
-          // selected_wordbook !!!!!! 워드북 만드는 화면으로
-        } else if ((selected_wordbook === '') && (results.length === 1)) {
-          dropdown_button.innerText = results[0][table_name];
-        } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (results.includes(pre_selected_wordbook))){              
-          dropdown_button.innerText = pre_selected_wordbook;      
-        } 
-      });      
-    } 
+        document.getElementById("toggle_row").style.display = 'none';
+      }
+    
+      else if (req_pos === 'third_1box_center') {
+        console.log('mainbox modal1 starting');
+        wim_title.innerText = 'Add words to the wordbook';                
+        document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('third_1box_center')");
+        document.getElementById("toggle_row").style.display = 'block';    
+    
+        document.getElementById("wim_input_eng").value = document.getElementById('t1_box_Sres_ENG').innerText;
+        document.getElementById("wim_input_kor").value = document.getElementById('t1_box_Sres_KOR').innerText;    
+          
+        fetch("/wordbook", {method : 'post'}).then((response)=>response.json()).then((results)=>{              
+          console.log('dropdown creating');
+          var table_list = [];
+          
+          for (let result of results){
+            dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result.TABLE_NAME)}</a></li>`;
+            table_list.push(table_name_recover(result.TABLE_NAME));
+          };
+          dropdown_menu.innerHTML = dropdown_list;   
+          console.log(results.length, selected_wordbook);
+          if ((selected_wordbook === '') && (results.length === 0)) {                  
+            // alert("단어장이 없습니다.");            
+            document.getElementById('info_alert_contents_title').innerText = '단어장이 없습니다.';
+            document.getElementById('info_alert_contents_explain').innerText = '단어장부터 만들어보세요.';
+            document.getElementById('info_alert_btn').onclick= function(){
+              zoomin(this); 
+              document.getElementById('second_1box_bottom_line').click();
+            };            
+            document.getElementById('call_info_alert_modal').click();          
+          } else if ((selected_wordbook === '') && (results.length === 1)) {
+            dropdown_button.innerText = table_name_recover(results[0].TABLE_NAME);
+            setCookie('pre_selected_wordbook', dropdown_button.innerText);
+          } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (table_list.includes(pre_selected_wordbook))){              
+            dropdown_button.innerText = pre_selected_wordbook;      
+            setCookie('pre_selected_wordbook', dropdown_button.innerText);
+          } 
+        });                
+      } 
+
+    })
+    .catch((data)=>{
+      console.log('promise error');
+      console.log(data);
+    })
   }
   
   function dropdown_wordbooklist_click(obj){
@@ -128,8 +185,12 @@ function modal1_openbtn_click(position) {
   function wim_submit_btn_click(position){  
     console.log('wim_submit_btn_click start : position : ' + position);
     var req_pos = position;  
+    var dropdown_button = document.getElementById("wim_dropdown_btn");
+
     if (req_pos === 'mainbox_center'){
       console.log(req_pos + ': wim_submit_btn_click start');
+      setCookie('pre_selected_wordbook', dropdown_button.innerText);
+
       var word = {
         'wordbook_title' : table_name_trim(document.getElementById('wim_dropdown_btn').innerText), 
         'eng' : document.getElementById('wim_input_eng').value, 
@@ -158,7 +219,7 @@ function modal1_openbtn_click(position) {
         'wordbook_title' : table_name_trim(document.getElementById('s2_wordbook_title').innerText),
         'word_id' : document.getElementById('s3_word_id').innerText,
         'exam_eng' : exam_eng, 
-        'exam_kor' : document.getElementById('wim_input_kor').value
+        'exam_kor' : document.getElementById('wim_input_kor').value.replace(/'/gi, "''")
       };
       console.log(word);
       fetch("/wordbook/exam/add", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(word)}).then((response)=>response.json()).then((results)=>{
@@ -167,6 +228,8 @@ function modal1_openbtn_click(position) {
       word_reading(table_name_recover(document.getElementById('s3_word_id').innerText),'');  
     } else if (req_pos === 'third_1box_center'){
       console.log(req_pos + ': wim_submit_btn_click start');
+      setCookie('pre_selected_wordbook', dropdown_button.innerText);
+
       var word = {
         'wordbook_title' : table_name_trim(document.getElementById('wim_dropdown_btn').innerText), 
         'eng' : document.getElementById('wim_input_eng').value, 
@@ -192,19 +255,28 @@ function modal1_openbtn_click(position) {
     
     if (req_pos === 'second_1box_center'){
       console.log('second_1box remove_modal1 starting');
-      confirm_text.innerText = `remove wordbook[${wb_title}]`;
+      confirm_text.innerHTML = `
+        <p><span class="ft5 ftbb text_red">remove wordbook</span></p>
+        <p><span class="ft7 ftbb">[${wb_title}]</span></p>
+      `;
       document.getElementById("remove_btn").setAttribute('onclick', `remove_btn_click('${req_pos}', '${wb_title}');`);     
     } 
     
     else if (req_pos === 'second_2box_center'){
       console.log('second_2box remove_modal1 starting');
-      confirm_text.innerText = `remove word[${word}]`;
+      confirm_text.innerHTML = `
+        <p><span class="ft5 ftbb text_red">remove word</span></p>
+        <p><span class="ft7 ftbb">[${word}]</span></p>
+      `;      
       document.getElementById("remove_btn").setAttribute('onclick', `remove_btn_click('${req_pos}', '${wb_title}', '${wd_id}');`);     
     } 
     
     else if (req_pos === 'second_3box_center'){
       console.log('second_3box remove_modal1 starting');
-      confirm_text.innerText = `remove example[${exam}]`;        
+      confirm_text.innerHTML = `
+        <p><span class="ft5 ftbb text_red">remove example</span></p>
+        <p><span class="ft7 ftbb">[${exam.replace(/\$u\$/gi, "'")}]</span></p>
+      `;            
       document.getElementById("remove_btn").setAttribute('onclick', `remove_btn_click('${req_pos}', '${wb_title}', '${wd_id}', '${ex_id}');`);    
     }
   }
@@ -233,6 +305,11 @@ function modal1_openbtn_click(position) {
     }
     
     else if (req_pos === 'second_3box_center'){
+      var post_text = {wordbook_title : wb_title, word_id : wd_id, exam_id : ex_id, exam_json : document.getElementById('example_json').innerText};
+      await fetch("/wordbook/exam/remove/", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(post_text)}).then((response)=>response.json()).then((results)=>{
+        console.log(results);
+      })
+      word_reading(wd_id, );
     }
     
   }
@@ -250,7 +327,10 @@ function modal1_openbtn_click(position) {
     var ex_id = exam_id;
     var ex_eng = exam_eng;
     var ex_kor = exam_kor;
+    var ex_json = document.getElementById('example_json').innerText;
     var title_text = document.getElementById('edit_modal_title');    
+
+    console.log(ex_json);
     
     if (req_pos === 'second_1box_center'){
       console.log('second_1box edit_modal1 starting');
@@ -296,11 +376,11 @@ function modal1_openbtn_click(position) {
       document.getElementById("edit_wd_eng_div").style.display = 'none';
       document.getElementById("edit_wd_kor_div").style.display = 'none';
       document.getElementById("edit_ex_eng_div").style.display = '';
-      document.getElementById("edit_ex_eng_text").placeholder = ex_eng;
-      document.getElementById("edit_ex_eng_text").value = ex_eng;
+      document.getElementById("edit_ex_eng_text").placeholder = ex_eng.replace(/\$u\$/gi, "'");
+      document.getElementById("edit_ex_eng_text").value = ex_eng.replace(/\$u\$/gi, "'");
       document.getElementById("edit_ex_kor_div").style.display = '';
-      document.getElementById("edit_ex_kor_text").placeholder = ex_kor;
-      document.getElementById("edit_ex_kor_text").value = ex_kor;
+      document.getElementById("edit_ex_kor_text").placeholder = ex_kor.replace(/\$u\$/gi, "'");
+      document.getElementById("edit_ex_kor_text").value = ex_kor.replace(/\$u\$/gi, "'");
 
       document.getElementById("edit_btn").setAttribute('onclick', `edit_btn_click('${req_pos}', '${wb_title}', '${wd_id}', '${ex_id}');`);    
     }
@@ -313,6 +393,7 @@ function modal1_openbtn_click(position) {
     var wb_hashtag = document.getElementById("edit_wb_hashtag_text").value;
     var wd_id = word_id;    
     var ex_id = exam_id;
+    var ex_json = document.getElementById('example_json').innerText;
     
     if (req_pos === 'second_1box_center'){
       var post_text = {oldtitle : table_name_trim(wb_title), newtitle : table_name_trim(document.getElementById('edit_wb_title_text').value), hashtag : wb_hashtag};      
@@ -332,8 +413,15 @@ function modal1_openbtn_click(position) {
     }
     
     else if (req_pos === 'second_3box_center'){
-    }
-    
+      var post_text = {wordbook_title : table_name_trim(wb_title), word_id : wd_id, exam_id : ex_id, exam_eng : document.getElementById("edit_ex_eng_text").value, exam_kor : document.getElementById("edit_ex_kor_text").value, exam_json : ex_json};      
+      console.log(document.getElementById("edit_ex_eng_text").value, document.getElementById("edit_ex_kor_text").value);
+      console.log(ex_json);
+      console.log(JSON.parse(ex_json));
+      await fetch("/wordbook/exam/edit/", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(post_text)}).then((response)=>response.json()).then((results)=>{
+        console.log(results);
+      })
+      word_reading(wd_id, );
+    }    
   }
 
   

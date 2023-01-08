@@ -330,23 +330,27 @@
           document.querySelector('i.fa-arrow-rotate-left').classList.add('text_whiteoutline');
           document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.add('text_grey');
         } else if (btn_number === 2) {
-          document.querySelector('i.fa-book-open').classList.remove('text_whiteoutline');
-          document.querySelector('i.fa-book-open:only-of-type').classList.remove('text_grey');
-          document.querySelector('i.fa-house').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');          
-          document.querySelector('i.fa-gear').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-gear:only-of-type').classList.add('text_grey');          
-          document.querySelector('i.fa-arrow-rotate-left').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.add('text_grey');
+          if (second_1box_center.style.display === 'none') {
+            document.querySelector('i.fa-book-open').classList.remove('text_whiteoutline');
+            document.querySelector('i.fa-book-open:only-of-type').classList.remove('text_grey');
+            document.querySelector('i.fa-house').classList.add('text_whiteoutline');
+            document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');          
+            document.querySelector('i.fa-gear').classList.add('text_whiteoutline');
+            document.querySelector('i.fa-gear:only-of-type').classList.add('text_grey');          
+            document.querySelector('i.fa-arrow-rotate-left').classList.add('text_whiteoutline');
+            document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.add('text_grey');
+          }          
         } else if (btn_number === 4) {          
-          document.querySelector('i.fa-gear').classList.remove('text_whiteoutline');
-          document.querySelector('i.fa-gear:only-of-type').classList.remove('text_grey');     
-          document.querySelector('i.fa-house').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');
-          document.querySelector('i.fa-book-open').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-book-open:only-of-type').classList.add('text_grey');          
-          document.querySelector('i.fa-arrow-rotate-left').classList.add('text_whiteoutline');
-          document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.add('text_grey');
+          if (config_layer.style.display === 'none') {
+            document.querySelector('i.fa-gear').classList.remove('text_whiteoutline');
+            document.querySelector('i.fa-gear:only-of-type').classList.remove('text_grey');     
+            document.querySelector('i.fa-house').classList.add('text_whiteoutline');
+            document.querySelector('i.fa-house:only-of-type').classList.add('text_grey');
+            document.querySelector('i.fa-book-open').classList.add('text_whiteoutline');
+            document.querySelector('i.fa-book-open:only-of-type').classList.add('text_grey');          
+            document.querySelector('i.fa-arrow-rotate-left').classList.add('text_whiteoutline');
+            document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.add('text_grey');
+          }
         } else if (btn_number === 5) {
           document.querySelector('i.fa-arrow-rotate-left').classList.remove('text_whiteoutline');
           document.querySelector('i.fa-arrow-rotate-left:only-of-type').classList.remove('text_grey');
@@ -365,6 +369,8 @@
             wordbook_close();
           } else if (third_1box_center.style.display !== 'none') {
             third_1box_close();
+          } else if (config_layer.style.display !== 'none') {
+            config_layer_close();
           }
         }         
         
@@ -415,7 +421,7 @@
               obj.classList.toggle('animate__zoomIn'); 
             }       
 
-          } else {
+          } else if (document.getElementById('mainbox_center').style.display !== 'none') {
             if (document.getElementById('searchbar').style.display === 'none') {
               document.querySelector('i.fa-star').classList.remove('text_whiteoutline');
               document.querySelector('i.fa-star:only-of-type').classList.remove('text_grey');

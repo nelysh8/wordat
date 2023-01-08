@@ -15,6 +15,7 @@ const second_2box_center = document.getElementById('second_2box_center');
 const second_2box_contents = document.getElementById('second_2box_contents');
 const second_3box_center = document.getElementById('second_3box_center');
 const third_1box_center = document.getElementById('third_1box_center');
+const config_layer = document.getElementById('config_layer');
 
 // Setting
 const selected_wordbook = '';
@@ -192,8 +193,8 @@ add_wordbook_title.addEventListener('keyup', () => {
     wordbook_input_btn.setAttribute('data-bs-dismiss', '');
     wordbook_input_btn.setAttribute('onclick', '');
   }
-  else if (input_text.length !== input_text.replace(/[`~@$%^*()_|+\-=?;:'",<>\{\}\[\]\\]/gim, '').length){
-    wordbook_input_exp.innerText = '특수문자는 [" ", ".", "!", "#", "&", "/"] 외에는 입력할 수 없어요.';    
+  else if (input_text.length !== input_text.replace(/[`~@$%^*()_|+\-=?;:",<>\{\}\[\]\\]/gim, '').length){
+    wordbook_input_exp.innerText = `특수문자는 [" ", ".", "!", "#", "&", "/", "'"] 외에는 입력할 수 없어요.`;    
     wordbook_input_btn.setAttribute('data-bs-dismiss', '');
     wordbook_input_btn.setAttribute('onclick', '');
   }
@@ -222,8 +223,8 @@ edit_wb_title_text.addEventListener('keyup', () => {
     edit_btn.setAttribute('data-bs-dismiss', '');
     edit_btn.setAttribute('onclick', '');
   }
-  else if (input_text.length !== input_text.replace(/[`~@$%^*()_|+\-=?;:'",<>\{\}\[\]\\]/gim, '').length){
-    edit_wb_input_exp.innerText = '특수문자는 [" ", ".", "!", "#", "&", "/"] 외에는 입력할 수 없어요.';    
+  else if (input_text.length !== input_text.replace(/[`~@$%^*()_|+\-=?;:",<>\{\}\[\]\\]/gim, '').length){
+    edit_wb_input_exp.innerText = `특수문자는 [" ", ".", "!", "#", "&", "/", "'"] 외에는 입력할 수 없어요.`;    
     edit_btn.setAttribute('data-bs-dismiss', '');
     edit_btn.setAttribute('onclick', '');
   }
@@ -447,4 +448,21 @@ function popup_tool(position){
 }
 
 
+function config_chg(){
+  var client_id = getCookie('client_ID');
+  var default_dict = document.getElementById('default_dict').value;
+  var tts_def = document.getElementById('tts_speed_def').value;
+  var tts_slow = document.getElementById('tts_speed_slow').value;
+  
+  
+  console.log(default_dict, tts_def, tts_slow);
+  
+  var config_cookie = {id : client_id, config : `dict[${default_dict}]/tts_def[${tts_def}]/tts_slow[${tts_slow}]/`};
 
+  fetch("/config", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(config_cookie)}).then((response)=>response.json()).then((results)=>{
+    console.log(results);    
+    var con = get_config_cookie();
+    console.log(con);      
+  })  
+
+}

@@ -778,7 +778,7 @@ app.post('/kakaoLogin/signup', function (req, res, next) {
       console.log('새 회원입니다');
       console.log(client_ID_chg);
       var signup_sql = `
-        INSERT INTO client_list (client_ID, signup_date, signin_date, signin_num) VALUE ('${client_ID}', '${time}', '${time}', 1);        
+        INSERT INTO client_list (client_ID, signup_date, signin_date, signin_num, CONFIG) VALUE ('${client_ID}', '${time}', '${time}', 1, 'dict[1]/tts_def[50]/tts_slow[25]');        
         SELECT * FROM client_list;
       `;      
       var create_database_sql = `
@@ -792,23 +792,32 @@ app.post('/kakaoLogin/signup', function (req, res, next) {
       auth_conn.query(signup_sql, function(err, results){
         results_msg.push(results);
         root_conn.query(create_database_sql, function(err, results){
-          results_msg.push(results);
-          res.json(results_msg);      
+          res.clearCookie('wa_config');
+          res.cookie('wa_config', 'dict[1]/tts_def[50]/tts_slow[25]');    
+          results_msg.push(results);          
+          res.json(results_msg);  
         });
       });
     } else {
       console.log('기존 회원입니다');
-      var signin_sql = `UPDATE client_list} SET signin_date = '${time}', signin_num = signin_num + 1 WHERE client_ID = '${client_ID}'`;
-      root_conn.query(signin_sql, function(err, results){
+      var signin_sql = `
+        UPDATE client_list SET signin_date = '${time}', signin_num = signin_num + 1 WHERE client_ID = '${client_ID}';
+        SELECT * FROM client_list WHERE client_ID = '${client_ID}';
+      `;
+      auth_conn.query(signin_sql, function(err, results){        
         results_msg.push(results);
-        res.json(results_msg);      
+        res.clearCookie('wa_config');  
+        res.cookie('wa_config', results_msg[0][1][0].CONFIG);          
+        console.log(JSON.stringify(results_msg));
+        console.log(results_msg[0][1][0].CONFIG);
+        res.json(results_msg);              
       });
     }
   })  
 });
 
 app.post('/kakaoLogin/unsub', function (req, res, next) {
-  var client_ID = req.body.id  
+  var client_ID = req.body.id;
   var sql = `
     DROP DATABASE ${client_ID};
     DELETE FROM auth.client_list WHERE client_ID = '${client_ID}';
@@ -817,6 +826,23 @@ app.post('/kakaoLogin/unsub', function (req, res, next) {
     res.json(results);      
   });
 })
+
+
+app.post('/config', function (req, res, next) {
+  var client_ID = req.body.id;
+  var config_cookie = req.body.config;
+  var sql = `
+    UPDATE auth.client_list SET CONFIG = '${config_cookie}' WHERE client_ID = '${client_ID}';
+  `;
+
+  root_conn.query(sql, function(err, results){    
+    res.clearCookie('wa_config');  
+    res.cookie('wa_config', config_cookie);    
+    res.json(results);      
+  });
+})
+
+
 // var request_info = require('request');
 
 //       request_info.post(req_client_info, function (error, response, body) {

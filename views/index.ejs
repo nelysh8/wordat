@@ -257,6 +257,7 @@
           <div class="word_view_1" id="word_view1">
           </div>              
           <div class="word_view_2">
+            <span id="example_json" style="display:none;"></span>
             <div class="collapse word_view_collapse ft9" id="word_view_collapse">                  
               <ul id="example_list">                    
               </ul>
@@ -368,6 +369,58 @@
       </div>
 
     </div>
+    <!-- config -->
+
+    <div class="container-fluid config_layer shadow-sm animate__animated" id="config_layer" style="display:none;">      
+      <div class="config_layer_contents_user" id="config_layer_contents_user">
+        <div class="config_layer_user_image_layer">
+          <div class="config_layer_contents_user_image" id="config_layer_contents_user_image" style="display:none;">
+
+          </div> 
+        </div>
+        <div class="config_layer_contents_user_info" id="config_layer_contents_user_info">
+          
+        </div>        
+      </div>
+      <div class="config_layer_contents_button" id="config_layer_contents_button">
+
+      </div>        
+      <div class="config_layer_details" id="config_layer_details">
+        <div class="config_dictionary ft_noto">
+          <select id="default_dict" class="form-select form-select-lg" aria-label="Default select example" style="border : 2px solid firebrick;" value="1">
+            <!-- <option selected>기본 영어사전을 선택해주세요.</option> -->
+            <option value="1">Cambridge 영영사전</option>
+            <option value="2">Naver 영어사전</option>
+            <option value="3">Etymonline 어원사전</option>
+          </select>
+        </div>
+        <div class="config_tts_default ft9 ft_noto">
+          <label for="tts_speed_def" class="form-label">영어 음성재생 기본속도(0-100) / (기본 : 50)</label>
+          <input type="range" class="form-range" id="tts_speed_def" value="50">
+        </div>
+        <div class="config_tts_slow ft9 ft_noto">
+          <label for="tts_speed_slow" class="form-label">영어 음성재생 느린속도(0-100) / (기본 : 25)</label>
+          <input type="range" class="form-range" id="tts_speed_slow" value="25">
+        </div>
+        <div class="config_layer_bottom_button">
+          <div style="display:flex; width:100%; height:100%;">
+            <div style="width:50%;"></div>                  
+            <div class="animate__animated" style="margin : auto;">        
+              <ul class="animate__animated" style="text-align:center; padding : auto; margin-bottom : 0%;" onclick="zoomin(this); config_chg();">
+                <li><i class="fa-solid fa-check text_red ft6 ftbb"></i>                   
+                <li><span class="ft10"> 변경 </span></li>
+              </ul>
+            </div>
+            <div class="animate__animated" style="margin : auto;">
+              <ul class="animate__animated" style="text-align:center; padding : auto; margin-bottom : 0%; border-left : 1px solid gray;" onclick="zoomin(this); config_layer_close(); vis(mainbox_center);">
+                <li><i class="fa-solid fa-xmark text_red ft6 ftbb"></i></li>                
+                <li><span class="ft10"> 취소 </span></li>
+              </ul>                             
+            </div>                                                    
+          </div> 
+        </div>
+      </div>
+    </div>
 
     <!-- loading_layer -->
     <div class="container-fluid loading_layer animate__animated" id="loading_layer">
@@ -381,13 +434,13 @@
 <!-- foot bar -->
 
   <div class="footbar animate__animated" id="footbar">
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close(); third_1box_close();">      
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close(); third_1box_close(); config_close();">      
       <ul>
         <li><i class="fa-solid fa-house ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Home </span></li>
       </ul>      
     </div>        
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 2); wordbook_reading('initial');">        
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 2); wordbook_reading('initial'); third_1box_close(); config_close();">        
       <ul>
         <li><i class="fa-solid fa-book-open ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Wordbook </span></li>
@@ -399,7 +452,7 @@
         <li><span class="ft10"> Search </span></li>
       </ul>             
     </div>
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4);">
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4); config_layer_open(); wordbook_close(); third_1box_close();">
       <ul>
         <li><i class="fa-solid fa-gear ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Setting </span></li>
@@ -407,7 +460,7 @@
     </div>
     <div class="footbar_menu animate__animated">
       <ul>
-        <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_whiteoutline" onclick="click_footbar(this, 5);""></i></li>
+        <li><i class="fa-solid fa-arrow-rotate-left ft7 ftbb text_whiteoutline" onclick="click_footbar(this, 5);"></i></li>
         <li><span class="ft10"> Back </span></li>
       </ul>
     </div>
@@ -436,7 +489,7 @@
 <!-- 1-1. word input modal -->
 <div id="word_input_modal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+    <div class="modal-content" style="border-radius : 10px;">
       <div class="modal-header">
         <div class="row">
           <span class="ft5 ftbb" id="wim_title">Add words to the wordbook</span>
@@ -465,7 +518,7 @@
         </div>                                      
         <div class="modal-footer">                        
           <button id="wim_sumbit_btn" type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="wim_submit_btn_click();"> ADD </button>
-          <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
+          <button id="wim_cancel_btn" type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
         </div>                    
       </div>                
     </div>
@@ -474,7 +527,7 @@
 <!-- 1-2. word input modal(type2) -->
 <div id="wordbook_add_modal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+    <div class="modal-content" style="border-radius : 10px;">
       <div class="modal-header">                
         <span class="ft5 ftbb">Add wordbook</span>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -502,7 +555,7 @@
 <!-- 1-3 edit modal -->
 <div id="edit_modal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
+      <div class="modal-content" style="border-radius : 10px;">
           <div class="modal-header">                
               <span class="ft5 ftbb" id="edit_modal_title">Edit wordbook</span>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -550,9 +603,9 @@
 <!-- 2-1 Remove confirm modal -->
 <div id="remove_confirm" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">                              
-      <div class="modal-body">
-        <span id="confirm_text" class="ft5 ftbb">정말 삭제하시겠습니까?</span>
+    <div class="modal-content" style="border-radius : 10px;">                              
+      <div class="modal-body" id="confirm_text" style="word-break: break-all;">
+        <span class="ft5 ftbb">정말 삭제하시겠습니까?</span>
       </div>
       <div class="modal-footer" style="border:none;">
         <button id="remove_btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="remove_modal1_openbtn_click();">CONFIRM</button>
@@ -565,7 +618,7 @@
 <!-- 2-2 탈퇴 confirm modal -->
 <div id="unsub_confirm" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">                              
+    <div class="modal-content" style="border-radius : 10px;">                              
       <div class="modal-body">
         <p style="border-radius: 10px; padding : 0.5rem 1rem 0.5rem 1rem; background-color: #b22222; color:white;"><span id="unsub_confirm_text" class="ft5 ftbb ft_noto">WordAT에서 탈퇴합니다.</span></p>
         <p style="margin-left : 1.5rem; margin-right : 1.5rem; text-align: justify;"><span class="ft8 ft_underbar ft_noto">서버에 저장된 카카오톡 회원식별번호 및 단어장 모두 삭제됩니다.</span></p>
@@ -577,6 +630,28 @@
     </div>
   </div>
 </div>
+
+
+<!-- 3-1. 알림 alert modal -->
+<button type="button" id="call_info_alert_modal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#info_alert_modal" style="display:none;"></button>
+<div id="info_alert_modal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius : 10px;">            
+      <div class="modal-body">
+        <p id="info_alert_contents_title" class="ft_noto ft5 ftbb text_red" style="padding : 0.5rem 1rem 0.5rem 1rem;">          
+        </p>        
+        <p class="ft_noto ft8 ft" style="margin-left : 1.5rem; margin-right : 1.5rem; text-align: justify;">
+          <span id="info_alert_contents_explain" class="ft8 ft_noto"></span></p>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button id="info_alert_btn" type="button" class="btn bg-success ft_noto ft8 ft text_white" data-bs-dismiss="modal">CONFIRM</button>      
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
   <!-- script -->
 

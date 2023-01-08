@@ -237,6 +237,66 @@ router.post('/exam/add/', function (req, res, next) {
     });
 });
 
+// EXAM REMOVE
+
+router.post('/exam/remove/', function (req, res, next) {        
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
+
+    console.log('remove exam');
+    var wordbook_title = req.body.wordbook_title;    
+    var word_id = req.body.word_id;           
+    var exam_id = req.body.exam_id;
+    var exam_json = req.body.exam_json;
+    var exam_json_parse = JSON.parse(exam_json);
+    exam_json_parse.splice(exam_id, 1);
+
+    console.log(exam_json_parse);
+    
+    var sql = `UPDATE ${wordbook_title} SET EXAMPLE = JSON_SET(EXAMPLE, '$', CAST('${JSON.stringify(exam_json_parse)}' AS JSON)) WHERE ID = ${word_id}`;    
+    client_conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);
+        res.json(results);   
+    });
+});
+
+// EXAM EDIT
+
+router.post('/exam/edit/', function (req, res, next) {    
+    var client_ID = req.cookies.client_ID;
+    client_conn = mysql_odbc.client(client_ID);
+    
+    console.log('edit exam');
+    console.log(req.body);
+    var wordbook_title = req.body.wordbook_title;    
+    var word_id = req.body.word_id;           
+    var exam_id = req.body.exam_id;
+    var exam_eng = req.body.exam_eng;           
+    var exam_kor = req.body.exam_kor; 
+    var exam_json = req.body.exam_json;          
+    var exam_json_parse = JSON.parse(exam_json);
+
+    console.log('===========ggg');
+    console.log(exam_json);
+    console.log();
+    console.log(JSON.parse(exam_json)[exam_id]);
+    exam_json_parse[exam_id].ENG = exam_eng.replace(/\'/gi,"''");
+    exam_json_parse[exam_id].KOR = exam_kor.replace(/\'/gi,"''");
+     
+    console.log(exam_json_parse);
+    console.log(JSON.stringify(exam_json_parse));
+
+    var sql = `UPDATE ${wordbook_title} SET EXAMPLE = JSON_SET(EXAMPLE, '$', CAST('${JSON.stringify(exam_json_parse)}' AS JSON)) WHERE ID = ${word_id}`;    
+    client_conn.query(sql, function(err, results){
+        if (err) console.err("err:" + err);
+        res.json(results);   
+    });
+    // client_conn.query(sql, function(err, results){
+    //     if (err) console.err("err:" + err);        
+    //     res.json(results);
+    // });   
+});
+
 // Quiz search
 
 router.post('/quiz', async function (req, res, next) {

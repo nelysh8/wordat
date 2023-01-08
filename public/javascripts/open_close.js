@@ -8,11 +8,13 @@
       await sleep(0.5);
       hidden(mainbox_center);
       hidden(third_1box_center);
+      hidden(config_layer);
     } else {
       click_bounceinup(second_1box_center);  
       await sleep(0.5);
       hidden(mainbox_center);
       hidden(third_1box_center);
+      hidden(config_layer);
     }  
   }
   
@@ -26,7 +28,7 @@
     }           
     if (second_3box_center.style.display !== 'none') {
       click_bounceoutdown(second_3box_center);
-    }           
+    }               
   }
   
   function wordlist_open(){    
@@ -71,6 +73,7 @@
       hidden(second_1box_center);
       hidden(second_2box_center);
       hidden(second_3box_center);
+      hidden(config_layer);
     } else {
       click_bounceinup(third_1box_center);      
       await sleep(0.5);
@@ -78,6 +81,7 @@
       hidden(second_1box_center);
       hidden(second_2box_center);
       hidden(second_3box_center);
+      hidden(config_layer);
     }    
   }
   
@@ -86,8 +90,40 @@
       click_bounceoutdown(third_1box_center); 
       document.querySelector('i.fa-star').classList.add('text_whiteoutline');
       document.querySelector('i.fa-star:only-of-type').classList.add('text_grey');
-      await sleep(0.5);
+      await sleep(0.5);      
       visible(mainbox_center);
+    }    
+  }
+
+  async function config_layer_open(){    
+    if (config_layer.style.display !== 'none') {
+      click_bouncein(config_layer);
+      // document.querySelector('i.fa-gear').classList.add('text_whiteoutline');
+      // document.querySelector('i.fa-gear:only-of-type').classList.add('text_grey');
+      await sleep(0.5);
+      hidden(mainbox_center);
+      hidden(second_1box_center);
+      hidden(second_2box_center);
+      hidden(second_3box_center);
+      hidden(third_1box_center);
+    } else {      
+      click_bounceinup(config_layer);      
+      await sleep(0.5);
+      hidden(mainbox_center);
+      hidden(second_1box_center);
+      hidden(second_2box_center);
+      hidden(second_3box_center);
+      hidden(third_1box_center);
+    }    
+  }
+
+  async function config_layer_close(){
+    if (config_layer.style.display !== 'none') {
+      click_bounceoutdown(config_layer); 
+      document.querySelector('i.fa-gear').classList.add('text_whiteoutline');
+      document.querySelector('i.fa-gear:only-of-type').classList.add('text_grey');
+      await sleep(0.5);
+      visible(mainbox_center);      
     }    
   }
   
