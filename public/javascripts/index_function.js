@@ -45,41 +45,21 @@ var contents_wordbook = document.getElementById("contents_wordbook");
 var contents_cartoon = document.getElementById("contents_cartoon");
 var contents_paper = document.getElementById("contents_paper");
 var contents_ebook = document.getElementById("contents_ebook");
+var contents_start = document.getElementById('contents_start');
 
 var contents_wordbook_observer = new MutationObserver(mutations => {    
   if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
     console.log('mutation wordbook activation detected');  
     console.log(document.getElementById('ts_quiz_kor').innerText);
-
-    window.Kakao.API.request({
-      url : '/v2/user/me',
-      success : res => {
-        const kakao_account = res.kakao_account;
-        console.log(kakao_account);
-        if (kakao_account.email == '') {
-          kakaoLogin();
-        } else {
-          console.log(`${kakao_account.email}님 환영합니다`);
-          if (document.getElementById('ts_quiz_kor').innerText === "") {
-            testquiz(1);
-            document.getElementById('carousel-btn-line').innerHTML =`
-                    <div id="quiz_hint_btn" class="animate__animated" onclick="touch_icon_action(this); testquiz((Number(document.getElementById('hint_num').innerHTML)) + 1);">
-                      <div class="btn bg_green text_white ftb" >HINT</div>
-                    </div>  
-                    <div id="quiz_answer_btn" class="animate__animated" onclick="touch_icon_action(this); submit_quiz_answer();">
-                      <div class="btn bg_firebrick text_white ftb" >ANSWER</div>
-                    </div>  
-                    `;
-          }    
-        }
-      }
-    })
+    document.getElementById('carousel-btn-line').innerHTML = ``;
+    
   } 
 });
 
 var contents_cartoon_observer = new MutationObserver(mutations => {    
   if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
     console.log('mutation cartoon activation detected');  
+    document.getElementById('carousel-btn-line').innerHTML = ``;
     // console.log(document.getElementById('ts_quiz_kor').innerText);
     // if (document.getElementById('ts_quiz_kor').innerText === "") {
     //   testquiz(1);
@@ -90,7 +70,7 @@ var contents_cartoon_observer = new MutationObserver(mutations => {
 var contents_paper_observer = new MutationObserver(mutations => {    
   if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
     console.log('mutation paper activation detected');  
-    
+    document.getElementById('carousel-btn-line').innerHTML = ``;
   } 
 });
 
@@ -102,6 +82,16 @@ var contents_ebook_observer = new MutationObserver(mutations => {
                 <i class="fa-solid fa-circle-arrow-right ft5 text_red"></i>
               </div>                
               `;
+  } 
+});
+
+var contents_start_observer = new MutationObserver(mutations => {    
+  if ((mutations[0].oldValue.includes('active') === false) && (mutations[0].target.className.includes('active') === true)) {
+    console.log('mutation contents_start activation detected');  
+    document.getElementById('carousel-btn-line').innerHTML = `
+      <a href="http://www.freepik.com">Designed by rawpixel.com / Freepik</a>
+      `;
+    
   } 
 });
 
@@ -119,7 +109,7 @@ contents_wordbook_observer.observe(contents_wordbook, observer_config);
 contents_cartoon_observer.observe(contents_cartoon, observer_config);
 contents_paper_observer.observe(contents_paper, observer_config);
 contents_ebook_observer.observe(contents_ebook, observer_config);
-
+contents_start_observer.observe(contents_start, observer_config);
 // 감지 종료
 // observer.disconnect();
 
