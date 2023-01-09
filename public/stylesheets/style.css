@@ -4,17 +4,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@600&display=swap');
 
-@media all and (min-width:700px) and (-webkit-min-device-pixel-ratio : 0.8) {
+@media all and (min-width:200px) and (-webkit-min-device-pixel-ratio : 0.8){
   .navbar {    
-  }
+  }  
 
-  #mainbody {
-    width : 70rem;
+  #mainbox {
+    width : 10rem;
     margin-top : 10rem;
-  }
+  }  
 }
-
-/*  */
+/*    */
 * {
     margin : 0;
     padding : 0;
@@ -249,6 +248,10 @@ ul {
 	vertical-align: middle;
 }
 
+#control_box {
+  width : 100%;
+  margin : 0;
+}
 
 /* 1. navbar */
 
@@ -1525,8 +1528,7 @@ ul {
 
             #second_3box_center .contents .word_view_1 ul li .word_title_collase_icon {              
               float : right;                            
-              padding : 0.3rem;
-              margin-top : 0.2rem;
+              padding : 0.3rem;              
             }
 
             #second_3box_center .contents .word_view .word_view_2 {                            
@@ -2238,6 +2240,7 @@ ul {
 
 #wim_dropdown_btn {
   background-color: firebrick !important;
+  color : white !important;  
 }
 
 

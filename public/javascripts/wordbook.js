@@ -1,6 +1,6 @@
 // 테이블 이름 정리/복구
 function table_name_trim(table_name) {
-  var table_name = table_name
+  var table_name = `$ff$${table_name}`
     .trim()
     .replace(/ /gi, '$_$')
     .replace(/\./gi, '$d$')
@@ -13,7 +13,8 @@ function table_name_trim(table_name) {
 }
 
 function table_name_recover(table_name) {
-  var table_name = table_name    
+  var table_name = table_name
+    .replace(/\$ff\$/gi,'')    
     .replace(/\$\_\$/gi, ' ')
     .replace(/\$d\$/gi, '.')
     .replace(/\$e\$/gi, '!')
@@ -224,10 +225,12 @@ function wordbook_reading(time){
       // 문장타이틀부분 #word_view1
       let word_title_html = `
         <ul>
-          <li><span id="s3_word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng" onclick="touch_block_action(this); tts_any(this.innerText, 1);"> ${results[0].ENG} </span></li>
           <li>
-            <span class="ft7 ftb">${results[0].KOR}</span>
             <div class="animate__animated word_title_collase_icon" onclick="touch_icon_action(this);" data-bs-toggle="collapse" data-bs-target="#word_view_collapse" aria-expanded="false" aria-controls="word_view_collapse"><i class="fa-solid fa-list-check ft7 ftb text_red"></i></div>          
+            <span id="s3_word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng" onclick="touch_block_action(this); tts_any(this.innerText, 1);"> ${results[0].ENG} </span>
+          </li>
+          <li>
+            <span class="ft7 ftb">${results[0].KOR}</span>          
           </li>
         </ul>`;
       // 예문부분 #example_list    

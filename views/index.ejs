@@ -53,8 +53,8 @@
  <!-- <div id="g_id_onload" data-client_id="53798976072-32cc457i8sr4megufkabg0tco8770btq.apps.googleusercontent.com" data-callback="handleCredentialResponse" data-login_uri="http://localhost:3000" data-auto_prompt="true"></div> -->
 
     <!-- 1. nav bar -->
-
-    <div class="navbar shadow-sm">
+  
+    <div class="navbar shadow-sm" id="navbar">
       <div class="navbar_logo">        
         <i class="fa-solid fa-tree text_green ft5 ftbb"></i>
         <a href="/"> <span class="ft5 ftb"> WordAT </span> </a>
@@ -484,19 +484,19 @@
   function
     mainmodal_add_word() => wim_submit_btn_click();
 -->
-
+<!-- class="ft_noto ft5 ftbb text_red" style="padding : 0.5rem 1rem 0.5rem 1rem;" -->
 
 <!-- 1-1. word input modal -->
 <div id="word_input_modal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius : 10px;">
-      <div class="modal-header">
-        <div class="row">
-          <span class="ft5 ftbb" id="wim_title">Add words to the wordbook</span>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header" style="border:none;">
+        <div class="row" style="display:block;">          
+          <span class="ft_noto ft5 ftbb text_red" id="wim_title">Add words to the wordbook</span>          
+          <button type="button" class="btn-close" style="float:right; padding:2rem;" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="row" id="toggle_row">
-          <div class="dropdown">                      
+        <div class="row" id="toggle_row" >
+          <div class="dropdown" >                      
             <button id="wim_dropdown_btn" class="btn dropdown-toggle bg_firebrick text_white ft8" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button> 
             <span id="pre_selected_wordbook" style="display:none;"></span>
             <ul class="dropdown-menu" id="wim_dropdown_wordbook">
@@ -507,7 +507,7 @@
           </div>
         </div>                    
       </div>                                  
-      <div class="modal-body">                                          
+      <div class="modal-body" style="border:none;">                                          
         <div class="input-group mb-3">
           <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > ENG </span>
           <input type="text" id="wim_input_eng" class="form-control ft8" placeholder="Input a English Sentence" aria-label="Username" aria-describedby="basic-addon1" > 
@@ -516,7 +516,7 @@
           <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1"> KOR </span>
           <input type="text" id="wim_input_kor" class="form-control ft8" placeholder="Input it's meaning" aria-label="Username" aria-describedby="basic-addon1">
         </div>                                      
-        <div class="modal-footer">                        
+        <div class="modal-footer" style="border:none;">                        
           <button id="wim_sumbit_btn" type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="modal" onclick="wim_submit_btn_click();"> ADD </button>
           <button id="wim_cancel_btn" type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
         </div>                    
@@ -528,11 +528,11 @@
 <div id="wordbook_add_modal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius : 10px;">
-      <div class="modal-header">                
-        <span class="ft5 ftbb">Add wordbook</span>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header" style="border:none;">                
+        <span class="ft_noto ft5 ftbb text_red">Add wordbook</span>
+        <button type="button" class="btn-close" style="float:right; padding:2rem;" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>                                                                               
-      <div class="modal-body">                                          
+      <div class="modal-body" style="border:none;">                                          
         <div class="input-group mb-3" style="margin-bottom : 0.5rem">
           <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > TITLE </span>
           <input type="text" name="add_wordbook_title" id="add_wordbook_title" class="form-control ft8" placeholder="Input a Wordbook Title">                    
@@ -544,7 +544,7 @@
         <div class="input-group mb-3">
           <span class="ft10 ft_noto" id="wordbook_input_exp" style="margin-left : 1rem;"></span>
         </div>              
-        <div class="modal-footer">                        
+        <div class="modal-footer" style="border:none;">                        
           <button type="submit" id="wordbook_input_btn" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" data-bs-dismiss="" style="background-color: firebrick ! Important; color : cornsilk ! Important;"> ADD </button>
           <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
         </div>                    
@@ -556,10 +556,10 @@
 <div id="edit_modal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="border-radius : 10px;">
-          <div class="modal-header">                
-              <span class="ft5 ftbb" id="edit_modal_title">Edit wordbook</span>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              <div class="modal-body">                                                              
+          <div class="modal-header" style="border:none;">                
+              <span class="ft_noto ft5 ftbb text_red" id="edit_modal_title">Edit wordbook</span>
+              <button type="button" class="btn-close" style="float:right; padding:2rem;" data-bs-dismiss="modal" aria-label="Close"></button>
+              <div class="modal-body" style="border:none;">                                                              
                   <div class="input-group mb-3" id="edit_wb_title_div" style="display : none; margin-bottom : 0.5rem;">
                       <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > TITLE </span>
                       <input type="text" name="edit_wordbook_title" id="edit_wb_title_text" class="form-control ft8" placeholder="Input a Wordbook Title">                                
@@ -587,7 +587,7 @@
                       <span class="input-group-text ft8 ftb bg_cornsilk text_red" id="basic-addon1" > KOR </span>
                       <input type="text" name="edit_wordbook_title" id="edit_ex_kor_text" class="form-control ft8" placeholder="Input it's meaning">                                
                   </div>                                            
-                  <div class="modal-footer">                        
+                  <div class="modal-footer" style="border:none;">                        
                       <button type="submit" class="btn bg_firebrick bg-gradient text_cornsilk ft8 ftbb" id="edit_btn" data-bs-dismiss="modal" style="background-color: firebrick ! Important; color : cornsilk ! Important;" onclick=""> CONFIRM </button>
                       <span style="display:none;" id="edit_btn_hidden"></span>
                       <button type="button" class="btn btn-secondary bg-gradient ft8 ftbb" data-bs-dismiss="modal"> CLOSE </button>                        
@@ -652,7 +652,6 @@
 </div>
 
 
-
   <!-- script -->
 
   
@@ -683,7 +682,7 @@
     
     
 
-
+    
   </body>
 
 </html>
