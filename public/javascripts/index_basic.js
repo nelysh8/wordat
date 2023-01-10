@@ -463,15 +463,17 @@
       }
       
       function open_loginbar(){
+        console.log('open_loginbar');
         var loginbar = document.getElementById('login_layer');  
-        if (loginbar.style.display !== 'block') {
+        if (loginbar.style.display === 'none') {
           click_slideup(loginbar);
         }        
       }
       
       function close_loginbar(){
+        console.log('close_loginbar');
         var loginbar = document.getElementById('login_layer');                  
-        if (loginbar.style.display !== 'none') {
+        if (loginbar.style.display === 'block') {
           click_slideoutdown(loginbar);
         }
       }

@@ -717,8 +717,8 @@ app.get('/kakaoLogin', function (req, res, err) {
       url: 'https://kauth.kakao.com/oauth/token',
       form: { 'grant_type': 'authorization_code', 
               'client_id': '4a243bdf6ed7b9e9014e0ce7753e8779', 
-              'redirect_uri': 'https://my.word-at.fun/kakaoLogin',
-              // 'redirect_uri': 'http://localhost:3000/kakaoLogin',
+              // 'redirect_uri': 'https://my.word-at.fun/kakaoLogin',
+              'redirect_uri': 'http://localhost:3000/kakaoLogin',
               'code' : req.query.code
             },
       headers: { 'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'}
@@ -784,9 +784,9 @@ app.post('/kakaoLogin/signup', function (req, res, next) {
       var create_database_sql = `
         CREATE DATABASE ${client_ID};        
         SHOW DATABASES;
-        CREATE TABLE ${client_ID}.단어장 LIKE auth.단어장;
-        INSERT INTO ${client_ID}.단어장 SELECT * FROM auth.단어장;
-        UPDATE ${client_ID}.단어장 SET client_ID = '${client_ID}';        
+        CREATE TABLE ${client_ID}.$ff$단어장 LIKE auth.단어장;
+        INSERT INTO ${client_ID}.$ff$단어장 SELECT * FROM auth.단어장;
+        UPDATE ${client_ID}.$ff$단어장 SET client_ID = '${client_ID}';        
       `;
       // '${req.body.nickname.replace('@','$at$')}'
       auth_conn.query(signup_sql, function(err, results){

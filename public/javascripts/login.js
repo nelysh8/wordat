@@ -116,8 +116,6 @@ function det_login(token, typeA) {  //로그인 판별자
           var login_layer_contents_button = document.getElementById('login_layer_contents_button');
           var login_layer_contents_user_image = document.getElementById('login_layer_contents_user_image');    
 
-          document.getElementById('wim_cancel_btn').click();
-
           login_layer_contents_user_image.style.display = "none";
           login_layer_title.innerHTML = `
             <p><span class="ft_noto ft7" style="text-align:left;">카카오톡으로 앱을 연결해주세요.</span></p>
@@ -134,7 +132,7 @@ function det_login(token, typeA) {  //로그인 판별자
             </div>
             `;          
           console.log('det_login_3 exe success');             
-          open_loginbar();  
+          open_loginbar();            
           reject('로그인 기능 실행필요');          
         });
       } else {                
@@ -144,8 +142,6 @@ function det_login(token, typeA) {  //로그인 판별자
         var login_layer_title = document.getElementById('login_layer_title');
         var login_layer_contents_button = document.getElementById('login_layer_contents_button');    
         var login_layer_contents_user_image = document.getElementById('login_layer_contents_user_image');  
-        
-        document.getElementById('wim_cancel_btn').click();
 
         login_layer_contents_user_image.style.display = "none";
         login_layer_title.innerHTML = `
@@ -163,7 +159,7 @@ function det_login(token, typeA) {  //로그인 판별자
           </div>
           `;          
         console.log('det_login_4 confirm success');             
-        open_loginbar();  
+        open_loginbar();          
         reject('로그인 기능 실행필요');        
       }       
   })
@@ -171,8 +167,8 @@ function det_login(token, typeA) {  //로그인 판별자
   
 function kakaoLogin() {    
   Kakao.Auth.authorize({
-    redirectUri: 'https://my.word-at.fun/kakaoLogin',
-    // redirectUri: 'http://localhost:3000/kakaoLogin',
+    // redirectUri: 'https://my.word-at.fun/kakaoLogin',
+    redirectUri: 'http://localhost:3000/kakaoLogin',
   });
 }
 

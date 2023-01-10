@@ -11,16 +11,47 @@ var client_conn;   // = mysql_odbc.client(); 로그인 회원 db
 var moment = require('moment');
 var today = moment();
 
-function table_name_recover(table_name) {
-    var table_name = table_name    
+function table_name_trim(table_name) {
+    var table_name = `$ff$${table_name}`
+      .trim()
+      .replace(/ /gi, '$_$')
+      .replace(/\./gi, '$d$')
+      .replace(/\!/gi, '$e$')
+      .replace(/\#/gi, '$s$')
+      .replace(/\&/gi, '$a$')
+      .replace(/\//gi, '$w$')
+      .replace(/\'/gi, '$u$');
+    return table_name;
+  }
+  
+  function table_name_recover(table_name) {
+    var table_name = table_name
+      .replace(/\$ff\$/gi,'')    
       .replace(/\$\_\$/gi, ' ')
       .replace(/\$d\$/gi, '.')
       .replace(/\$e\$/gi, '!')
       .replace(/\$s\$/gi, '#')
       .replace(/\$a\$/gi, '&')
-      .replace(/\$w\$/gi, '/');
+      .replace(/\$w\$/gi, '/')
+      .replace(/\$u\$/gi, "'");
     return table_name;
-}
+  }
+  
+  function word_trim(word) {
+    var word = word
+      .trim()
+      .replace(/\'/gi, '$u$')
+      .replace(/\"/gi, '$k$');
+    return word;
+  }
+  
+  function word_recover(word) {
+    var word = word
+      .replace()
+      .replace(/\$u\$/gi, "'")
+      .replace(/\$k\$/gi, '"');
+    return word;
+  }
 
 // WORDBOOK List
 
@@ -100,7 +131,7 @@ router.post('/edit', function (req, res, next) {
     var sql = `
         ALTER TABLE ${wordbook_oldtitle} COMMENT '${hashtag}';
         ALTER TABLE ${wordbook_oldtitle} RENAME ${wordbook_newtitle};
-        UPDATE ${wordbook_newtitle} SET WORDBOOK_TITLE = '${table_name_recover(wordbook_newtitle)}';
+        UPDATE ${wordbook_newtitle} SET WORDBOOK_TITLE = '${wordbook_newtitle}';
     `;
     console.log(sql);
     client_conn.query(sql, function(err, results){
@@ -280,8 +311,8 @@ router.post('/exam/edit/', function (req, res, next) {
     console.log(exam_json);
     console.log();
     console.log(JSON.parse(exam_json)[exam_id]);
-    exam_json_parse[exam_id].ENG = exam_eng.replace(/\'/gi,"''");
-    exam_json_parse[exam_id].KOR = exam_kor.replace(/\'/gi,"''");
+    exam_json_parse[exam_id].ENG = word_trim(exam_eng);
+    exam_json_parse[exam_id].KOR = word_trim(exam_kor);
      
     console.log(exam_json_parse);
     console.log(JSON.stringify(exam_json_parse));

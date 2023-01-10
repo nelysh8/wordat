@@ -182,7 +182,7 @@
             <a id="msi_link_youglish" href="https://youglish.com/" target="_blank"> <img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="touch_icon_action(this);"/></a>
             <a id="msi_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>          
             <i id="msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="touch_icon_action(this); tts_pos('mainbox_center', 1);" ></i>          
-            <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="touch_icon_action(this); modal1_openbtn_click('mainbox_center');"></i>                    
+            <i class="fa-solid fa-square-plus text_red animate__animated " onclick="touch_icon_action(this); modal1_openbtn_click('mainbox_center');"></i>                                  
           </div>  
           <!-- <div style="height:100px; width:100%; display:block;"> 
             <button onclick="testquiz();">quiz</button>
@@ -224,8 +224,8 @@
           
         </div>
       </div>
-      <div id="second_1box_bottom_line" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" style="text-align:center;">
-        <span class="ft_noto ft7 ftb text_red shadow-sm animate__animated animate__flash" style="padding : 1rem; border-radius : 10%; background-color:#fff8dc50;" onclick="zoomin(this);"> 새로운 단어장을 추가해보세요. </span>
+      <div id="second_1box_bottom_line" style="text-align:center;" onclick="document.getElementById('call_wim_add_modal').click();">
+        <span class="ft_noto ft7 text_red shadow-sm animate__animated animate__flash" style="padding : 1rem; border-radius : 10%; background-color:#fff8dc50;" onclick="zoomin(this);"> 새로운 단어장을 추가해보세요. </span>
       </div>
       
     </div>
@@ -276,7 +276,7 @@
           <a id="word_toolbar_link_youglish" href="https://youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="touch_icon_action(this);"/></a>
           <a id="word_toolbar_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>                
           <i id="word_toolbar_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="touch_icon_action(this); tts_pos('second_3box_center', 1);"></i>
-          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="touch_icon_action(this); modal1_openbtn_click('second_3box_center');"></i>                        
+          <i class="fa-solid fa-square-plus text_red animate__animated " onclick="touch_icon_action(this); modal1_openbtn_click('second_3box_center');"></i>                        
         </div>
         <div class="word_toolbar_result shadow-sm animate__animated" style="display: none" id="word_toolbar_result" >        
           <div class="word_toolbar_result_view" name="word_toolbar_result_view">
@@ -440,7 +440,7 @@
         <li><span class="ft10"> Home </span></li>
       </ul>      
     </div>        
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 2); wordbook_reading('initial'); third_1box_close(); config_layer_close();">        
+    <div class="footbar_menu animate__animated" id="footbar_2" onclick="click_footbar(this, 2); wordbook_reading('initial'); third_1box_close(); config_layer_close();">        
       <ul>
         <li><i class="fa-solid fa-book-open ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Wordbook </span></li>
@@ -487,6 +487,7 @@
 <!-- class="ft_noto ft5 ftbb text_red" style="padding : 0.5rem 1rem 0.5rem 1rem;" -->
 
 <!-- 1-1. word input modal -->
+<button type="button" id="call_wim_modal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#word_input_modal" style="display:none;"></button>
 <div id="word_input_modal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius : 10px;">
@@ -525,6 +526,7 @@
   </div>
 </div> 
 <!-- 1-2. word input modal(type2) -->
+<button type="button" id="call_wim_add_modal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#wordbook_add_modal" style="display:none;"></button>
 <div id="wordbook_add_modal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius : 10px;">
@@ -553,6 +555,7 @@
   </div> 
 </div>
 <!-- 1-3 edit modal -->
+<button type="button" id="call_edit_modal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_modal" style="display:none;"></button>
 <div id="edit_modal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="border-radius : 10px;">
@@ -601,6 +604,7 @@
 
 
 <!-- 2-1 Remove confirm modal -->
+<button type="button" id="call_remove_modal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#remove_confirm" style="display:none;"></button>
 <div id="remove_confirm" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius : 10px;">                              

@@ -20,6 +20,7 @@ const config_layer = document.getElementById('config_layer');
 // Setting
 const selected_wordbook = '';
 
+
 window.onload = function(){
   document.getElementById('loading_layer').style.display = 'none';
   det_login(token, 'confirm');
@@ -136,12 +137,20 @@ contents_start_observer.observe(contents_start, observer_config);
 // observer.disconnect();
 
 
+// login layer 닫힘 감지
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function(e) {    
   var container1 = document.getElementById('login_layer');
   var container2 = document.getElementById('user_image');
-  if ((!container1.contains(e.target)) && (!container2.contains(e.target))) {    
-    close_loginbar();      
+  var container3 = document.getElementById('footbar_2');
+  var container4 = document.getElementById('wim_cancel_btn');
+  
+
+  if ((!container1.contains(e.target)) && (!container2.contains(e.target)) && (!container3.contains(e.target))) {    
+    if (!container4.contains(e.target)) {
+      console.log('loginbar closing...');
+      close_loginbar();      
+    }
   }
 });
 
