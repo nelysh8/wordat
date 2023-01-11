@@ -17,6 +17,8 @@ function tranbtn_click(position){
         dic_url = 'https://en.dict.naver.com/#/search?query=';
       } else if (Number(config[0]) === 3) {
         dic_url = 'https://www.etymonline.com/search?q=';
+      } else {
+        dic_url = 'https://dictionary.cambridge.org/dictionary/english/';  
       }
     } else {
       dic_url = 'https://dictionary.cambridge.org/dictionary/english/';
