@@ -36,8 +36,7 @@ function det_login(token, typeA) {  //로그인 판별자
           var user_email = res.kakao_account.email;
           var user_image_layer = document.getElementById('user_image');
 
-          var config = get_config_cookie();
-          console.log(config);
+          var config;                    
 
           var login_layer = document.getElementById('login_layer');          
           login_layer.innerHTML = `
@@ -95,16 +94,18 @@ function det_login(token, typeA) {  //로그인 판별자
             </div>
           </div>`;      
 
-          if (Number(config[0]) === 1) {
-            document.getElementById('default_dict').innerHTML = 'Cambridge';
-          } if (Number(config[0]) === 2) {
-            document.getElementById('default_dict').innerHTML = 'Naver';
-          } if (Number(config[0]) === 3) {
-            document.getElementById('default_dict').innerHTML = 'Etymonline';
+          if ((get_config_cookie() !== null) && (get_config_cookie() !== undefined)) {
+            config = get_config_cookie();
+            if (Number(config[0]) === 1) {
+              document.getElementById('default_dict').innerHTML = 'Cambridge';
+            } if (Number(config[0]) === 2) {
+              document.getElementById('default_dict').innerHTML = 'Naver';
+            } if (Number(config[0]) === 3) {
+              document.getElementById('default_dict').innerHTML = 'Etymonline';
+            }  
+            document.getElementById('tts_speed_def').value = Number(config[1]);
+            document.getElementById('tts_speed_slow').value = Number(config[2]);  
           }
-
-          document.getElementById('tts_speed_def').value = Number(config[1]);
-          document.getElementById('tts_speed_slow').value = Number(config[2]);  
 
           var config_layer_contents_user_image = document.getElementById('config_layer_contents_user_image');
           var config_layer_contents_user_info = document.getElementById('config_layer_contents_user_info');

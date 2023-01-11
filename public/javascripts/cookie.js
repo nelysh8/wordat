@@ -26,6 +26,7 @@ function get_config_cookie() {
             // replace(/\[/gi, "").replace(/\]/gi, ""));
         }    
     }    
+    
     return value;
 }
 
