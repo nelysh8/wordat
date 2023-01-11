@@ -8,7 +8,7 @@
       await sleep(0.5);
       hidden(mainbox_center);
       hidden(third_1box_center);
-      hidden(config_layer);
+      hidden(quiz_layer);
     } else {
       click_bounceinup(second_1box_center); 
       document.querySelector('i.fa-star').classList.add('text_whiteoutline');
@@ -16,7 +16,7 @@
       await sleep(0.5);
       hidden(mainbox_center);
       hidden(third_1box_center);
-      hidden(config_layer);
+      hidden(quiz_layer);
     }  
   }
   
@@ -79,7 +79,7 @@
       hidden(second_1box_center);
       hidden(second_2box_center);
       hidden(second_3box_center);
-      hidden(config_layer);
+      hidden(quiz_layer);
     } else {
       click_bounceinup(third_1box_center);      
       document.querySelector('i.fa-star').classList.add('text_whiteoutline');
@@ -89,7 +89,7 @@
       hidden(second_1box_center);
       hidden(second_2box_center);
       hidden(second_3box_center);
-      hidden(config_layer);
+      hidden(quiz_layer);
     }    
   }
   
@@ -101,9 +101,9 @@
     }    
   }
 
-  async function config_layer_open(){    
-    if (config_layer.style.display !== 'none') {
-      click_bouncein(config_layer);
+  async function quiz_layer_open(){    
+    if (quiz_layer.style.display !== 'none') {
+      click_bouncein(quiz_layer);
       // document.querySelector('i.fa-gear').classList.add('text_whiteoutline');
       // document.querySelector('i.fa-gear:only-of-type').classList.add('text_grey');
       await sleep(0.5);
@@ -113,7 +113,7 @@
       hidden(second_3box_center);
       hidden(third_1box_center);
     } else {      
-      click_bounceinup(config_layer);      
+      click_bounceinup(quiz_layer);      
       await sleep(0.5);
       hidden(mainbox_center);
       hidden(second_1box_center);
@@ -123,9 +123,9 @@
     }    
   }
 
-  async function config_layer_close(){
-    if (config_layer.style.display !== 'none') {
-      click_bounceoutdown(config_layer); 
+  async function quiz_layer_close(){
+    if (quiz_layer.style.display !== 'none') {
+      click_bounceoutdown(quiz_layer); 
       document.querySelector('i.fa-gear').classList.add('text_whiteoutline');
       document.querySelector('i.fa-gear:only-of-type').classList.add('text_grey');
       await sleep(0.5);

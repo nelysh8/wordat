@@ -190,9 +190,9 @@ function wordbook_reading(time){
       // 문장타이틀부분 #word_view1
       let word_title_html = `
         <ul>
-          <li>
-            <div class="animate__animated word_title_collase_icon" onclick="touch_icon_action(this);" data-bs-toggle="collapse" data-bs-target="#word_view_collapse" aria-expanded="false" aria-controls="word_view_collapse"><i class="fa-solid fa-list-check ft7 ftb text_red"></i></div>          
+          <li>            
             <span id="s3_word_id" style="display :none;">${results[0].ID}</span><span class="ft7 ftb" id="word_title_eng" onclick="touch_block_action(this); tts_any(this.innerText, 1);"> ${word_recover(results[0].ENG)} </span>
+            <div class="animate__animated word_title_collase_icon" onclick="touch_icon_action(this);" data-bs-toggle="collapse" data-bs-target="#word_view_collapse" aria-expanded="false" aria-controls="word_view_collapse"><i class="fa-solid fa-list-check ft7 ftb text_red"></i></div>          
           </li>
           <li>
             <span class="ft7 ftb">${word_recover(results[0].KOR)}</span>          

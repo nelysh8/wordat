@@ -58,7 +58,10 @@ function table_name_trim(table_name) {
 router.get('/', function (req, res, next) {    
     var sql = "SHOW tables";
     conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }
         res.render('wordlist', {title:'Wordlist', results:results});
     });
     /*
@@ -77,7 +80,10 @@ router.post('/', function (req, res, next) {
     // var sql = "SHOW tables";
     console.log(sql);
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);                
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }               
         console.log(results);
         res.json(results);
     });
@@ -97,7 +103,10 @@ router.post('/add', function (req, res, next) {
     var sql = `CREATE TABLE ${newlist_name} (ID INT(11) NOT NULL AUTO_INCREMENT, client_ID TEXT, WORDBOOK_TITLE TEXT, ENG TEXT, KOR TEXT, EXAMPLE JSON, SAVEDATE DATETIME NOT NULL, LOADDATE DATETIME NOT NULL, LOAD_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_NUM INT(11) NOT NULL DEFAULT '0', QUIZ_RESULT INT(11) NOT NULL DEFAULT '0', QUIZ_DATE DATETIME NOT NULL, PRIMARY KEY(ID)) COMMENT '${hashtag}';`;
     console.log(sql);
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);        
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }
         res.json(results);
     });
 });
@@ -113,7 +122,10 @@ router.post('/remove', function (req, res, next) {
     var sql = "DROP TABLE " + wordbook_title;
     console.log(sql);
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);        
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }       
         res.json(results);
     });
 });
@@ -135,7 +147,10 @@ router.post('/edit', function (req, res, next) {
     `;
     console.log(sql);
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);        
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }        
         res.json(results);
     });
 });
@@ -153,7 +168,10 @@ router.post('/wordlist', function (req, res, next) {
     // var sql = "SELECT * FROM " + wordbook_title + " WHERE P_ID=0";
     console.log(sql);
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }
         res.json(results);        
     });
 });
@@ -177,7 +195,10 @@ router.post('/word', function (req, res, next) {
     //  
     console.log(sql);
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);        
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }        
         res.json(results[1]);        
     });
 });
@@ -200,7 +221,10 @@ router.post('/word/add/', function (req, res, next) {
 
     var sql = `INSERT INTO ${wordbook_title} (client_ID, WORDBOOK_TITLE, ENG, KOR, EXAMPLE, SAVEDATE, LOADDATE, QUIZ_DATE) VALUE (?,?,?,?,?,${time}, ${time}, ${time})`;
     client_conn.query(sql, data, function(err, results){
-        if (err) console.err("err:" + err);
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }
         res.json(results);   
     });    
 });
@@ -217,7 +241,10 @@ router.post('/word/remove/', function (req, res, next) {
     
     var sql = `DELETE FROM ${wordbook_title} WHERE id = ${word_id}`;
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);        
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }      
         res.json(results);
     });   
 });
@@ -237,7 +264,10 @@ router.post('/word/edit/', function (req, res, next) {
     var sql = `UPDATE ${wordbook_title} SET ENG = '${word_eng}', KOR = '${word_kor}' WHERE ID = ${word_id};`;
     console.log(sql);
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);        
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }        
         res.json(results);
     });   
 });
@@ -263,7 +293,10 @@ router.post('/exam/add/', function (req, res, next) {
         var sql = `UPDATE ${wordbook_title} SET EXAMPLE = JSON_ARRAY_APPEND(EXAMPLE, '$', CAST('${example}' AS JSON)) WHERE ID = ${word_id}`;
     console.log(sql);
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }
         res.json(results);   
     });
 });
@@ -286,7 +319,10 @@ router.post('/exam/remove/', function (req, res, next) {
     
     var sql = `UPDATE ${wordbook_title} SET EXAMPLE = JSON_SET(EXAMPLE, '$', CAST('${JSON.stringify(exam_json_parse)}' AS JSON)) WHERE ID = ${word_id}`;    
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }
         res.json(results);   
     });
 });
@@ -319,7 +355,10 @@ router.post('/exam/edit/', function (req, res, next) {
 
     var sql = `UPDATE ${wordbook_title} SET EXAMPLE = JSON_SET(EXAMPLE, '$', CAST('${JSON.stringify(exam_json_parse)}' AS JSON)) WHERE ID = ${word_id}`;    
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }
         res.json(results);   
     });
     // client_conn.query(sql, function(err, results){
@@ -341,7 +380,10 @@ router.post('/quiz', async function (req, res, next) {
 	var random_num;
 
 	client_conn.query(sql, function(err, results){
-		if (err) console.err("err:" + err);
+		if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }
 		if (results.length === 0) {  // 총 문장수가 0개
 			res.send(0);
 		} else if ((results.length>0) && (results.length <= 10 )){ // 총 문장수가 x개 이하
@@ -399,7 +441,10 @@ router.post('/quiz_result', async function (req, res, next) {
     console.log(sql);
 
     client_conn.query(sql, function(err, results){
-        if (err) console.err("err:" + err);
+        if (err) {
+            console.err("err:" + err); 
+            res.redirect('/');       
+        }
         res.json(results);   
     });
 });

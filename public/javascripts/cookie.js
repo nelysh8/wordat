@@ -15,12 +15,16 @@ var deleteCookie = function(name) {
 }
 
 function get_config_cookie() {
-    var datas = getCookie('wa_config').replace(/\%5B/gi, "[").replace(/\%5D/gi, "]").replace(/\%2F/gi, "/").split('/');    
-    console.log(datas);
-    var value = [];    
-    for (let data of datas) {
-        value.push(`${data.match(/\[.*\]/gi)}`.split("[").join("").split("]").join(""));
-        // replace(/\[/gi, "").replace(/\]/gi, ""));
+    var datas;
+    var value;
+    if (getCookie('wa_config') !== null) {
+        datas = getCookie('wa_config').replace(/\%5B/gi, "[").replace(/\%5D/gi, "]").replace(/\%2F/gi, "/").split('/');
+        console.log(datas);
+        value = [];    
+        for (let data of datas) {
+            value.push(`${data.match(/\[.*\]/gi)}`.split("[").join("").split("]").join(""));
+            // replace(/\[/gi, "").replace(/\]/gi, ""));
+        }    
     }    
     return value;
 }

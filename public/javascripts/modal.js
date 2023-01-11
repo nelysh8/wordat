@@ -54,7 +54,7 @@ function modal1_openbtn_click(position) {
           var table_list = [];
           
           for (let result of results){
-            dropdown_list += `<li><a class="dropdown-item" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result.TABLE_NAME)}</a></li>`;
+            dropdown_list += `<li><a class="dropdown-item ft8" href="#" onclick="dropdown_wordbooklist_click(this)">${table_name_recover(result.TABLE_NAME)}</a></li>`;
             table_list.push(table_name_recover(result.TABLE_NAME));
           };
           dropdown_menu.innerHTML = dropdown_list;   
@@ -72,14 +72,19 @@ function modal1_openbtn_click(position) {
             dropdown_button.innerText = table_name_recover(results[0].TABLE_NAME);
             setCookie('pre_selected_wordbook', dropdown_button.innerText);
             document.getElementById('call_wim_modal').click();
+            console.log(getCookie('pre_selected_wordbook'));
           } else if ((selected_wordbook === '') && (results.length > 0) && (pre_selected_wordbook !== '') && (table_list.includes(pre_selected_wordbook))){              
             dropdown_button.innerText = pre_selected_wordbook;      
             setCookie('pre_selected_wordbook', dropdown_button.innerText);
             document.getElementById('call_wim_modal').click();
-          } 
-          document.getElementById('call_wim_modal').click();
+            console.log(getCookie('pre_selected_wordbook'));
+          } else {
+            dropdown_button.innerText = table_name_recover(results[0].TABLE_NAME);
+            setCookie('pre_selected_wordbook', dropdown_button.innerText);            
+            document.getElementById('call_wim_modal').click();
+            console.log(getCookie('pre_selected_wordbook'));
+          }          
         });     
-
       } 
       else if (req_pos === 'second_2box_center'){
         console.log('second_2box modal1 starting');
@@ -154,7 +159,7 @@ function modal1_openbtn_click(position) {
       }
     
       else if (req_pos === 'third_1box_center') {
-        console.log('mainbox modal1 starting');
+        console.log('t1box modal1 starting');
         wim_title.innerText = 'Add words to the wordbook';                
         document.getElementById("wim_sumbit_btn").setAttribute('onclick', "wim_submit_btn_click('third_1box_center')");
         document.getElementById("toggle_row").style.display = 'block';    

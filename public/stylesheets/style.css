@@ -4,16 +4,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@600&display=swap');
 
-@media all and (min-width:200px) and (-webkit-min-device-pixel-ratio : 0.8){
-  .navbar {    
+@media all and (min-width:420px) and (-webkit-min-device-pixel-ratio : 0.56) {
+  #navbar {    
+    width : calc(100vh*0.56);
+    left : calc((100vw - (100vh*0.56)) / 2 );
   }  
 
-  #mainbox {
-    width : 10rem;
-    margin-top : 10rem;
+  #mainbody {
+    width : calc(100vh*0.56);
+    margin-top : 5rem;
   }  
+
+  #footbar {    
+    width : calc(100vh*0.56);
+    left : calc((100vw - (100vh*0.56)) / 2 );
+  } 
 }
-/*    */
+/*  and    */
 * {
     margin : 0;
     padding : 0;
@@ -33,7 +40,7 @@ body {
     font-family : 'poppins', sans-serif;  
     
     margin: 0;
-    padding : 0;
+    padding : 0;    
     }
 
 /* animation */
@@ -267,6 +274,8 @@ ul {
     padding : 0rem;
     z-index: 100;
     font-family : 'Rubik Gemstones', sans-serif;
+    margin-left : auto;
+    margin-right : auto;    
     /*padding : 10px 0px 10px 0px;*/
 }
 .navbar_logo {  
@@ -366,7 +375,12 @@ ul {
     margin-right : auto;    
     overflow-y: scroll;
     z-index : 2;
-    
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none;
+}
+
+#mainbox_center::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }    
 
     #Upper_search_container{
@@ -461,14 +475,17 @@ ul {
         }
 
         #Upper_carousel .carousel-btn-line {
-            width : 100%;
-            height : 7%;
-            margin : 0;
-            padding : 0;					            	
+          display : block;  
+          width : 100%;            
+          height : 7%;      
+          text-align: center;                  		            	
         }
 
-        .carousel-btn-line a {
-          text-decoration: none;          
+        .carousel-btn-line a {          
+          text-decoration: none;  
+          height :fit-content;
+          width :fit-content;   
+          
         }
 
 
@@ -943,18 +960,30 @@ ul {
 				
     }
 
-			#main_search_input {    					
+    #main_search_input_layer {      
+      position:relative;
+      width : 85%;
+    }
+
+			#main_search_input {    					          
           height : 3.6rem;
           max-height: 14rem;
 					/* ((scrollHeight/10)+0.4)rem; */					
-          width: 85%;
+          width: 100%;
 					border-radius: 10px ;
 					border : 0.1rem solid #999;
 					outline : none;     
 					text-align : justify;
 					padding : 0.5rem 2.8rem 0.5rem 1rem; 
-          overflow-y:scroll;   
+          overflow-y:scroll;  
+          
+          -ms-overflow-style: none; /* 인터넷 익스플로러 */
+          scrollbar-width: none;
 			}
+
+      #main_search_input::-webkit-scrollbar {
+        display: none; /* 크롬, 사파리, 오페라, 엣지 */
+      }
 
 			#main_search_input:focus {
 					border: 2px solid firebrick;
@@ -963,12 +992,13 @@ ul {
 			#msi_icon_x {        
         position : absolute;
         align-items: center;
-        left : 74%;          
+        top : 0;
+        right : 0;          
         height : 3.6rem;
+        
         font-size : 2.5rem;   
         padding-left : 1rem; 
-        padding-right : 1rem;           
-        
+        padding-right : 1rem;                           
           
 					/* top : 61%; */
 					/* transform: translateY(-50%);     */
@@ -1113,22 +1143,14 @@ ul {
   background-color: white;  
   z-index : 4;
   border-radius: 20px;
-  
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none;
+}
 
-  /* 660~ i-phone se // 740~ galaxys8+ //  83% */
-  /* 840~ i-phone12pro  85% */ 
-  /* 890~ i-phonexr  86% */
-
-  
-  
-  /* height : 100%; */
-  /* justify-content: space-between;   */  
-  /* align-content:center;
-  align-items: center;
-  text-align: center; */ 
-  
-  
-}						
+#second_1box_center::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}  
+		
 
 						#second_1box_center .wordbook_headline {
               display: flex;              
@@ -1171,8 +1193,9 @@ ul {
 							display : block;
               align-items: center;              
               width : 100%; 
-              height : 80%;
+              height : 77%;
 							margin-top : 3rem;
+              padding-bottom : 0.5rem;
               overflow-y: scroll;
 						}
 
@@ -1271,28 +1294,18 @@ ul {
   max-height : 94%; */
   margin : 4rem 0 0 0;
   padding-top : 0.5rem;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   background-color: cornsilk;   
   z-index : 6;
   border-radius: 20px;
   
-  /* display : none;
-  width : 100%;  
-  height : 92%;
-  padding : 0;
-  margin-left : 0;   
-  margin-top: 0;
-  margin-bottom : 0;   
-  justify-content: space-between;  */
-  /* align-content:center;
-  align-items: center;
-  text-align: center; */
-  /* margin-top : 10rem;
-  margin-bottom : 7rem;     */
-  /* margin-left : auto;
-  margin-right : auto; */  
-  
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none;
 }
+
+#second_2box_center::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}  
 
 
             #second_2box_center .wordlist_headline {
@@ -1335,7 +1348,9 @@ ul {
               display : block;
               align-items: center;              
               width : 100%;               
-              margin-top : 5rem;              
+              margin-top : 5rem;             
+              overflow-y: scroll;
+              height : 92%;
             }
 
             #second_2box_center .wordlist_list {
@@ -1345,6 +1360,7 @@ ul {
               margin-top : 0.5rem;
               text-align : left;
               border-radius: 5px;
+              overflow-y: scroll;
             }
 
             #second_2box_center .wordlist_wrap {
@@ -1422,32 +1438,18 @@ ul {
   padding-top : 0.5rem;
   padding-bottom : 0.5rem;
   margin : 8.5rem 0 0 0;  
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   background-color: white;   
   z-index : 8;
-  border-radius: 20px;
-  
+  border-radius: 20px;  
 
-  /* display : none;
-  width : 100%;  
-  min-height : 45rem;  
-  max-height : 100%;  
-
-  margin-left : 0;  
-  margin-bottom : 0;
-  justify-content: space-between;  
-  padding : 0; */
-
-
-  /* align-content:center;
-  align-items: center;
-  text-align: center; */
-  /* margin-top : 10rem;
-  margin-bottom : 7rem;     */
-  /* margin-left : auto;
-  margin-right : auto; */  
-  /* background-color: white; */
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none;
 }
+
+#second_3box_center::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}  
 
             #second_3box_center .word_headline {
               display: flex;              
@@ -1541,7 +1543,7 @@ ul {
               margin : auto;
               /* height : 15rem; */
               overflow : scroll;
-              padding : 0.5rem 0.5rem 0.5rem 2rem;                                      
+              padding : 0.5rem 0rem 0.5rem 2rem;                                      
             }
 
             #second_3box_center .contents .word_view_2 ul li {
@@ -1550,6 +1552,7 @@ ul {
               margin-top : 0.5rem;
               margin-bottom : 0.5rem;
               border-bottom : 1px solid gray;
+              min-height : 4rem;
             }
 
             #example_list .exam_edit_icon {
@@ -1586,17 +1589,28 @@ ul {
                   border-radius: 5px ;
                   
               }
+
+                #word_toolbar_input_layer {      
+                  position:relative;
+                  width : 85%;
+                }
           
                 #word_toolbar_input {                        
                     height : 3.6rem;
                     /* ((scrollHeight/10)+0.4)rem; */
-                    width: 85%;
+                    width : 100%;
                     border-radius: 5px ;
                     border : 0.1rem solid #999;
                     outline : none;     
                     text-align : justify;
-                    padding : 0.5rem 2.8rem 0.5rem 1rem;    
-                }
+                    padding : 0.5rem 2.8rem 0.5rem 1rem; 
+                    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+                    scrollbar-width: none;
+			          }
+
+                #word_toolbar_input::-webkit-scrollbar {
+                  display: none; /* 크롬, 사파리, 오페라, 엣지 */
+                }                   
           
                 #word_toolbar_input:focus {
                     border: 2px solid firebrick;
@@ -1605,7 +1619,9 @@ ul {
                 #word_toolbar_input_icon_x {
                   position : absolute;
                   align-items: center;
-                  left : 74%;          
+                  top : 0;
+                  right : 0;       
+                  
                   height : 3.6rem;
                   font-size : 2.5rem; 
                   padding-left : 1rem; 
@@ -1735,7 +1751,14 @@ ul {
         animation-duration: 0.25s;
         animation-fill-mode: forwards;
         /* animation-iteration-count: infinite; */
+        -ms-overflow-style: none; /* 인터넷 익스플로러 */
+        scrollbar-width: none;
     }
+
+    .t1_mainbox::-webkit-scrollbar {
+      display: none; /* 크롬, 사파리, 오페라, 엣지 */
+    }  
+    
     
     @keyframes t1-up {
       from {height: 98%;}
@@ -1744,11 +1767,8 @@ ul {
     @keyframes t1-down {
       from {height: 79%;}
       to {height: 98%;}
-    }
+    }    
     
-    .t1_mainbox::-webkit-scrollbar {
-      display: none;
-    }
 
     #third_1box_contents {
       
@@ -1839,18 +1859,30 @@ ul {
           
       }
   
+      #t1_box_main_search_input_layer {      
+        position:relative;
+        width : 85%;
+      }
+
         #t1_box_main_search_input {    					
             height : 3.6rem;
             max-height: 14rem;
             /* ((scrollHeight/10)+0.4)rem; */					
-            width: 85%;
+            width: 100%;
             border-radius: 10px ;
             border : 0.1rem solid #999;
             outline : none;     
             text-align : justify;
             padding : 0.5rem 2.8rem 0.5rem 1rem; 
             overflow-y:scroll;   
+            -ms-overflow-style: none; /* 인터넷 익스플로러 */
+            scrollbar-width: none;
         }
+
+        #t1_box_main_search_input::-webkit-scrollbar {
+          display: none; /* 크롬, 사파리, 오페라, 엣지 */
+        }
+        
   
         #t1_box_main_search_input:focus {
             border: 2px solid firebrick;
@@ -1859,7 +1891,9 @@ ul {
         #t1_box_msi_icon_x {        
           position : absolute;
           align-items: center;
-          left : 74%;          
+          top : 0;
+          right : 0;
+
           height : 3.6rem;
           font-size : 2.5rem;                    
           padding-left : 1rem; 
@@ -1956,7 +1990,7 @@ ul {
   #login_layer {      
     display : none;
     position : absolute;
-    width : 91.25%;    
+    width : 91.3%;    
     min-height : 20%;    
     bottom : 0%;
     background-color: white;

@@ -750,7 +750,7 @@ app.get('/kakaoLogin', function (req, res, err) {
     });
   } else {
     console.log('error : ' + req.query.error);
-    res.redirect('/');
+    // res.redirect('/');
   }
      
 });
@@ -771,7 +771,10 @@ app.post('/kakaoLogin/signup', function (req, res, next) {
 
   var sql = `SELECT * FROM client_list WHERE client_ID = '${client_ID}'`;
   auth_conn.query(sql, function(err, results){
-    if (err) console.err("err:" + err);
+    if (err) {
+      console.err("err:" + err); 
+      // res.redirect('/');       
+    }
     console.log('resresult : ' + results);
     console.log('resleng : ' + results.length);
     if (results.length === 0) {

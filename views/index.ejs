@@ -81,12 +81,12 @@
             </div>
           </div>
           <div id="Upper_carousel" class="carousel slide" style="display: block;" data-bs-touch="false">
-            <div class="carousel-indicators" style="display:none;">
-              <button type="button" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-              <button type="button" id="carousel_btn4" data-bs-target="#Upper_carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-              <button type="button" id="carousel_btn5" data-bs-target="#Upper_carousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+            <div class="carousel-indicators" style="margin-bottom:0rem;">
+              <button type="button" style="background-color: cornsilk;" id="carousel_btn1" data-bs-target="#Upper_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" style="background-color: cornsilk;" id="carousel_btn2" data-bs-target="#Upper_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" style="background-color: cornsilk;" id="carousel_btn3" data-bs-target="#Upper_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              <button type="button" style="background-color: cornsilk;" id="carousel_btn4" data-bs-target="#Upper_carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+              <button type="button" style="background-color: cornsilk;" id="carousel_btn5" data-bs-target="#Upper_carousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
             </div>
             <div class="carousel-inner" id="carousel_contents">
               <div class="carousel-item" id="contents_wordbook">                
@@ -173,8 +173,10 @@
         
         <div class="searchbar shadow-lg animate__animated" id="searchbar" style="display:none;">
           <div class="searchbar_main">
-            <textarea class="autosize ft8" id="main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
-            <div id="msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('mainbox_center');touch_icon_action(this);"></i></div>
+            <div id="main_search_input_layer">
+              <textarea class="autosize ft8" id="main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+              <div id="msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('mainbox_center');touch_icon_action(this);"></i></div>
+            </div>            
             <div id="msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="touch_icon_action(this); tranbtn_click('mainbox_center');"></i></div>
           </div>
           <div class="searchbar_items">          
@@ -224,7 +226,7 @@
           
         </div>
       </div>
-      <div id="second_1box_bottom_line" style="text-align:center;" onclick="document.getElementById('call_wim_add_modal').click();">
+      <div id="second_1box_bottom_line" style="position:absolute; bottom:1.5rem; width:100%; text-align:center; " onclick="document.getElementById('call_wim_add_modal').click();">
         <span class="ft_noto ft7 text_red shadow-sm animate__animated animate__flash" style="padding : 1rem; border-radius : 10%; background-color:#fff8dc50;" onclick="zoomin(this);"> 새로운 단어장을 추가해보세요. </span>
       </div>
       
@@ -267,8 +269,10 @@
       </div>      
       <div class="word_toolbar shadow-sm" id="word_toolbar" style="display:none;">              
         <div class="word_toolbar_main shadow-sm">
-          <textarea class="autosize ft8" id="word_toolbar_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
-          <div id="word_toolbar_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('second_3box_center');touch_icon_action(this);"></i></div>
+          <div class="word_toolbar_input_layer">
+            <textarea class="autosize ft8" id="word_toolbar_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+            <div id="word_toolbar_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('second_3box_center');touch_icon_action(this);"></i></div>
+          </div>          
           <div id="word_toolbar_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="touch_icon_action(this); tranbtn_click('second_3box_center');"></i></div>                
         </div>
         <div class="word_toolbar_items" >          
@@ -315,8 +319,10 @@
       </div>  
       <div class="t1_box_searchbar shadow-lg animate__animated" id="t1_box_searchbar" style="display:none;">
         <div class="searchbar_main">
-          <textarea class="autosize ft8" id="t1_box_main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
-          <div id="t1_box_msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('third_1box_center');touch_icon_action(this);"></i></div>
+          <div class="t1_box_main_search_input_layer">
+            <textarea class="autosize ft8" id="t1_box_main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
+            <div id="t1_box_msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('third_1box_center');touch_icon_action(this);"></i></div>
+          </div>          
           <div id="t1_box_msi_icon_trans"><i class="fa-solid fa-language text_green animate__animated" onclick="touch_icon_action(this); tranbtn_click('third_1box_center');"></i></div>
         </div>
         <div class="searchbar_items">          
@@ -324,7 +330,7 @@
           <a id="t1_box_msi_link_youglish" href="https://youglish.com/" target="_blank"> <img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="touch_icon_action(this);"/></a>
           <a id="t1_box_msi_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>          
           <i id="t1_box_msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="touch_icon_action(this); tts_pos('third_1box_center', 1);" ></i>          
-          <i class="fa-solid fa-square-plus text_red animate__animated " data-bs-toggle="modal" data-bs-target="#word_input_modal" onclick="touch_icon_action(this); modal1_openbtn_click('third_1box_center');"></i>                    
+          <i class="fa-solid fa-square-plus text_red animate__animated " onclick="touch_icon_action(this); modal1_openbtn_click('third_1box_center');"></i>                    
         </div>  
         <div class="searchResult shadow-sm animate__animated" style="display: none" id="t1_box_Sres_view" >        
           <div class="Sres_view" name="t1_box_Sres_view">
@@ -349,78 +355,12 @@
     
     <!-- login_layer -->
     <div class="container-fluid login_layer shadow-sm animate__animated" id="login_layer" style="display : none;">      
-      <div class="login_layer_title" id="login_layer_title">
+      
+    </div>    
 
-      </div>
-      <div class="login_layer_contents" id="login_layer_contents">
-        <div class="login_layer_contents_user" id="login_layer_contents_user">
-          <div class="user_image_layer">
-            <div class="login_layer_contents_user_image" id="login_layer_contents_user_image" style="display:none;">
-
-            </div> 
-          </div>
-          <div class="login_layer_contents_user_info" id="login_layer_contents_user_info">
-
-          </div>
-        </div>
-        <div class="login_layer_contents_button" id="login_layer_contents_button">
-
-        </div>        
-      </div>
-
-    </div>
-    <!-- config -->
-
-    <div class="container-fluid config_layer shadow-sm animate__animated" id="config_layer" style="display:none;">      
-      <div class="config_layer_contents_user" id="config_layer_contents_user">
-        <div class="config_layer_user_image_layer">
-          <div class="config_layer_contents_user_image" id="config_layer_contents_user_image" style="display:none;">
-
-          </div> 
-        </div>
-        <div class="config_layer_contents_user_info" id="config_layer_contents_user_info">
-          
-        </div>        
-      </div>
-      <div class="config_layer_contents_button" id="config_layer_contents_button">
-
-      </div>        
-      <div class="config_layer_details" id="config_layer_details">
-        <div class="config_dictionary ft_noto">
-          <select id="default_dict" class="form-select form-select-lg" aria-label="Default select example" style="border : 2px solid firebrick;" value="1">
-            <!-- <option selected>기본 영어사전을 선택해주세요.</option> -->
-            <option value="1">Cambridge 영영사전</option>
-            <option value="2">Naver 영어사전</option>
-            <option value="3">Etymonline 어원사전</option>
-          </select>
-        </div>
-        <div class="config_tts_default ft9 ft_noto">
-          <label for="tts_speed_def" class="form-label">영어 음성재생 기본속도(0-100) / (기본 : 50)</label>
-          <input type="range" class="form-range" id="tts_speed_def" value="50">
-        </div>
-        <div class="config_tts_slow ft9 ft_noto">
-          <label for="tts_speed_slow" class="form-label">영어 음성재생 느린속도(0-100) / (기본 : 25)</label>
-          <input type="range" class="form-range" id="tts_speed_slow" value="25">
-        </div>
-        <div class="config_layer_bottom_button">
-          <div style="display:flex; width:100%; height:100%;">
-            <div style="width:50%;"></div>                  
-            <div class="animate__animated" style="margin : auto;">        
-              <ul class="animate__animated" style="text-align:center; padding : auto; margin-bottom : 0%;" onclick="zoomin(this); config_chg();">
-                <li><i class="fa-solid fa-check text_red ft6 ftbb"></i>                   
-                <li><span class="ft10"> 변경 </span></li>
-              </ul>
-            </div>
-            <div class="animate__animated" style="margin : auto;">
-              <ul class="animate__animated" style="text-align:center; padding : auto; margin-bottom : 0%; border-left : 1px solid gray;" onclick="zoomin(this); config_layer_close(); vis(mainbox_center);">
-                <li><i class="fa-solid fa-xmark text_red ft6 ftbb"></i></li>                
-                <li><span class="ft10"> 취소 </span></li>
-              </ul>                             
-            </div>                                                    
-          </div> 
-        </div>
-      </div>
-    </div>
+    <div class="container-fluid quiz_layer shadow-sm animate__animated" id="quiz_layer" style="display : none;">      
+      
+    </div>    
 
     <!-- loading_layer -->
     <div class="container-fluid loading_layer animate__animated" id="loading_layer">
@@ -434,13 +374,13 @@
 <!-- foot bar -->
 
   <div class="footbar animate__animated" id="footbar">
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close(); third_1box_close(); config_layer_close();">      
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close(); third_1box_close(); login_layer_close();">      
       <ul>
         <li><i class="fa-solid fa-house ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Home </span></li>
       </ul>      
     </div>        
-    <div class="footbar_menu animate__animated" id="footbar_2" onclick="click_footbar(this, 2); wordbook_reading('initial'); third_1box_close(); config_layer_close();">        
+    <div class="footbar_menu animate__animated" id="footbar_2" onclick="click_footbar(this, 2); wordbook_reading('initial'); third_1box_close(); login_layer_close();">        
       <ul>
         <li><i class="fa-solid fa-book-open ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Wordbook </span></li>
@@ -452,10 +392,10 @@
         <li><span class="ft10"> Search </span></li>
       </ul>             
     </div>
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4); config_layer_open(); wordbook_close(); third_1box_close();">
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4); wordbook_close(); third_1box_close();">
       <ul>
-        <li><i class="fa-solid fa-gear ft7 ftbb text_whiteoutline"></i></li>
-        <li><span class="ft10"> Setting </span></li>
+        <li><i class="fa-solid fa-q ft7 ftbb text_whiteoutline"></i></li>
+        <li><span class="ft10"> Quiz </span></li>
       </ul>             
     </div>
     <div class="footbar_menu animate__animated">
@@ -500,10 +440,10 @@
           <div class="dropdown" >                      
             <button id="wim_dropdown_btn" class="btn dropdown-toggle bg_firebrick text_white ft8" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button> 
             <span id="pre_selected_wordbook" style="display:none;"></span>
-            <ul class="dropdown-menu" id="wim_dropdown_wordbook">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <ul class="dropdown-menu" id="wim_dropdown_wordbook" style="height:13rem; overflow-y:scroll;">
+              <li><a class="dropdown-item ft8" href="#">Action</a></li>
+              <li><a class="dropdown-item ft8" href="#">Another action</a></li>
+              <li><a class="dropdown-item ft8" href="#">Something else here</a></li>
             </ul>
           </div>
         </div>                    
