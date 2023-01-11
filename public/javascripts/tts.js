@@ -1,12 +1,5 @@
 //  Google tts 
 
-
-// 외부용
-// api key : AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM
-//https://texttospeech.googleapis.com/v1/text:synthesize
-// 음성 config https://cloud.google.com/text-to-speech/docs/reference/rest/v1/text/synthesize#audioconfig
-// 합성 음성 https://cloud.google.com/text-to-speech/docs/create-audio
-
 function tts_pos(position, speed){    
     let req_pos = position;
     let input_value, res_value;
@@ -38,31 +31,28 @@ function tts_pos(position, speed){
       sentence = input_value;
     }      
 
-    let rate = speed;               
+    let rate;
+
+    if ((get_config_cookie() !== null) && (get_config_cookie() !== undefined)) {
+      config = get_config_cookie();
+      if (speed === 1) {
+        rate = Number(config[1])*0.02;
+      } else {
+        rate = Number(config[2])*0.02;
+      }      
+    } else {
+      rate = speed;
+    }     
 
     console.log('------------tts detected------------------');
     console.log('sentence : ' + sentence);
+
+    var req_value = {sentence : sentence};
     
-    fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
-        method: 'POST',
-        headers: {
-            'X-Goog-Api-Key': 'AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          'input' : {'text' : sentence},
-          'voice' : {'languageCode' : 'en-US' , 'name' : 'en-US-Neural2-C', 'ssmlGender' : 'FEMALE'},
-          // 'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'FEMALE'},
-          'audioConfig': {'audioEncoding': 'MP3' },        
-        }),
-      })
-    .then((response)=>response.json())
-    .then((result)=>data(result));  
-    function data(result){      
-      console.log(result);      
-      // console.log(JSON.stringify(result.audioContent.data));
+    fetch('/tts', {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((result)=>{    
+      console.log(result);
       var Sound = new Audio(`data:audio/mp3;base64,${result.audioContent}`);
-      Sound.playbackRate = speed;
+      Sound.playbackRate = rate;
       Sound.play().then(()=>{        
       // new Audio(`data:audio/mp3;base64,${result.audioContent}`).play().then(()=>{        
         console.log('sound ok');
@@ -70,36 +60,32 @@ function tts_pos(position, speed){
       .catch(error => {
         console.log('sound err');
       });      
-    }
+    })
   }
 
-  function tts_any(text, rate){
+  function tts_any(text, speed){
     let sentence = text;
-    let speed = rate;          
+    let rate;
+
+    if ((get_config_cookie() !== null) && (get_config_cookie() !== undefined)) {
+      config = get_config_cookie();
+      if (speed === 1) {
+        rate = Number(config[1])*0.02;
+      } else {
+        rate = Number(config[2])*0.02;
+      }      
+    } else {
+      rate = speed;
+    }   
     
     console.log('------------tts detected------------------');
     console.log('sentence : ' + sentence);
-    
-    fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
-        method: 'POST',
-        headers: {
-            'X-Goog-Api-Key': 'AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          'input' : {'text' : sentence},
-          'voice' : {'languageCode' : 'en-US' , 'name' : 'en-US-Neural2-C', 'ssmlGender' : 'FEMALE'},
-          // 'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'FEMALE'},
-          'audioConfig': {'audioEncoding': 'MP3' },        
-        }),
-      })
-    .then((response)=>response.json())
-    .then((result)=>data(result));  
-    function data(result){      
-      console.log(result);      
-      // console.log(JSON.stringify(result.audioContent.data));
+
+    var req_value = {sentence : sentence};
+    fetch('/tts', {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((result)=>{    
+      console.log(result);
       var Sound = new Audio(`data:audio/mp3;base64,${result.audioContent}`);
-      Sound.playbackRate = speed;
+      Sound.playbackRate = rate;
       Sound.play().then(()=>{        
       // new Audio(`data:audio/mp3;base64,${result.audioContent}`).play().then(()=>{        
         console.log('sound ok');
@@ -107,33 +93,9 @@ function tts_pos(position, speed){
       .catch(error => {
         console.log('sound err');
       });      
-    }
+    })    
   }
   
-
-
-
-
-// 내부용
-
-  // function tts(){
-  //   // api key : AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM
-  //   var sentence = {sentence : document.getElementById('main_input').value};    
-  //   console.log(sentence);
-    // fetch("/google_tts", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sentence)}).then((response)=>response.json()).then((result)=>data(result));  
-  //   function data(result){      
-  //     // console.log(result);
-      
-  //     // console.log(JSON.stringify(result.audioContent.data));
-  //     new Audio(`data:audio/mp3;base64,${result}`).play().then(()=>{        
-  //       console.log('sound ok');
-  //     })
-  //     .catch(error => {
-  //       console.log('sound err');
-  //     });      
-  //   }
-  // }
-
 //  Cambridge Search 
       
       async function Cambrg_search(word){        

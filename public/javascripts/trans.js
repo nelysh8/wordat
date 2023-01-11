@@ -7,6 +7,20 @@ function tranbtn_click(position){
     // var Input_target = '';
     var view_target = '';
     var engs_org, engs_spl, engs_res;
+
+    var dic_url;
+    if ((get_config_cookie() !== null) && (get_config_cookie() !== undefined)) {
+      config = get_config_cookie();
+      if (Number(config[0]) === 1) {
+        dic_url = 'https://dictionary.cambridge.org/dictionary/english/';
+      } else if (Number(config[0]) === 2) {
+        dic_url = 'https://en.dict.naver.com/#/search?query=';
+      } else if (Number(config[0]) === 3) {
+        dic_url = 'https://www.etymonline.com/search?q=';
+      }
+    } else {
+      dic_url = 'https://dictionary.cambridge.org/dictionary/english/';
+    }   
   
     let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
   
@@ -39,14 +53,15 @@ function tranbtn_click(position){
       if (req_pos === 'mainbox_center'){  // 메인박스 -> 영어 : 그대로 처리 / 한글 : 번역              
         engs_org = Input_target.value.replace(/\n$/,'');
         engs_spl = Input_target.value.replace('\n', ' ___ ').replace(/^\s+|\s+$/g,'').replace('  ',' ').split(' ');              
-        engs_res = '';
+        engs_res = '';        
+
         function TEST_add(engs_spl){
           for (let words of engs_spl){            
             if (words === '___') {
               engs_res += `<br>`;
             } else {                                
               words_encode = encodeURIComponent(words).replace(/'/g, '%27');    
-              engs_res += `<span onclick="touch_block_action(this); window.open('https://dictionary.cambridge.org/dictionary/english-korean/${words_encode}');">${words}</span> `;
+              engs_res += `<span onclick="touch_block_action(this); window.open('${dic_url + words_encode}');">${words}</span> `;
               
               // engs_res += `<span onclick="touch_block_action(this); Cambrg_search('${words_encode}');">${words}</span> `;
             }              
@@ -70,7 +85,7 @@ function tranbtn_click(position){
               engs_res += `<br>`;
             } else {                                
               words_encode = encodeURIComponent(words).replace(/'/g, '%27');    
-              engs_res += `<span onclick="touch_block_action(this); window.open('https://dictionary.cambridge.org/dictionary/english-korean/${words_encode}');">${words}</span> `;
+              engs_res += `<span onclick="touch_block_action(this); window.open('${dic_url + words_encode}');">${words}</span> `;
               
               // engs_res += `<span onclick="touch_block_action(this); Cambrg_search('${words_encode}');">${words}</span> `;
             }              
@@ -93,8 +108,8 @@ function tranbtn_click(position){
     var req_pos = position;
     var patch_target;
     var write_target, write_target_id;
-    var link_yarn, link_youglish, link_google = '';
-    var url_yarn, url_youglish, url_google = '';
+    var link_yarn, link_youglish, link_google, link_skell, link_ludwig = '';
+    var url_yarn, url_youglish, url_google, url_skell, url_ludwig = '';
     var engs_org, engs_spl, engs_res;
     let kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
     let TEXT = '';
@@ -103,7 +118,9 @@ function tranbtn_click(position){
       view_target = document.getElementById('Sres_view');
       link_yarn = document.getElementById('msi_link_yarn');
       link_youglish = document.getElementById('msi_link_youglish');
-      link_google = document.getElementById('msi_link_google');    
+      link_google = document.getElementById('msi_link_google'); 
+      link_skell = document.getElementById('msi_link_skell');
+      link_ludwig = document.getElementById('msi_link_ludwig');
       if (kor_check.test(SENTC)) {
         TEXT = {'source' : 'ko', 'target' : 'en', 'word' : SENTC};
         patch_target = document.getElementById('Sres_KOR');
@@ -145,6 +162,8 @@ function tranbtn_click(position){
         url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org).replace(/'/g, '%27');      
         url_youglish = 'https://youglish.com/pronounce/' + encodeURIComponent(engs_org).replace(/'/g, '%27') + '/english?';
         url_google = 'https://www.google.com/search?q="' + encodeURIComponent(engs_org).replace(/'/g, '%27') +'"';
+        url_skell = 'https://skell.sketchengine.eu/#result?f=wordsketch&lang=en&query=' + encodeURIComponent(engs_org).replace(/'/g, '%27');
+        url_ludwig = 'https://ludwig.guru/s/' + encodeURIComponent(engs_org).replace(/'/g, '%27');
   
         console.log(encodeURIComponent(engs_org), encodeURIComponent(engs_org).replace(/'/g, '%27'));
         console.log(engs_org);
@@ -153,12 +172,16 @@ function tranbtn_click(position){
         link_yarn.setAttribute('href', `${url_yarn}`);      
         link_youglish.setAttribute('href', `${url_youglish}`);
         link_google.setAttribute('href', `${url_google}`);
+        link_skell.setAttribute('href', `${url_skell}`);
+        link_ludwig.setAttribute('href', `${url_ludwig}`);
       });
     } else if (req_pos === 'second_3box_center') {    // S3 박스 ->
       view_target = document.getElementById('word_toolbar_result'); 
       link_yarn = document.getElementById('word_toolbar_link_yarn');
       link_youglish = document.getElementById('word_toolbar_link_youglish');
-      link_google = document.getElementById('word_toolbar_link_google');   
+      link_google = document.getElementById('word_toolbar_link_google');  
+      link_skell = document.getElementById('word_toolbar_link_skell');
+      link_ludwig = document.getElementById('word_toolbar_link_ludwig'); 
       if (kor_check.test(SENTC)) {
         TEXT = {'source' : 'ko', 'target' : 'en', 'word' : SENTC};
         patch_target = document.getElementById('wtrv_KOR');
@@ -185,19 +208,25 @@ function tranbtn_click(position){
         url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org).replace(/'/g, '%27');      
         url_youglish = 'https://youglish.com/pronounce/' + encodeURIComponent(engs_org).replace(/'/g, '%27') + '/english?';
         url_google = 'https://www.google.com/search?q="' + encodeURIComponent(engs_org).replace(/'/g, '%27') +'"';
-  
+        url_skell = 'https://skell.sketchengine.eu/#result?f=wordsketch&lang=en&query=' + encodeURIComponent(engs_org).replace(/'/g, '%27');
+        url_ludwig = 'https://ludwig.guru/s/' + encodeURIComponent(engs_org).replace(/'/g, '%27');
+
         console.log(engs_org);
         console.log(url_yarn);
   
         link_yarn.setAttribute('href', `${url_yarn}`);      
         link_youglish.setAttribute('href', `${url_youglish}`);
         link_google.setAttribute('href', `${url_google}`);
+        link_skell.setAttribute('href', `${url_skell}`);
+        link_ludwig.setAttribute('href', `${url_ludwig}`);
       });    
     } else if (req_pos === 'third_1box_center') {    // t1 박스 ->
       view_target = document.getElementById('t1_box_Sres_view');
       link_yarn = document.getElementById('t1_box_msi_link_yarn');
       link_youglish = document.getElementById('t1_box_msi_link_youglish');
       link_google = document.getElementById('t1_box_msi_link_google');    
+      link_skell = document.getElementById('t1_box_msi_link_skell');
+      link_ludwig = document.getElementById('t1_box_msi_link_ludwig'); 
       if (kor_check.test(SENTC)) {
         TEXT = {'source' : 'ko', 'target' : 'en', 'word' : SENTC};
         patch_target = document.getElementById('t1_box_Sres_KOR');
@@ -239,6 +268,8 @@ function tranbtn_click(position){
         url_yarn = 'https://getyarn.io/yarn-find?text=' + encodeURIComponent(engs_org).replace(/'/g, '%27');      
         url_youglish = 'https://youglish.com/pronounce/' + encodeURIComponent(engs_org).replace(/'/g, '%27') + '/english?';
         url_google = 'https://www.google.com/search?q="' + encodeURIComponent(engs_org).replace(/'/g, '%27') +'"';
+        url_skell = 'https://skell.sketchengine.eu/#result?f=wordsketch&lang=en&query=' + encodeURIComponent(engs_org).replace(/'/g, '%27');
+        url_ludwig = 'https://ludwig.guru/s/' + encodeURIComponent(engs_org).replace(/'/g, '%27');
   
         console.log(encodeURIComponent(engs_org), encodeURIComponent(engs_org).replace(/'/g, '%27'));
         console.log(engs_org);
@@ -247,6 +278,8 @@ function tranbtn_click(position){
         link_yarn.setAttribute('href', `${url_yarn}`);      
         link_youglish.setAttribute('href', `${url_youglish}`);
         link_google.setAttribute('href', `${url_google}`);
+        link_skell.setAttribute('href', `${url_skell}`);
+        link_ludwig.setAttribute('href', `${url_ludwig}`);
       }); 
     }  
   }

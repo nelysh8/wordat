@@ -65,6 +65,14 @@ app.use(express.static('public'));
 
 // my image folder
 
+// err 
+
+process.on('uncaughtException', function(err){
+  console.log('Caught exception: '+ err);
+})
+
+
+
 app.get('/images/:img_name', function(req,res){
   var img_name = req.params.img_name;
   fs.readFile('/images/icon_google.png',function(err, data) {
@@ -700,6 +708,35 @@ app.post('/open_ebook', function (req, res) {
   })
 })
 
+
+app.post('/tts', function(req, res, err) {
+  var sentence = req.body.sentence;
+  fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
+        method: 'POST',
+        headers: {
+            'X-Goog-Api-Key': 'AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'input' : {'text' : sentence},
+          'voice' : {'languageCode' : 'en-US' , 'name' : 'en-US-Neural2-C', 'ssmlGender' : 'FEMALE'},
+          // 'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'FEMALE'},
+          'audioConfig': {'audioEncoding': 'MP3' },        
+        }),
+      })
+    .then((response)=>response.json())
+    .then((result)=>{
+      res.send(result);
+    })
+})
+
+// 외부용
+// api key : AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM
+//https://texttospeech.googleapis.com/v1/text:synthesize
+// 음성 config https://cloud.google.com/text-to-speech/docs/reference/rest/v1/text/synthesize#audioconfig
+// 합성 음성 https://cloud.google.com/text-to-speech/docs/create-audio
+
+
 app.get('/kakaoLogin', function (req, res, err) {
   console.log('login redirect start..');
   console.log('========================')
@@ -789,7 +826,7 @@ app.post('/kakaoLogin/signup', function (req, res, next) {
         SHOW DATABASES;
         CREATE TABLE ${client_ID}.$ff$단어장 LIKE auth.단어장;
         INSERT INTO ${client_ID}.$ff$단어장 SELECT * FROM auth.단어장;
-        UPDATE ${client_ID}.$ff$단어장 SET client_ID = '${client_ID}';        
+        UPDATE ${client_ID}.$ff$단어장 SET client_ID = '${client_ID}', SAVEDATE = '${time}', LOADDATE = '${time}', QUIZ_DATE = '${time}' ;        
       `;
       // '${req.body.nickname.replace('@','$at$')}'
       auth_conn.query(signup_sql, function(err, results){

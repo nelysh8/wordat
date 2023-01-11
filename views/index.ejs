@@ -183,6 +183,8 @@
             <a id="msi_link_yarn" href="https://getyarn.io/" target="_blank"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="touch_icon_action(this);"/></a>
             <a id="msi_link_youglish" href="https://youglish.com/" target="_blank"> <img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="touch_icon_action(this);"/></a>
             <a id="msi_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>          
+            <a id="msi_link_skell" href="https://skell.sketchengine.eu/#home?lang=en" target="_blank"><img class="animate__animated border-round" src="/images/skell_logo.png" width="50" height="20" onclick="touch_icon_action(this);"/></a>          
+            <a id="msi_link_ludwig" href="https://ludwig.guru/" target="_blank"><img class="animate__animated border-round" src="/images/ludwig.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>          
             <i id="msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="touch_icon_action(this); tts_pos('mainbox_center', 1);" ></i>          
             <i class="fa-solid fa-square-plus text_red animate__animated " onclick="touch_icon_action(this); modal1_openbtn_click('mainbox_center');"></i>                                  
           </div>  
@@ -269,7 +271,7 @@
       </div>      
       <div class="word_toolbar shadow-sm" id="word_toolbar" style="display:none;">              
         <div class="word_toolbar_main shadow-sm">
-          <div class="word_toolbar_input_layer">
+          <div id="word_toolbar_input_layer">
             <textarea class="autosize ft8" id="word_toolbar_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
             <div id="word_toolbar_input_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('second_3box_center');touch_icon_action(this);"></i></div>
           </div>          
@@ -279,6 +281,8 @@
           <a id="word_toolbar_link_yarn" href="https://getyarn.io/" target="_blank" ><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="touch_icon_action(this);"/></a>
           <a id="word_toolbar_link_youglish" href="https://youglish.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="touch_icon_action(this);"/></a>
           <a id="word_toolbar_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>                
+          <a id="word_toolbar_link_skell" href="https://skell.sketchengine.eu/#home?lang=en" target="_blank"><img class="animate__animated border-round" src="/images/skell_logo.png" width="50" height="20" onclick="touch_icon_action(this);"/></a>          
+          <a id="word_toolbar_link_ludwig" href="https://ludwig.guru/" target="_blank"><img class="animate__animated border-round" src="/images/ludwig.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>          
           <i id="word_toolbar_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="touch_icon_action(this); tts_pos('second_3box_center', 1);"></i>
           <i class="fa-solid fa-square-plus text_red animate__animated " onclick="touch_icon_action(this); modal1_openbtn_click('second_3box_center');"></i>                        
         </div>
@@ -329,6 +333,8 @@
           <a id="t1_box_msi_link_yarn" href="https://getyarn.io/" target="_blank"><img class="animate__animated border-round" src="/images/icon_yarn.webp" width="30" height="30" onclick="touch_icon_action(this);"/></a>
           <a id="t1_box_msi_link_youglish" href="https://youglish.com/" target="_blank"> <img class="animate__animated border-round" src="/images/icon_youglish.jpg" width="60" height="30" onclick="touch_icon_action(this);"/></a>
           <a id="t1_box_msi_link_google" href="https://www.google.com/" target="_blank"><img class="animate__animated border-round" src="/images/icon_google.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>          
+          <a id="t1_box_msi_link_skell" href="https://skell.sketchengine.eu/#home?lang=en" target="_blank"><img class="animate__animated border-round" src="/images/skell_logo.png" width="50" height="20" onclick="touch_icon_action(this);"/></a>          
+          <a id="t1_box_msi_link_ludwig" href="https://ludwig.guru/" target="_blank"><img class="animate__animated border-round" src="/images/ludwig.png" width="30" height="30" onclick="touch_icon_action(this);"/></a>          
           <i id="t1_box_msi_play_btn" class="tts fa-solid fa-play text_red animate__animated" onclick="touch_icon_action(this); tts_pos('third_1box_center', 1);" ></i>          
           <i class="fa-solid fa-square-plus text_red animate__animated " onclick="touch_icon_action(this); modal1_openbtn_click('third_1box_center');"></i>                    
         </div>  
@@ -359,7 +365,9 @@
     </div>    
 
     <div class="container-fluid quiz_layer shadow-sm animate__animated" id="quiz_layer" style="display : none;">      
-      
+      <button onclick="testquiz(1)">quiz</button>
+      <p><span id="quiz_eng" class="ft8"></span></p>
+      <p><span id="quiz_kor" class="ft8"></span></p>
     </div>    
 
     <!-- loading_layer -->
@@ -374,13 +382,13 @@
 <!-- foot bar -->
 
   <div class="footbar animate__animated" id="footbar">
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close(); third_1box_close(); login_layer_close();">      
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 1); wordbook_close(); third_1box_close(); quiz_layer_close();">      
       <ul>
         <li><i class="fa-solid fa-house ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Home </span></li>
       </ul>      
     </div>        
-    <div class="footbar_menu animate__animated" id="footbar_2" onclick="click_footbar(this, 2); wordbook_reading('initial'); third_1box_close(); login_layer_close();">        
+    <div class="footbar_menu animate__animated" id="footbar_2" onclick="click_footbar(this, 2); wordbook_reading('initial'); third_1box_close(); quiz_layer_close();">        
       <ul>
         <li><i class="fa-solid fa-book-open ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Wordbook </span></li>
@@ -392,7 +400,7 @@
         <li><span class="ft10"> Search </span></li>
       </ul>             
     </div>
-    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4); wordbook_close(); third_1box_close();">
+    <div class="footbar_menu animate__animated" onclick="click_footbar(this, 4); wordbook_close(); third_1box_close(); quiz_layer_open();">
       <ul>
         <li><i class="fa-solid fa-q ft7 ftbb text_whiteoutline"></i></li>
         <li><span class="ft10"> Quiz </span></li>

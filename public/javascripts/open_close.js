@@ -102,6 +102,7 @@
   }
 
   async function quiz_layer_open(){    
+    console.log('quiz_layer_open');
     if (quiz_layer.style.display !== 'none') {
       click_bouncein(quiz_layer);
       // document.querySelector('i.fa-gear').classList.add('text_whiteoutline');
@@ -133,3 +134,20 @@
     }    
   }
   
+  function open_loginbar(){
+        
+    console.log('open_loginbar');   
+            
+    var loginbar = document.getElementById('login_layer');  
+    if (loginbar.style.display === 'none') {
+      click_slideup(loginbar);
+    }        
+  }
+  
+  function close_loginbar(){
+    console.log('close_loginbar');
+    var loginbar = document.getElementById('login_layer');                  
+    if (loginbar.style.display === 'block') {
+      click_slideoutdown(loginbar);
+    }
+  }

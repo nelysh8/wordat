@@ -462,25 +462,7 @@
         onvis(document.getElementById('Upper_carousel'));
       }
       
-      function open_loginbar(){
-        
-        console.log('open_loginbar');   
-        var config = get_config_cookie();
-          console.log(config);
-
-        var loginbar = document.getElementById('login_layer');  
-        if (loginbar.style.display === 'none') {
-          click_slideup(loginbar);
-        }        
-      }
       
-      function close_loginbar(){
-        console.log('close_loginbar');
-        var loginbar = document.getElementById('login_layer');                  
-        if (loginbar.style.display === 'block') {
-          click_slideoutdown(loginbar);
-        }
-      }
 
       
       

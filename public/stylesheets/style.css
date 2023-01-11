@@ -374,7 +374,7 @@ ul {
     text-align: center; */            
     margin-left : auto;
     margin-right : auto;    
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     z-index : 2;
     -ms-overflow-style: none; /* 인터넷 익스플로러 */
     scrollbar-width: none;
@@ -1145,6 +1145,7 @@ ul {
   padding-bottom: 0.5rem;
   z-index : 4;
   border-radius: 20px;
+  overflow: hidden;
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none;
 }
@@ -1300,7 +1301,7 @@ ul {
   background-color: cornsilk;   
   z-index : 6;
   border-radius: 20px;
-  
+  overflow: hidden;
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none;
 }
@@ -1441,6 +1442,7 @@ ul {
   padding-bottom : 0.5rem;
   margin : 8.5rem 0 0 0;  
   /* overflow-y: scroll; */
+  overflow: hidden;
   background-color: white;   
   z-index : 8;
   border-radius: 20px;  
@@ -1622,14 +1624,12 @@ ul {
                   position : absolute;
                   align-items: center;
                   top : 0;
-                  right : 0;       
-                  
+                  right : 0;                         
                   height : 3.6rem;
+
                   font-size : 2.5rem; 
                   padding-left : 1rem; 
                   padding-right : 1rem;           
-                        
-                  
                 }
                 
                 #word_toolbar_icon_trans {
@@ -2045,25 +2045,7 @@ ul {
   #login_layer_contents_button {
     border-top : 2px solid #00000020;
     padding-top : 10px;
-  }
-
-  #config_layer {      
-    display : none;
-    position : absolute;
-    width : 91.25%;    
-    min-height : 83%;    
-    bottom : 0%;
-    background-color: white;
-    justify-content: space-between;  
-    padding : 1rem 2rem 1rem 2rem;
-    margin-bottom : 1.5rem;    
-    border : 1px solid #00000020;
-    
-    border-radius: 10px;    
-    margin-left : 4.4%;
-    margin-right : 4.4%;        
-    z-index : 10;    
-  }   
+  }  
 
   #config_layer_contents_user{
     display : flex;    
@@ -2135,6 +2117,23 @@ ul {
     border-bottom : 2px solid #00000020;
   }
 
+  #quiz_layer {      
+    display : none;
+    position : absolute;
+    width : 91.25%;    
+    min-height : 95%;    
+    bottom : 0%;
+    background-color: white;
+    justify-content: space-between;  
+    padding : 1rem 2rem 1rem 2rem;
+    margin-bottom : 1.5rem;    
+    border : 1px solid #00000020;
+    
+    border-radius: 10px;    
+    margin-left : 4.4%;
+    margin-right : 4.4%;        
+    z-index : 10;    
+  }   
 
 
   #link_frame {

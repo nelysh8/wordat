@@ -15,7 +15,7 @@ const second_2box_center = document.getElementById('second_2box_center');
 const second_2box_contents = document.getElementById('second_2box_contents');
 const second_3box_center = document.getElementById('second_3box_center');
 const third_1box_center = document.getElementById('third_1box_center');
-const config_layer = document.getElementById('config_layer');
+const quiz_layer = document.getElementById('quiz_layer');
 
 // Setting
 const selected_wordbook = '';

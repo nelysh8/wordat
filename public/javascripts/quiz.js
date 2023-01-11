@@ -5,205 +5,216 @@ function testquiz(hint){
     // write_kor.style.display = 'none';
     // write_eng.style.display = 'none';
 
-
     var eng_parts;
     var correct_answer;   
     var hint = hint;
+
+    var database_name = `Tables_in_${getCookie("client_ID")}`;
+
     console.log('hint_num : ' + hint);
     if (hint === 1) {
       // 테이블명 모두 받아와서 레코드 병합조회하는 쿼리문 만들기
       fetch("/wordbook/", {method : 'post'}).then((response)=>response.json()).then((results)=>{
         console.log(results);
-        var sql_query = ''    
-        
-        sql_query += `SELECT * FROM ${results[0].Tables_in_oq4p2dxa5zpnk9gu}`;
-        for (let i=1 ; i < results.length ; i ++) {
-          sql_query += ` UNION ALL SELECT * FROM ${results[i].Tables_in_oq4p2dxa5zpnk9gu}`;
-        }
+        // 단어장이 없을 경우의 처리****
+
+        var sql_query = ''            
+        sql_query += `SELECT * FROM ${results[0].TABLE_NAME}`;
+        for (let i=1; i<results.length; i++) {
+          sql_query += ` UNION ALL SELECT * FROM ${results[i].TABLE_NAME}`;
+        }        
         console.log(sql_query);
-        // 만든 쿼리문으로 레코드 병합조회하기
-        sql_query_json = {'sql_query' : sql_query};
-
-
+        // // 만든 쿼리문으로 레코드 병합조회하기
+        sql_query_json = {'sql_query' : sql_query};     
+    
         fetch("/wordbook/quiz", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sql_query_json)}).then((response)=>response.json()).then((results)=>{
-          document.getElementById('ts_quiz_loading').remove();
-        //   write_kor.style.display = 'block';
-        //   write_eng.style.display = 'block';
+          console.log(results);
+          document.getElementById('quiz_eng').innerText = word_recover(results.ENG);
+          document.getElementById('quiz_kor').innerText = word_recover(results.KOR);
+          // 총 문장수가 없을 경우의 처리*****
 
-          console.log(results);      
-          write_kor.innerHTML = `<span class="ft6 ftb">${results.KOR}</span><span class="ft6 ftb hidden_text" id="answer_sentence">${results.ENG}</span><span class="ft6 ftb hidden_text" id="answer_wordbook_title">${results.WORDBOOK_TITLE}</span><span class="ft6 ftb hidden_text" id="answer_word_id">${results.ID}</span>`;
-        //   write_eng.innerHTML = `<form action="#">`;
-          eng_trim = results.ENG.replace(/ /gi, ' ');
-          eng_parts = eng_trim.split(' ');  
-          console.log(eng_parts);
-          var i = 1;
-          var input_num = 0;
-          var part_num = 0;
-          write_eng.innerHTML = '';          
-          for (part of eng_parts) {                      
-            part_num += 1;  
+        })
+      })
+    }
+  }
+    //       document.getElementById('ts_quiz_loading').remove();
+    //     //   write_kor.style.display = 'block';
+    //     //   write_eng.style.display = 'block';
 
-            var display_word = '';        // word 전체를 __'___. 형태로 변경 -> 아래 -> a__'____. 형태로 변경
-            var trim_word_start, trim_word_strpt; // word 전체에서 '. 등을 제외한 첫자를 확인
-            var regex = /[.?',!"-$+;/=]/;      
+    //       console.log(results);      
+    //       write_kor.innerHTML = `<span class="ft6 ftb">${results.KOR}</span><span class="ft6 ftb hidden_text" id="answer_sentence">${results.ENG}</span><span class="ft6 ftb hidden_text" id="answer_wordbook_title">${results.WORDBOOK_TITLE}</span><span class="ft6 ftb hidden_text" id="answer_word_id">${results.ID}</span>`;
+    //     //   write_eng.innerHTML = `<form action="#">`;
+    //       eng_trim = results.ENG.replace(/ /gi, ' ');
+    //       eng_parts = eng_trim.split(' ');  
+    //       console.log(eng_parts);
+    //       var i = 1;
+    //       var input_num = 0;
+    //       var part_num = 0;
+    //       write_eng.innerHTML = '';          
+    //       for (part of eng_parts) {                      
+    //         part_num += 1;  
 
-            for (let j = 0; j<part.length; j++) {
-                if (regex.test(part.substr(j,1))) {                            
-                    display_word += part.substr(j,1);
-                } else {                            
-                    display_word += '_';              
-                }
-            }          
+    //         var display_word = '';        // word 전체를 __'___. 형태로 변경 -> 아래 -> a__'____. 형태로 변경
+    //         var trim_word_start, trim_word_strpt; // word 전체에서 '. 등을 제외한 첫자를 확인
+    //         var regex = /[.?',!"-$+;/=]/;      
 
-            trim_word_start = part.replace(/[.?',!"-$+;/=]/gi, '').substr(0,hint);          
-            trim_word_strpt = part.replace(/[.?',!"-$+;/=]/gi, '').indexOf(trim_word_start) + trim_word_start.length;                     
+    //         for (let j = 0; j<part.length; j++) {
+    //             if (regex.test(part.substr(j,1))) {                            
+    //                 display_word += part.substr(j,1);
+    //             } else {                            
+    //                 display_word += '_';              
+    //             }
+    //         }          
 
-            var include_det = part.substr(0, trim_word_strpt).length - part.substr(0, trim_word_strpt).replace(/[.?',!"-$+;/=]/gi, '').length;
+    //         trim_word_start = part.replace(/[.?',!"-$+;/=]/gi, '').substr(0,hint);          
+    //         trim_word_strpt = part.replace(/[.?',!"-$+;/=]/gi, '').indexOf(trim_word_start) + trim_word_start.length;                     
 
-            if (include_det > 0) {
-                trim_word_strpt += include_det 
-            }                        
+    //         var include_det = part.substr(0, trim_word_strpt).length - part.substr(0, trim_word_strpt).replace(/[.?',!"-$+;/=]/gi, '').length;
+
+    //         if (include_det > 0) {
+    //             trim_word_strpt += include_det 
+    //         }                        
             
-            if (part.length > trim_word_strpt) {
-                console.log('남은 철자를 보여줍니다');
-              input_num += 1;
+    //         if (part.length > trim_word_strpt) {
+    //             console.log('남은 철자를 보여줍니다');
+    //           input_num += 1;
               
-              display_word = part.substr(0, trim_word_strpt) + display_word.substr(trim_word_strpt,part.length-trim_word_strpt);
+    //           display_word = part.substr(0, trim_word_strpt) + display_word.substr(trim_word_strpt,part.length-trim_word_strpt);
 
-            //   if (trim_word_strpt === ) {
-            //     display_word = part.substr(0,hint) + display_word.substr(hint,part.length-hint);
-            //   } else {
-            //     display_word = display_word.substr(0,trim_word_strpt) + part.substr(trim_word_strpt, hint) + display_word.substr(trim_word_strpt + hint, part.length - (trim_word_strpt+hint) );
-            //   }         
+    //         //   if (trim_word_strpt === ) {
+    //         //     display_word = part.substr(0,hint) + display_word.substr(hint,part.length-hint);
+    //         //   } else {
+    //         //     display_word = display_word.substr(0,trim_word_strpt) + part.substr(trim_word_strpt, hint) + display_word.substr(trim_word_strpt + hint, part.length - (trim_word_strpt+hint) );
+    //         //   }         
 
-              console.log('display_word : ' + display_word);
-            //   write_eng.innerHTML += `바보`;   
-            //   console.log(write_eng.innerHTML);
+    //           console.log('display_word : ' + display_word);
+    //         //   write_eng.innerHTML += `바보`;   
+    //         //   console.log(write_eng.innerHTML);
 
-              write_eng.innerHTML += `              
-                <span class="ft6 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>
-                <span class="ft6 ftb hidden_text" id="answer_text_${input_num}">${part.substr(trim_word_strpt,display_word.length-trim_word_strpt)}</span>
-                <span class="ft6 ftb hidden_text" id="answer_underbar_${input_num}">${display_word.substr(trim_word_strpt,display_word.length-trim_word_strpt)}</span>            
-                <span class="ft6 ftb" id="answer_vis_text_${part_num}">${display_word.substr(0,trim_word_strpt)}</span>
-                <input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="width:0; height:0;" placeholder="${display_word.substr(trim_word_strpt,display_word.length-trim_word_strpt)}" required><span class="ft6 ftb"> </span>`;             
-                console.log('남은 철자를 입력했습니다');
+    //           write_eng.innerHTML += `              
+    //             <span class="ft6 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>
+    //             <span class="ft6 ftb hidden_text" id="answer_text_${input_num}">${part.substr(trim_word_strpt,display_word.length-trim_word_strpt)}</span>
+    //             <span class="ft6 ftb hidden_text" id="answer_underbar_${input_num}">${display_word.substr(trim_word_strpt,display_word.length-trim_word_strpt)}</span>            
+    //             <span class="ft6 ftb" id="answer_vis_text_${part_num}">${display_word.substr(0,trim_word_strpt)}</span>
+    //             <input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="width:0; height:0;" placeholder="${display_word.substr(trim_word_strpt,display_word.length-trim_word_strpt)}" required><span class="ft6 ftb"> </span>`;             
+    //             console.log('남은 철자를 입력했습니다');
                 
                         
   
-            //   var left_length = part.length-1;          
-            //   write_eng.innerHTML += `          
-            //     <span class="ft6 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
-            //     <span class="ft6 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
-            //     <span class="ft6 ftb">${part.substr(0,1)}</span><input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft6 ftb"> </span>`;             
-            //   var part_text = document.getElementById(`part_text_${i}`);
-            //   var part_underbar = document.getElementById(`part_underbar_${i}`);
-            //   var quiz_input = document.getElementById(`quiz_input_${i}`);
-            //   var script = document.createElement('script');
-            //   script.async = true;   
-            //   script.text = `
-            //     var quiz_input_detector_${i} = document.getElementById('quiz_input_${i}');
-            //     quiz_input_detector_${i}.addEventListener("keyup", e => {
-            //       console.log(e);
-            //     });
-            //   `;
-            //   document.body.appendChild(script);
-            //   console.log(quiz_input.style);
-            //   console.log((part_text.clientHeight) + "px");
-            //   console.log((part_text.clientWidth) + "px");
-            //   quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
-            //   quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
-            //   quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
-            //   quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";      
+    //         //   var left_length = part.length-1;          
+    //         //   write_eng.innerHTML += `          
+    //         //     <span class="ft6 ftb hidden_text" id="part_text_${i}" >${part.substr(1,)}</span>
+    //         //     <span class="ft6 ftb hidden_text" id="part_underbar_${i}" >${'_'.repeat(left_length)}</span>
+    //         //     <span class="ft6 ftb">${part.substr(0,1)}</span><input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${i}" style="height:0; width:0;" placeholder="${'_'.repeat(left_length)}" required><span class="ft6 ftb"> </span>`;             
+    //         //   var part_text = document.getElementById(`part_text_${i}`);
+    //         //   var part_underbar = document.getElementById(`part_underbar_${i}`);
+    //         //   var quiz_input = document.getElementById(`quiz_input_${i}`);
+    //         //   var script = document.createElement('script');
+    //         //   script.async = true;   
+    //         //   script.text = `
+    //         //     var quiz_input_detector_${i} = document.getElementById('quiz_input_${i}');
+    //         //     quiz_input_detector_${i}.addEventListener("keyup", e => {
+    //         //       console.log(e);
+    //         //     });
+    //         //   `;
+    //         //   document.body.appendChild(script);
+    //         //   console.log(quiz_input.style);
+    //         //   console.log((part_text.clientHeight) + "px");
+    //         //   console.log((part_text.clientWidth) + "px");
+    //         //   quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
+    //         //   quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
+    //         //   quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
+    //         //   quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";      
                 
-            } else {
-              input_num += 1;
-              console.log('다 보여줬습니다');
-              write_eng.innerHTML += `
-                <span class="ft6 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>              
-                <span class="ft6 ftb hidden_text" id="answer_text_${input_num}"></span>
-                <span class="ft6 ftb hidden_text" id="answer_underbar_${input_num}"></span>            
-                <span class="ft6 ftb" id="answer_vis_text_${part_num}">${part}</span><span class="ft6 ftb"> </span>
-                <input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="display:none;" placeholder="" required>`;             
-            }                   
-            i += 1;          
+    //         } else {
+    //           input_num += 1;
+    //           console.log('다 보여줬습니다');
+    //           write_eng.innerHTML += `
+    //             <span class="ft6 ftb hidden_text" id="answer_all_text_${part_num}">${part}</span>              
+    //             <span class="ft6 ftb hidden_text" id="answer_text_${input_num}"></span>
+    //             <span class="ft6 ftb hidden_text" id="answer_underbar_${input_num}"></span>            
+    //             <span class="ft6 ftb" id="answer_vis_text_${part_num}">${part}</span><span class="ft6 ftb"> </span>
+    //             <input type="text" class="ft6 ftb shadow-sm quiz_inputs" id="quiz_input_${input_num}" style="display:none;" placeholder="" required>`;             
+    //         }                   
+    //         i += 1;          
   
-            var part_text = document.getElementById(`answer_text_${input_num}`); // 기입해야할 원문
-            var part_underbar = document.getElementById(`answer_underbar_${input_num}`); // 기입해야할 원문의 __ 변환문
-            var quiz_input = document.getElementById(`quiz_input_${input_num}`);              
+    //         var part_text = document.getElementById(`answer_text_${input_num}`); // 기입해야할 원문
+    //         var part_underbar = document.getElementById(`answer_underbar_${input_num}`); // 기입해야할 원문의 __ 변환문
+    //         var quiz_input = document.getElementById(`quiz_input_${input_num}`);              
 
-            console.log(`id : ${input_num} / ${part_num}`);
-            console.log(`기입해야할 원문 : ${part_text.innerHTML}`, `기입해야할 언더바 : ${part_underbar.innerHTML}`);
+    //         console.log(`id : ${input_num} / ${part_num}`);
+    //         console.log(`기입해야할 원문 : ${part_text.innerHTML}`, `기입해야할 언더바 : ${part_underbar.innerHTML}`);
             
             
-            if (part_text.innerHTML === '') {
-              console.log("part_text '' : " +part_text.innerHTML);
-              quiz_input.style.maxHeight = 0;           
-              quiz_input.style.minHeight = 0;           
-              quiz_input.style.maxWidth = 0;          
-              quiz_input.style.minWidth = 0;                    
-            } else {
-              console.log(part_text.innerHTML);
-              console.log(part_text.clientWidth);
-              console.log(part_underbar.innerHTML);
-              console.log(part_underbar.clientWidth);
-              quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
-              quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
-              quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
-              quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";                    
-            }           
-          }
-          write_eng.innerHTML += `
-            <span class="ft6 ftb hidden_text" id="part_num" >${part_num}</span>
-            <span class="ft6 ftb hidden_text" id="input_num" >${input_num}</span>
-            <span class="ft6 ftb hidden_text" id="hint_num">${hint}</span>
-            <span class="ft6 ftb hidden_text" id="try_num">0</span>`
-          write_eng.innerHTML += `</form>`;                 
-        })
-      });
-    } else if (hint === 2) {
-      console.log('hint start');
-      var part_num = Number(document.getElementById('part_num').innerHTML);
-      var input_num = Number(document.getElementById('input_num').innerHTML);
-      console.log(part_num, input_num);
-      for (let part_i=0; part_i<part_num; part_i++) {
-        var part_all = document.getElementById(`answer_all_text_${part_i+1}`);
-        // console.log(part_all.innerHTML);
-        var part_answer = document.getElementById(`answer_text_${part_i+1}`);
-        var part_answer_vis_text = document.getElementById(`answer_vis_text_${part_i+1}`);      
-        if (part_all.innerHTML.length > 1){              
-          if (part_all.innerHTML.length === 2) {
-            part_answer_vis_text.innerHTML += '<span class="ft6 ftb"> </span>';
-          } else {
-            part_answer.innerHTML = part_answer.innerHTML.substr(1,part_answer.innerHTML.length-1);
-            part_answer_vis_text.innerHTML = part_all.innerHTML.substr(0,2);
-          }
-        } 
-        // console.log(part_all.innerHTML, part_answer.innerHTML, part_answer_vis_text.innerHTML);    
-      }
-      for (let input_i=0; input_i<input_num; input_i++) {
-        var answer_underbar = document.getElementById(`answer_underbar_${input_i+1}`);
-        var quiz_input = document.getElementById(`quiz_input_${input_i+1}`);
-        quiz_input.value= '';
-        console.log('answer_underbar : ' + answer_underbar);
-        if ((answer_underbar !== null) && (answer_underbar.innerHTML.length > 1)) {
-          answer_underbar.innerHTML = answer_underbar.innerHTML.substr(1, answer_underbar.innerHTML.length-1);
-          quiz_input.setAttribute('placeholder', `${answer_underbar.innerHTML}`)
-        } else {
-          if (answer_underbar !==null ) {
-            answer_underbar.innerHTML = '';
-          }        
-          quiz_input.setAttribute('style', 'display:none;');
-        }      
-      }
-      document.getElementById('hint_num').innerHTML = hint;
-      console.log(hint);
-    } else {
-      var full_sentence = document.getElementById('answer_sentence').innerHTML;
-      console.log(full_sentence);
-      tts_any(full_sentence, 1);
-      document.getElementById('hint_num').innerHTML = hint;
-    }
-  }
+    //         if (part_text.innerHTML === '') {
+    //           console.log("part_text '' : " +part_text.innerHTML);
+    //           quiz_input.style.maxHeight = 0;           
+    //           quiz_input.style.minHeight = 0;           
+    //           quiz_input.style.maxWidth = 0;          
+    //           quiz_input.style.minWidth = 0;                    
+    //         } else {
+    //           console.log(part_text.innerHTML);
+    //           console.log(part_text.clientWidth);
+    //           console.log(part_underbar.innerHTML);
+    //           console.log(part_underbar.clientWidth);
+    //           quiz_input.style.maxHeight = (part_text.clientHeight-2) + "px";           
+    //           quiz_input.style.minHeight = (part_underbar.clientHeight-2) + "px";           
+    //           quiz_input.style.maxWidth = (part_text.clientWidth) + "px";          
+    //           quiz_input.style.minWidth = (part_underbar.clientWidth) + "px";                    
+    //         }           
+    //       }
+    //       write_eng.innerHTML += `
+    //         <span class="ft6 ftb hidden_text" id="part_num" >${part_num}</span>
+    //         <span class="ft6 ftb hidden_text" id="input_num" >${input_num}</span>
+    //         <span class="ft6 ftb hidden_text" id="hint_num">${hint}</span>
+    //         <span class="ft6 ftb hidden_text" id="try_num">0</span>`
+    //       write_eng.innerHTML += `</form>`;                 
+    //     })
+    //   });
+    // } else if (hint === 2) {
+    //   console.log('hint start');
+    //   var part_num = Number(document.getElementById('part_num').innerHTML);
+    //   var input_num = Number(document.getElementById('input_num').innerHTML);
+    //   console.log(part_num, input_num);
+    //   for (let part_i=0; part_i<part_num; part_i++) {
+    //     var part_all = document.getElementById(`answer_all_text_${part_i+1}`);
+    //     // console.log(part_all.innerHTML);
+    //     var part_answer = document.getElementById(`answer_text_${part_i+1}`);
+    //     var part_answer_vis_text = document.getElementById(`answer_vis_text_${part_i+1}`);      
+    //     if (part_all.innerHTML.length > 1){              
+    //       if (part_all.innerHTML.length === 2) {
+    //         part_answer_vis_text.innerHTML += '<span class="ft6 ftb"> </span>';
+    //       } else {
+    //         part_answer.innerHTML = part_answer.innerHTML.substr(1,part_answer.innerHTML.length-1);
+    //         part_answer_vis_text.innerHTML = part_all.innerHTML.substr(0,2);
+    //       }
+    //     } 
+    //     // console.log(part_all.innerHTML, part_answer.innerHTML, part_answer_vis_text.innerHTML);    
+    //   }
+    //   for (let input_i=0; input_i<input_num; input_i++) {
+    //     var answer_underbar = document.getElementById(`answer_underbar_${input_i+1}`);
+    //     var quiz_input = document.getElementById(`quiz_input_${input_i+1}`);
+    //     quiz_input.value= '';
+    //     console.log('answer_underbar : ' + answer_underbar);
+    //     if ((answer_underbar !== null) && (answer_underbar.innerHTML.length > 1)) {
+    //       answer_underbar.innerHTML = answer_underbar.innerHTML.substr(1, answer_underbar.innerHTML.length-1);
+    //       quiz_input.setAttribute('placeholder', `${answer_underbar.innerHTML}`)
+    //     } else {
+    //       if (answer_underbar !==null ) {
+    //         answer_underbar.innerHTML = '';
+    //       }        
+    //       quiz_input.setAttribute('style', 'display:none;');
+    //     }      
+    //   }
+    //   document.getElementById('hint_num').innerHTML = hint;
+    //   console.log(hint);
+    // } else {
+    //   var full_sentence = document.getElementById('answer_sentence').innerHTML;
+    //   console.log(full_sentence);
+    //   tts_any(full_sentence, 1);
+    //   document.getElementById('hint_num').innerHTML = hint;
+    // }
+  // }
     
         
         
