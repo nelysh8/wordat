@@ -51,7 +51,7 @@ function tts_pos(position, speed){
     
     fetch('/tts', {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(req_value)}).then((response)=>response.json()).then((result)=>{    
       console.log(result);
-      alert(result.audioContent);
+      // alert(result.audioContent);
       var Sound = new Audio(`data:audio/mp3;base64,${result.audioContent}`);
       Sound.playbackRate = rate;
       Sound.play().then(()=>{        
