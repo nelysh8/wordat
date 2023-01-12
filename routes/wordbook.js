@@ -372,121 +372,14 @@ router.post('/quiz', async function (req, res, next) {
 	var client_ID = req.cookies.client_ID;
     client_conn = mysql_odbc.client(client_ID);
 
-    var sql = req.body.sql_query;
-	var threeday_filtered_results = []; // 3일째 단어
-    var sevenday_filtered_results = []; // 7일째 단어    
-	var date_arranged_results = [];
-    var datemax_arranged_results = [];
-	var target_result;
-	var random_num;        
+    var sql = req.body.sql_query;	
 
 	client_conn.query(sql, function(err, results){
 		if (err) {
             // console.err("err:" + err); 
             // res.redirect('/');       
         }
-        if (results.length === 0) {  // 총 문장수가 0개
-			res.send(0);
-        } else if ((results.length>0) && (results.length <= 5 )){ // 총 문장수가 5개 이하
-            random_num = Math.floor(Math.random() * (results.length-1));
-            console.log(`오늘의 숫자는 ${random_num}(5개 이하의 문장에서 총 문장갯수 ${results.length})입니다`);
-            console.log(`오늘의 문장은 ${(results[random_num].ENG)}입니다.`);
-            res.send(results[random_num]);
-        } else {
-            for (let result of results) {
-                if ((today.diff(moment(result.SAVEDATE), 'days') === 3) || (today.diff(moment(result.LOADDATE), 'days') === 3) || (today.diff(moment(result.QUIZ_DATE), 'days') === 3)) {
-                    threeday_filtered_results.push(result);
-                } else if ((today.diff(moment(result.SAVEDATE), 'days') === 7) || (today.diff(moment(result.LOADDATE), 'days') === 7) || (today.diff(moment(result.QUIZ_DATE), 'days') === 7)) {
-                    sevenday_filtered_results.push(result);
-                }
-            }
-            if (threeday_filtered_results.length !== 0) {
-                random_num = Math.floor(Math.random() * (threeday_filtered_results.length-1));
-                console.log(`오늘의 숫자는 ${random_num}(3일째된 총 문장갯수 ${threeday_filtered_results.length})입니다`);
-                console.log(`오늘의 문장은 ${(threeday_filtered_results[random_num].ENG)}입니다.`);
-                res.send(threeday_filtered_results[random_num]);
-            } else if (sevenday_filtered_results.length !== 0) {
-                random_num = Math.floor(Math.random() * (sevenday_filtered_results.length-1));
-                console.log(`오늘의 숫자는 ${random_num}(7일째된 총 문장갯수 ${sevenday_filtered_results.length})입니다`);
-                console.log(`오늘의 문장은 ${(sevenday_filtered_results[random_num].ENG)}입니다.`);
-                res.send(sevenday_filtered_results[random_num]);
-            } else {
-                date_arranged_results = results.sort((a, b) => {
-                    var a_save, a_load, a_quiz, b_save, b_load, b_quiz;
-                    if (Number(a.SAVEDATE) === NaN) {
-                        a_save = 0;
-                    } else {
-                        a_save = today.diff(moment(a.SAVEDATE), 'days');
-                    }
-
-                    if (Number(a.LOADDATE) === NaN) {
-                        a_load = 0;
-                    } else {
-                        a_load = today.diff(moment(a.LOADDATE), 'days');
-                    }
-
-                    if (Number(a.QUIZ_DATE) === NaN) {
-                        a_quiz = 0;
-                    } else {
-                        a_quiz = today.diff(moment(a.QUIZ_DATE), 'days');
-                    }
-
-                    if (Number(b.SAVEDATE) === NaN) {
-                        b_save = 0;
-                    } else {
-                        b_save = today.diff(moment(b.SAVEDATE), 'days');
-                    }
-                    
-                    if (Number(b.LOADDATE) === NaN) {
-                        b_load = 0;
-                    } else {
-                        b_load = today.diff(moment(b.LOADDATE), 'days');
-                    }
-
-                    if (Number(b.QUIZ_DATE) === NaN) {
-                        b_quiz = 0;
-                    } else {
-                        b_quiz = today.diff(moment(b.QUIZ_DATE), 'days');
-                    }
-
-                    if (Math.max(a_save, a_load, a_quiz) < Math.max(b_save, b_load, b_quiz)) return -1;
-                    if (Math.max(a_save, a_load, a_quiz) > Math.max(b_save, b_load, b_quiz)) return 1;
-                    return 0;
-                }).filter((e)=>{
-                    return e.QUIZ_RESULT !== 5;
-                })
-
-                // console.log(date_arranged_results);
-                // res.send(date_arranged_results);
-                if (date_arranged_results.length > 0) {
-                
-                    var max_save = today.diff(moment(date_arranged_results[0].SAVEDATE), 'days');
-                    var max_load = today.diff(moment(date_arranged_results[0].LOADDATE), 'days');
-                    var max_quiz = today.diff(moment(date_arranged_results[0].QUIZ_DATE), 'days');
-                    var max_date = Math.max(max_save, max_load, max_quiz);
-                    for (data of date_arranged_results) {
-                        var data_save = today.diff(moment(data.SAVEDATE), 'days');
-                        var data_load = today.diff(moment(data.LOADDATE), 'days');
-                        var data_quiz = today.diff(moment(data.QUIZ_DATE), 'days');
-                        if ((Math.max(data_save, data_load, data_quiz) === max_date) && (data.QUIZ_RESULT !== 5)) {
-                            datemax_arranged_results.push(data);
-                        }                         
-                    }                        
-
-                    console.log(datemax_arranged_results);
-                                                            
-                    random_num = Math.floor(Math.random() * (datemax_arranged_results.length-1));
-                    console.log(`오늘의 숫자는 ${random_num}(가장 오래된 문장 중 틀린 경우의 총 문장갯수 ${datemax_arranged_results.length})입니다`);
-                    console.log(`가장 오래된 문장 중 틀린 오늘의 문장은 ${(datemax_arranged_results[random_num].ENG)}입니다.`);
-                    res.send(datemax_arranged_results[random_num]);
-                } else {
-                    random_num = Math.floor(Math.random() * (results.length-1));
-                    console.log(`오늘의 숫자는 ${random_num}(전부 다 맞춘 경우의 총 문장갯수 ${results.length})입니다`);
-                    console.log(`오늘의 문장은 ${(results[random_num].ENG)}입니다.`);
-                    res.send(results[random_num]);
-                }                
-            }
-        }
+        res.send(results);
         
         // res.json(results);
     })

@@ -51,7 +51,7 @@
       function clear_input(position){        
         var req_pos = position;  
         var target = '';
-        var link_yarn, link_youglish, link_google = '';
+        var link_yarn, link_youglish, link_google, link_skell, link_ludwig = '';
 
           // 'mainbox_center' // 'second_3box_center' // 'third_1box_center' 
         if (req_pos === 'mainbox_center') {
@@ -59,21 +59,29 @@
           link_yarn = document.getElementById('msi_link_yarn');
           link_youglish = document.getElementById('msi_link_youglish');
           link_google = document.getElementById('msi_link_google');
+          link_skell = document.getElementById('msi_link_skell');
+          link_ludwig = document.getElementById('msi_link_ludwig');
         } else if (req_pos === 'second_3box_center') {
           target = document.getElementById("word_toolbar_input");
           link_yarn = document.getElementById('word_toolbar_link_yarn');
           link_youglish = document.getElementById('word_toolbar_link_youglish');
           link_google = document.getElementById('word_toolbar_link_google');
+          link_skell = document.getElementById('word_toolbar_link_skell');
+          link_ludwig = document.getElementById('word_toolbar_link_ludwig');
         } else if (req_pos === 'third_1box_center') {
           target = document.getElementById("t1_box_main_search_input");
           link_yarn = document.getElementById('t1_box_msi_link_yarn');
           link_youglish = document.getElementById('t1_box_msi_link_youglish');
           link_google = document.getElementById('t1_box_msi_link_google');
+          link_skell = document.getElementById('t1_box_msi_link_skell');
+          link_ludwig = document.getElementById('t1_box_msi_link_ludwig');
         }
         target.value="";
         link_yarn.setAttribute('href', encodeURI('https://getyarn.io/'));
         link_youglish.setAttribute('href', encodeURI('https://youglish.com/'));
         link_google.setAttribute('href', encodeURI('https://www.google.com/'));
+        link_skell.setAttribute('href', encodeURI('https://skell.sketchengine.eu/#home?lang=en'));
+        link_ludwig.setAttribute('href', encodeURI('https://ludwig.guru/'));
         // click_fadeout(document.getElementById('result_contents'));        
 
         resize(target);                

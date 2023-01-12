@@ -818,7 +818,7 @@ app.post('/kakaoLogin/signup', function (req, res, next) {
       console.log('새 회원입니다');
       console.log(client_ID_chg);
       var signup_sql = `
-        INSERT INTO client_list (client_ID, signup_date, signin_date, signin_num, CONFIG) VALUE ('${client_ID}', '${time}', '${time}', 1, 'dict[1]/tts_def[50]/tts_slow[25]');        
+        INSERT INTO client_list (client_ID, signup_date, signin_date, signin_num, CONFIG) VALUE ('${client_ID}', '${time}', '${time}', 1, 'dict[11]/tts_def[50]/tts_slow[25]');        
         SELECT * FROM client_list;
       `;      
       var create_database_sql = `

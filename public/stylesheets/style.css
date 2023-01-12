@@ -1442,7 +1442,7 @@ ul {
   padding-bottom : 0.5rem;
   margin : 8.5rem 0 0 0;  
   /* overflow-y: scroll; */
-  overflow: hidden;
+  /* overflow: hidden; */
   background-color: white;   
   z-index : 8;
   border-radius: 20px;  
@@ -1579,6 +1579,7 @@ ul {
               border-radius : 20px;    
               margin : 0 auto 0 auto;
               padding : 1rem 0 1rem 0;                            
+              overflow-y : scroll; 
             }            
           
               .word_toolbar_main {
@@ -1683,7 +1684,8 @@ ul {
                 margin : 1rem auto auto auto;
                 padding : 1rem 0.5rem 1rem 0.5rem;
                 background-color: cornsilk;
-                border-radius : 20px;   			       
+                border-radius : 20px;   		
+                
               }              
               
             
@@ -2133,6 +2135,8 @@ ul {
     margin-left : 4.4%;
     margin-right : 4.4%;        
     z-index : 10;    
+    overflow-y: scroll;
+
   }   
 
 

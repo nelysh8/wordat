@@ -17,6 +17,8 @@ var deleteCookie = function(name) {
 function get_config_cookie() {
     var datas;
     var value;
+    console.log(document.cookie);
+    // dict%5B%5D%2Ftts_def%5B51%5D%2Ftts_slow%5B25%5D%2F
     if (getCookie('wa_config') !== null) {
         datas = getCookie('wa_config').replace(/\%5B/gi, "[").replace(/\%5D/gi, "]").replace(/\%2F/gi, "/").split('/');
         console.log(datas);

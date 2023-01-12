@@ -60,9 +60,9 @@ function det_login(token, typeA) {  //로그인 판별자
                   <span class="ft_noto ft8 ftb"> 기본 영어사전 :   </span>
                   <button id="default_dict" class="btn ft8 dropdown-toggle" style="background-color:firebrick!important; color:white!important;" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                   <ul class="dropdown-menu dropdown-menu-end ft_noto ft8">
-                    <li><a class="dropdown-item" href="#" onclick="document.getElementById('default_dict').innerText='Cambridge'; document.getElementById('default_dict').value='1';">Cambridge 영영사전</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="document.getElementById('default_dict').innerText='Naver'; document.getElementById('default_dict').value='2';">Naver 영어사전</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="document.getElementById('default_dict').innerText='Etymonline'; document.getElementById('default_dict').value='3';">Etymonline 어원사전</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="document.getElementById('default_dict').innerText='Cambridge'; document.getElementById('default_dict').value='11';">Cambridge 영영사전</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="document.getElementById('default_dict').innerText='Naver'; document.getElementById('default_dict').value='22';">Naver 영어사전</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="document.getElementById('default_dict').innerText='Etymonline'; document.getElementById('default_dict').value='33';">Etymonline 어원사전</a></li>
                   </ul>
                 </div>  
               </div>              
@@ -96,11 +96,11 @@ function det_login(token, typeA) {  //로그인 판별자
 
           if ((get_config_cookie() !== null) && (get_config_cookie() !== undefined)) {
             config = get_config_cookie();
-            if (Number(config[0]) === 1) {
+            if (Number(config[0]) === 11) {
               document.getElementById('default_dict').innerHTML = 'Cambridge';
-            } if (Number(config[0]) === 2) {
+            } if (Number(config[0]) === 22) {
               document.getElementById('default_dict').innerHTML = 'Naver';
-            } if (Number(config[0]) === 3) {
+            } if (Number(config[0]) === 33) {
               document.getElementById('default_dict').innerHTML = 'Etymonline';
             }  
             document.getElementById('tts_speed_def').value = Number(config[1]);

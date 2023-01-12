@@ -11,11 +11,11 @@ function tranbtn_click(position){
     var dic_url;
     if ((get_config_cookie() !== null) && (get_config_cookie() !== undefined)) {
       config = get_config_cookie();
-      if (Number(config[0]) === 1) {
+      if (Number(config[0]) === 11) {
         dic_url = 'https://dictionary.cambridge.org/dictionary/english/';
-      } else if (Number(config[0]) === 2) {
+      } else if (Number(config[0]) === 22) {
         dic_url = 'https://en.dict.naver.com/#/search?query=';
-      } else if (Number(config[0]) === 3) {
+      } else if (Number(config[0]) === 33) {
         dic_url = 'https://www.etymonline.com/search?q=';
       } else {
         dic_url = 'https://dictionary.cambridge.org/dictionary/english/';  

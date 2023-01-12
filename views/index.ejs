@@ -323,7 +323,7 @@
       </div>  
       <div class="t1_box_searchbar shadow-lg animate__animated" id="t1_box_searchbar" style="display:none;">
         <div class="searchbar_main">
-          <div class="t1_box_main_search_input_layer">
+          <div id="t1_box_main_search_input_layer">
             <textarea class="autosize ft8" id="t1_box_main_search_input" placeholder="Search a Sentence" required onfocus="footbar_dis();" onblur= "late_footbar_vis();" onclick="resize(this);" onkeydown="resize(this);" onkeyup="resize(this);"></textarea>
             <div id="t1_box_msi_icon_x"><i class="fa-solid fa-xmark text_red animate__animated"  onclick="clear_input('third_1box_center');touch_icon_action(this);"></i></div>
           </div>          
@@ -366,6 +366,7 @@
 
     <div class="container-fluid quiz_layer shadow-sm animate__animated" id="quiz_layer" style="display : none;">      
       <button onclick="testquiz(1)">quiz</button>
+      <div style="height:50rem; overflow-y: scroll;"><span id="quiz_console" style="overflow-y: scroll;" class="ft8" ></span></div>
       <p><span id="quiz_eng" class="ft8"></span></p>
       <p><span id="quiz_kor" class="ft8"></span></p>
     </div>    
@@ -610,7 +611,7 @@
   <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
   <script src="https://unpkg.com/compromise"></script>
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>  
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
   <!-- <script src="/javascripts/cookie.js"></script>  -->
 
   <script src="/javascripts/index_function.js"></script> 

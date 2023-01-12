@@ -5,11 +5,23 @@ function testquiz(hint){
     // write_kor.style.display = 'none';
     // write_eng.style.display = 'none';
 
-    var eng_parts;
-    var correct_answer;   
+    var today = moment();    
     var hint = hint;
+    var random_num; 
+    var x_filterded_results = []; // 틀린문제들
+    var x_old_filterded_results = []; // 틀린오래된문제들
+    var threeday_filtered_results = []; // 3일째 단어
+    var sevenday_filtered_results = []; // 7일째 단어    
+    var fourteenday_filtered_results = []; // 14일째 단어    
+    var monthday_filtered_results = []; // 30일째 단어        
+    var other_filtered_results = []; // 기타 단어
+    var total_results = []; // quiz 선별 문제풀
 
-    var database_name = `Tables_in_${getCookie("client_ID")}`;
+    var max_date;
+
+    var quiz_console = document.getElementById('quiz_console');
+    var quiz_eng = document.getElementById('quiz_eng');
+    var quiz_kor = document.getElementById('quiz_kor');
 
     console.log('hint_num : ' + hint);
     if (hint === 1) {
@@ -28,15 +40,248 @@ function testquiz(hint){
         sql_query_json = {'sql_query' : sql_query};     
     
         fetch("/wordbook/quiz", {method : 'post', headers: {'Content-Type': 'application/json'}, body : JSON.stringify(sql_query_json)}).then((response)=>response.json()).then((results)=>{
-          console.log(results);
-          document.getElementById('quiz_eng').innerText = word_recover(results.ENG);
-          document.getElementById('quiz_kor').innerText = word_recover(results.KOR);
-          // 총 문장수가 없을 경우의 처리*****
+          console.log(today);
+          console.log(results);          
 
+          if (results.length === 0) {  // 총 문장수가 0개
+            quiz_console.innerText = '저장된 문장이 없습니다';
+          } else if ((results.length>0) && (results.length <= 10 )){ // 총 문장수가 10개 이하
+              total_results = results;     
+              console.log('문제풀');
+              console.log(total_results);
+              random_num = Math.floor(Math.random() * (results.length-1));
+              quiz_console.innerHTML = `                                
+                오늘의 숫자는 ${random_num}(저장된 10개 이하의 문장에서 총 문장갯수 ${results.length})입니다 <br> 
+                오늘의 문장은 ${(results[random_num].ENG)}입니다
+                `;                            
+          } else {
+            for (i in results) {
+              results[i].max_date = Math.min(today.diff(moment(results[i].SAVEDATE), 'days'), today.diff(moment(results[i].LOADDATE), 'days'), today.diff(moment(results[i].QUIZ_DATE), 'days'));
+            }            
+            console.log(results);
+
+            x_filterded_results = results.filter((e) => {
+              return e.QUIZ_RESULT === 0;
+            });
+            x_old_filterded_results = x_filterded_results;
+            console.log(x_filterded_results);            
+            
+            threeday_filtered_results = x_filterded_results.filter((e) => {
+              return ((e.max_date >= 3 ) && (e.max_date <=5 ));
+            });
+            x_old_filterded_results = x_old_filterded_results.filter((e) => {
+              return ((e.max_date < 3 ) || (e.max_date > 5 ));
+            });
+            console.log(threeday_filtered_results);
+
+            sevenday_filtered_results = x_filterded_results.filter((e) => {
+              return ((e.max_date >= 7 ) && (e.max_date <=12 ));
+            });
+            x_old_filterded_results = x_old_filterded_results.filter((e) => {
+              return ((e.max_date < 7 ) || (e.max_date > 12 ));
+            });
+            console.log(sevenday_filtered_results);
+            
+            fourteenday_filtered_results = x_filterded_results.filter((e) => {
+              return ((e.max_date >= 14 ) && (e.max_date <=21 ));
+            });
+            x_old_filterded_results = x_old_filterded_results.filter((e) => {
+              return ((e.max_date < 14 ) || (e.max_date > 21 ));
+            });
+            console.log(fourteenday_filtered_results);
+
+            monthday_filtered_results = x_filterded_results.filter((e) => {
+              return ((e.max_date >= 30 ) && (e.max_date <=45 ));
+            });
+            x_old_filterded_results = x_old_filterded_results.filter((e) => {
+              return ((e.max_date < 30 ) || (e.max_date > 45 ));
+            });
+            console.log(monthday_filtered_results);
+
+            var first_pool_sum = threeday_filtered_results.length + sevenday_filtered_results.length + fourteenday_filtered_results.length + monthday_filtered_results.length;
+
+            console.log(`1차 조합수는 ${first_pool_sum}개입니다`);
+            console.log(`총 필요 데이터풀 15개 중 ${15-first_pool_sum}개의 데이터가 더 필요합니다`);
+
+            x_old_filterded_results = x_old_filterded_results.sort((a,b) => {
+              if (a.max_date > b.max_date) return -1;
+              if (a.max_date < b.max_date) return 1;
+              return 0;
+            });
+            console.log(x_old_filterded_results);
+
+            console.log(`2차 데이터풀 갯수는 ${x_old_filterded_results.length}개입니다`);
+
+            var second_pool_sum = Math.min(15-first_pool_sum, x_old_filterded_results.length);
+            console.log(second_pool_sum);
+
+            if (second_pool_sum > 0) {
+              if (15-first_pool_sum >= x_old_filterded_results.length) {
+                other_filtered_results = x_old_filterded_results;
+                console.log(`필요데이터수가 남은 데이터풀수보다 많습니다. 모두 가져옵니다.`);
+                console.log(other_filtered_results);
+              } else {                
+                console.log(`필요데이터수보다 남은 데이터풀수가 많습니다. 그중 필요데이터수만큼만 임의로 가져옵니다`);
+                var random_history = [];
+                while (other_filtered_results.length < (15-first_pool_sum) ) {                  
+                  random_num = Math.floor(Math.random() * (x_old_filterded_results.length-1));
+                  if (random_history.indexOf(random_num) < 0) {
+                    random_history.push(random_num);
+                    other_filtered_results.push(x_old_filterded_results[random_num]);
+                  }
+                }
+                console.log(random_history);
+                console.log(other_filtered_results);
+              }
+            }
+
+            total_results = total_results.concat(threeday_filtered_results, sevenday_filtered_results, fourteenday_filtered_results, monthday_filtered_results, other_filtered_results);
+            console.log(`퀴즈데이터풀의 형성했습니다. 선별된 퀴즈풀의 갯수는 ${total_results.length}개입니다`);
+            console.log(total_results);
+
+            let quiz_log = `퀴즈데이터풀의 형성했습니다. 선별된 퀴즈풀의 갯수는 ${total_results.length}개, 그 중 3,7,14,30일 단위의 1차 선별 퀴즈풀의 갯수는 ${first_pool_sum}개, 그 외 오래된 순으로 추출된 2차 선별 퀴즈풀의 갯수는 ${other_filtered_results.length}개입니다 <br> <br>`;
+            let j = 1;
+            for (quiz of total_results) {
+              quiz_log += `${j}. ${quiz.max_date}일 전에 공부한 ID ${quiz.ID}번의 ${word_recover(quiz.ENG)}이고 그 뜻은 ${word_recover(quiz.KOR)}입니다 <br>`
+              j += 1;
+            }
+
+            quiz_console.innerHTML = quiz_log;
+
+
+            // filter((e) => {
+            //   max_date = Math.min(today.diff(moment(e.SAVEDATE), 'days'), today.diff(moment(e.LOADDATE), 'days'), today.diff(moment(e.QUIZ_DATE), 'days'));
+            //   return 
+
+            //   filter((e)=>{
+                //                 return e.QUIZ_RESULT !== 5;
+                //             })
+          //   })
+            
+            
+          //   for (let result of results) {
+          //       if ((today.diff(moment(result.SAVEDATE), 'days') === 3) || (today.diff(moment(result.LOADDATE), 'days') === 3) || (today.diff(moment(result.QUIZ_DATE), 'days') === 3)) {
+          //         threeday_filtered_results.push(result);
+          //     } else if ((today.diff(moment(result.SAVEDATE), 'days') === 7) || (today.diff(moment(result.LOADDATE), 'days') === 7) || (today.diff(moment(result.QUIZ_DATE), 'days') === 7)) {
+          //         sevenday_filtered_results.push(result);
+          //     }
+          // }
+  
+
+          }
         })
       })
     }
   }
+  
+	// var date_arranged_results = [];
+  //   var datemax_arranged_results = [];
+	// var target_result;
+	//        
+  // if (results.length === 0) {  // 총 문장수가 0개
+  //   res.send(0);
+  //     } else if ((results.length>0) && (results.length <= 5 )){ // 총 문장수가 5개 이하
+  //         random_num = Math.floor(Math.random() * (results.length-1));
+  //         console.log(`오늘의 숫자는 ${random_num}(5개 이하의 문장에서 총 문장갯수 ${results.length})입니다`);
+  //         console.log(`오늘의 문장은 ${(results[random_num].ENG)}입니다.`);
+  //         res.send(results[random_num]);
+  //     } else {
+  //         if (threeday_filtered_results.length !== 0) {
+  //             random_num = Math.floor(Math.random() * (threeday_filtered_results.length-1));
+  //             console.log(`오늘의 숫자는 ${random_num}(3일째된 총 문장갯수 ${threeday_filtered_results.length})입니다`);
+  //             console.log(`오늘의 문장은 ${(threeday_filtered_results[random_num].ENG)}입니다.`);
+  //             res.send(threeday_filtered_results[random_num]);
+  //         } else if (sevenday_filtered_results.length !== 0) {
+  //             random_num = Math.floor(Math.random() * (sevenday_filtered_results.length-1));
+  //             console.log(`오늘의 숫자는 ${random_num}(7일째된 총 문장갯수 ${sevenday_filtered_results.length})입니다`);
+  //             console.log(`오늘의 문장은 ${(sevenday_filtered_results[random_num].ENG)}입니다.`);
+  //             res.send(sevenday_filtered_results[random_num]);
+  //         } else {
+  //             date_arranged_results = results.sort((a, b) => {
+  //                 var a_save, a_load, a_quiz, b_save, b_load, b_quiz;
+  //                 if (Number(a.SAVEDATE) === NaN) {
+  //                     a_save = 0;
+  //                 } else {
+  //                     a_save = today.diff(moment(a.SAVEDATE), 'days');
+  //                 }
+
+  //                 if (Number(a.LOADDATE) === NaN) {
+  //                     a_load = 0;
+  //                 } else {
+  //                     a_load = today.diff(moment(a.LOADDATE), 'days');
+  //                 }
+
+  //                 if (Number(a.QUIZ_DATE) === NaN) {
+  //                     a_quiz = 0;
+  //                 } else {
+  //                     a_quiz = today.diff(moment(a.QUIZ_DATE), 'days');
+  //                 }
+
+  //                 if (Number(b.SAVEDATE) === NaN) {
+  //                     b_save = 0;
+  //                 } else {
+  //                     b_save = today.diff(moment(b.SAVEDATE), 'days');
+  //                 }
+                  
+  //                 if (Number(b.LOADDATE) === NaN) {
+  //                     b_load = 0;
+  //                 } else {
+  //                     b_load = today.diff(moment(b.LOADDATE), 'days');
+  //                 }
+
+  //                 if (Number(b.QUIZ_DATE) === NaN) {
+  //                     b_quiz = 0;
+  //                 } else {
+  //                     b_quiz = today.diff(moment(b.QUIZ_DATE), 'days');
+  //                 }
+
+  //                 if (Math.max(a_save, a_load, a_quiz) < Math.max(b_save, b_load, b_quiz)) return -1;
+  //                 if (Math.max(a_save, a_load, a_quiz) > Math.max(b_save, b_load, b_quiz)) return 1;
+  //                 return 0;
+  //             }).filter((e)=>{
+  //                 return e.QUIZ_RESULT !== 5;
+  //             })
+
+  //             // console.log(date_arranged_results);
+  //             // res.send(date_arranged_results);
+  //             if (date_arranged_results.length > 0) {
+              
+  //                 var max_save = today.diff(moment(date_arranged_results[0].SAVEDATE), 'days');
+  //                 var max_load = today.diff(moment(date_arranged_results[0].LOADDATE), 'days');
+  //                 var max_quiz = today.diff(moment(date_arranged_results[0].QUIZ_DATE), 'days');
+  //                 var max_date = Math.max(max_save, max_load, max_quiz);
+  //                 for (data of date_arranged_results) {
+  //                     var data_save = today.diff(moment(data.SAVEDATE), 'days');
+  //                     var data_load = today.diff(moment(data.LOADDATE), 'days');
+  //                     var data_quiz = today.diff(moment(data.QUIZ_DATE), 'days');
+  //                     if ((Math.max(data_save, data_load, data_quiz) === max_date) && (data.QUIZ_RESULT !== 5)) {
+  //                         datemax_arranged_results.push(data);
+  //                     }                         
+  //                 }                        
+
+  //                 console.log(datemax_arranged_results);
+                                                          
+  //                 random_num = Math.floor(Math.random() * (datemax_arranged_results.length-1));
+  //                 console.log(`오늘의 숫자는 ${random_num}(가장 오래된 문장 중 틀린 경우의 총 문장갯수 ${datemax_arranged_results.length})입니다`);
+  //                 console.log(`가장 오래된 문장 중 틀린 오늘의 문장은 ${(datemax_arranged_results[random_num].ENG)}입니다.`);
+  //                 res.send(datemax_arranged_results[random_num]);
+  //             } else {
+  //                 random_num = Math.floor(Math.random() * (results.length-1));
+  //                 console.log(`오늘의 숫자는 ${random_num}(전부 다 맞춘 경우의 총 문장갯수 ${results.length})입니다`);
+  //                 console.log(`오늘의 문장은 ${(results[random_num].ENG)}입니다.`);
+  //                 res.send(results[random_num]);
+  //             }                
+  //         }
+  //     }
+
+          // document.getElementById('quiz_eng').innerText = word_recover(results.ENG);
+          // document.getElementById('quiz_kor').innerText = word_recover(results.KOR);
+          // 총 문장수가 없을 경우의 처리*****
+
+  //       })
+  //     })
+  //   }
+  // }
     //       document.getElementById('ts_quiz_loading').remove();
     //     //   write_kor.style.display = 'block';
     //     //   write_eng.style.display = 'block';
