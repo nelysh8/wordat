@@ -711,24 +711,50 @@ app.post('/open_ebook', function (req, res) {
 
 app.post('/tts', function(req, res, err) {
   var sentence = req.body.sentence;
-  fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
-        method: 'POST',
-        headers: {
+
+  var request = require('request');
+  const options = {
+    url: 'https://texttospeech.googleapis.com/v1beta1/text:synthesize',    
+    headers: {
             'X-Goog-Api-Key': 'AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM',
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          'input' : {'text' : sentence},
-          'voice' : {'languageCode' : 'en-US' , 'name' : 'en-US-Neural2-C', 'ssmlGender' : 'FEMALE'},
-          // 'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'FEMALE'},
-          'audioConfig': {'audioEncoding': 'MP3' },        
-        }),
-      })
-    .then((response)=>response.json())
-    .then((result)=>{
-      res.send(result);
-    })
-})
+            },
+    body: JSON.stringify({
+              'input' : {'text' : sentence},
+              'voice' : {'languageCode' : 'en-US' , 'name' : 'en-US-Neural2-C', 'ssmlGender' : 'FEMALE'},
+              // 'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'FEMALE'},
+              'audioConfig': {'audioEncoding': 'MP3' },        
+            }),
+          };
+  request.post(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+      res.end(body);
+    } else {
+      res.status(response.statusCode).end();
+      console.log('error = ' + response.statusCode);
+    }
+  });    
+});
+
+  // fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {        
+  //       method: 'POST',
+  //       headers: {
+  //           'X-Goog-Api-Key': 'AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM',
+  //           'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         'input' : {'text' : sentence},
+  //         'voice' : {'languageCode' : 'en-US' , 'name' : 'en-US-Neural2-C', 'ssmlGender' : 'FEMALE'},
+  //         // 'voice' : {'languageCode' : 'en-US' , 'ssmlGender' : 'FEMALE'},
+  //         'audioConfig': {'audioEncoding': 'MP3' },        
+  //       }),
+  //     })
+  //   .then((response)=>response.json())
+  //   .then((result)=>{
+  //     res.send(result);
+  //   })
+// })
 
 // 외부용
 // api key : AIzaSyD_oAgCmJ_dbiGMxCefQ2m4LUOOQ-xBrpM
